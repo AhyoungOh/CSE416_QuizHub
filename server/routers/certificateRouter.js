@@ -1,94 +1,87 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import data from '../data.js';
-import Leaderboard from '../models/leaderboardSchema.js';
+import Certificate from '../models/certificateSchema.js';
 
-const leaderboardRouter = express.Router();
+const certificateRouter = express.Router();
 
 //get data
-leaderboardRouter.get(
+certificateRouter.get(
   '/get',
   expressAsyncHandler(async (req, res) => {
-    const createLeaderboard = await Leaderboard.find();
-    res.send({ createLeaderboard });
+    const createCertificate = await Certificate.find();
+    res.send({ createCertificate });
   })
 );
 
 //post sample data
-leaderboardRouter.post(
+certificateRouter.post(
   '/seed',
   expressAsyncHandler(async (req, res) => {
-    await Leaderboard.remove({});
-    const createLeaderboard = await Leaderboard.insertMany(data.ranking);
-    res.send({ createLeaderboard });
+    await Certificate.remove({});
+    const createCertificate = await Certificate.insertMany(data.ranking);
+    res.send({ createCertificate });
   })
 );
 
 //create new data
-leaderboardRouter.post(
+certificateRouter.post(
   '/post',
   expressAsyncHandler(async (req, res) => {
-    const leaderboard = new Leaderboard({
-      username: 'sample username ',
-      score: 1000,
-      time: {
-        minutes: 7,
-        seconds: 10,
-      },
-      isPrivate: true,
-      timestamps: {
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
-      },
+    const certificate = new Certificate({
+      certificateRasterizedContentUrl: 'sample certificate Url',
+      certificateEncodedContent: 'sample encoded content for certificate',
+      certificateUploadFile: 'sample certificate file',
+      certificateRequirementsAccuracy: 5,
     });
-    const createdLeaderboard = await leaderboard.save();
+    const createdCertificate = await certificate.save();
     res.send({
-      message: 'Leaderboard Created',
-      leaderboard: createdLeaderboard,
+      message: 'Certificate Created',
+      certificate: createdCertificate,
     });
   })
 );
 
-// update
-leaderboardRouter.put(
+// update -> no needed for certificate
+// certificateRouter.put(
+//   '/:id',
+//   expressAsyncHandler(async (req, res) => {
+//     const certificateId = req.params.id;
+//     const certificate = await Certificate.findById(certificateId);
+
+//     console.log(req.body);
+//     if (certificate) {
+//       certificate.username = req.body.username;
+//       certificate.score = req.body.score;
+//       certificate.minutes = req.body.minutes;
+//       certificate.seconds = req.body.seconds;
+//       certificate.isPrivate = req.body.isPrivate;
+//       certificate.updatedAt = req.body.updatedAt;
+//       const updatedCertificate = await certificate.save();
+//       res.send({
+//         message: 'Certificate Updated',
+//         certificate: updatedCertificate,
+//       });
+//     } else {
+//       res.status(404).send({ message: 'Certificate Not Found' });
+//     }
+//   })
+// );
+
+certificateRouter.delete(
   '/:id',
   expressAsyncHandler(async (req, res) => {
-    const leaderboardId = req.params.id;
-    const leaderboard = await Leaderboard.findById(leaderboardId);
-
-    console.log(req.body);
-    if (leaderboard) {
-      leaderboard.username = req.body.username;
-      leaderboard.score = req.body.score;
-      leaderboard.minutes = req.body.minutes;
-      leaderboard.seconds = req.body.seconds;
-      leaderboard.isPrivate = req.body.isPrivate;
-      leaderboard.updatedAt = req.body.updatedAt;
-      const updatedLeaderboard = await leaderboard.save();
+    const certificate = await Certificate.findById(req.params.id);
+    if (certificate) {
+      const deleteCertificate = await certificate.remove();
       res.send({
-        message: 'Leaderboard Updated',
-        leaderboard: updatedLeaderboard,
+        message: 'Certificate Deleted',
+        certificate: deleteCertificate,
       });
     } else {
-      res.status(404).send({ message: 'Leaderboard Not Found' });
+      res.status(404).send({ message: 'Certificate Not Found' });
     }
   })
 );
 
-leaderboardRouter.delete(
-  '/:id',
-  expressAsyncHandler(async (req, res) => {
-    const leaderboard = await Leaderboard.findById(req.params.id);
-    if (leaderboard) {
-      const deleteLeaderboard = await leaderboard.remove();
-      res.send({
-        message: 'Leaderboard Deleted',
-        leaderboard: deleteLeaderboard,
-      });
-    } else {
-      res.status(404).send({ message: 'Leaderboard Not Found' });
-    }
-  })
-);
-
-export default leaderboardRouter;
+export default certificateRouter;
