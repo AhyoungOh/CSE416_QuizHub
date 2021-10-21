@@ -14,7 +14,7 @@ const quizSchema = new Schema({
       seconds: { type: Number, required: true }
     },
     quizTotalNumberOfQuestions: Number,
-    quizRewardType: { type: Number, required: true },
+    quizRewardType: { type: Number, required: true, default: 0 },
     quizCertificate: [Certificate],
     quizBadge: Badge,
     quizCertificateQualification: Number,
@@ -26,10 +26,9 @@ const quizSchema = new Schema({
       question: String,
       questionOptions: [String],
       questionAnswer: Number
-    }]
-  }, {
-    timestamps: true,
-});
+    }],
+    createdDate: { type: Date, default: Date.now }
+  });
 const Quiz = mongoose.model('Quiz', quizSchema);
 
 export default Quiz;

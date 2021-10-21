@@ -6,6 +6,7 @@ import consumerRouter from './routers/consumerRouter';
 import creatorRouter from './routers/creatorRouter';
 import leaderboardRouter from './routers/leaderboardRouter.js';
 import platformRouter from './routers/platformRouter';
+import quizRouter from './routers/quizRouter';
 
 const app = express();
 app.use(express.json());
@@ -24,6 +25,7 @@ app.use('/api/consumer', consumerRouter);
 app.use('/api/creator', creatorRouter);
 app.use('/api/leaderboard', leaderboardRouter);
 app.use('/api/platform', platformRouter);
+app.use('/api/quiz', quizRouter);
 
 app.get('/', (req, res) => {
   res.send('server is ready');
