@@ -29,8 +29,8 @@ platformRouter.post(
   '/post',
   expressAsyncHandler(async (req, res) => {
     const platform = new Platform({
-      platformName: 'sample platformname ',
-      platformDescription: 'sample discription',
+      platformName: 'Ahyoung platform',
+      platformDescription: 'this is Ahyoung platform',
       platformImage: 'sample url for image',
       ownedQuizzes: {
         quizId: 'sample quiz Object ID',
