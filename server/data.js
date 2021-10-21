@@ -3,8 +3,10 @@ const data = {
     {
       username: 'Ahyoung',
       score: '100',
-      minutes: 20,
-      seconds: 10,
+      time: {
+        minutes: 20,
+        seconds: 10,
+      },
       isPrivate: false,
     },
   ],
@@ -31,6 +33,25 @@ const data = {
       platformImage: 'dummy platform image',
       quizId: 'ownedQuizzes Object Id',
       createdDate: Date.now(),
+    },
+  ],
+  creator: [
+    {
+      platformId: 'platform Object Id',
+      creatorImage: 'sample creator image',
+      selfIntroduction: 'hello, this is Ahyoung',
+      creatorUsername: 'AhyoungOh',
+      creatorEmail: 'ahyoung.oh@gmail.com',
+    },
+  ],
+  consumer: [
+    {
+      consumerDescription: 'consumer description',
+      consumerImage: 'consumer dummy image',
+      consumerUsername: 'Ahyoung',
+      consumerEmail: 'ahyoung.oh@stonybrook.edu',
+      password: 'password',
+      consumerIsPrivate: false,
     },
   ],
 };
