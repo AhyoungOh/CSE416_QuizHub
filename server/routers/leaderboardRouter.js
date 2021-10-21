@@ -19,7 +19,7 @@ leaderboardRouter.post(
   '/seed',
   expressAsyncHandler(async (req, res) => {
     await Leaderboard.remove({});
-    const createLeaderboard = await Leaderboard.insertMany(data.items);
+    const createLeaderboard = await Leaderboard.insertMany(data.ranking);
     res.send({ createLeaderboard });
   })
 );
@@ -29,12 +29,17 @@ leaderboardRouter.post(
   '/post',
   expressAsyncHandler(async (req, res) => {
     const leaderboard = new Leaderboard({
-      name: 'sample name ' + Date.now(),
-      image: '/images/p1.jpg',
-      price: 0,
-      category: 'sample category',
-      status: 'OnSale',
-      description: 'sample description',
+      username: 'sample username ',
+      score: 1000,
+      time: {
+        minutes: 7,
+        seconds: 10,
+      },
+      isPrivate: true,
+      timestamps: {
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+      },
     });
     const createdLeaderboard = await leaderboard.save();
     res.send({
@@ -53,12 +58,12 @@ leaderboardRouter.put(
 
     console.log(req.body);
     if (leaderboard) {
-      leaderboard.name = req.body.name;
-      leaderboard.price = req.body.price;
-      leaderboard.image = req.body.image;
-      leaderboard.category = req.body.category;
-      leaderboard.status = req.body.status;
-      leaderboard.description = req.body.description;
+      leaderboard.username = req.body.username;
+      leaderboard.score = req.body.score;
+      leaderboard.minutes = req.body.minutes;
+      leaderboard.seconds = req.body.seconds;
+      leaderboard.isPrivate = req.body.isPrivate;
+      leaderboard.updatedAt = req.body.updatedAt;
       const updatedLeaderboard = await leaderboard.save();
       res.send({
         message: 'Leaderboard Updated',

@@ -1,12 +1,13 @@
 const data = {
-  items: [
+  ranking: [
     {
-      name: 'Headphone',
-      image: '/images/headphone.png',
-      category: 'Electronics',
-      price: 50000,
-      status: 'OnSale',
-      description: 'asd',
+      username: 'Ahyoung',
+      score: '100',
+      time: {
+        minutes: 20,
+        seconds: 10,
+      },
+      isPrivate: false,
     },
   ],
 };
