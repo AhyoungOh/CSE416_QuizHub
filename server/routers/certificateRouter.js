@@ -42,32 +42,6 @@ certificateRouter.post(
   })
 );
 
-// update -> no needed for certificate
-// certificateRouter.put(
-//   '/:id',
-//   expressAsyncHandler(async (req, res) => {
-//     const certificateId = req.params.id;
-//     const certificate = await Certificate.findById(certificateId);
-
-//     console.log(req.body);
-//     if (certificate) {
-//       certificate.username = req.body.username;
-//       certificate.score = req.body.score;
-//       certificate.minutes = req.body.minutes;
-//       certificate.seconds = req.body.seconds;
-//       certificate.isPrivate = req.body.isPrivate;
-//       certificate.updatedAt = req.body.updatedAt;
-//       const updatedCertificate = await certificate.save();
-//       res.send({
-//         message: 'Certificate Updated',
-//         certificate: updatedCertificate,
-//       });
-//     } else {
-//       res.status(404).send({ message: 'Certificate Not Found' });
-//     }
-//   })
-// );
-
 certificateRouter.delete(
   '/:id',
   expressAsyncHandler(async (req, res) => {
