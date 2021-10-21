@@ -29,17 +29,13 @@ platformRouter.post(
   '/post',
   expressAsyncHandler(async (req, res) => {
     const platform = new Platform({
-      username: 'sample username ',
-      score: 1000,
-      time: {
-        minutes: 7,
-        seconds: 10,
+      platformName: 'sample platformname ',
+      platformDescription: 'sample discription',
+      platformImage: 'sample url for image',
+      ownedQuizzes: {
+        quizId: 'sample quiz Object ID',
       },
-      isPrivate: true,
-      timestamps: {
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
-      },
+      createdDate: Date.now(),
     });
     const createdPlatform = await platform.save();
     res.send({
@@ -58,12 +54,10 @@ platformRouter.put(
 
     console.log(req.body);
     if (platform) {
-      platform.username = req.body.username;
-      platform.score = req.body.score;
-      platform.minutes = req.body.minutes;
-      platform.seconds = req.body.seconds;
-      platform.isPrivate = req.body.isPrivate;
-      platform.updatedAt = req.body.updatedAt;
+      platform.platformName = req.body.platformName;
+      platform.platformDescription = req.body.platformDescription;
+      platform.platformImage = req.body.platformImage;
+      platform.quizId = req.body.quizId;
       const updatedPlatform = await platform.save();
       res.send({
         message: 'Platform Updated',
