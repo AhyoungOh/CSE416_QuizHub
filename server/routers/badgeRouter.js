@@ -29,17 +29,10 @@ badgeRouter.post(
   '/post',
   expressAsyncHandler(async (req, res) => {
     const badge = new Badge({
-      username: 'sample username ',
-      score: 1000,
-      time: {
-        minutes: 7,
-        seconds: 10,
-      },
-      isPrivate: true,
-      timestamps: {
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
-      },
+      badgeRasterizedContentUrl: 'sample Url',
+      badgeEncodedContent: 'sample encoded content',
+      badgeUploadFile: 'sample file',
+      badgeRequirementsAccuracy: 100,
     });
     const createdBadge = await badge.save();
     res.send({
@@ -49,31 +42,29 @@ badgeRouter.post(
   })
 );
 
-// update
-badgeRouter.put(
-  '/:id',
-  expressAsyncHandler(async (req, res) => {
-    const badgeId = req.params.id;
-    const badge = await Badge.findById(badgeId);
+// update -> no needed for badge
+// badgeRouter.put(
+//   '/:id',
+//   expressAsyncHandler(async (req, res) => {
+//     const badgeId = req.params.id;
+//     const badge = await Badge.findById(badgeId);
 
-    console.log(req.body);
-    if (badge) {
-      badge.username = req.body.username;
-      badge.score = req.body.score;
-      badge.minutes = req.body.minutes;
-      badge.seconds = req.body.seconds;
-      badge.isPrivate = req.body.isPrivate;
-      badge.updatedAt = req.body.updatedAt;
-      const updatedBadge = await badge.save();
-      res.send({
-        message: 'Badge Updated',
-        badge: updatedBadge,
-      });
-    } else {
-      res.status(404).send({ message: 'Badge Not Found' });
-    }
-  })
-);
+//     console.log(req.body);
+//     if (badge) {
+//       badge.badgeRasterizedContentUrl = req.body.badgeRasterizedContentUrl;
+//       badge.badgeEncodedContet = req.body.badgeEncodedContent;
+//       badge.UploadFile = req.body.UploadFile;
+//       badge.RequirementsAccuracy = req.body.RequirementsAccuracy;
+//       const updatedBadge = await badge.save();
+//       res.send({
+//         message: 'Badge Updated',
+//         badge: updatedBadge,
+//       });
+//     } else {
+//       res.status(404).send({ message: 'Badge Not Found' });
+//     }
+//   })
+// );
 
 badgeRouter.delete(
   '/:id',
