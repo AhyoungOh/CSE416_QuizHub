@@ -1,6 +1,11 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import badgeRouter from './routers/badgeRouter';
+import certificateRouter from './routers/certificateRouter';
+import consumerRouter from './routers/consumerRouter';
+import creatorRouter from './routers/creatorRouter';
 import leaderboardRouter from './routers/leaderboardRouter.js';
+import platformRouter from './routers/platformRouter';
 
 const app = express();
 app.use(express.json());
@@ -13,7 +18,12 @@ mongoose
   .then((res) => console.log('Connected'))
   .catch((err) => console.error(err));
 
+app.use('/api/badge', badgeRouter);
+app.use('/api/certificate', certificateRouter);
+app.use('/api/consumer', consumerRouter);
+app.use('/api/creator', creatorRouter);
 app.use('/api/leaderboard', leaderboardRouter);
+app.use('/api/platform', platformRouter);
 
 app.get('/', (req, res) => {
   res.send('server is ready');
