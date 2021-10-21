@@ -1,18 +1,14 @@
 import mongoose from 'mongoose';
 
-const leaderboardSchema = new mongoose.Schema({
-  username: { type: String, unique: true },
-  score: { type: Number },
-  time: {
-    minutes: { type: Number },
-    seconds: { type: Number },
+const platformSchema = new mongoose.Schema({
+  platformName: { type: String, required: true },
+  platformDescription: { type: String },
+  platformImage: { data: Buffer, type: String },
+  ownedQuizzes: {
+    quizId: { type: String },
   },
-  isPrivate: { type: Boolean },
-  timestamps: {
-    createdAt: { type: Date },
-    updatedAt: { type: Date },
-  },
+  createdDate: { type: Date },
 });
-const Leaderboard = mongoose.model('Leaderboard', leaderboardSchema);
+const Platform = mongoose.model('Platform', platformSchema);
 
-export default Leaderboard;
+export default Platform;
