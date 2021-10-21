@@ -29,10 +29,10 @@ badgeRouter.post(
   '/post',
   expressAsyncHandler(async (req, res) => {
     const badge = new Badge({
-      badgeRasterizedContentUrl: 'sample Url',
-      badgeEncodedContent: 'sample encoded content',
-      badgeUploadFile: 'sample file',
-      badgeRequirementsAccuracy: 100,
+      badgeRasterizedContentUrl: req.body.badgeRasterizedContentUrl,
+      badgeEncodedContent: req.body.badgeEncodedContent,
+      badgeUploadFile: req.body.badgeUploadFile,
+      badgeRequirementsAccuracy: req.body.badgeRequirementsAccuracy,
     });
     const createdBadge = await badge.save();
     res.send({

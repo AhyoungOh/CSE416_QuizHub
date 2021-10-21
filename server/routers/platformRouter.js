@@ -29,12 +29,9 @@ platformRouter.post(
   '/post',
   expressAsyncHandler(async (req, res) => {
     const platform = new Platform({
-      platformName: 'Ahyoung platform',
-      platformDescription: 'this is Ahyoung platform',
-      platformImage: 'sample url for image',
-      ownedQuizzes: {
-        quizId: 'sample quiz Object ID',
-      },
+      platformName: req.body.platformName,
+      platformDescription: req.body.platformDescription,
+      platformImage: req.body.platformImage,
       createdDate: Date.now(),
     });
     const createdPlatform = await platform.save();
@@ -57,7 +54,6 @@ platformRouter.put(
       platform.platformName = req.body.platformName;
       platform.platformDescription = req.body.platformDescription;
       platform.platformImage = req.body.platformImage;
-      platform.quizId = req.body.quizId;
       const updatedPlatform = await platform.save();
       res.send({
         message: 'Platform Updated',
