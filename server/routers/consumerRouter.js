@@ -29,31 +29,23 @@ consumerRouter.post(
   '/post',
   expressAsyncHandler(async (req, res) => {
     const consumer = new Consumer({
-      consumerDescription: 'sample description',
-      consumerImage: 'sample image url',
-      consumerUsername: 'consumer Ahyoung',
-      consumerEmail: 'ahyoung.oh@stonybrook.edu',
-      password: 'password',
-      consumerIsPrivate: 'false',
+      consumerDescription: req.body.consumerDescription,
+      consumerImage: req.body.consumerImage,
+      consumerUsername: req.body.consumerUsername,
+      consumerEmail: req.body.consumerEmail,
+      password: req.body.password,
+      consumerIsPrivate: req.body.consumerIsPrivate,
       consumerQuizHistoryList: [
         {
           Quizzes: {
-            quizId: 'sample object Id',
-            correctNumber: 10,
+            correctNumber: req.body.correctNumber,
             quizTimeTaken: {
-              minutes: 50,
-              seconds: 100,
+              minutes: req.body.minutes,
+              seconds: req.body.seconds,
             },
-            accomplishedDate: '2021-10-21',
-            usedTrialNumber: 2,
+            accomplishedDate: req.body.accomplishedDate,
+            usedTrialNumber: req.body.usedTrialNumber,
           },
-        },
-      ],
-      badges: [
-        {
-          badgeId: 'sample badge objectId',
-          accomplishedDate: '2021-09-09',
-          badgeVisibility: true,
         },
       ],
     });
@@ -80,19 +72,16 @@ consumerRouter.put(
       consumer.consumerEmail = req.body.consumerEmail;
       consumer.password = req.body.password;
       consumer.consumerIsPrivate = req.body.consumerIsPrivate;
-      consumer.quizId = req.body.quizId;
-      consumer.correctNumber = req.body.correctNumber;
-      consumer.minutes = req.body.consumerUsername;
-      consumer.seconds = req.body.consumerEmail;
-      consumer.accomplishedDate = req.body.accomplishedDate;
-      consumer.usedTrialNumber = req.body.usedTrialNumber;
-      consumer.certificates.certificatedId =
-        req.body.certificates.certificatedId;
-      consumer.certificates.accomplishedDate =
-        req.body.certificates.accomplishedDate;
-      consumer.badges.badgeId = req.body.badges.badgeId;
-      consumer.badges.accomplishedDate = req.body.badges.accomplishedDate;
-      consumer.badges.badgeVisibility = req.body.badges.badgeVisibility;
+      consumer.consumerQuizHistoryList.Quizzes.correctNumber =
+        req.body.consumerQuizHistoryList.Quizzes.correctNumber;
+      consumer.consumerQuizHistoryList.Quizzes.quizTimeTake.minutes =
+        req.body.consumerQuizHistoryList.Quizzes.quizTimeTaken.minutes;
+      consumer.consumerQuizHistoryList.Quizzes.quizTimeTake.seconds =
+        req.body.consumerQuizHistoryList.Quizzes.quizTimeTaken.seconds;
+      consumer.consumerQuizHistoryList.Quizzes.accomplishedDate =
+        req.body.consumerQuizHistoryList.Quizzes.accomplishedDate;
+      consumer.consumerQuizHistoryList.Quizzes.usedTrialNumber =
+        req.body.consumerQuizHistoryList.Quizzes.usedTrialNumber;
       const updatedConsumer = await consumer.save();
       res.send({
         message: 'Consumer Updated',

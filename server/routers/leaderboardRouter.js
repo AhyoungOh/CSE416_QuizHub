@@ -35,7 +35,7 @@ leaderboardRouter.post(
         minutes: req.body.time.minutes,
         seconds: req.body.time.seconds,
       },
-      isPrivate: req.body.isPrivate,
+      isPrivate: true,
       timestamp: {
         createdAt: Date.now(),
         updatedAt: Date.now(),
