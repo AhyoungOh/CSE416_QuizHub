@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const consumerSchema = new mongoose.Schema({
   consumerDescription: { type: String },
-  consumerImage: { type: Number },
+  consumerImage: { type: String },
   consumerUsername: { type: String },
   consumerEmail: { type: String },
   password: { type: String },
