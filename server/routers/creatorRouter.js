@@ -1,3 +1,4 @@
+import { createPrivateKey } from 'crypto';
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import data from '../data.js';
@@ -29,17 +30,16 @@ creatorRouter.post(
   '/post',
   expressAsyncHandler(async (req, res) => {
     const creator = new Creator({
-      username: 'sample username ',
-      score: 1000,
-      time: {
-        minutes: 7,
-        seconds: 10,
-      },
-      isPrivate: true,
-      timestamps: {
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
-      },
+      platformName: 'Ahyoung World ',
+      platformDescription: 'this is Ahyoung platform',
+      platformImage: 'sample image url',
+      quizId: 'sample quiz Object Id',
+      createdDate: Date.now(),
+      creatorImage: 'sample creator image',
+      selfIntroduction: 'hi this is creator Ahyoung',
+      creatorUsername: 'AhyoungOH',
+      creatorEmail: 'ahyoung.oh@stonybrook.edu',
+      password: 'password yes~',
     });
     const createdCreator = await creator.save();
     res.send({
@@ -58,12 +58,16 @@ creatorRouter.put(
 
     console.log(req.body);
     if (creator) {
-      creator.username = req.body.username;
-      creator.score = req.body.score;
-      creator.minutes = req.body.minutes;
-      creator.seconds = req.body.seconds;
-      creator.isPrivate = req.body.isPrivate;
-      creator.updatedAt = req.body.updatedAt;
+      creator.platformName = req.body.platformName;
+      creator.platformDescription = req.body.platformDescription;
+      creator.platformImage = req.body.platformImage;
+      creator.quizId = req.body.quizId;
+      creator.createdDate = req.body.createdDate;
+      creator.creatorImage = req.body.creatorImage;
+      creator.selfIntroduction = req.body.selfIntroduction;
+      creator.creatorUsername = req.body.creatorUsername;
+      creator.creatorEmail = req.body.creatorEmail;
+      creator.password = req.body.password;
       const updatedCreator = await creator.save();
       res.send({
         message: 'Creator Updated',
