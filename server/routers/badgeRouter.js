@@ -19,7 +19,7 @@ badgeRouter.post(
   '/seed',
   expressAsyncHandler(async (req, res) => {
     await Badge.remove({});
-    const createBadge = await Badge.insertMany(data.ranking);
+    const createBadge = await Badge.insertMany(data.badge);
     res.send({ createBadge });
   })
 );
