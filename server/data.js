@@ -1,13 +1,13 @@
 const data = {
-	products: [
-		{
-			name: "Headphone",
-			image: "/images/headphone.png",
-			category: "Electronics",
-			price: 50000,
-			status: "OnSale",
-			description: "asd",
-		},
-	],
+  items: [
+    {
+      name: 'Headphone',
+      image: '/images/headphone.png',
+      category: 'Electronics',
+      price: 50000,
+      status: 'OnSale',
+      description: 'asd',
+    },
+  ],
 };
 export default data;

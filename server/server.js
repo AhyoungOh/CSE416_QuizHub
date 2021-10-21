@@ -1,5 +1,4 @@
 import express from 'express';
-import data from './data.js';
 import mongoose from 'mongoose';
 import leaderboardRouter from './routers/leaderboardRouter.js';
 
@@ -13,9 +12,6 @@ mongoose
   )
   .then((res) => console.log('Connected'))
   .catch((err) => console.error(err));
-app.get('/api/products', (req, res) => {
-  res.send(data.products);
-});
 
 app.use('/api/leaderboard', leaderboardRouter);
 
