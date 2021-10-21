@@ -23,13 +23,13 @@ const consumerSchema = new mongoose.Schema({
   ],
   certificates: [
     {
-      certificateId: { type: Number },
+      certificateId: { type: String },
       accomplishedDate: { type: Date },
     },
   ],
   badges: [
     {
-      badgeId: { type: Number },
+      badgeId: { type: String },
       accomplishedDate: { type: Date },
       badgeVisibility: { type: Boolean },
     },
