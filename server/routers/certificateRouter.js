@@ -29,10 +29,10 @@ certificateRouter.post(
   '/post',
   expressAsyncHandler(async (req, res) => {
     const certificate = new Certificate({
-      certificateRasterizedContentUrl: 'sample certificate Url',
-      certificateEncodedContent: 'sample encoded content for certificate',
-      certificateUploadFile: 'sample certificate file',
-      certificateRequirementsAccuracy: 5,
+      certificateRasterizedContentUrl: req.body.certificateRasterizedContentUrl,
+      certificateEncodedContent: req.body.certificateEncodedContent,
+      certificateUploadFile: req.body.certificateUploadFile,
+      certificateRequirementsAccuracy: req.body.certificateRequirementsAccuracy,
     });
     const createdCertificate = await certificate.save();
     res.send({
