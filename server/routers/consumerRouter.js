@@ -29,17 +29,33 @@ consumerRouter.post(
   '/post',
   expressAsyncHandler(async (req, res) => {
     const consumer = new Consumer({
-      username: 'sample username ',
-      score: 1000,
-      time: {
-        minutes: 7,
-        seconds: 10,
-      },
-      isPrivate: true,
-      timestamps: {
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
-      },
+      consumerDescription: 'sample description',
+      consumerImage: 'sample image url',
+      consumerUsername: 'consumer Ahyoung',
+      consumerEmail: 'ahyoung.oh@stonybrook.edu',
+      password: 'password',
+      consumerIsPrivate: 'false',
+      consumerQuizHistoryList: [
+        {
+          Quizzes: {
+            quizId: 'sample object Id',
+            correctNumber: 10,
+            quizTimeTaken: {
+              minutes: 50,
+              seconds: 100,
+            },
+            accomplishedDate: '2021-10-21',
+            usedTrialNumber: 2,
+          },
+        },
+      ],
+      badges: [
+        {
+          badgeId: 'sample badge objectId',
+          accomplishedDate: '2021-09-09',
+          badgeVisibility: true,
+        },
+      ],
     });
     const createdConsumer = await consumer.save();
     res.send({
@@ -58,12 +74,23 @@ consumerRouter.put(
 
     console.log(req.body);
     if (consumer) {
-      consumer.username = req.body.username;
-      consumer.score = req.body.score;
-      consumer.minutes = req.body.minutes;
-      consumer.seconds = req.body.seconds;
-      consumer.isPrivate = req.body.isPrivate;
-      consumer.updatedAt = req.body.updatedAt;
+      consumer.consumerDescription = req.body.consumerDescription;
+      consumer.consumerImage = req.body.consumerImage;
+      consumer.consumerUsername = req.body.consumerUsername;
+      consumer.consumerEmail = req.body.consumerEmail;
+      consumer.password = req.body.password;
+      consumer.consumerIsPrivate = req.body.consumerIsPrivate;
+      consumer.quizId = req.body.quizId;
+      consumer.correctNumber = req.body.correctNumber;
+      consumer.minutes = req.body.consumerUsername;
+      consumer.seconds = req.body.consumerEmail;
+      consumer.accomplishedDate = req.body.accomplishedDate;
+      consumer.usedTrialNumber = req.body.usedTrialNumber;
+      consumer.certificatedId = req.body.certificatedId;
+      consumer.accomplishedDate = req.body.accomplishedDate;
+      consumer.badgeId = req.body.badgeId;
+      consumer.accomplishedDate = req.body.accomplishedDate;
+      consumer.badgeVisibility = req.body.badgeVisibility;
       const updatedConsumer = await consumer.save();
       res.send({
         message: 'Consumer Updated',
