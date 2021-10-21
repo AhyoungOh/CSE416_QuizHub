@@ -1,3 +1,4 @@
+import { time } from 'console';
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import data from '../data.js';
@@ -29,17 +30,23 @@ leaderboardRouter.post(
   '/post',
   expressAsyncHandler(async (req, res) => {
     const leaderboard = new Leaderboard({
-      username: 'sample username ',
-      score: 1000,
+      username: req.body.username,
+      score: req.body.score,
       time: {
-        minutes: 7,
-        seconds: 10,
+        minutes: req.body.timeMinutes || time.minutes,
+        seconds: req.body.timeSeconds || time.seconds,
       },
-      isPrivate: true,
-      timestamps: {
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
-      },
+      // username: 'sample username ',
+      // score: 1000,
+      // time: {
+      //   minutes: 7,
+      //   seconds: 10,
+      // },
+      // isPrivate: true,
+      // timestemp: {
+      //   createdAt: Date.now(),
+      //   updatedAt: Date.now(),
+      // },
     });
     const createdLeaderboard = await leaderboard.save();
     res.send({
@@ -60,10 +67,10 @@ leaderboardRouter.put(
     if (leaderboard) {
       leaderboard.username = req.body.username;
       leaderboard.score = req.body.score;
-      leaderboard.minutes = req.body.minutes;
-      leaderboard.seconds = req.body.seconds;
+      leaderboard.time.minutes = req.body.time.minutes;
+      leaderboard.time.seconds = req.body.time.seconds;
       leaderboard.isPrivate = req.body.isPrivate;
-      leaderboard.updatedAt = req.body.updatedAt;
+      leaderboard.timestemp.updatedAt = req.body.timestemp.updatedAt;
       const updatedLeaderboard = await leaderboard.save();
       res.send({
         message: 'Leaderboard Updated',

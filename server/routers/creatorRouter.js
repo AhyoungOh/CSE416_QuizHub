@@ -20,7 +20,7 @@ creatorRouter.post(
   '/seed',
   expressAsyncHandler(async (req, res) => {
     await Creator.remove({});
-    const createCreator = await Creator.insertMany(data.ranking);
+    const createCreator = await Creator.insertMany(data.creator);
     res.send({ createCreator });
   })
 );

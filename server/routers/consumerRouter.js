@@ -19,7 +19,7 @@ consumerRouter.post(
   '/seed',
   expressAsyncHandler(async (req, res) => {
     await Consumer.remove({});
-    const createConsumer = await Consumer.insertMany(data.ranking);
+    const createConsumer = await Consumer.insertMany(data.consumer);
     res.send({ createConsumer });
   })
 );
@@ -86,11 +86,13 @@ consumerRouter.put(
       consumer.seconds = req.body.consumerEmail;
       consumer.accomplishedDate = req.body.accomplishedDate;
       consumer.usedTrialNumber = req.body.usedTrialNumber;
-      consumer.certificatedId = req.body.certificatedId;
-      consumer.accomplishedDate = req.body.accomplishedDate;
-      consumer.badgeId = req.body.badgeId;
-      consumer.accomplishedDate = req.body.accomplishedDate;
-      consumer.badgeVisibility = req.body.badgeVisibility;
+      consumer.certificates.certificatedId =
+        req.body.certificates.certificatedId;
+      consumer.certificates.accomplishedDate =
+        req.body.certificates.accomplishedDate;
+      consumer.badges.badgeId = req.body.badges.badgeId;
+      consumer.badges.accomplishedDate = req.body.badges.accomplishedDate;
+      consumer.badges.badgeVisibility = req.body.badges.badgeVisibility;
       const updatedConsumer = await consumer.save();
       res.send({
         message: 'Consumer Updated',
