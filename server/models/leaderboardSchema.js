@@ -7,8 +7,8 @@ const leaderboardSchema = new mongoose.Schema({
     minutes: { type: Number },
     seconds: { type: Number },
   },
-  isPrivate: { type: Boolean },
-  timestemp: {
+  isPrivate: { type: Boolean, default: false },
+  timestamp: {
     createdAt: { type: Date },
     updatedAt: { type: Date },
   },

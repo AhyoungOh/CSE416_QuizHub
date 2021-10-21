@@ -1,4 +1,3 @@
-import { time } from 'console';
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import data from '../data.js';
@@ -33,20 +32,14 @@ leaderboardRouter.post(
       username: req.body.username,
       score: req.body.score,
       time: {
-        minutes: req.body.timeMinutes || time.minutes,
-        seconds: req.body.timeSeconds || time.seconds,
+        minutes: req.body.time.minutes,
+        seconds: req.body.time.seconds,
       },
-      // username: 'sample username ',
-      // score: 1000,
-      // time: {
-      //   minutes: 7,
-      //   seconds: 10,
-      // },
-      // isPrivate: true,
-      // timestemp: {
-      //   createdAt: Date.now(),
-      //   updatedAt: Date.now(),
-      // },
+      isPrivate: req.body.isPrivate,
+      timestamp: {
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+      },
     });
     const createdLeaderboard = await leaderboard.save();
     res.send({
