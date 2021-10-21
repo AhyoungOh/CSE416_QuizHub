@@ -10,7 +10,7 @@ const creatorSchema = new mongoose.Schema({
     },
     createdDate: { type: Date },
   },
-  creatorImage: { type: Number },
+  creatorImage: { type: String },
   selfIntroduction: { type: String },
   creatorUsername: { type: String },
   creatorEmail: { type: String },
