@@ -19,7 +19,7 @@ certificateRouter.post(
   '/seed',
   expressAsyncHandler(async (req, res) => {
     await Certificate.remove({});
-    const createCertificate = await Certificate.insertMany(data.ranking);
+    const createCertificate = await Certificate.insertMany(data.certificate);
     res.send({ createCertificate });
   })
 );
