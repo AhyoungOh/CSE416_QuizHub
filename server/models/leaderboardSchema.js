@@ -7,10 +7,10 @@ const leaderboardSchema = new mongoose.Schema({
     minutes: { type: Number },
     seconds: { type: Number },
   },
-  isPrivate: { type: Boolean },
+  isPrivate: { type: Boolean, default: true },
   timestamps: {
-    createdAt: { type: Date },
-    updatedAt: { type: Date },
+    createdAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date, default: Date.now },
   },
 });
 const Leaderboard = mongoose.model('Leaderboard', leaderboardSchema);

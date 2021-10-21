@@ -7,7 +7,7 @@ const platformSchema = new mongoose.Schema({
   ownedQuizzes: {
     quizId: { type: String },
   },
-  createdDate: { type: Date },
+  createdDate: { type: Date, default: Date.now},
 });
 const Platform = mongoose.model('Platform', platformSchema);
 
