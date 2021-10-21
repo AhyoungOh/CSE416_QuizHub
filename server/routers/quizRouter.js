@@ -29,15 +29,15 @@ quizRouter.post(
   '/post',
   expressAsyncHandler(async (req, res) => {
     const quiz = new Quiz({
-      platformName: 'New York City',
-      quizName: 'Landmarks in NYC',
-      quizDescription:
-        'As a citizen in NYC, how much do you know about the landmarks in the city?',
-      quizNumberOfTrials: 5,
+      platformName: req.body.platformName,
+      quizName: req.body.quizName,
+      quizDescription: req.body.quizDescription,
+      quizNumberOfTrials: req.body.quizNumberOfTrials,
       quizTimeLimit: {
-        minutes: 20,
-        seconds: 0,
+        minutes: req.body.quizTimeLimit.minutes,
+        seconds: req.body.quizTimeLimit.seconds,
       },
+      quizTotalNumberOfQuestions: req.body.quizTotalNumberOfQuestions,
     });
     const createdQuiz = await quiz.save();
     res.send({
