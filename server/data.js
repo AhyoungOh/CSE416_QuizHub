@@ -1,10 +1,13 @@
-//this is dummy data
 const data = {
-  leaderboardId: 1,
-  ranking: {
-    usename: 'ahyoungOh',
-    score: 1,
-  },
+	products: [
+		{
+			name: "Headphone",
+			image: "/images/headphone.png",
+			category: "Electronics",
+			price: 50000,
+			status: "OnSale",
+			description: "asd",
+		},
+	],
 };
-
 export default data;
