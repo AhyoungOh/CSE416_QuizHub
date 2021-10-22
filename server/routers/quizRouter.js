@@ -60,7 +60,10 @@ quizRouter.put(
       quiz.quizName = req.body.quizName;
       quiz.quizDescription = req.body.quizDescription;
       quiz.quizNumberOfTrials = req.body.quizNumberOfTrials;
-      quiz.quizTimeLimit = req.body.quizTimeLimit;
+      quiz.quizTimeLimit = {
+        minutes: req.body.quizTimeLimit.minutes,
+        seconds: req.body.quizTimeLimit.seconds,
+      };
       const updatedQuiz = await quiz.save();
       res.send({
         message: 'Quiz Updated',

@@ -42,6 +42,33 @@ certificateRouter.post(
   })
 );
 
+// update
+certificateRouter.put(
+  '/:id',
+  expressAsyncHandler(async (req, res) => {
+    const certificateId = req.params.id;
+    const certificate = await Certificate.findById(certificateId);
+
+    console.log(req.body);
+    if (certificate) {
+      certificate.certificateRasterizedContentUrl =
+        req.body.certificateRasterizedContentUrl;
+      certificate.certificateEncodedContent =
+        req.body.certificateEncodedContent;
+      certificate.certificateUploadFile = req.body.certificateUploadFile;
+      certificate.certificateRequirementsAccuracy =
+        req.body.certificateRequirementsAccuracy;
+      const updatedcertificate = await certificate.save();
+      res.send({
+        message: 'certificate Updated',
+        Badge: updatedcertificate,
+      });
+    } else {
+      res.status(404).send({ message: 'certificate Not Found' });
+    }
+  })
+);
+
 certificateRouter.delete(
   '/:id',
   expressAsyncHandler(async (req, res) => {
