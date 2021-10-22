@@ -5,7 +5,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --watch backend --exec node --experimental-modules server/server.js"
+    "start": "node server/server.js",
+    "dev": "nodemon --watch backend --exec node --experimental-modules server/server.js"
   },
   "author": "",
   "license": "ISC",
