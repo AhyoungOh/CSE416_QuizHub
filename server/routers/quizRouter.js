@@ -64,6 +64,7 @@ quizRouter.put(
         minutes: req.body.quizTimeLimit.minutes,
         seconds: req.body.quizTimeLimit.seconds,
       };
+
       const updatedQuiz = await quiz.save();
       res.send({
         message: 'Quiz Updated',

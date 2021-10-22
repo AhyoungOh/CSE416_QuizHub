@@ -8,6 +8,7 @@ import leaderboardRouter from './routers/leaderboardRouter.js';
 import platformRouter from './routers/platformRouter.js';
 import quizRouter from './routers/quizRouter.js';
 
+
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
