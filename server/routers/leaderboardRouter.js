@@ -63,7 +63,7 @@ leaderboardRouter.put(
       leaderboard.time.minutes = req.body.time.minutes;
       leaderboard.time.seconds = req.body.time.seconds;
       leaderboard.isPrivate = req.body.isPrivate;
-      leaderboard.timestamp.updatedAt = req.body.timestamp.updatedAt;
+      leaderboard.timestamp.updatedAt = Date.now();
       const updatedLeaderboard = await leaderboard.save();
       res.send({
         message: 'Leaderboard Updated',
