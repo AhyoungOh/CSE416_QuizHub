@@ -6,6 +6,7 @@ import consumerRouter from './routers/consumerRouter.js';
 import creatorRouter from './routers/creatorRouter.js';
 import leaderboardRouter from './routers/leaderboardRouter.js';
 import platformRouter from './routers/platformRouter.js';
+import quizRouter from './routers/quizRouter.js';
 
 const app = express();
 app.use(express.json());
@@ -19,11 +20,12 @@ mongoose
   .catch((err) => console.error(err));
 
 app.use('/api/badge', badgeRouter);
-// app.use('/api/certificate', certificateRouter);
-// app.use('/api/consumer', consumerRouter);
-// app.use('/api/creator', creatorRouter);
+app.use('/api/certificate', certificateRouter);
+app.use('/api/consumer', consumerRouter);
+app.use('/api/creator', creatorRouter);
 app.use('/api/leaderboard', leaderboardRouter);
-// app.use('/api/platform', platformRouter);
+app.use('/api/platform', platformRouter);
+app.use('/api/quiz', quizRouter);
 
 app.get('/', (req, res) => {
   res.send('server is ready');
