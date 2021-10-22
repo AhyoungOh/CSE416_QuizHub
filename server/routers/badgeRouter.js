@@ -19,7 +19,7 @@ badgeRouter.post(
   '/seed',
   expressAsyncHandler(async (req, res) => {
     await Badge.remove({});
-    const createBadge = await Badge.insertMany(data.ranking);
+    const createBadge = await Badge.insertMany(data.badge);
     res.send({ createBadge });
   })
 );
@@ -29,10 +29,10 @@ badgeRouter.post(
   '/post',
   expressAsyncHandler(async (req, res) => {
     const badge = new Badge({
-      badgeRasterizedContentUrl: 'sample Url',
-      badgeEncodedContent: 'sample encoded content',
-      badgeUploadFile: 'sample file',
-      badgeRequirementsAccuracy: 100,
+      badgeRasterizedContentUrl: req.body.badgeRasterizedContentUrl,
+      badgeEncodedContent: req.body.badgeEncodedContent,
+      badgeUploadFile: req.body.badgeUploadFile,
+      badgeRequirementsAccuracy: req.body.badgeRequirementsAccuracy,
     });
     const createdBadge = await badge.save();
     res.send({
@@ -42,29 +42,29 @@ badgeRouter.post(
   })
 );
 
-// update -> no needed for badge
-// badgeRouter.put(
-//   '/:id',
-//   expressAsyncHandler(async (req, res) => {
-//     const badgeId = req.params.id;
-//     const badge = await Badge.findById(badgeId);
+// update
+badgeRouter.put(
+  '/:id',
+  expressAsyncHandler(async (req, res) => {
+    const badgeId = req.params.id;
+    const badge = await Badge.findById(badgeId);
 
-//     console.log(req.body);
-//     if (badge) {
-//       badge.badgeRasterizedContentUrl = req.body.badgeRasterizedContentUrl;
-//       badge.badgeEncodedContet = req.body.badgeEncodedContent;
-//       badge.UploadFile = req.body.UploadFile;
-//       badge.RequirementsAccuracy = req.body.RequirementsAccuracy;
-//       const updatedBadge = await badge.save();
-//       res.send({
-//         message: 'Badge Updated',
-//         badge: updatedBadge,
-//       });
-//     } else {
-//       res.status(404).send({ message: 'Badge Not Found' });
-//     }
-//   })
-// );
+    console.log(req.body);
+    if (Badge) {
+      badge.badgeRasterizedContentUrl = req.body.badgeRasterizedContentUrl;
+      badge.badgeEncodedContent = req.body.badgeEncodedContent;
+      badge.badgeUploadFile = req.body.badgeUploadFile;
+      badge.badgeRequirementsAccuracy = req.body.badgeRequirementsAccuracy;
+      const updatedBadge = await badge.save();
+      res.send({
+        message: 'Badge Updated',
+        Badge: updatedBadge,
+      });
+    } else {
+      res.status(404).send({ message: 'Badge Not Found' });
+    }
+  })
+);
 
 badgeRouter.delete(
   '/:id',

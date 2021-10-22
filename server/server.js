@@ -1,12 +1,13 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import badgeRouter from './routers/badgeRouter';
-import certificateRouter from './routers/certificateRouter';
-import consumerRouter from './routers/consumerRouter';
-import creatorRouter from './routers/creatorRouter';
+import badgeRouter from './routers/badgeRouter.js';
+import certificateRouter from './routers/certificateRouter.js';
+import consumerRouter from './routers/consumerRouter.js';
+import creatorRouter from './routers/creatorRouter.js';
 import leaderboardRouter from './routers/leaderboardRouter.js';
-import platformRouter from './routers/platformRouter';
-import quizRouter from './routers/quizRouter';
+import platformRouter from './routers/platformRouter.js';
+import quizRouter from './routers/quizRouter.js';
+
 
 const app = express();
 app.use(express.json());

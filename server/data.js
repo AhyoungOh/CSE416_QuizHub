@@ -10,17 +10,50 @@ const data = {
       isPrivate: false,
     },
   ],
-  quiz: [
+  badge: [
     {
-      platformName: 'New York City',
-      quizName: 'Popular Landmarks',
-      quizDescription: 'How much do you know about the popular landmarks in the city?',
-      quizNumberOfTrials: 3,
-      quizTimeLimit: {
-        minutes: 30,
-        seconds: 0
-      }
-    }
-  ]
+      badgeRasterizedContentUrl: 'Ahyoung badge',
+      badgeEncodedContent: 'Ahyoung badge encoded content',
+      badgeUploadFile: 'Ahyoung upload',
+      badgeRequirementsAccuracy: 5,
+    },
+  ],
+  certificate: [
+    {
+      certificateRasterizedContentUrl: 'Ahyoung certificate',
+      certificateEncodedContent: 'Ahyoung certificate encoded',
+      certificateUploadFile: 'Ahyoung certi upload',
+      certificateRequirementsAccuracy: 2,
+    },
+  ],
+  platform: [
+    {
+      platformName: 'sample Ahyoung platform',
+      platformDescription: 'dummy Ahyoung platform description',
+      platformImage: 'dummy platform image',
+      quizId: 'ownedQuizzes Object Id',
+      createdDate: Date.now(),
+    },
+  ],
+  creator: [
+    {
+      platformId: 'platform Object Id',
+      creatorImage: 'sample creator image',
+      selfIntroduction: 'hello, this is Ahyoung',
+      creatorUsername: 'AhyoungOh',
+      creatorEmail: 'ahyoung.oh@gmail.com',
+    },
+  ],
+  consumer: [
+    {
+      consumerDescription: 'consumer description',
+      consumerImage: 'consumer dummy image',
+      consumerUsername: 'Ahyoung',
+      consumerEmail: 'ahyoung.oh@stonybrook.edu',
+      password: 'password',
+      consumerIsPrivate: false,
+    },
+  ],
 };
+
 export default data;

@@ -20,7 +20,7 @@ creatorRouter.post(
   '/seed',
   expressAsyncHandler(async (req, res) => {
     await Creator.remove({});
-    const createCreator = await Creator.insertMany(data.ranking);
+    const createCreator = await Creator.insertMany(data.creator);
     res.send({ createCreator });
   })
 );
@@ -30,16 +30,11 @@ creatorRouter.post(
   '/post',
   expressAsyncHandler(async (req, res) => {
     const creator = new Creator({
-      platformName: 'Ahyoung World ',
-      platformDescription: 'this is Ahyoung platform',
-      platformImage: 'sample image url',
-      quizId: 'sample quiz Object Id',
-      createdDate: Date.now(),
-      creatorImage: 'sample creator image',
-      selfIntroduction: 'hi this is creator Ahyoung',
-      creatorUsername: 'AhyoungOH',
-      creatorEmail: 'ahyoung.oh@stonybrook.edu',
-      password: 'password yes~',
+      creatorImage: req.body.creatorImage,
+      selfIntroduction: req.body.selfIntroduction,
+      creatorUsername: req.body.creatorUsername,
+      creatorEmail: req.body.creatorEmail,
+      password: req.body.password,
     });
     const createdCreator = await creator.save();
     res.send({
@@ -58,11 +53,7 @@ creatorRouter.put(
 
     console.log(req.body);
     if (creator) {
-      creator.platformName = req.body.platformName;
-      creator.platformDescription = req.body.platformDescription;
-      creator.platformImage = req.body.platformImage;
-      creator.quizId = req.body.quizId;
-      creator.createdDate = req.body.createdDate;
+      // for ownedplatformid it will be dealed by additional function like addPlatform()
       creator.creatorImage = req.body.creatorImage;
       creator.selfIntroduction = req.body.selfIntroduction;
       creator.creatorUsername = req.body.creatorUsername;

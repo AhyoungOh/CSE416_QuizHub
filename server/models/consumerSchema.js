@@ -6,11 +6,11 @@ const consumerSchema = new mongoose.Schema({
   consumerUsername: { type: String },
   consumerEmail: { type: String },
   password: { type: String },
-  consumerIsPrivate: { type: Boolean },
+  consumerIsPrivate: { type: Boolean, default: false },
   consumerQuizHistoryList: [
     {
       Quizzes: {
-        quizId: { type: String },
+        quizId: { type: mongoose.Schema.Types.ObjectID, ref: 'Quiz' },
         correctNumber: { type: Number },
         quizTimeTaken: {
           minutes: { type: Number },
@@ -23,13 +23,16 @@ const consumerSchema = new mongoose.Schema({
   ],
   certificates: [
     {
-      certificateId: { type: String },
+      certificateId: {
+        type: mongoose.Schema.Types.ObjectID,
+        ref: 'Certificate',
+      },
       accomplishedDate: { type: Date },
     },
   ],
   badges: [
     {
-      badgeId: { type: String },
+      badgeId: { type: mongoose.Schema.Types.ObjectID, ref: 'Badge' },
       accomplishedDate: { type: Date },
       badgeVisibility: { type: Boolean },
     },
