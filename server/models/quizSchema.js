@@ -3,7 +3,7 @@ import Certificate from './certificateSchema.js';
 import Badge from './badgeSchema.js';
 import Leaderboard from './leaderboardSchema.js';
 
-const quizSchema = new Schema({
+const quizSchema = new mongoose.Schema({
   quizImage: { data: Buffer, type: String },
   platformName: { type: String, required: true },
   quizName: { type: String, required: true },
@@ -15,12 +15,15 @@ const quizSchema = new Schema({
   },
   quizTotalNumberOfQuestions: Number,
   quizRewardType: { type: Number, required: true, default: 0 },
-  quizCertificate: [Certificate],
+  quizCertificate: { type: mongoose.Schema.Types.ObjectID, ref: 'Certificate' },
   // quizCertificate: {type: mongoose.Schema.Types.ObjectID, ref: 'Certificate'}, //this is my way! -Ahyoung-
-  quizBadge: Badge,
+  quizBadge: { type: mongoose.Schema.Types.ObjectID, ref: 'Badge' }, //this is my way! -Ahyoung-,
   quizCertificateQualification: Number,
   quizBadgeQualification: Number,
-  quizLeaderBoardId: Leaderboard,
+  quizLeaderBoardId: {
+    type: mongoose.Schema.Types.ObjectID,
+    ref: 'LeaderBoard',
+  }, //this is my way! -Ahyoung-,
   quizEnableLeaderboard: { type: Boolean, default: true },
   quizQuestions: [
     {
