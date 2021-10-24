@@ -45,7 +45,6 @@ quizRouter.post(
       quizBadge: req.body.quizBadge,
       quizCertificateQualification: req.body.quizCertificateQualification,
       quizBadgeQualification: req.body.quizBadgeQualification,
-      quizLeaderBoardId: req.body.quizLeaderBoardId,
       quizEnableLeaderboard: req.body.quizEnableLeaderboard,
       quizQuestions: req.body.quizQuestions,
       createdDate: req.body.createdDate,
@@ -82,7 +81,6 @@ quizRouter.put(
       quiz.quizBadge = req.body.quizBadge;
       quiz.quizCertificateQualification = req.body.quizCertificateQualification;
       quiz.quizBadgeQualification = req.body.quizBadgeQualification;
-      quiz.quizLeaderBoardId = req.body.quizLeaderBoardId;
       quiz.quizEnableLeaderboard = req.body.quizEnableLeaderboard;
       quiz.quizQuestions = req.body.quizQuestions;
       quiz.createdDate = req.body.createdDate;
