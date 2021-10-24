@@ -54,6 +54,19 @@ const data = {
       consumerIsPrivate: false,
     },
   ],
+  questions: [
+    {
+      questionNumber: 1,
+      questionQuestion: "Which of the museams is “NOT” in NYC?",
+      questionOptions: [
+        "Metropolitan Museum of Art",
+        "Museum of Modern Art",
+        "The Getty Center",
+        "Guggenheim Museum"
+      ],
+      questionAnswer: 3,
+    }
+  ]
 };
 
 export default data;

@@ -29,6 +29,7 @@ quizRouter.post(
   '/post',
   expressAsyncHandler(async (req, res) => {
     const quiz = new Quiz({
+      quizImage: req.body.quizImage,
       platformName: req.body.platformName,
       quizName: req.body.quizName,
       quizDescription: req.body.quizDescription,
@@ -38,6 +39,16 @@ quizRouter.post(
         seconds: req.body.quizTimeLimit.seconds,
       },
       quizTotalNumberOfQuestions: req.body.quizTotalNumberOfQuestions,
+      quizTotalNumberOfQuestions: req.body.quizTotalNumberOfQuestions,
+      quizRewardType: req.body.quizRewardType,
+      quizCertificate: req.body.quizCertificate,
+      quizBadge: req.body.quizBadge,
+      quizCertificateQualification: req.body.quizCertificateQualification,
+      quizBadgeQualification: req.body.quizBadgeQualification,
+      quizLeaderBoardId: req.body.quizLeaderBoardId,
+      quizEnableLeaderboard: req.body.quizEnableLeaderboard,
+      quizQuestions: req.body.quizQuestions,
+      createdDate: req.body.createdDate,
     });
     const createdQuiz = await quiz.save();
     res.send({
@@ -56,6 +67,7 @@ quizRouter.put(
 
     console.log(req.body);
     if (quiz) {
+      quiz.quizImage = req.body.quizImage;
       quiz.platformName = req.body.platformName;
       quiz.quizName = req.body.quizName;
       quiz.quizDescription = req.body.quizDescription;
@@ -64,6 +76,16 @@ quizRouter.put(
         minutes: req.body.quizTimeLimit.minutes,
         seconds: req.body.quizTimeLimit.seconds,
       };
+      quiz.quizTotalNumberOfQuestions = req.body.quizTotalNumberOfQuestions;
+      quiz.quizRewardType = req.body.quizRewardType;
+      quiz.quizCertificate = req.body.quizCertificate;
+      quiz.quizBadge = req.body.quizBadge;
+      quiz.quizCertificateQualification = req.body.quizCertificateQualification;
+      quiz.quizBadgeQualification = req.body.quizBadgeQualification;
+      quiz.quizLeaderBoardId = req.body.quizLeaderBoardId;
+      quiz.quizEnableLeaderboard = req.body.quizEnableLeaderboard;
+      quiz.quizQuestions = req.body.quizQuestions;
+      quiz.createdDate = req.body.createdDate;
 
       const updatedQuiz = await quiz.save();
       res.send({
