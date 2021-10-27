@@ -1,0 +1,19 @@
+.header {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 60px;
+  background-color: black;
+  > .headerName {
+    font-weight: bolder;
+    color: white;
+    font-size: larger;
+  }
+
+  > .dropdown {
+    position: absolute;
+    right: 10px;
+  }
+}
