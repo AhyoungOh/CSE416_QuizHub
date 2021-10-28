@@ -31,7 +31,7 @@ function SignUp() {
           // id: idRef.current.value,
         }
       );
-      dispatch({ type: 'signin', payload: consumerInfo.data.user });
+      dispatch({ type: 'signup', payload: consumerInfo.data.user });
 
       setErrorMsg(null);
       history.push('/');

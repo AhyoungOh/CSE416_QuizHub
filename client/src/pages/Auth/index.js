@@ -13,6 +13,12 @@ function Auth() {
       <Route path={`${url}/signup`}>
         <SignUp />
       </Route>
+      <Route path={`${url}/creator_login`}>
+        <SignIn />
+      </Route>
+      <Route path={`${url}/creator_signup`}>
+        <SignUp />
+      </Route>
     </Switch>
   );
 }

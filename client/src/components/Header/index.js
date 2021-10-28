@@ -27,7 +27,7 @@ function Header() {
           history.push('/');
         }}
       >
-        QuizHub
+      QuizHub
       </div>
       <div className='dropdown'>
         <button

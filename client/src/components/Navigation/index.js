@@ -14,8 +14,11 @@ function Navigation() {
       {/* <Link to='/list'>
         <button className='button'>Go to List</button>
       </Link> */}
-      <Link to='/creator_login'>
-        <button className='button'>Upload Slang Dictionary</button>
+      <Link to='/auth/creator_login'>
+        <button className='button'>Creator Login</button>
+      </Link>
+      <Link to='/auth/creator_signup'>
+        <button className='button'>Creator SignUp</button>
       </Link>
       {/* <Link to='/checkup'>
         <button className='button'>Checkup</button>
