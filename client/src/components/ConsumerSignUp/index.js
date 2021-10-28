@@ -5,7 +5,7 @@ import axios from 'axios';
 import { UserContext } from '../../App';
 import { useHistory } from 'react-router-dom';
 
-function SignUp() {
+function ConsumerSignUp() {
   const { dispatch } = useContext(UserContext);
   const history = useHistory();
   const usernameRef = useRef('');
@@ -19,7 +19,8 @@ function SignUp() {
   const clickBtnHandler = async () => {
     try {
       const consumerInfo = await axios.post(
-        `${process.env.REACT_APP_API_SERVER}/api/auth`,
+        `${process.env.REACT_APP_API_SERVER}/api/consumerAuth`,
+        // `http://localhost:4000/api/auth`,
         {
           username: usernameRef.current.value,
           password: passwordRef.current.value,
@@ -31,7 +32,7 @@ function SignUp() {
           // id: idRef.current.value,
         }
       );
-      dispatch({ type: 'signup', payload: consumerInfo.data.user });
+      // dispatch({ type: 'signup', payload: consumerInfo.data.user });
 
       setErrorMsg(null);
       history.push('/');
@@ -74,52 +75,6 @@ function SignUp() {
               />
             </div>
             <p></p>
-
-            {/* <div className='button-position'>
-              <div
-                class='btn-group btn-group-lg'
-                role='group'
-                aria-label='Basic radio toggle button group'
-              >
-                <input
-                  type='radio'
-                  class='btn-check'
-                  name='btnradio'
-                  id='btnradio1'
-                  autocomplete='off'
-                  ref={creatorGroupRef}
-                />
-                <label class='btn btn-outline-secondary' for='btnradio1'>
-                  Are you a creator group?
-                </label>
-
-                <input
-                  type='radio'
-                  class='btn-check'
-                  name='btnradio'
-                  id='btnradio3'
-                  autocomplete='off'
-                  ref={userGroupRef}
-                />
-                <label class='btn btn-outline-secondary' for='btnradio3'>
-                  Are you a user group?
-                </label>
-              </div>
-            </div> */}
-
-            {/* <p></p>
-            <div class='form-group'>
-              <label for='id'>ID</label>
-              <input
-                type='id'
-                class='form-control'
-                id='id'
-                placeholder='mike'
-                ref={idRef}
-              />
-            </div>
-            <p></p> */}
-            {/* <!-- Password --> */}
             <div class='form-group mb-5'>
               <label for='password'>Password</label>
               <input
@@ -153,4 +108,4 @@ function SignUp() {
   );
 }
 
-export default SignUp;
+export default ConsumerSignUp;

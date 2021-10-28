@@ -1,5 +1,6 @@
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
-import SignUp from '../SignUp';
+import ConsumerSignUp from '../ConsumerSignUp';
+import CreatorSignUp from '../CreatorSignUp';
 import SignIn from '../SignIn';
 
 function Auth() {
@@ -10,14 +11,11 @@ function Auth() {
         <SignIn />
       </Route>
       <Route path='/signout'>Log out</Route>
-      <Route path={`${url}/signup`}>
-        <SignUp />
-      </Route>
-      <Route path={`${url}/creator_login`}>
-        <SignIn />
+      <Route path={`${url}/consumer_signup`}>
+        <ConsumerSignUp />
       </Route>
       <Route path={`${url}/creator_signup`}>
-        <SignUp />
+        <CreatorSignUp />
       </Route>
     </Switch>
   );
