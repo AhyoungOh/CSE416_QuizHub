@@ -1,6 +1,6 @@
 import './style.scss';
 import { useContext } from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory, Link} from 'react-router-dom';
 import { UserContext } from '../../App';
 import axios from 'axios';
 
@@ -18,65 +18,32 @@ function Header() {
   };
 
   const id = user?.id !== '' ? user.id : '';
+ 
 
   return (
     <div className='header'>
-      <div
+      <img
         className='headerName'
+        src='/logo.png'
+        width='160'
         onClick={() => {
           history.push('/');
         }}
-      >
-      QuizHub
+      />
+
+      <div className='login'>
+      <button type="button" class="btn btn-primary"
+      onClick={() => {
+        history.push('/auth/signin');
+      }}>Consumer Login</button>
       </div>
-      <div className='dropdown'>
-        <button
-          className='btn btn-secondary dropdown-toggle'
-          type='button'
-          id='dropdownMenu2'
-          data-bs-toggle='dropdown'
-          aria-expanded='false'
-        >
-          {id === '' ? 'Menu' : id}
-        </button>
-        <ul className='dropdown-menu' aria-labelledby='dropdownMenu2'>
-          {id === '' && (
-            <li>
-              <button
-                className='dropdown-item'
-                type='button'
-                onClick={() => {
-                  history.push('/auth/signin');
-                }}
-              >
-                Log in
-              </button>
-            </li>
-          )}
-          {id !== '' && (
-            <li>
-              <button
-                className='dropdown-item'
-                type='button'
-                onClick={signoutClickHandler}
-              >
-                Log Out
-              </button>
-            </li>
-          )}
-          <li>
-            <button
-              className='dropdown-item'
-              type='button'
-              onClick={() => {
-                history.push('/auth/signup');
-              }}
-            >
-              Sign Up
-            </button>
-          </li>
-        </ul>
+      <div className='signup'>
+      <button type="button" class="btn btn-outline-primary"
+      onClick={() => {
+        history.push('/auth/creator_login');
+      }}>Creator Login</button>
       </div>
+      
     </div>
   );
 }

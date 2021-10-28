@@ -5,15 +5,26 @@
   align-items: center;
 
   height: 60px;
-  background-color: black;
+  background-color: rgb(255, 255, 255);
   > .headerName {
     font-weight: bolder;
-    color: white;
+    color: rgb(0, 119, 255);
     font-size: larger;
-  }
-
-  > .dropdown {
     position: absolute;
-    right: 10px;
+    left: 30px;
+
+  }
+  > .signup {
+    border-radius: 0.75rem;
+    border:2px;
+    position: absolute;
+    right: 20px;
+    
+  }
+  > .login {
+    border-radius: 0.75rem;
+    position: absolute;
+    right: 150px;
+    
   }
 }

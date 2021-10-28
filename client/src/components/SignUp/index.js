@@ -43,108 +43,82 @@ function SignUp() {
   return (
     <section class='section-border border-primary'>
       <div class='container d-flex flex-column'>
-        <div class='row align-items-center justify-content-center no-gutters min-vh-100'>
+        <div class='row align-items-center justify-content-end no-gutters min-vh-100'>
           <div class='col-12 col-md-5 col-lg-4 py-8 py-md-11'>
-            <h1 class='mb-0 font-weight-bold text-center'>Create account</h1>
-            <p class='mb-6 text-center text-muted'>
-              You will be taking quizzes
-            </p>
+            <h1 class='mb-0 font-weight-bold text-left font-color-rgb(0, 119, 255)'>Create account</h1>
+              <div class="card text-center">
+                <div class="card-header">
+                <ul class="nav nav-pills card-header-pills">
+                  <li class="nav-item">
+                  <a class="nav-link active" data-toggle="pill" id="consumer"href="#" role="tab"  aria-selected="true">Consumer</a>
+                  </li>
+                  <li class="nav-item">
+                  <a class="nav-link" data-toggle="pill" href="#" id="creator" role="tab" aria-selected="false">Creator</a>
+                  </li>
+                  </ul>
+                </div>
+              <div class="card-body">
+                <div class="tab-pane fade show active" id="pills-home">
+                  <p class='mb-6 text-start text-muted'>
+                  Consumer will be taking quizzes
+                  </p>
+        
+                  <div class='name text-start'>
+                  <label for='username'>Username</label>
+                  <input
+                  type='Name'
+                  class='form-control'
+                  id='username'
+                  placeholder='e.g. mark_lee1'
+                  ref={usernameRef}
+                  />
+                  </div>
+                  <p></p>
 
-            {/* <form class="mb-6"> */}
-            <div class='name'>
-              <label for='username'>Username</label>
-              <input
-                type='Name'
-                class='form-control'
-                id='username'
-                placeholder='e.g. mark_lee1'
-                ref={usernameRef}
-              />
-            </div>
-            <p></p>
+                  <div class='form-group text-start'>
+                  <label for='email'>Email Address</label>
+                  <input
+                  type='email'
+                  class='form-control'
+                  id='email'
+                  placeholder='name@address.com'
+                  ref={emailRef}
+                  />
+                  </div>
+                  <p></p>
 
-            <div class='form-group'>
-              <label for='email'>Email Address</label>
-              <input
-                type='email'
-                class='form-control'
-                id='email'
-                placeholder='name@address.com'
-                ref={emailRef}
-              />
-            </div>
-            <p></p>
+                  <div class='form-group mb-5 text-start'>
+                  <label for='password'>Password</label>
+                  <input
+                  type='password'
+                  class='form-control'
+                  id='password'
+                  placeholder='Enter your password'
+                  ref={passwordRef}
+                  />
+                  </div>
 
-            {/* <div className='button-position'>
-              <div
-                class='btn-group btn-group-lg'
-                role='group'
-                aria-label='Basic radio toggle button group'
-              >
-                <input
-                  type='radio'
-                  class='btn-check'
-                  name='btnradio'
-                  id='btnradio1'
-                  autocomplete='off'
-                  ref={creatorGroupRef}
-                />
-                <label class='btn btn-outline-secondary' for='btnradio1'>
-                  Are you a creator group?
-                </label>
+                  <div>
+                  <button
+                  class='btn btn-block btn-secondary'
+                  type='button'
+                  onClick={clickBtnHandler}
+                  >
+                  Sign up 
+                  </button>
+                  </div>
 
-                <input
-                  type='radio'
-                  class='btn-check'
-                  name='btnradio'
-                  id='btnradio3'
-                  autocomplete='off'
-                  ref={userGroupRef}
-                />
-                <label class='btn btn-outline-secondary' for='btnradio3'>
-                  Are you a user group?
-                </label>
-              </div>
-            </div> */}
-
-            {/* <p></p>
-            <div class='form-group'>
-              <label for='id'>ID</label>
-              <input
-                type='id'
-                class='form-control'
-                id='id'
-                placeholder='mike'
-                ref={idRef}
-              />
-            </div>
-            <p></p> */}
-            {/* <!-- Password --> */}
-            <div class='form-group mb-5'>
-              <label for='password'>Password</label>
-              <input
-                type='password'
-                class='form-control'
-                id='password'
-                placeholder='Enter your password'
-                ref={passwordRef}
-              />
-            </div>
-
-            {/* <!-- Submit --> */}
-            <button
-              class='btn btn-block btn-secondary'
-              type='button'
-              onClick={clickBtnHandler}
-            >
-              Sign up
-            </button>
-            {/* </form> */}
-
-            {/* <!-- Text --> */}
-            <p class='mb-0 font-size-sm text-center text-muted'>
-              Already have an account? <a href='signin.html'>Log in</a>.
-            </p>
+          
+                  <p class='mb-0 font-size-sm text-center text-muted'>
+                  Already have an account? <a href='signin.html'>Log in</a>.
+                  </p>
+       
+                  </div>
+                </div>
+                <div class="tab-pane fade">
+                 
+                </div>
+             </div>
           </div>
         </div>
       </div>

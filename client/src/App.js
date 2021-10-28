@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import AuthPage from './pages/Auth';
 // import ListPage from './pages/List';
 import NavigationPage from './pages/NavigationPage';
+import SignUp from './pages/SignUp';
 // import UploadSlangDictPage from './pages/UploadSlangDict';
 import Header from './components/Header';
 // import Checkup from './components/Checkup';
@@ -37,7 +38,7 @@ function App() {
     <UserContext.Provider value={{ user, dispatch }}>
       <Router>
         <Header />
-        <Route exact path='/' component={NavigationPage} />
+        <Route exact path='/' component={SignUp} />
         <Switch>
           <Route path='/auth'>
             <AuthPage />

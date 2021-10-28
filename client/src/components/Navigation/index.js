@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 
 function Navigation() {
   return (
-    <div className='div'>
+    
+    <div className='div' >
       <Link to='/auth/signup'>
         <button className='button'>Sign Up</button>
       </Link>
