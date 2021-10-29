@@ -1,7 +1,11 @@
-// import mongoose from 'mongoose';
+// import { Schema, model } from 'mongoose';
+import pkg from 'mongoose';
+
 // const mongoose = require('mongoose');
-const { Schema, model } = require('mongoose');
-const argon2 = require('argon2');
+// const { Schema, model } = require('mongoose');
+// const argon2 = require('argon2');
+import argon2 from 'argon2';
+const { Schema, model } = pkg;
 
 const consumerSchema = new Schema({
   consumerDescription: { type: String },
@@ -71,5 +75,5 @@ consumerSchema.methods.comparePassword = async function (password) {
   }
 };
 
-module.exports = model('consumer', consumerSchema);
-// export default Consumer;
+// module.exports = model('consumer', consumerSchema);
+export default model('consumer', consumerSchema);

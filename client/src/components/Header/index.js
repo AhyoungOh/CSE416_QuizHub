@@ -16,8 +16,14 @@ function Header() {
       console.error(e);
     }
   };
-
+  // console.log(user);
   const id = user?.id !== '' ? user.id : '';
+  const isCreator =
+    user?.isCreator === undefined
+      ? undefined
+      : user.isCreator
+      ? 'Creator'
+      : 'Consumer';
 
   return (
     <div className='header'>
@@ -37,7 +43,7 @@ function Header() {
           data-bs-toggle='dropdown'
           aria-expanded='false'
         >
-          {id === '' ? 'Menu' : id}
+          {id === '' ? 'Menu' : id} {isCreator === '' ? '' : isCreator}
         </button>
         <ul className='dropdown-menu' aria-labelledby='dropdownMenu2'>
           {id === '' && (

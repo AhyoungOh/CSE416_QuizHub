@@ -10,12 +10,24 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const userReducer = (state, action) => {
+  // console.log(action.payload);
   switch (action.type) {
     case 'signin':
-      return {
-        id: action.payload.consumerUsername,
-        // password: action.payload.password,
-      };
+      if (action.payload.consumer) {
+        return {
+          id: action.payload.consumer.consumerUsername,
+          isCreator: false,
+          // password: action.payload.password,
+        };
+      }
+      if (action.payload.creator) {
+        return {
+          id: action.payload.creator.creatorUsername,
+          isCreator: true,
+          // password: action.payload.password,
+        };
+      }
+      break;
     case 'signout':
       return { id: '', password: '' };
     default:

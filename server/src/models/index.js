@@ -1,5 +1,7 @@
-const mongoose = require('mongoose');
-const { getDBUri } = require('../config'); // 중요한 정보같은거는 분리해놓을것.
+// const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+// const { getDBUri } = require('../config'); // 중요한 정보같은거는 분리해놓을것.
+import { getDBUri } from '../config';
 
 let db;
 const connect = async () => {
@@ -22,4 +24,5 @@ const disconnect = () => {
   }
   mongoose.disconnect();
 };
-module.exports = { connect, disconnect };
+
+export default { connect, disconnect };

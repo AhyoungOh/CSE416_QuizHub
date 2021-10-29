@@ -19,31 +19,15 @@ function SignIn() {
   const clickBtnHandler = async (req, res) => {
     try {
       const userInfo = await axios.post(
-        `${process.env.REACT_APP_API_SERVER}/api/consumerAuth/login`,
+        `${process.env.REACT_APP_API_SERVER}/api/auth/login`,
         {
           username: idRef.current.value,
           password: passwordRef.current.value,
         }
       );
-      dispatch({ type: 'signin', payload: userInfo.data.consumer });
+      dispatch({ type: 'signin', payload: userInfo.data });
       setErrorMsg(null);
       history.push('/');
-
-      try {
-        const userInfo = await axios.post(
-          `${process.env.REACT_APP_API_SERVER}/api/creatorAuth/login`,
-          {
-            username: idRef.current.value,
-            password: passwordRef.current.value,
-          }
-        );
-        dispatch({ type: 'signin', payload: userInfo.data.creator });
-        setErrorMsg(null);
-        history.push('/');
-      } catch (e) {
-        setErrorMsg(JSON.stringify(e));
-        console.error(e);
-      }
       // const existingConsumer = Consumer.findOne({
       //   consumerUsername: req.body.username,
       //   password: req.body.password,
