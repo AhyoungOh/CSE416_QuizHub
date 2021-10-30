@@ -5,8 +5,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "cd client && npm start",
-    "start": "node server/src/server && npm run build",
+    "start": "node server/src/server",
     "dev": "nodemon --watch backend --exec node --experimental-modules server/src/server.js"
   },
   "author": "",
