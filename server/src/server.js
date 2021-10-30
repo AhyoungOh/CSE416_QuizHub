@@ -26,7 +26,12 @@ mongoose
   .catch((err) => console.error(err));
 
 // cookie에 전달되어 오는 정보를 req.session을 통해 사용할 수 있도록 파싱해줌
-app.use(cors());
+app.use(
+  cors({
+    origin: 'https://cse416quizhub.herokuapp.com',
+    credentials: true,
+  })
+);
 app.use(cookieParser());
 
 // front에는 user 정보를 cookie에 담고
