@@ -16,58 +16,74 @@ function SignIn() {
   const idRef = useRef('');
   const [errorMsg, setErrorMsg] = useState(null);
 
-  const clickBtnHandler = async () => {
+  const clickBtnHandler = async (req, res) => {
     try {
       const userInfo = await axios.post(
         `${process.env.REACT_APP_API_SERVER}/api/auth/login`,
         {
-          id: idRef.current.value,
+          username: idRef.current.value,
           password: passwordRef.current.value,
         }
       );
-      dispatch({ type: 'signin', payload: userInfo.data.user });
+      dispatch({ type: 'signin', payload: userInfo.data });
       setErrorMsg(null);
-      history.push('/');
+      history.push('/home');
     } catch (e) {
       setErrorMsg(JSON.stringify(e));
       console.error(e);
     }
   };
   return (
-    <div className='login-page'>
-      <form>
-        <div class='mb-3'>
-          <label for='exampleInputEmail1' class='form-label'>
-            Email address
-          </label>
-          <input
-            type='email'
-            class='form-control'
-            id='exampleInputEmail1'
-            aria-describedby='emailHelp'
-            ref={idRef}
-          />
-          <div id='emailHelp' class='form-text'>
-            We'll never share your email with anyone else.
-          </div>
-        </div>
-        <div class='mb-3'>
-          <label for='exampleInputPassword1' class='form-label'>
-            Password
-          </label>
-          <input
-            type='password'
-            class='form-control'
-            id='exampleInputPassword1'
-            ref={passwordRef}
-          />
-        </div>
-        <button type='button' class='btn btn-primary' onClick={clickBtnHandler}>
-          Sign in
-        </button>
-      </form>
-      {/* <Sider /> */}
-    </div>
+    <section class='section-border border-primary'>
+    <div class='container d-flex flex-column'>
+      <div class='row align-items-center justify-content-center no-gutters min-vh-100'>
+        <div class='col-12 col-md-5 col-lg-4 py-8 py-md-11'>
+            <div class="card text-center">
+              <div class="card-header">
+              <h1 class='mb-0 font-weight-bold text-start'>Login</h1>
+              </div>
+              <div class="card-body">
+              <div class='name text-start'>
+                  <label for='exampleInputEmail1'>Username</label>
+                  <input
+                  type='email'
+                  class='form-control'
+                  id='exampleInputEmail1'
+                  placeholder='e.g. mark_lee1'
+                  ref={idRef}
+                  />
+                  <div id='emailHelp' class='form-text'>
+                  We'll never share your user info with anyone else.
+                  </div>
+                  </div>
+                  <p></p>
+
+                  <div class='form-group mb-5 text-start'>
+                  <label for='password'>Password</label>
+                  <input
+                  type='password'
+                  class='form-control'
+                  id='password'
+                  placeholder='Enter your password'
+                  ref={passwordRef}
+                  />
+                  </div>
+
+                  <div>
+                  <button
+                  class='btn btn-block btn-primary'
+                  type='button'
+                  onClick={clickBtnHandler}
+                  >
+                  Login 
+                  </button>
+                  </div>
+              </div>
+              </div>
+              </div>   
+              </div>
+              </div>
+              </section>
   );
 }
 

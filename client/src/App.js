@@ -1,25 +1,34 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import AuthPage from './pages/Auth';
-// import ListPage from './pages/List';
-import NavigationPage from './pages/NavigationPage';
-import SignUp from './pages/SignUp';
-// import UploadSlangDictPage from './pages/UploadSlangDict';
+import MainPage from './pages/MainPage';
 import Header from './components/Header';
-// import Checkup from './components/Checkup';
 import './styles/global-style.scss';
+import bootstrap from 'bootstrap/dist/js/bootstrap.bundle';
 
 import { useReducer, createContext } from 'react';
 import dotenv from 'dotenv';
-import bootstrap from 'bootstrap/dist/js/bootstrap.bundle';
+import ConsumerSignUp from './components/ConsumerSignUp';
 dotenv.config();
 
 const userReducer = (state, action) => {
+  // console.log(action.payload);
   switch (action.type) {
     case 'signin':
-      return {
-        id: action.payload.id,
-        password: action.payload.password,
-      };
+      if (action.payload.consumer) {
+        return {
+          id: action.payload.consumer.consumerUsername,
+          isCreator: false,
+          // password: action.payload.password,
+        };
+      }
+      if (action.payload.creator) {
+        return {
+          id: action.payload.creator.creatorUsername,
+          isCreator: true,
+          // password: action.payload.password,
+        };
+      }
+      break;
     case 'signout':
       return { id: '', password: '' };
     default:
@@ -38,20 +47,11 @@ function App() {
     <UserContext.Provider value={{ user, dispatch }}>
       <Router>
         <Header />
-        <Route exact path='/' component={SignUp} />
+        <Route exact path='/' component={ConsumerSignUp} />
         <Switch>
           <Route path='/auth'>
             <AuthPage />
           </Route>
-          {/* <Route path='/list'>
-            <ListPage />
-          </Route>
-          <Route path='/creator_login'>
-            <UploadSlangDictPage />
-          </Route>
-          <Route path='/checkup'>
-            <Checkup />
-          </Route> */}
         </Switch>
       </Router>
     </UserContext.Provider>
