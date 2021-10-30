@@ -9,7 +9,7 @@ import mongoose from 'mongoose';
 // import quizRouter from './routers/quizRouter.js';
 // import questionRouter from './routers/questionRouter.js';
 import cors from 'cors';
-import authRouter from './routers/auth/index.js';
+import authRouter from './src/routers/auth/index.js';
 import cookieParser from 'cookie-parser';
 import cookieSession from 'cookie-session';
 // const cookieSession = require('cookie-session');
