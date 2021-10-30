@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 // import Sider from '../Sider';
 
 function SignIn() {
-  const { dispatch } = useContext(UserContext);
+  const { user, dispatch } = useContext(UserContext);
   const history = useHistory();
   const usernameRef = useRef('');
   const passwordRef = useRef('');
@@ -27,23 +27,21 @@ function SignIn() {
       );
       dispatch({ type: 'signin', payload: userInfo.data });
       setErrorMsg(null);
+
+      //   const isCreator =
+      // user?.isCreator === undefined
+      //   ? undefined
+      //   : user.isCreator
+      //   ? 'Creator'
+      //   : 'Consumer';
+      // console.log(userInfo.data);
+      // console.log(user?.isCreator);
+      // const isCreator = user?.isCreator;
+      // // console.log(userInfo.data);
+      // if (isCreator) {
+      //   console.log(isCreator, '---');
+      // }
       history.push('/');
-      // const existingConsumer = Consumer.findOne({
-      //   consumerUsername: req.body.username,
-      //   password: req.body.password,
-      // });
-      // // const existingCreator = Creator.findOne({
-      // //   creatorUsername: req.body.username,
-      // //   password: req.body.password,
-      // // });
-      // if (existingConsumer)
-      //   dispatch({ type: 'signin', payload: userInfo.data.consumer });
-      // // history.push('/consumerHomepage');
-      // history.push('/');
-      // else if (existingCreator)
-      //   dispatch({ type: 'signin', payload: userInfo.data.creator });
-      //   history.push('/creatorHomepage');
-      // else setErrorMsg(null);
     } catch (e) {
       setErrorMsg(JSON.stringify(e));
       console.error(e);
