@@ -8,7 +8,7 @@ import mongoose from 'mongoose';
 // import platformRouter from './routers/platformRouter.js';
 // import quizRouter from './routers/quizRouter.js';
 // import questionRouter from './routers/questionRouter.js';
-
+import cors from 'cors';
 import authRouter from './routers/auth/index.js';
 import cookieParser from 'cookie-parser';
 import cookieSession from 'cookie-session';
@@ -26,7 +26,7 @@ mongoose
   .catch((err) => console.error(err));
 
 // cookie에 전달되어 오는 정보를 req.session을 통해 사용할 수 있도록 파싱해줌
-
+app.use(cors());
 app.use(cookieParser());
 
 // front에는 user 정보를 cookie에 담고
