@@ -27,7 +27,7 @@ function CreatorSignUp() {
       // dispatch({ type: 'signup', payload: creatorInfo.data.user });
 
       setErrorMsg(null);
-      history.push('/');
+      history.push('/auth/signin');
     } catch (e) {
       setErrorMsg(JSON.stringify(e));
       console.error(e);
