@@ -5,4 +5,4 @@ module.exports = {
     resolve: {
       modules: ['server', 'node_modules'],
     },
-  };
+};
