@@ -19,9 +19,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 mongoose
-  .connect(
-    'mongodb+srv://quizhub:cse416quizhubpassword@quizhub-database.h1p15.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
-  )
+  // .connect(
+  //   'mongodb+srv://quizhub:cse416quizhubpassword@quizhub-database.h1p15.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+  // )
+  .connect(process.env.MONGODB_URI)
   .then((res) => console.log('Connected'))
   .catch((err) => console.error(err));
 
