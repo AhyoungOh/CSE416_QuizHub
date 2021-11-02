@@ -12,48 +12,60 @@ function Header() {
     try {
       await axios.delete(`${process.env.REACT_APP_API_SERVER}/api/auth`);
       dispatch({ type: 'signout' });
+      history.push('/');
     } catch (e) {
       console.error(e);
     }
   };
-
+  // console.log(user);
   const id = user?.id !== '' ? user.id : '';
+  const isCreator =
+    user?.isCreator === undefined
+      ? undefined
+      : user.isCreator
+      ? 'Creator'
+      : 'Consumer';
 
   return (
     <div className='header'>
-      <div
+        <img
         className='headerName'
+        src='/logo.png'
+        width='160'
         onClick={() => {
           history.push('/');
         }}
-      >
-        QuizHub
-      </div>
+      />
+
+      <div className='login'>
+      {id === '' ? 
+      <button type="button" class="btn btn-primary"
+      onClick={() => {
+        history.push('/auth/signin');
+      }}>Login</button>     
+      : 
       <div className='dropdown'>
-        <button
-          className='btn btn-secondary dropdown-toggle'
-          type='button'
-          id='dropdownMenu2'
-          data-bs-toggle='dropdown'
-          aria-expanded='false'
-        >
-          {id === '' ? 'Menu' : id}
-        </button>
-        <ul className='dropdown-menu' aria-labelledby='dropdownMenu2'>
-          {id === '' && (
+      <button
+        className='btn btn-primary dropdown-toggle'
+        type='button'
+        id='dropdownMenu2'
+        data-bs-toggle='dropdown'
+        aria-expanded='false'
+      >
+      {id} {isCreator === '' ? '' : isCreator}
+      </button>
+      <ul className='dropdown-menu' aria-labelledby='dropdownMenu2'>
             <li>
               <button
                 className='dropdown-item'
                 type='button'
                 onClick={() => {
-                  history.push('/auth/signin');
+                  history.push('/accountsettings');
                 }}
               >
-                Log in
+                Account Settings
               </button>
             </li>
-          )}
-          {id !== '' && (
             <li>
               <button
                 className='dropdown-item'
@@ -63,22 +75,14 @@ function Header() {
                 Log Out
               </button>
             </li>
-          )}
-          <li>
-            <button
-              className='dropdown-item'
-              type='button'
-              onClick={() => {
-                history.push('/auth/signup');
-              }}
-            >
-              Sign Up
-            </button>
-          </li>
-        </ul>
-      </div>
+          </ul>
+        </div>
+      } 
+      </div> 
+      
     </div>
   );
+
 }
 
 export default Header;

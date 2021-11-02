@@ -1,6 +1,6 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
-import data from '../../data.js';
+import data from '../data.js';
 import Quiz from '../models/quizSchema.js';
 
 const quizRouter = express.Router();
