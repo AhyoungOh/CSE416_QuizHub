@@ -1,6 +1,5 @@
 import express from 'express';
 import mongoose from 'mongoose';
-var bodyParser = require('body-parser');
 // import badgeRouter from './routers/badgeRouter.js';
 // import certificateRouter from './routers/certificateRouter.js';
 // import consumerRouter from './routers/consumerRouter.js';
@@ -28,23 +27,14 @@ mongoose
   .catch((err) => console.error(err));
 
 // cookie에 전달되어 오는 정보를 req.session을 통해 사용할 수 있도록 파싱해줌
-// app.use(
-//   // cors({
-//   //   origin: 'https://cse416quizhub.herokuapp.com',
-//   //   credentials: true,
-//   // })
-//   cors()
-// );
-// const corsOptions ={
-//   origin:'http://localhost:3000', 
-//   credentials:true,            //access-control-allow-credentials:true
-//   optionSuccessStatus:200
-// }
-// app.use(cors(corsOptions));
-// app.use(cookieParser());
-app.use(cors());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(
+  // cors({
+  //   origin: 'https://cse416quizhub.herokuapp.com',
+  //   credentials: true,
+  // })
+  cors()
+);
+
 // front에는 user 정보를 cookie에 담고
 // back에는 user 정보를 session에 담아 쓰기 위한 설정
 // req.session.userID = userId
