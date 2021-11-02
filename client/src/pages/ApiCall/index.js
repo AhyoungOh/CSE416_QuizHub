@@ -23,10 +23,10 @@ function ApiCall() {
   }, []);
 
   if (loading === true) {
-    return <div>로딩중입니다</div>;
+    return <div>Loading</div>;
   }
   if (error !== null) {
-    return <div>에러입니다.</div>;
+    return <div>Error</div>;
   }
   return <div>{JSON.stringify(payload)}</div>;
 }
