@@ -9,6 +9,7 @@ import mongoose from 'mongoose';
 // import quizRouter from './routers/quizRouter.js';
 // import questionRouter from './routers/questionRouter.js';
 import cors from 'cors';
+const corsMiddleware = require("./cors");
 import authRouter from './src/routers/auth/index.js';
 import cookieParser from 'cookie-parser';
 import cookieSession from 'cookie-session';
@@ -32,7 +33,8 @@ app.use(
   //   origin: 'https://cse416quizhub.herokuapp.com',
   //   credentials: true,
   // })
-  cors()
+  // cors()
+  corsMiddleware
 );
 
 // front에는 user 정보를 cookie에 담고
