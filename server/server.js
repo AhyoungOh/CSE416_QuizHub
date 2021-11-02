@@ -10,6 +10,7 @@ import mongoose from 'mongoose';
 // import questionRouter from './routers/questionRouter.js';
 import cors from 'cors';
 const corsMiddleware = require("./src/cors");
+import corsMiddleware from './src/cors';
 import authRouter from './src/routers/auth/index.js';
 import cookieParser from 'cookie-parser';
 import cookieSession from 'cookie-session';
