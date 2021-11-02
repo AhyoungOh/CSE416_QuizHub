@@ -1,4 +1,4 @@
-const cors = require("cors");
+import cors from 'cors';
 
 const whitelist = ["https://cse416-quizhub.netlify.app/", "http://localhost:3000"];
 
