@@ -3,10 +3,16 @@ import { useContext } from 'react';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchConsumer, updateConsumer } from '../../redux/actions/consumer/consumerActions';
+import { fetchConsumer, updateConsumer } from '../../redux/actions/user/consumerActions';
+import { Link } from 'react-router-dom';
 
 function ConsumerPage() {
     // retreive all the info about the consumer here (with the id)
+    const Profile = ({ history }) => {
+        const dispatch = useDispatch();
+        useEffect(() => {
+          dispatch(getUserProfile());
+        }, [dispatch, history]);
 
     return(
         <Tab.Container id="left-tabs-example" defaultActiveKey="profile">
@@ -27,13 +33,13 @@ function ConsumerPage() {
                 <Col sm={9}>
                     <Tab.Content>
                         <Tab.Pane eventKey="profile">
-                            <Sonnet />
+                            {/* profile: default preview mode with edit button */}
                         </Tab.Pane>
                         <Tab.Pane eventKey="quizzes">
-                            <Sonnet />
+                            {/* show quizzes taken */}
                         </Tab.Pane>
                         <Tab.Pane eventKey="badges">
-                            <Sonnet />
+                            {/* show owned badges */}
                         </Tab.Pane>
                     </Tab.Content>
                 </Col>

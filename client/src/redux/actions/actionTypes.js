@@ -1,16 +1,17 @@
+// --USER----------------------------------------------------
+
+// USER REGISTRATION
+export const USER_REGISTER_REQUEST = 'USER_REGISTER_REQUEST';
+export const USER_REGISTER_SUCCESS = 'USER_REGISTER_SUCCESS';
+export const USER_REGISTER_FAIL = 'USER_REGISTER_FAIL';
+
+// USER LOGIN
+export const USER_LOGIN_REQUEST = 'USER_LOGIN_REQUEST';
+export const USER_LOGIN_SUCCESS = 'USER_LOGIN_SUCCESS';
+export const USER_LOGIN_FAIL = 'USER_LOGIN_FAIL';
+export const USER_LOGOUT = 'USER_LOGOUT';
+
 // --CONSUMER----------------------------------------------------
-
-//TODO: decide after looking into the login/signup logic
-// // CONSUMER REGISTRATION
-// export const CONSUMER_REGISTER_REQUEST = 'USER_REGISTER_REQUEST';
-// export const USER_REGISTER_SUCCESS = 'USER_REGISTER_SUCCESS';
-// export const USER_REGISTER_FAIL = 'USER_REGISTER_FAIL';
-
-// // CONSUMER LOGIN
-// export const CONSUMER_LOGIN_REQUEST = 'USER_LOGIN_REQUEST';
-// export const USER_LOGIN_SUCCESS = 'USER_LOGIN_SUCCESS';
-// export const USER_LOGIN_FAIL = 'USER_LOGIN_FAIL';
-// export const USER_LOGOUT = 'USER_LOGOUT';
 
 // CONSUMER UPDATE
 export const CONSUMER_UPDATE_REQUEST = 'USER_UPDATE_REQUEST';
@@ -28,18 +29,6 @@ export const CONSUMER_PROFILE_SUCCESS = 'USER_PROFILE_SUCCESS';
 export const CONSUMER_PROFILE_FAIL = 'USER_PROFILE_FAIL';
 
 // --CREATOR----------------------------------------------------
-
-//TODO: decide after looking into the login/signup logic
-//USER REGISTRATION
-export const CREATOR_REGISTER_REQUEST = 'USER_REGISTER_REQUEST';
-export const USER_REGISTER_SUCCESS = 'USER_REGISTER_SUCCESS';
-export const USER_REGISTER_FAIL = 'USER_REGISTER_FAIL';
-
-//USER LOGIN
-export const CREATOR_LOGIN_REQUEST = 'USER_LOGIN_REQUEST';
-export const USER_LOGIN_SUCCESS = 'USER_LOGIN_SUCCESS';
-export const USER_LOGIN_FAIL = 'USER_LOGIN_FAIL';
-export const USER_LOGOUT = 'USER_LOGOUT';
 
 //USER PROFILE
 export const CREATOR_PROFILE_REQUEST = 'USER_PROFILE_REQUEST';

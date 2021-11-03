@@ -11,6 +11,7 @@ import ConsumerSignUp from './components/ConsumerSignUp';
 import ConsumerPage from './components/Consumer/ConsumerPage';
 dotenv.config();
 
+//TODO: move userReducer to redux
 const userReducer = (state, action) => {
   // console.log(action.payload);
   switch (action.type) {
