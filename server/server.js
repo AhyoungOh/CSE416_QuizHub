@@ -31,9 +31,7 @@ mongoose
 // cookie에 전달되어 오는 정보를 req.session을 통해 사용할 수 있도록 파싱해줌
 app.use(
   cors({
-    origin: ['https://cse416-quizhub.herokuapp.com', 
-             'https://cse416-quizhub.herokuapp.com/auth/signin', 
-             'https://cse416-quizhub.netlify.app'],
+    origin: ['https://cse416-quizhub.netlify.app'],
     credentials: true,
   })
   // cors()
