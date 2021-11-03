@@ -3,13 +3,14 @@ import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 // import all the reducers
 import createdQuizReducer from '../reducers/quiz/createdQuizReducer';
+import updateConsumerReducer from '../reducers/consumer/updateConsumerReducer';
 
 // put middlewares into an array
 const middlewares = [thunk];
 
-const ruducer = combineReducers({
+const reducer = combineReducers({
     bookCreated: createdQuizReducer,
-
+    consumerUpdated: updateConsumerReducer,
 });
 
 
