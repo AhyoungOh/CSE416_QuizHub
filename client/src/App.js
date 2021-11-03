@@ -8,7 +8,7 @@ import bootstrap from 'bootstrap/dist/js/bootstrap.bundle';
 import { useReducer, createContext } from 'react';
 import dotenv from 'dotenv';
 import ConsumerSignUp from './components/ConsumerSignUp';
-import ConsumerPage from './components/ConsumerProfile/ConsumerProfile';
+import ConsumerPage from './components/Consumer/ConsumerPage';
 dotenv.config();
 
 const userReducer = (state, action) => {
@@ -50,6 +50,7 @@ function App() {
         <Header />
         <Route exact path='/consumer-page' component={ConsumerPage} />
         <Route exact path='/' component={ConsumerSignUp} />
+        {/* maybe change the component to Home, and differentiate user type there */}
         <Switch>
           <Route path='/auth'>
             <AuthPage />
