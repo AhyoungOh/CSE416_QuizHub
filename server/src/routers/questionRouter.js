@@ -67,8 +67,6 @@ questionRouter.put(
   })
 );
 
-//TODO: update question
-
 //remove
 questionRouter.delete(
   '/:id',

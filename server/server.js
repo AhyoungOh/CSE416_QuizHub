@@ -2,7 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 // import badgeRouter from './routers/badgeRouter.js';
 // import certificateRouter from './routers/certificateRouter.js';
-// import consumerRouter from './routers/consumerRouter.js';
+import consumerRouter from './routers/consumerRouter.js';
 // import creatorRouter from './routers/creatorRouter.js';
 // import playerRouter from './routers/playerRouter.js';
 // import platformRouter from './routers/platformRouter.js';
@@ -26,6 +26,7 @@ mongoose
   .catch((err) => console.error(err));
 
 // cookie에 전달되어 오는 정보를 req.session을 통해 사용할 수 있도록 파싱해줌
+// parse the data received from cookie to make it usable through req.session
 app.use(
   // cors({
   //   origin: 'https://cse416quizhub.herokuapp.com',
@@ -35,9 +36,8 @@ app.use(
 );
 app.use(cookieParser());
 
-// front에는 user 정보를 cookie에 담고
-// back에는 user 정보를 session에 담아 쓰기 위한 설정
-// req.session.userID = userId
+// front-end: save user info in cookie
+// back-end: to use user info in session, set req.session.userID = userId
 
 app.use(
   cookieSession({
@@ -49,16 +49,17 @@ app.use(
   })
 );
 
+// Routers
 // app.use('/api/badge', badgeRouter);
 // app.use('/api/certificate', certificateRouter);
-// app.use('/api/consumer', consumerRouter);
+app.use('/api/consumer', consumerRouter);
 // app.use('/api/creator', creatorRouter);
 // app.use('/api/player', playerRouter);
 // app.use('/api/platform', platformRouter);
 // app.use('/api/quiz', quizRouter);
 // app.use('/api/question', questionRouter);
-
 app.use('/api/auth', authRouter);
+
 
 app.get('/', (req, res) => {
   res.send('server is ready');
