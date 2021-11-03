@@ -28,7 +28,7 @@ function Header() {
 
   return (
     <div className='header'>
-        <img
+      <img
         className='headerName'
         src='/logo.png'
         width='160'
@@ -39,22 +39,27 @@ function Header() {
 
       <div className='login'>
       {id === '' ? 
-      <button type="button" class="btn btn-primary"
-      onClick={() => {
-        history.push('/auth/signin');
-      }}>Login</button>     
-      : 
-      <div className='dropdown'>
-      <button
-        className='btn btn-primary dropdown-toggle'
-        type='button'
-        id='dropdownMenu2'
-        data-bs-toggle='dropdown'
-        aria-expanded='false'
-      >
-      {id} {isCreator === '' ? '' : isCreator}
-      </button>
-      <ul className='dropdown-menu' aria-labelledby='dropdownMenu2'>
+        <button 
+          type="button" 
+          class="btn btn-primary"
+          onClick={() => {
+            history.push('/auth/signin');
+          }}
+        >
+          Login
+        </button>     
+        : 
+        <div className='dropdown'>
+          <button
+            className='btn btn-primary dropdown-toggle'
+            type='button'
+            id='dropdownMenu2'
+            data-bs-toggle='dropdown'
+            aria-expanded='false'
+          >
+          {id} {isCreator === '' ? '' : isCreator}
+          </button>
+          <ul className='dropdown-menu' aria-labelledby='dropdownMenu2'>
             <li>
               <button
                 className='dropdown-item'
@@ -79,10 +84,8 @@ function Header() {
         </div>
       } 
       </div> 
-      
     </div>
   );
-
 }
 
 export default Header;

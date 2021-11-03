@@ -8,6 +8,7 @@ import bootstrap from 'bootstrap/dist/js/bootstrap.bundle';
 import { useReducer, createContext } from 'react';
 import dotenv from 'dotenv';
 import ConsumerSignUp from './components/ConsumerSignUp';
+import ConsumerPage from './components/ConsumerPage';
 dotenv.config();
 
 const userReducer = (state, action) => {
@@ -47,6 +48,7 @@ function App() {
     <UserContext.Provider value={{ user, dispatch }}>
       <Router>
         <Header />
+        <Route exact path='/consumer-page' component={ConsumerPage} />
         <Route exact path='/' component={ConsumerSignUp} />
         <Switch>
           <Route path='/auth'>
