@@ -33,7 +33,7 @@ app.use(
   cors({
     origin: ['https://cse416-quizhub.herokuapp.com', 
              'https://cse416-quizhub.herokuapp.com/auth/signin', 
-             'https://618318626c6a9139872f5ef6--cse416-quizhub.netlify.app'],
+             'https://cse416-quizhub.netlify.app'],
     credentials: true,
   })
   // cors()
