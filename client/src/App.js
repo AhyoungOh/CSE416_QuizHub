@@ -8,7 +8,7 @@ import bootstrap from 'bootstrap/dist/js/bootstrap.bundle';
 import { useReducer, createContext } from 'react';
 import dotenv from 'dotenv';
 import ConsumerSignUp from './components/ConsumerSignUp';
-import ConsumerPage from './components/ConsumerPage';
+import ConsumerPage from './components/ConsumerProfile/ConsumerProfile';
 dotenv.config();
 
 const userReducer = (state, action) => {

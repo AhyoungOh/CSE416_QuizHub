@@ -2,6 +2,8 @@ import { Tabs, Tab, Row, Col, Nav } from 'react-bootstrap';
 import { useContext } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 
+import ConsumerProfileForm from './ConsumerProfileForm';
+
 function ConsumerPage() {
     // retreive all the info about the consumer here (with the id)
 
