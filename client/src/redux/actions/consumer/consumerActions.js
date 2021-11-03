@@ -20,7 +20,8 @@ export const fetchConsumerProfile = (id, consumerData) => {
           });
           const config = {
             headers: {
-              authorization: `Bearer ${userInfo.token}`,
+              //authorization: `Bearer ${userInfo.token}`,
+              'Content-Type': 'application/json',
             },
           };
           const { data } = await axios.get(`/api/player/${id}`, config);
