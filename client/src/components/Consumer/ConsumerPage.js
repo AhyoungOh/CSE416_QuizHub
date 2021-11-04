@@ -5,22 +5,24 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchConsumer, updateConsumer } from '../../redux/actions/user/consumerActions';
 import { Link } from 'react-router-dom';
+import { UserContext } from '../../App';
 
 function ConsumerPage() {
     // retreive all the info about the consumer here (with the id)
     const Profile = ({ history }) => {
-        const dispatch = useDispatch();
-        useEffect(() => {
-          dispatch(getUserProfile());
-        }, [dispatch, history]);
+        // const dispatch = useDispatch();
+        // useEffect(() => {
+        //   dispatch(getUserProfile());
+        // }, [dispatch, history]);
 
-        //TODO: update the userReducer
-        const userLogin = useSelector(state => state.userLogin);
-        const { userInfo } = userLogin;
+        // const userLogin = useSelector(state => state.userLogin);
+        // const { userInfo } = userLogin;
 
         //Get user Profile
-        const userProfile = useSelector(state => state.userProfile);
-        const { loading, user } = userProfile;
+        // const userProfile = useSelector(state => state.userProfile);
+        // const { loading, user } = userProfile;
+
+        const { user, dispatch } = useContext(UserContext);
 
         
     }
