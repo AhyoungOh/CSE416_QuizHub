@@ -14,6 +14,17 @@ function ConsumerPage() {
           dispatch(getUserProfile());
         }, [dispatch, history]);
 
+        //TODO: update the userReducer
+        const userLogin = useSelector(state => state.userLogin);
+        const { userInfo } = userLogin;
+
+        //Get user Profile
+        const userProfile = useSelector(state => state.userProfile);
+        const { loading, user } = userProfile;
+
+        
+    }
+
     return(
         <Tab.Container id="left-tabs-example" defaultActiveKey="profile">
             <Row>
