@@ -1,6 +1,5 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
-import data from '../data.js';
 import Certificate from '../models/certificateSchema.js';
 
 const certificateRouter = express.Router();
@@ -10,16 +9,6 @@ certificateRouter.get(
   '/get',
   expressAsyncHandler(async (req, res) => {
     const createCertificate = await Certificate.find();
-    res.send({ createCertificate });
-  })
-);
-
-//post sample data
-certificateRouter.post(
-  '/seed',
-  expressAsyncHandler(async (req, res) => {
-    await Certificate.remove({});
-    const createCertificate = await Certificate.insertMany(data.certificate);
     res.send({ createCertificate });
   })
 );

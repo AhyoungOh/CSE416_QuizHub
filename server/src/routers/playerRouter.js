@@ -1,6 +1,5 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
-import data from '../data.js';
 import Player from '../models/playerSchema.js';
 
 const playerRouter = express.Router();
@@ -10,16 +9,6 @@ playerRouter.get(
   '/get',
   expressAsyncHandler(async (req, res) => {
     const createPlayer = await Player.find();
-    res.send({ createPlayer });
-  })
-);
-
-//post sample data
-playerRouter.post(
-  '/seed',
-  expressAsyncHandler(async (req, res) => {
-    await Player.remove({});
-    const createPlayer = await Player.insertMany(data.ranking);
     res.send({ createPlayer });
   })
 );

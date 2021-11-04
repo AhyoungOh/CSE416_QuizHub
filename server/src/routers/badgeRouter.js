@@ -1,6 +1,5 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
-import data from '../../data.js';
 import Badge from '../../models/badgeSchema.js';
 
 const badgeRouter = express.Router();
@@ -10,16 +9,6 @@ badgeRouter.get(
   '/get',
   expressAsyncHandler(async (req, res) => {
     const createBadge = await Badge.find();
-    res.send({ createBadge });
-  })
-);
-
-//post sample data
-badgeRouter.post(
-  '/seed',
-  expressAsyncHandler(async (req, res) => {
-    await Badge.remove({});
-    const createBadge = await Badge.insertMany(data.badge);
     res.send({ createBadge });
   })
 );
