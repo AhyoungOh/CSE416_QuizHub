@@ -17,7 +17,6 @@ function Header() {
       console.error(e);
     }
   };
-  
   // console.log(user);
   const id = user?.id !== '' ? user.id : '';
   const isCreator =

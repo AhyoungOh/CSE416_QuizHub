@@ -1,9 +1,3 @@
-
-
-
-// need to remove this...
-
-
 import './style.scss';
 import { Link } from 'react-router-dom';
 // import Sider from '../Sider';

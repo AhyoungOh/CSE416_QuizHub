@@ -1,16 +1,9 @@
-<<<<<<< Updated upstream
-import { createPrivateKey } from 'crypto';
-import express from 'express';
-import expressAsyncHandler from 'express-async-handler';
-import Creator from '../models/creatorSchema.js';
-=======
 // import { createPrivateKey } from 'crypto';
 const express = require('express');
 const router = express.Router();
 const Creator = require('../models/creatorSchema.js');
 // const { validUser } = require('../middleware/creator');
 const expressAsyncHandler = require('express-async-handler');
->>>>>>> Stashed changes
 
 const creatorRouter = express.Router();
 
@@ -23,8 +16,6 @@ creatorRouter.get(
   })
 );
 
-<<<<<<< Updated upstream
-=======
 //post sample data
 creatorRouter.post(
   '/seed',
@@ -35,7 +26,6 @@ creatorRouter.post(
   })
 );
 
->>>>>>> Stashed changes
 //create new data
 creatorRouter.post(
   '/post',
@@ -97,10 +87,6 @@ creatorRouter.delete(
   })
 );
 
-<<<<<<< Updated upstream
-export default creatorRouter;
-=======
 // export default creatorRouter;
-// ``;
+
 module.exports = router;
->>>>>>> Stashed changes

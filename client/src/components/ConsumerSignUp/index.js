@@ -4,7 +4,7 @@ import axios from 'axios';
 import { UserContext } from '../../App';
 import { useHistory } from 'react-router-dom';
 
-function CreatorSignUp() {
+function ConsumerSignUp() {
   const { dispatch } = useContext(UserContext);
   const history = useHistory();
   const usernameRef = useRef('');
@@ -15,8 +15,8 @@ function CreatorSignUp() {
 
   const clickBtnHandler = async () => {
     try {
-      const creatorInfo = await axios.post(
-        `${process.env.REACT_APP_API_SERVER}/api/auth/creator`,
+      const consumerInfo = await axios.post(
+        `${process.env.REACT_APP_API_SERVER}/api/auth/consumer`,
         // `http://localhost:4000/api/auth`,
         {
           username: usernameRef.current.value,
@@ -24,8 +24,8 @@ function CreatorSignUp() {
           email: emailRef.current.value,
         }
       );
-      // dispatch({ type: 'signup', payload: creatorInfo.data.user });
-      
+      // dispatch({ type: 'signup', payload: consumerInfo.data.user });
+
       setErrorMsg(null);
       history.push('/auth/signin');
     } catch (e) {
@@ -33,7 +33,7 @@ function CreatorSignUp() {
       console.error(e);
     }
   };
-  return (
+ return (
     <section class='section-border border-primary'>
       <div class='container d-flex flex-column'>
         <div class='row align-items-center justify-content-end no-gutters min-vh-100'>
@@ -44,17 +44,17 @@ function CreatorSignUp() {
                 <p></p>
                 <ul class="nav nav-pills card-header-pills">
                   <li class="nav-item">
-                  <a class="nav-link " data-toggle="pill" id="consumer"href="/" role="tab"  aria-selected="true">Consumer</a>
+                  <a class="nav-link active" data-toggle="pill" id="consumer" role="tab"  aria-selected="true">Consumer</a>
                   </li>
                   <li class="nav-item">
-                  <a class="nav-link active" data-toggle="pill" id="creator" role="tab" aria-selected="false">Creator</a>
+                  <a class="nav-link" data-toggle="pill" href="/auth/creator_signup" id="creator" role="tab" aria-selected="false">Creator</a>
                   </li>
                   </ul>
                 </div>
               <div class="card-body">
                 <div class="tab-pane fade show active" id="pills-home">
                   <p class='mb-6 text-start text-muted'>
-                  Creator will be making quizzes and platforms
+                  Consumer will be taking quizzes
                   </p>
         
                   <div class='name text-start'>
@@ -120,5 +120,4 @@ function CreatorSignUp() {
     </section>
   );
 }
-
-export default CreatorSignUp;
+export default ConsumerSignUp;

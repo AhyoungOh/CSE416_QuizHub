@@ -34,13 +34,13 @@ const userReducer = (state, action) => {
     case 'signout':
       return { id: '', password: '' };
     case 'creatoraccountsettings':
-      return {
-        id: action.payload.creator.creatorUsername,
-        isCreator: true,
-        email: action.payload.creator.creatorEmail,
-        introduction: action.payload.creator.selfIntroduction,
-        image: action.payload.creator.creatorImage,
-        // password: action.payload.password,
+        return {
+          id: action.payload.creator.creatorUsername,
+          isCreator: true,
+          email: action.payload.creator.creatorEmail,
+          introduction: action.payload.creator.selfIntroduction,
+          image: action.payload.creator.creatorImage,
+          // password: action.payload.password,
       };
     default:
       throw new Error();
@@ -48,32 +48,11 @@ const userReducer = (state, action) => {
 };
 export const UserContext = createContext(null);
 
-// const accountSettingsReducer = (state, action) => {
-//   switch (action.type) {
-//     case 'edit':
-//       return {
-//         isEdit: true,
-//       };
-//     case 'save':
-//         return {
-//           isEdit: false,
-//       };
-//     default:  
-//       return {
-//       isEdit: false,
-//     };
-//   }   
-// };
-// export const accountSettingsContext = createContext(false);
-
 function App() {
   const [user, dispatch] = useReducer(userReducer, {
     id: '',
     password: '',
   });
-  // const [editToggle, dispatchAccount] = useReducer(accountSettingsReducer, {
-  //   isEdit: '',
-  // });
 
   return (
     <UserContext.Provider value={{ user, dispatch }}>

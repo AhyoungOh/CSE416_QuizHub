@@ -1,5 +1,6 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
+import data from '../data.js';
 import Platform from '../models/platformSchema.js';
 
 const platformRouter = express.Router();
@@ -9,6 +10,16 @@ platformRouter.get(
   '/get',
   expressAsyncHandler(async (req, res) => {
     const createPlatform = await Platform.find();
+    res.send({ createPlatform });
+  })
+);
+
+//post sample data
+platformRouter.post(
+  '/seed',
+  expressAsyncHandler(async (req, res) => {
+    await Platform.remove({});
+    const createPlatform = await Platform.insertMany(data.ranking);
     res.send({ createPlatform });
   })
 );
