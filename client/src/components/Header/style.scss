@@ -1,0 +1,31 @@
+.header {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 60px;
+  background-color: rgb(255,255,255);
+
+  > .headerName {
+    font-weight: bolder;
+    color:rgb(0, 119, 255);
+    font-size: larger;
+    position: absolute;
+    left: 30px;
+  }
+
+  > .dropdown {
+    position: absolute;
+    right: 10px;
+    color:rgb(0, 119, 255);
+  }
+
+
+  > .login {
+    border-radius: 0.75rem;
+    position: absolute;
+    right: 50px;
+    
+  }
+}

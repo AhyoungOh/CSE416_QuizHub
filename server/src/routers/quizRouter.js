@@ -5,6 +5,7 @@ import Quiz from '../models/quizSchema.js';
 
 const quizRouter = express.Router();
 
+//get data
 quizRouter.get(
   '/get',
   expressAsyncHandler(async (req, res) => {
@@ -13,6 +14,7 @@ quizRouter.get(
   })
 );
 
+//post sample data
 quizRouter.post(
   '/seed',
   expressAsyncHandler(async (req, res) => {
@@ -22,6 +24,7 @@ quizRouter.post(
   })
 );
 
+//create new data
 quizRouter.post(
   '/post',
   expressAsyncHandler(async (req, res) => {
@@ -54,6 +57,7 @@ quizRouter.post(
   })
 );
 
+// update
 quizRouter.put(
   '/:id',
   expressAsyncHandler(async (req, res) => {
@@ -92,6 +96,7 @@ quizRouter.put(
   })
 );
 
+//remove
 quizRouter.delete(
   '/:id',
   expressAsyncHandler(async (req, res) => {
