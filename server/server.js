@@ -2,7 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 // import badgeRouter from './routers/badgeRouter.js';
 // import certificateRouter from './routers/certificateRouter.js';
-import consumerRouter from './routers/consumerRouter.js';
+import consumerRouter from './src/routers/consumerRouter.js';
 // import creatorRouter from './routers/creatorRouter.js';
 // import playerRouter from './routers/playerRouter.js';
 // import platformRouter from './routers/platformRouter.js';

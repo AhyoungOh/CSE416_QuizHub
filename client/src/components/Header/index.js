@@ -65,7 +65,7 @@ function Header() {
                 className='dropdown-item'
                 type='button'
                 onClick={() => {
-                  history.push('/accountsettings');
+                  history.push('/consumer-page');
                 }}
               >
                 Account Settings

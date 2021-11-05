@@ -8,7 +8,7 @@ import bootstrap from 'bootstrap/dist/js/bootstrap.bundle';
 import { useReducer, createContext } from 'react';
 import dotenv from 'dotenv';
 import ConsumerSignUp from './components/ConsumerSignUp';
-import ConsumerPage from './components/Consumer/ConsumerPage';
+import ConsumerPage from './pages/ConsumerPage/ConsumerPage';
 dotenv.config();
 
 //TODO: move userReducer to redux
@@ -49,12 +49,14 @@ function App() {
     <UserContext.Provider value={{ user, dispatch }}>
       <Router>
         <Header />
-        <Route exact path='/consumer-page' component={ConsumerPage} />
         <Route exact path='/' component={ConsumerSignUp} />
         {/* maybe change the component to Home, and differentiate user type there */}
         <Switch>
           <Route path='/auth'>
             <AuthPage />
+          </Route>
+          <Route path='/consumer-page' >
+            <ConsumerPage />
           </Route>
         </Switch>
       </Router>

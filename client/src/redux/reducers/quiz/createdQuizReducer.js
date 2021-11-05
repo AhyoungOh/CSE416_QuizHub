@@ -25,4 +25,4 @@ const createdQuizReducer = (state = {}, action) => {
     }
 };
 
-export { createQuizReducer };
+export default { createdQuizReducer };

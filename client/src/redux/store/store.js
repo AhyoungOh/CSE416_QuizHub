@@ -7,14 +7,13 @@ import updateConsumerReducer from '../reducers/consumer/updateConsumerReducer';
 import fetchConsumerReducer from '../reducers/consumer/fetchConsumerReducer';
 
 // put middlewares into an array
-const middlewares = [thunk];
+const middleware = [thunk];
 
 const reducer = combineReducers({
     bookCreated: createdQuizReducer,
     consumerUpdated: updateConsumerReducer,
     consumerProfile: fetchConsumerReducer,
 });
-
 
 
 // create store
