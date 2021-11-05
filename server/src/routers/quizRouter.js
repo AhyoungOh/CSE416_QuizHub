@@ -1,5 +1,6 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
+import data from '../data.js';
 import Quiz from '../models/quizSchema.js';
 
 const quizRouter = express.Router();
@@ -9,6 +10,16 @@ quizRouter.get(
   '/get',
   expressAsyncHandler(async (req, res) => {
     const createQuiz = await Quiz.find();
+    res.send({ createQuiz });
+  })
+);
+
+//post sample data
+quizRouter.post(
+  '/seed',
+  expressAsyncHandler(async (req, res) => {
+    await Quiz.remove({});
+    const createQuiz = await Quiz.insertMany(data.quiz);
     res.send({ createQuiz });
   })
 );

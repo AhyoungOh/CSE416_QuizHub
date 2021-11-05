@@ -14,6 +14,16 @@ creatorRouter.get(
   })
 );
 
+creatorRouter.get(
+  '/:id',
+  expressAsyncHandler(async (req, res) => {
+    const creatorId = req.params.id;
+    const createCreator = await Creator.findById(creatorId);
+    res.send({ createCreator });
+  })
+);
+
+
 //create new data
 creatorRouter.post(
   '/post',
