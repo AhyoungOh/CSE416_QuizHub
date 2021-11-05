@@ -5,7 +5,6 @@ import platformRouter from './src/routers/platform/platformRouter.js';
 import consumerRouter from './src/routers/consumerRouter.js';
 import cors from 'cors';
 import authRouter from './src/routers/auth/index.js';
-import platformRouter from './src/routers/platform/platformRouter.js';
 import cookieParser from 'cookie-parser';
 import cookieSession from 'cookie-session';
 
@@ -26,7 +25,7 @@ mongoose
     // cors()
     // corsMiddleware
   );
-  
+
 app.use(cookieParser());
 
 app.use(
