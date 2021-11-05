@@ -4,8 +4,8 @@ const platformSchema = new mongoose.Schema({
   platformName: { type: String },
   platformDescription: { type: String },
   platformImage: { data: Buffer, type: String },
-  ownedQuizzes: { type: mongoose.Schema.Types.ObjectID, ref: 'Quiz' },
-  createdDate: { type: Date },
+  ownedQuizzes: { type: [{ type: mongoose.Schema.Types.ObjectID, ref: 'Quiz' }] },
+  createdDate: { type: Date, default: Date.now },
 });
 const Platform = mongoose.model('Platform', platformSchema);
 

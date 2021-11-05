@@ -8,10 +8,11 @@ import argon2 from 'argon2';
 const { Schema, model } = pkg;
 
 const consumerSchema = new Schema({
-  consumerDescription: { type: String },
+  // consumerDescription: { type: String },
   consumerImage: { type: Number, default: 0 },
   consumerUsername: { type: String },
   consumerEmail: { type: String },
+  consumerDescription: {type: String },
   password: { type: String },
   consumerIsPrivate: { type: Boolean, default: false },
   consumerQuizHistoryList: [

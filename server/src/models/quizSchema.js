@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const quizSchema = new mongoose.Schema({
   quizImage: { data: Buffer, type: String },
-  platformName: { type: String },
+  platformName: { type: mongoose.Schema.Types.ObjectId, ref: 'Platform' },
   quizName: { type: String },
   quizDescription: String,
   quizNumberOfTrials: Number,

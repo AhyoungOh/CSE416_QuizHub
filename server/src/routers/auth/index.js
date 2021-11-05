@@ -1,4 +1,3 @@
-// const express = require('express')
 import express from 'express';
 const router = express.Router();
 import Consumer from '../../models/consumerSchema.js';
@@ -7,12 +6,11 @@ import Creator from '../../models/creatorSchema.js';
 import validUser from '../../middleware/consumer/index.js';
 
 router.post('/consumer', async (req, res) => {
-  // 입력된 정보가 다 안들어왔으면 에러를 보내준다.
+  // if not getting all the required inputs, send error msg
   if (
     !req.body.email ||
     !req.body.username ||
     !req.body.password
-    
   )
     return res.status(400).send({
       message: 'infos are required',
