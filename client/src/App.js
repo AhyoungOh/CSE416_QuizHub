@@ -33,15 +33,15 @@ const userReducer = (state, action) => {
       break;
     case 'signout':
       return { id: '', password: '' };
-    case 'creatoraccountsettings':
-        return {
-          id: action.payload.creator.creatorUsername,
-          isCreator: true,
-          email: action.payload.creator.creatorEmail,
-          introduction: action.payload.creator.selfIntroduction,
-          image: action.payload.creator.creatorImage,
-          // password: action.payload.password,
-      };
+    // case 'creatoraccountsettings':
+    //     return {
+    //       id: action.payload.creator.creatorUsername,
+    //       isCreator: true,
+    //       email: action.payload.creator.creatorEmail,
+    //       introduction: action.payload.creator.selfIntroduction,
+    //       image: action.payload.creator.creatorImage,
+    //       // password: action.payload.password,
+    //   };
     default:
       throw new Error();
   }

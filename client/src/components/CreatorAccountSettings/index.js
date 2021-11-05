@@ -12,53 +12,92 @@ function CreatorAccountSettings() {
     const history = useHistory();
     const [isEdit, setEdit] = useState(false);
 
-    const emailRef=useRef('');
-
+   
     const [show, setShow] = useState(false);
+    const [email,setEmail] = useState("")
+    const [introduction,setIntroduction] = useState("Enter your description")
+    const [image,setImage] = useState("/img_avatar.png")
+
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true)
 
-    // need to think about how to get existing creator data using id (refer slide 27)
     // need to think about how to store the updated information
-    // need to think about delete account
     // also need to do edit image.
     
-    const clickBtnHandler = async (req, res) => {
+    const clickBtnHandler = async () => {
         try {
-          const userInfo = await axios.get(
-            `${process.env.REACT_APP_API_SERVER}/api/creator/${user.id}`,
-          );
-          dispatch({ type: 'creatoraccountsettings', payload: userInfo.data });
-          //setErrorMsg(null);
+          await axios.get(
+            `${process.env.REACT_APP_API_SERVER}/api/creator/${user?.id}`,
+            ).then((response) => {
+              //console.log(response);
+              setEmail(response.data.createCreator.creatorEmail);
+              setIntroduction(response.data.createCreator.creatorSelfIntroduction)
+              //setImage(response.data.createCreator.creatorImage);
+              
+            });
         } catch (e) {
-          //setErrorMsg(JSON.stringify(e));
           console.error(e);
         }
         
     };
+    clickBtnHandler();
 
-    // const updateCreatorInfo=0;
-    
+    const saveBtnHandler = async () => {
+      try {
+           await axios.put(
+          `${process.env.REACT_APP_API_SERVER}/api/creator/${user?.id}`,
+          {
+            creatorEmail:email,
+            creatorImage:image,
+            selfIntroduction:introduction,
+          }
+        );
+      setEdit(false);
+      } catch (e) {
+        console.error(e);
+      }
+    };
 
     const deleteBtnHandler = async () => {
         try {
           await axios.delete(`${process.env.REACT_APP_API_SERVER}/api/creator/${user?.id}`);
-          history.push('/');
+          try {
+            await axios.delete(`${process.env.REACT_APP_API_SERVER}/api/auth`);
+            dispatch({ type: 'signout' });
+            history.push('/');
+          } catch (e) {
+            console.error(e);
+          }
+          history.push('/')
         } catch (e) {
           console.error(e);
         }
       };
     
-       
+    const handleEmailChange=(e)=>{
+       //console.log(e.target.value)
+       setEmail(e.target.value)
+    }
+
+    const handleIntroChange=(e)=>{
+      //console.log(e.target.value)
+      setIntroduction(e.target.value)
+    }
+
     return(
         <Container>
         <Row className="justify-content-md-center">
         <Col xs={2} md={2}>
-        <Image width={200} height={200} src="/img_avatar.png" roundedCircle />
+        <Image width={200} height={200} src={image} roundedCircle />
         </Col>
         </Row>
-        <Col md="auto"className='text-center'>{id}</Col>
-        <Form >
+        <Row></Row>
+        <Col md="auto"className='text-center'>
+        <h1 className='text'>{id}</h1>
+        </Col>
+
+        <div className="justify-content-center text-center">
+        <Form>
         <Row>
         <Col></Col>
         <Form.Group as={Row} controlId="formPlaintextEmail">
@@ -67,10 +106,10 @@ function CreatorAccountSettings() {
         </Form.Label>
             <Col md="5" className="text-start">
             { isEdit==true ? 
-                <Form.Control text defaultValue={emailRef} className="text-start" />
+                <Form.Control text defaultValue={email} onChange={(e)=>handleEmailChange(e)} className="text-start" />
                 :
                 <Form.Control plaintext readOnly 
-                defaultValue={emailRef} className="text-start" />
+                defaultValue={email}  className="text-start" />
             }
             </Col>
         </Form.Group>
@@ -84,20 +123,22 @@ function CreatorAccountSettings() {
         </Form.Label>
             <Col md="5">
             { isEdit==true ? 
-                <Form.Control text defaultValue="The description for yourself" className="text-start" />
+                <Form.Control text defaultValue={introduction} onChange={(e)=>handleIntroChange(e)} className="text-start" />
                 :
-                <Form.Control plaintext readOnly defaultValue="The description for yourself" className="text-start" />
+                <Form.Control plaintext readOnly defaultValue={introduction} className="text-start" />
             }
             </Col>
         </Form.Group>
         <Col></Col>
         </Row>
         </Form>
+        </div>
+
         <Row>
         <Col></Col>
         <Col>
         { isEdit==true ? 
-                <Button variant="primary" onClick={() => setEdit(false)}>Save</Button>  // may need to change this to a func which calls this func
+                <Button variant="primary" onClick={saveBtnHandler}>Save</Button>  
                 :
                 <Button variant="primary" onClick={() => setEdit(true)}>Edit</Button>
         }

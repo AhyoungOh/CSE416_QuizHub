@@ -1,9 +1,7 @@
-// import { createPrivateKey } from 'crypto';
-const express = require('express');
-const router = express.Router();
-const Creator = require('../models/creatorSchema.js');
-// const { validUser } = require('../middleware/creator');
-const expressAsyncHandler = require('express-async-handler');
+import { createPrivateKey } from 'crypto';
+import express from 'express';
+import expressAsyncHandler from 'express-async-handler';
+import Creator from '../models/creatorSchema.js';
 
 const creatorRouter = express.Router();
 
@@ -16,15 +14,15 @@ creatorRouter.get(
   })
 );
 
-//post sample data
-creatorRouter.post(
-  '/seed',
+creatorRouter.get(
+  '/:id',
   expressAsyncHandler(async (req, res) => {
-    await Creator.remove({});
-    const createCreator = await Creator.insertMany(data.creator);
+    const creatorId = req.params.id;
+    const createCreator = await Creator.findById(creatorId);
     res.send({ createCreator });
   })
 );
+
 
 //create new data
 creatorRouter.post(
@@ -87,6 +85,4 @@ creatorRouter.delete(
   })
 );
 
-// export default creatorRouter;
-
-module.exports = router;
+export default creatorRouter;
