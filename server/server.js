@@ -1,5 +1,8 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import creatorRouter from './src/routers/creatorRouter.js';
+import platformRouter from './src/routers/platform/platformRouter.js';
+import consumerRouter from './src/routers/consumerRouter.js';
 import cors from 'cors';
 import authRouter from './src/routers/auth/index.js';
 import platformRouter from './src/routers/platform/platformRouter.js';
@@ -14,16 +17,19 @@ mongoose
   .connect(
     'mongodb+srv://quizhub:cse416quizhubpassword@quizhub-database.h1p15.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
   )
+  .connect(process.env.MONGODB_URI)
   .then((res) => console.log('Connected'))
   .catch((err) => console.error(err));
 
 app.use(
-  // cors({
-  //   origin: 'https://cse416quizhub.herokuapp.com',
-  //   credentials: true,
-  // })
-  cors()
+  cors({
+    origin: ['https://cse416-quizhub.netlify.app'],
+    credentials: true,
+  })
+  // cors()
+  // corsMiddleware
 );
+
 app.use(cookieParser());
 
 app.use(
@@ -36,6 +42,9 @@ app.use(
   })
 );
 
+app.use('/api/consumer', consumerRouter);
+app.use('/api/creator', creatorRouter);
+app.use('/api/creatorHome', platformRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/creatorHome', platformRouter);
 
