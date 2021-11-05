@@ -92,7 +92,7 @@ router.get(
 router.get(
   '/:id',
   expressAsyncHandler(async (req, res) => {
-    const platform = await getPlatformById(Number(req.params.id));
+    const platform = await getPlatformById(Number(req.params._id));
     res.send({ platform });
   })
 );
@@ -101,26 +101,48 @@ router.post(
   '/',
   expressAsyncHandler(async (req, res) => {
     await addPlatform({
-      platformName: req.body.platformName,
-      platformDescription: req.body.platformDescription,
-      platformImage: req.body.platformImage,
+      platformName: req.body.title,
+      platformDescription: req.body.contents,
+      platformImage: req.body.imageLink,
       createdDate: Date.now(),
     });
     res.send('Platform Created');
   })
 );
 
+// router.put(
+//   '/:id',
+//   expressAsyncHandler(async (req, res) => {
+//     await updatePlatform({
+//       platformId: req.body._id,
+//       title: req.body.platformName,
+//       contents: req.body.platformDescription,
+//       imageLink: req.body.imageLink,
+//       createdDate: Date.now(),
+//     });
+//     res.send('Platform Updated');
+//   })
+// );
+
 router.put(
   '/:id',
   expressAsyncHandler(async (req, res) => {
-    await updatePlatform({
-      platformId: req.body._id,
-      title: req.body.title,
-      contents: req.body.contents,
-      imageLink: req.body.imageLink,
-      createdDate: Date.now(),
-    });
-    res.send('Platform Updated');
+    const platformId = req.params.id;
+    const platform = await PlatformModel.findById(platformId);
+
+    console.log(req.body);
+    if (PlatformModel) {
+      platform.platformName = req.body.title;
+      platform.platformDescription = req.body.contents;
+      platform.platformImage = req.body.imageLink;
+      const updatedPlatform = await platform.save();
+      res.send({
+        message: 'Platform Updated',
+        PlatformModel: updatedPlatform,
+      });
+    } else {
+      res.status(404).send({ message: 'Platform Not Found' });
+    }
   })
 );
 
