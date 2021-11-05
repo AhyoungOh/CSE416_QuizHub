@@ -13,7 +13,7 @@ consumerRouter.get(
   })
 );
 
-router.get(
+consumerRouter.get(
   '/:id',
   expressAsyncHandler(async (req, res) => {
     const consumer = await getPlatformById(Number(req.params._id));
