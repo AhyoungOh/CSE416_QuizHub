@@ -14,22 +14,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 mongoose
-  .connect(
-    'mongodb+srv://quizhub:cse416quizhubpassword@quizhub-database.h1p15.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
-  )
   .connect(process.env.MONGODB_URI)
   .then((res) => console.log('Connected'))
   .catch((err) => console.error(err));
 
-app.use(
-  cors({
-    origin: ['https://cse416-quizhub.netlify.app'],
-    credentials: true,
-  })
-  // cors()
-  // corsMiddleware
-);
-
+  app.use(
+    cors({
+      origin: ['https://cse416-quizhub.netlify.app'],
+      credentials: true,
+    })
+    // cors()
+    // corsMiddleware
+  );
+  
 app.use(cookieParser());
 
 app.use(
