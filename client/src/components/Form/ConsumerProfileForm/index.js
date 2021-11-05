@@ -10,6 +10,8 @@ function ConsumerProfileForm() {
     const history = useHistory();
     const { user, dispatch } = useContext(UserContext);
     const username = user.id;
+    // const password = user.password;
+    // console.log("passwaord", password);
     const [loading, testData, error, fetchData] = useApiCall(
         // TODO: check the api url
         `${process.env.REACT_APP_API_SERVER}/api/consumer`
@@ -38,7 +40,7 @@ function ConsumerProfileForm() {
     }
     console.log(username);
     console.log(userInfo);
-    // return (<></>);
+    console.log(userInfo.consumerDescription);
 
     // // edit or preview mode
     // const [edit, setEdit] = useState(false);

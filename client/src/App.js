@@ -20,14 +20,14 @@ const userReducer = (state, action) => {
         return {
           id: action.payload.consumer.consumerUsername,
           isCreator: false,
-          // password: action.payload.password,
+          // password: action.payload.consumer.consumerPassword,
         };
       }
       if (action.payload.creator) {
         return {
           id: action.payload.creator.creatorUsername,
           isCreator: true,
-          // password: action.payload.password,
+          // password: action.payload.consumer.consumerPassword,
         };
       }
       break;

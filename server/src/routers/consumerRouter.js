@@ -16,7 +16,7 @@ consumerRouter.get(
 consumerRouter.get(
   '/:id',
   expressAsyncHandler(async (req, res) => {
-    const consumer = await getPlatformById(Number(req.params._id));
+    const consumer = await findById(Number(req.params._id));
     res.send({ consumer });
   })
 );
@@ -51,6 +51,7 @@ consumerRouter.put(
     console.log(req.body);
     if (consumer) {
       consumer.consumerDescription = req.body.consumerDescription;
+      console.log(consumerDescription);
       consumer.consumerImage = req.body.consumerImage;
       consumer.consumerUsername = req.body.consumerUsername;
       consumer.consumerEmail = req.body.consumerEmail;
