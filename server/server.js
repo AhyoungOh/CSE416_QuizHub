@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import authRouter from './src/routers/auth/index.js';
+import platformRouter from './src/routers/platform/platformRouter.js';
 import cookieParser from 'cookie-parser';
 import cookieSession from 'cookie-session';
 
@@ -36,6 +37,7 @@ app.use(
 );
 
 app.use('/api/auth', authRouter);
+app.use('/api/creatorHome', platformRouter);
 
 app.get('/', (req, res) => {
   res.send('server is ready');
