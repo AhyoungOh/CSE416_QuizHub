@@ -3,8 +3,10 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import authRouter from './src/routers/auth/index.js';
 import consumerRouter from './src/routers/consumerRouter.js';
+import platformRouter from './src/routers/platform/platformRouter.js';
 import cookieParser from 'cookie-parser';
 import cookieSession from 'cookie-session';
+
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -38,7 +40,7 @@ app.use(
 
 app.use('/api/consumer', consumerRouter);
 app.use('/api/auth', authRouter);
-
+app.use('/api/creatorHome', platformRouter);
 
 app.get('/', (req, res) => {
   res.send('server is ready');

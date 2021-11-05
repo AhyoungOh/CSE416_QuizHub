@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const platformSchema = new mongoose.Schema({
-  platformName: { type: String, required: true },
+  platformName: { type: String },
   platformDescription: { type: String },
   platformImage: { data: Buffer, type: String },
   ownedQuizzes: { type: [{ type: mongoose.Schema.Types.ObjectID, ref: 'Quiz' }] },
