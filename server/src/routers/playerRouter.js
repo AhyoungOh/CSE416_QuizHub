@@ -5,7 +5,7 @@ import Player from '../models/playerSchema.js';
 
 const playerRouter = express.Router();
 
-//get data
+//get all the consumers
 playerRouter.get(
   '/get',
   expressAsyncHandler(async (req, res) => {
@@ -87,5 +87,15 @@ playerRouter.delete(
     }
   })
 );
+
+//get one consumer
+playerRouter.get(
+  '/:id',
+  expressAsyncHandler(async (req, res) => {
+    const player = await Player.findById(req.params.id);
+    res.send({ player });
+  })
+)
+
 
 export default playerRouter;

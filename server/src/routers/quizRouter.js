@@ -96,8 +96,6 @@ quizRouter.put(
   })
 );
 
-//TODO: update question
-
 //remove
 quizRouter.delete(
   '/:id',

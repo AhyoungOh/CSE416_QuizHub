@@ -28,7 +28,7 @@ function Header() {
 
   return (
     <div className='header'>
-        <img
+      <img
         className='headerName'
         src='/logo.png'
         width='160'
@@ -64,7 +64,7 @@ function Header() {
                   history.push('/creatoraccountsettings');
                   }
                   else{
-                    history.push('/consumeraccountsettings');
+                    history.push('/consumer-page');
                   }
                 }}
               >
@@ -84,10 +84,8 @@ function Header() {
         </div>
       } 
       </div> 
-      
     </div>
   );
-
 }
 
 export default Header;

@@ -9,8 +9,10 @@ import bootstrap from 'bootstrap/dist/js/bootstrap.bundle';
 import { useReducer, createContext } from 'react';
 import dotenv from 'dotenv';
 import ConsumerSignUp from './components/ConsumerSignUp';
+import ConsumerPage from './pages/ConsumerPage/ConsumerPage';
 dotenv.config();
 
+//TODO: move userReducer to redux
 const userReducer = (state, action) => {
   // console.log(action.payload);
   switch (action.type) {
@@ -19,7 +21,7 @@ const userReducer = (state, action) => {
         return {
           id: action.payload.consumer.consumerUsername,
           isCreator: false,
-          // password: action.payload.password,
+          // password: action.payload.consumer.consumerPassword,
         };
       }
       if (action.payload.creator) {
@@ -59,12 +61,16 @@ function App() {
       <Router>
         <Header />
         <Route exact path='/' component={ConsumerSignUp} />
+        {/* maybe change the component to Home, and differentiate user type there */}
         <Switch>
           <Route path='/auth'>
             <AuthPage />
           </Route>
           <Route path='/creatoraccountsettings'>
             <CreatorAccountSettings />
+          </Route>
+          <Route path='/consumer-page' >
+            <ConsumerPage />
           </Route>
         </Switch>
       </Router>

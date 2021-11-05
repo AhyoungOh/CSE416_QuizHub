@@ -7,7 +7,7 @@ import argon2 from 'argon2';
 const { Schema, model } = pkg;
 
 const creatorSchema = new Schema({
-  ownedplatformId: { type: Schema.Types.ObjectID, ref: 'Platform' }, //this is a function call platform schema
+  ownedplatformId: { type: [{ type: Schema.Types.ObjectID, ref: 'Platform' }]}, //this is a function call platform schema
   creatorImage: { type: String },
   selfIntroduction: { type: String },
   creatorUsername: { type: String },

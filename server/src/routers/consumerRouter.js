@@ -6,16 +6,24 @@ const consumerRouter = express.Router();
 
 //get data
 consumerRouter.get(
-  '/get',
+  '/',
   expressAsyncHandler(async (req, res) => {
     const createConsumer = await Consumer.find();
     res.send({ createConsumer });
   })
 );
 
+consumerRouter.get(
+  '/:id',
+  expressAsyncHandler(async (req, res) => {
+    const consumer = await findById(Number(req.params._id));
+    res.send({ consumer });
+  })
+);
+
 //create new data
 consumerRouter.post(
-  '/post',
+  '/',
   expressAsyncHandler(async (req, res) => {
     const consumer = new Consumer({
       consumerDescription: req.body.consumerDescription,
@@ -24,24 +32,6 @@ consumerRouter.post(
       consumerEmail: req.body.consumerEmail,
       password: req.body.password,
       consumerIsPrivate: req.body.consumerIsPrivate,
-      // consumerQuizHistoryList: [
-      //   {
-      //     Quizzes: {
-      //       correctNumber:
-      //         req.body.consumerQuizHistoryList.Quizzes.correctNumber,
-      //       quizTimeTaken: {
-      //         minutes:
-      //           req.body.consumerQuizHistoryList.Quizzes.quizTimeTaken.minutes,
-      //         seconds:
-      //           req.body.consumerQuizHistoryList.Quizzes.quizTimeTaken.seconds,
-      //       },
-      //       accomplishedDate:
-      //         req.body.consumerQuizHistoryList.Quizzes.accomplishedDate,
-      //       usedTrialNumber:
-      //         req.body.consumerQuizHistoryList.Quizzes.usedTrialNumber,
-      //     },
-      //   },
-      // ],
     });
     const createdConsumer = await consumer.save();
     res.send({
@@ -61,21 +51,11 @@ consumerRouter.put(
     console.log(req.body);
     if (consumer) {
       consumer.consumerDescription = req.body.consumerDescription;
+      console.log(consumerDescription);
       consumer.consumerImage = req.body.consumerImage;
       consumer.consumerUsername = req.body.consumerUsername;
       consumer.consumerEmail = req.body.consumerEmail;
       consumer.password = req.body.password;
-      // consumer.consumerIsPrivate = req.body.consumerIsPrivate;
-      // consumer.consumerQuizHistoryList.Quizzes.correctNumber =
-      //   req.body.consumerQuizHistoryList.Quizzes.correctNumber;
-      // consumer.consumerQuizHistoryList.Quizzes.quizTimeTake.minutes =
-      //   req.body.consumerQuizHistoryList.Quizzes.quizTimeTaken.minutes;
-      // consumer.consumerQuizHistoryList.Quizzes.quizTimeTake.seconds =
-      //   req.body.consumerQuizHistoryList.Quizzes.quizTimeTaken.seconds;
-      // consumer.consumerQuizHistoryList.Quizzes.accomplishedDate =
-      //   req.body.consumerQuizHistoryList.Quizzes.accomplishedDate;
-      // consumer.consumerQuizHistoryList.Quizzes.usedTrialNumber =
-      //   req.body.consumerQuizHistoryList.Quizzes.usedTrialNumber;
       const updatedConsumer = await consumer.save();
       res.send({
         message: 'Consumer Updated',

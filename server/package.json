@@ -1,16 +1,12 @@
 {
+  "name": "ay",
   "type": "module",
-  "name": "server_test",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
-  "engines": {
-    "node": "12.18.4",
-    "npm": "7.22.0"
-  },
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server/server.js",
+    "dev": "nodemon --watch backend --exec node --experimental-modules server/server.js"
   },
   "author": "",
   "license": "ISC",
@@ -21,8 +17,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-async-handler": "^1.2.0",
-    "mongoose": "^6.0.12",
-    "nodejs": "^0.0.0"
+    "mongoose": "^6.0.11"
   },
   "devDependencies": {
     "nodemon": "^2.0.14"
