@@ -82,7 +82,7 @@ const deletePlatform = async ({ platformId }) => {
 //   })
 // );
 router.get(
-  '/get',
+  '/',
   expressAsyncHandler(async (req, res) => {
     const createPlatform = await PlatformModel.find();
     res.send({ createPlatform });
