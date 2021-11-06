@@ -11,15 +11,15 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
-      "argon2": "^0.28.2",
-      "cookie-parser": "^1.4.5",
-      "cookie-session": "^1.4.0",
-      "cors": "^2.8.5",
-      "express": "^4.17.1",
-      "express-async-handler": "^1.2.0",
-      "mongoose": "^6.0.11"
+        "argon2": "^0.28.2",
+        "cookie-parser": "^1.4.5",
+        "cookie-session": "^1.4.0",
+        "cors": "^2.8.5",
+        "express": "^4.17.1",
+        "express-async-handler": "^1.2.0",
+        "mongoose": "^6.0.11"
     },
     "devDependencies": {
-      "nodemon": "^2.0.14"
+        "nodemon": "^2.0.14"
     }
-  }
+}

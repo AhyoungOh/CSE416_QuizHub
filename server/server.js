@@ -1,30 +1,31 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import creatorRouter from './src/routers/creatorRouter.js';
-import platformRouter from './src/routers/platform/platformRouter.js';
-import consumerRouter from './src/routers/consumerRouter.js';
 import cors from 'cors';
-import authRouter from './src/routers/auth/index.js';
 import cookieParser from 'cookie-parser';
 import cookieSession from 'cookie-session';
 
+// import routers
+import creatorRouter from './src/routers/creatorRouter.js';
+import platformRouter from './src/routers/platform/platformRouter.js';
+import consumerRouter from './src/routers/consumerRouter.js';
+import authRouter from './src/routers/auth/index.js';
+
+// middleware
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 mongoose
-  .connect(process.env.MONGODB_URI)
+  .connect(String(process.env.MONGODB_URI))
   .then((res) => console.log('Connected'))
   .catch((err) => console.error(err));
 
-  app.use(
-    cors({
-      origin: ['https://cse416-quizhub.netlify.app'],
-      credentials: true,
-    })
-    // cors()
-    // corsMiddleware
-  );
+app.use(
+  cors({
+    origin: ['https://cse416-quizhub.netlify.app', 'http://localhost:3000'],
+    credentials: true,
+  })
+);
 
 app.use(cookieParser());
 
@@ -38,11 +39,11 @@ app.use(
   })
 );
 
+// router middleware
 app.use('/api/consumer', consumerRouter);
 app.use('/api/creator', creatorRouter);
 app.use('/api/creatorHome', platformRouter);
 app.use('/api/auth', authRouter);
-app.use('/api/creatorHome', platformRouter);
 
 app.get('/', (req, res) => {
   res.send('server is ready');
