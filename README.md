@@ -1,4 +1,4 @@
-# CSE416_QuizHub
+# Back-end repo for QuizHub
 SBU 2021 Fall CSE416 Team Project
 
 Front-end repo: [CSE416_QuizHub_Client](https://github.com/kellypeng44/CSE416_QuizHub_Client)
