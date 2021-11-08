@@ -52,6 +52,7 @@ consumerRouter.put(
     if (consumer) {
       consumer.consumerDescription = req.body.consumerDescription;
       console.log(consumerDescription);
+      consumer.consumerIsPrivate = req.body.consumerDescription;
       consumer.consumerImage = req.body.consumerImage;
       consumer.consumerUsername = req.body.consumerUsername;
       consumer.consumerEmail = req.body.consumerEmail;
