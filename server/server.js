@@ -15,8 +15,11 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+console.log(process.env.MONGODB_URI);
+
 mongoose
-  .connect(String(process.env.MONGODB_URI))
+  //.connect(String(process.env.MONGODB_URI))
+  .connect('mongodb+srv://quizhub:cse416quizhubpassword@quizhub-database.h1p15.mongodb.net/myFirstDatabase?retryWrites=true&w=majority')
   .then((res) => console.log('Connected'))
   .catch((err) => console.error(err));
 
@@ -53,7 +56,7 @@ app.use((err, req, res, next) => {
   res.status(500).send({ message: err.message });
 });
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 4000;
 app.listen(port, () => {
   console.log(`Serve at http://localhost:${port}`);
 });
