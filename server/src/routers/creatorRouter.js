@@ -23,7 +23,6 @@ creatorRouter.get(
   })
 );
 
-
 //create new data
 creatorRouter.post(
   '/post',
@@ -72,7 +71,9 @@ creatorRouter.put(
 creatorRouter.delete(
   '/:id',
   expressAsyncHandler(async (req, res) => {
+    // console.log(req.params.id);
     const creator = await Creator.findById(req.params.id);
+    console.log(creator);
     if (creator) {
       const deleteCreator = await creator.remove();
       res.send({

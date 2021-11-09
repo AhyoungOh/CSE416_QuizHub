@@ -16,13 +16,20 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 mongoose
-  .connect(String(process.env.MONGODB_URI))
+  .connect(
+    'mongodb+srv://quizhub:cse416quizhubpassword@quizhub-database.h1p15.mongodb.net/myFirstDatabase?authSource=admin&replicaSet=atlas-cvb3kh-shard-0&w=majority&readPreference=primary&appname=MongoDB%20Compass&retryWrites=true&ssl=true'
+  )
+  // .connect(String(process.env.MONGODB_URI))
   .then((res) => console.log('Connected'))
   .catch((err) => console.error(err));
 
 app.use(
   cors({
-    origin: ['https://cse416-quizhub.netlify.app', 'http://localhost:3000'],
+    origin: [
+      'https://cse416-quizhub.netlify.app',
+      'http://localhost:3000',
+      'http://localhost:4000',
+    ],
     credentials: true,
   })
 );
@@ -53,7 +60,7 @@ app.use((err, req, res, next) => {
   res.status(500).send({ message: err.message });
 });
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 4000;
 app.listen(port, () => {
   console.log(`Serve at http://localhost:${port}`);
 });

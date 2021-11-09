@@ -3,15 +3,11 @@ const router = express.Router();
 import Consumer from '../../models/consumerSchema.js';
 import Creator from '../../models/creatorSchema.js';
 // const { validUser } = require('../consumerRouter');
-import validUser from '../../middleware/consumer/index.js';
+import validUser from '../../middleware/auth/index.js';
 
 router.post('/consumer', async (req, res) => {
   // if not getting all the required inputs, send error msg
-  if (
-    !req.body.email ||
-    !req.body.username ||
-    !req.body.password
-  )
+  if (!req.body.email || !req.body.username || !req.body.password)
     return res.status(400).send({
       message: 'infos are required',
     });
@@ -64,7 +60,6 @@ router.post('/creator', async (req, res) => {
     !req.body.email ||
     !req.body.username ||
     !req.body.password
-    
   )
     return res.status(400).send({
       message: 'infos are required',
@@ -88,11 +83,9 @@ router.post('/creator', async (req, res) => {
 
     // 정보 검증이 끝났으므로 user DB에 입력받은 정보를 저장한다.
     const creator = new Creator({
-     
       creatorUsername: req.body.username,
       password: req.body.password,
       creatorEmail: req.body.email,
-      
     });
     await creator.save();
 
@@ -142,6 +135,7 @@ router.post('/login', async (req, res) => {
 
       // 모든 검증과정이 끝났으면 로그인을 한다. (세션에 userID 싣는다 === 로그인)
       req.session.consumerUsername = consumer.consumerUsername;
+      console.log('auth consu', req.session.consumerUsername);
       return res.send({
         consumer: consumer,
       });
@@ -153,8 +147,9 @@ router.post('/login', async (req, res) => {
 
       console.log(creator);
       // 모든 검증과정이 끝났으면 로그인을 한다. (세션에 userID 싣는다 === 로그인)
-      console.log(creator.creatorUsername);
-      req.session.username = creator.creatorUsername;
+      // console.log(creator.creatorUsername);
+      req.session.creatorUsername = creator.creatorUsername;
+      console.log('auth creator', req.session.creatorUsername);
       return res.send({
         creator: creator,
       });
@@ -172,9 +167,15 @@ router.post('/login', async (req, res) => {
 // validUser라는 미들웨어를 달아서 아무나 이 API를 사용하지 못하고 로그인한 사용자만 사용할 수 있도록 제한한다.
 router.get('/', validUser, async (req, res) => {
   try {
-    res.send({
-      user: req.user,
-    });
+    if (req.consumer) {
+      res.send({
+        consumer: req.consumer,
+      });
+    } else if (req.creator) {
+      res.send({
+        creator: req.creator,
+      });
+    }
   } catch (error) {
     console.log(error);
     return res.sendStatus(500);
@@ -193,6 +194,5 @@ router.delete('/', validUser, async (req, res) => {
     return res.sendStatus(500);
   }
 });
-
 
 export default router;
