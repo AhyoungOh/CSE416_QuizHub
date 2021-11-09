@@ -12,7 +12,7 @@ const validUser = async (req, res, next) => {
   if (req.session.consumerUsername) {
     try {
       const consumer = await Consumer.findOne({
-        username: req.session.consumerUsername,
+        consumerUsername: req.session.consumerUsername,
       });
       if (!consumer) {
         return res.status(403).send({
@@ -28,7 +28,7 @@ const validUser = async (req, res, next) => {
   } else if (req.session.creatorUsername) {
     try {
       const creator = await Creator.findOne({
-        username: req.session.creatorUsername,
+        creatorUsername: req.session.creatorUsername,
       });
       if (!creator) {
         return res.status(403).send({
