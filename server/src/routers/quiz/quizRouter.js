@@ -12,23 +12,31 @@ quizRouter.get(
   })
 );
 
-quizRouter.post(
-  '/seed',
+quizRouter.get(
+  '/:id',
   expressAsyncHandler(async (req, res) => {
-    await Quiz.remove({});
-    const createQuiz = await Quiz.insertMany(data.quiz);
-    res.send({ createQuiz });
+    const quiz = await Quiz.findById(req.params._id).exec();
+    res.send({ quiz });
   })
 );
+
+// quizRouter.post(
+//   '/seed',
+//   expressAsyncHandler(async (req, res) => {
+//     await Quiz.remove({});
+//     const createQuiz = await Quiz.insertMany(data.quiz);
+//     res.send({ createQuiz });
+//   })
+// );
 
 quizRouter.post(
   '/',
   expressAsyncHandler(async (req, res) => {
     const quiz = new Quiz({
-      quizImage: req.body.quizImage,
+      quizImage: req.body.imageLink,
       platformName: req.body.platformName,
-      quizName: req.body.quizName,
-      quizDescription: req.body.quizDescription,
+      quizName: req.body.title,
+      quizDescription: req.body.contents,
       quizNumberOfTrials: req.body.quizNumberOfTrials,
       quizTimeLimit: {
         minutes: req.body.quizTimeLimit.minutes,
@@ -55,15 +63,15 @@ quizRouter.post(
 quizRouter.put(
   '/:id',
   expressAsyncHandler(async (req, res) => {
-    const quizId = req.params.id;
+    const quizId = req.params._id;
     const quiz = await Quiz.findById(quizId);
 
     console.log(req.body);
-    if (quiz) {
-      quiz.quizImage = req.body.quizImage;
+    if (Quiz) {
+      quiz.quizImage = req.body.imageLink;
       quiz.platformName = req.body.platformName;
-      quiz.quizName = req.body.quizName;
-      quiz.quizDescription = req.body.quizDescription;
+      quiz.quizName = req.body.title;
+      quiz.quizDescription = req.body.contents;
       quiz.quizNumberOfTrials = req.body.quizNumberOfTrials;
       quiz.quizTimeLimit = {
         minutes: req.body.quizTimeLimit.minutes,
