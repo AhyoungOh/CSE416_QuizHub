@@ -15,18 +15,18 @@ questionRouter.get(
 );
 
 //post sample data
-questionRouter.post(
-  '/seed',
-  expressAsyncHandler(async (req, res) => {
-    await Question.remove({});
-    const createQuestion = await Question.insertMany(data.questions);
-    res.send({ createQuestion });
-  })
-);
+// questionRouter.post(
+//   '/seed',
+//   expressAsyncHandler(async (req, res) => {
+//     await Question.remove({});
+//     const createQuestion = await Question.insertMany(data.questions);
+//     res.send({ createQuestion });
+//   })
+// );
 
 //create new data
 questionRouter.post(
-  '/post',
+  '/',
   expressAsyncHandler(async (req, res) => {
     const question = new Question({
       questionNumber: req.body.questionNumber,
@@ -66,8 +66,6 @@ questionRouter.put(
     }
   })
 );
-
-//TODO: update question
 
 //remove
 questionRouter.delete(
