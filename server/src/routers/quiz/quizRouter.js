@@ -33,10 +33,10 @@ quizRouter.post(
   '/',
   expressAsyncHandler(async (req, res) => {
     const quiz = new Quiz({
-      quizImage: req.body.imageLink,
+      quizImage: req.body.quizImage,
       platformName: req.body.platformName,
-      quizName: req.body.title,
-      quizDescription: req.body.contents,
+      quizName: req.body.quizName,
+      quizDescription: req.body.quizDescription,
       quizNumberOfTrials: req.body.quizNumberOfTrials,
       quizTimeLimit: {
         minutes: req.body.quizTimeLimit.minutes,
@@ -68,10 +68,10 @@ quizRouter.put(
 
     console.log(req.body);
     if (Quiz) {
-      quiz.quizImage = req.body.imageLink;
+      quiz.quizImage = req.body.quizImage;
       quiz.platformName = req.body.platformName;
-      quiz.quizName = req.body.title;
-      quiz.quizDescription = req.body.contents;
+      quiz.quizName = req.body.quizName;
+      quiz.quizDescription = req.body.quizDescription;
       quiz.quizNumberOfTrials = req.body.quizNumberOfTrials;
       quiz.quizTimeLimit = {
         minutes: req.body.quizTimeLimit.minutes,
