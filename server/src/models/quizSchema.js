@@ -17,9 +17,7 @@ const quizSchema = new mongoose.Schema({
   quizCertificateQualification: Number,
   quizBadgeQualification: Number,
   quizEnableLeaderboard: { type: Boolean, default: true },
-  quizQuestions: {
-    type: [{ type: mongoose.Schema.Types.ObjectID, ref: 'Question' }],
-  },
+  quizQuestions: [{ type: mongoose.Schema.Types.ObjectID, ref: 'Question' }],
   createdDate: { type: Date, default: Date.now },
 });
 const Quiz = mongoose.model('Quiz', quizSchema);
