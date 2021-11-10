@@ -9,6 +9,7 @@ import creatorRouter from './src/routers/creatorRouter.js';
 import platformRouter from './src/routers/platform/platformRouter.js';
 import consumerRouter from './src/routers/consumerRouter.js';
 import authRouter from './src/routers/auth/index.js';
+import quizRouter from './src/routers/quiz/quizRouter.js';
 
 // middleware
 const app = express();
@@ -48,6 +49,7 @@ app.use('/api/consumer', consumerRouter);
 app.use('/api/creator', creatorRouter);
 app.use('/api/creatorHome', platformRouter);
 app.use('/api/auth', authRouter);
+app.use('/api/quiz', quizRouter);
 
 app.get('/', (req, res) => {
   res.send('server is ready');

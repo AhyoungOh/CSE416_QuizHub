@@ -5,7 +5,7 @@ import Quiz from '../../models/quizSchema.js';
 const quizRouter = express.Router();
 
 quizRouter.get(
-  '/get',
+  '/',
   expressAsyncHandler(async (req, res) => {
     const createQuiz = await Quiz.find();
     res.send({ createQuiz });
