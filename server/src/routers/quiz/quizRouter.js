@@ -1,13 +1,17 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import Quiz from '../../models/quizSchema.js';
+import Question from '../../models/questionSchema.js';
 
 const quizRouter = express.Router();
 
 quizRouter.get(
   '/',
   expressAsyncHandler(async (req, res) => {
-    const createQuiz = await Quiz.find();
+    const createQuiz = await Quiz.find().populate({
+      path: 'quizQuestions',
+      model: Question,
+    });
     res.send({ createQuiz });
   })
 );
