@@ -10,7 +10,7 @@ import platformRouter from './src/routers/platform/platformRouter.js';
 import consumerRouter from './src/routers/consumerRouter.js';
 import authRouter from './src/routers/auth/index.js';
 import quizRouter from './src/routers/quiz/quizRouter.js';
-import questionRouter from './src/routers/question/questionRouter/js';
+import questionRouter from './src/routers/question/questionRouter.js';
 
 // middleware
 const app = express();

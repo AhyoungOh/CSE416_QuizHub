@@ -1,6 +1,5 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
-import data from '../data.js';
 import Question from '../../models/questionSchema.js';
 
 const questionRouter = express.Router();
