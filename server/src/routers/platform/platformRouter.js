@@ -135,13 +135,4 @@ router.delete(
   })
 );
 
-// router.get(
-//   '/:id',
-//   expressAsyncHandler(async (req, res) => {
-//     const platform = new PlatformModel({
-//       ownedQuizzes: req.Quiz.quizName,
-//     });
-//     res.send({ platform });
-//   })
-// );
 export default router;
