@@ -20,50 +20,74 @@ quizRouter.get(
   })
 );
 
-// quizRouter.post(
-//   '/seed',
-//   expressAsyncHandler(async (req, res) => {
-//     await Quiz.remove({});
-//     const createQuiz = await Quiz.insertMany(data.quiz);
-//     res.send({ createQuiz });
-//   })
-// );
+const addQuiz = async ({
+  quizImage,
+  quizName,
+  quizDescription,
+  createdDate,
+}) => {
+  try {
+    await Quiz.create({
+      quizImage,
+      quizName,
+      quizDescription,
+      createdDate,
+    });
+  } catch (err) {
+    console.error(err);
+    return {};
+  }
+};
 
 quizRouter.post(
   '/',
   expressAsyncHandler(async (req, res) => {
-    const quiz = new Quiz({
+    await addQuiz({
       quizImage: req.body.quizImage,
-      platformName: req.body.platformName,
       quizName: req.body.quizName,
       quizDescription: req.body.quizDescription,
-      quizNumberOfTrials: req.body.quizNumberOfTrials,
-      quizTimeLimit: {
-        minutes: req.body.quizTimeLimit.minutes,
-        seconds: req.body.quizTimeLimit.seconds,
-      },
-      quizTotalNumberOfQuestions: req.body.quizTotalNumberOfQuestions,
-      quizRewardType: req.body.quizRewardType,
-      quizCertificate: req.body.quizCertificate,
-      quizBadge: req.body.quizBadge,
-      quizCertificateQualification: req.body.quizCertificateQualification,
-      quizBadgeQualification: req.body.quizBadgeQualification,
-      quizEnableLeaderboard: req.body.quizEnableLeaderboard,
-      quizQuestions: req.body.quizQuestions,
       createdDate: Date.now(),
+      // ownedQuizzes: req.body.quiz.quizName,
     });
-    const createdQuiz = await quiz.save();
-    res.send({
-      message: 'Quiz Created',
-      quiz: createdQuiz,
-    });
+    res.send('Quiz Created');
   })
 );
+
+// quizRouter.post(
+//   '/',
+//   expressAsyncHandler(async (req, res) => {
+//     const quiz = new Quiz({
+//       quizImage: req.body.quizImage,
+//       platformName: req.body.platformName,
+//       quizName: req.body.quizName,
+//       quizDescription: req.body.quizDescription,
+//       quizNumberOfTrials: req.body.quizNumberOfTrials,
+//       quizTimeLimit: {
+//         minutes: req.body.quizTimeLimit.minutes,
+//         seconds: req.body.quizTimeLimit.seconds,
+//       },
+//       quizTotalNumberOfQuestions: req.body.quizTotalNumberOfQuestions,
+//       quizRewardType: req.body.quizRewardType,
+//       quizCertificate: req.body.quizCertificate,
+//       quizBadge: req.body.quizBadge,
+//       quizCertificateQualification: req.body.quizCertificateQualification,
+//       quizBadgeQualification: req.body.quizBadgeQualification,
+//       quizEnableLeaderboard: req.body.quizEnableLeaderboard,
+//       quizQuestions: req.body.quizQuestions,
+//       createdDate: Date.now(),
+//     });
+//     const createdQuiz = await quiz.save();
+//     res.send({
+//       message: 'Quiz Created',
+//       quiz: createdQuiz,
+//     });
+//   })
+// );
 
 quizRouter.put(
   '/:id',
   expressAsyncHandler(async (req, res) => {
-    const quizId = req.params._id;
+    const quizId = req.params.id;
     const quiz = await Quiz.findById(quizId);
 
     console.log(req.body);
@@ -73,10 +97,10 @@ quizRouter.put(
       quiz.quizName = req.body.quizName;
       quiz.quizDescription = req.body.quizDescription;
       quiz.quizNumberOfTrials = req.body.quizNumberOfTrials;
-      quiz.quizTimeLimit = {
-        minutes: req.body.quizTimeLimit.minutes,
-        seconds: req.body.quizTimeLimit.seconds,
-      };
+      // quiz.quizTimeLimit = {
+      //   minutes: req.body.quizTimeLimit.minutes,
+      //   seconds: req.body.quizTimeLimit.seconds,
+      // };
       quiz.quizTotalNumberOfQuestions = req.body.quizTotalNumberOfQuestions;
       quiz.quizRewardType = req.body.quizRewardType;
       quiz.quizCertificate = req.body.quizCertificate;
