@@ -6,7 +6,7 @@ const questionRouter = express.Router();
 
 //get data
 questionRouter.get(
-  '/get',
+  '/',
   expressAsyncHandler(async (req, res) => {
     const createQuestion = await Question.find();
     res.send({ createQuestion });
