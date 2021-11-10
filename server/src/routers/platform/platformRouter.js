@@ -95,10 +95,10 @@ router.post(
   expressAsyncHandler(async (req, res) => {
     await addPlatform({
       platformName: req.body.platformName,
-      platformDescription: req.body.contents,
-      platformImage: req.body.imageLink,
-      // ownedQuizzes: req.body.quiz.quizName,
+      platformDescription: req.body.platformDescription,
+      platformImage: req.body.platformImage,
       createdDate: Date.now(),
+      // ownedQuizzes: req.body.quiz.quizName,
     });
     res.send('Platform Created');
   })
@@ -113,8 +113,8 @@ router.put(
     console.log(req.body);
     if (PlatformModel) {
       platform.platformName = req.body.platformName;
-      platform.platformDescription = req.body.contents;
-      platform.platformImage = req.body.imageLink;
+      platform.platformDescription = req.body.platformDescription;
+      platform.platformImage = req.body.platformImage;
       platform.createdDate = Date.now();
       const updatedPlatform = await platform.save();
       res.send({
