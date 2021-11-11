@@ -1,38 +1,27 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
-import data from '../data.js';
-import Question from '../models/questionSchema.js';
+import Question from '../../models/questionSchema.js';
 
 const questionRouter = express.Router();
 
 //get data
 questionRouter.get(
-  '/get',
+  '/',
   expressAsyncHandler(async (req, res) => {
     const createQuestion = await Question.find();
     res.send({ createQuestion });
   })
 );
 
-//post sample data
-questionRouter.post(
-  '/seed',
-  expressAsyncHandler(async (req, res) => {
-    await Question.remove({});
-    const createQuestion = await Question.insertMany(data.questions);
-    res.send({ createQuestion });
-  })
-);
-
 //create new data
 questionRouter.post(
-  '/post',
+  '/',
   expressAsyncHandler(async (req, res) => {
     const question = new Question({
       questionNumber: req.body.questionNumber,
       questionQuestion: req.body.questionQuestion,
       questionOptions: req.body.questionOptions,
-      questionAnswer: req.body.questionAnswer
+      questionAnswer: req.body.questionAnswer,
     });
     const createdQuestion = await question.save();
     res.send({
@@ -66,8 +55,6 @@ questionRouter.put(
     }
   })
 );
-
-//TODO: update question
 
 //remove
 questionRouter.delete(
