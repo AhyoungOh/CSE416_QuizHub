@@ -8,7 +8,7 @@ import argon2 from 'argon2';
 const { Schema, model } = pkg;
 
 const consumerSchema = new Schema({
-  consumerDescription: { type: String },
+  consumerDescription: { type: String, default: '' },
   consumerImage: { type: Number, default: 0 },
   consumerUsername: { type: String },
   consumerEmail: { type: String },

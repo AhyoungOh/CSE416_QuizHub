@@ -8,8 +8,8 @@ const { Schema, model } = pkg;
 
 const creatorSchema = new Schema({
   ownedplatformId: { type: Schema.Types.ObjectID, ref: 'Platform' }, //this is a function call platform schema
-  creatorImage: { type: String },
-  selfIntroduction: { type: String },
+  creatorImage: { type: String, default: '' },
+  selfIntroduction: { type: String, default: '' },
   creatorUsername: { type: String },
   creatorEmail: { type: String },
   password: { type: String },
