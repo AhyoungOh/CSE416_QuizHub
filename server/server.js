@@ -16,7 +16,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-console.log(process.env.MONGODB_URI);
+// console.log(process.env.MONGODB_URI);
 
 mongoose
   // .connect(String(process.env.MONGODB_URI))   //for deploy
@@ -33,6 +33,7 @@ app.use(
       'https://cse416-quizhub.netlify.app',
       'http://localhost:3000',
       'http://localhost:4000',
+      // 'http://localhost:5000',
     ],
     credentials: true,
   })
