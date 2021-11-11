@@ -19,10 +19,11 @@ app.use(express.urlencoded({ extended: true }));
 console.log(process.env.MONGODB_URI);
 
 mongoose
+  // .connect(String(process.env.MONGODB_URI))   //for deploy
+  // for local development
   .connect(
     'mongodb+srv://quizhub:cse416quizhubpassword@quizhub-database.h1p15.mongodb.net/myFirstDatabase?authSource=admin&replicaSet=atlas-cvb3kh-shard-0&w=majority&readPreference=primary&appname=MongoDB%20Compass&retryWrites=true&ssl=true'
   )
-  // .connect(String(process.env.MONGODB_URI))
   .then((res) => console.log('Connected'))
   .catch((err) => console.error(err));
 

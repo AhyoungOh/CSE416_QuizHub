@@ -13,6 +13,16 @@ questionRouter.get(
   })
 );
 
+//post sample data
+// questionRouter.post(
+//   '/seed',
+//   expressAsyncHandler(async (req, res) => {
+//     await Question.remove({});
+//     const createQuestion = await Question.insertMany(data.questions);
+//     res.send({ createQuestion });
+//   })
+// );
+
 //create new data
 questionRouter.post(
   '/',
