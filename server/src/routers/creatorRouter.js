@@ -73,7 +73,7 @@ creatorRouter.delete(
   expressAsyncHandler(async (req, res) => {
     // console.log(req.params.id);
     const creator = await Creator.findById(req.params.id);
-    console.log(creator);
+    // console.log(creator);
     if (creator) {
       const deleteCreator = await creator.remove();
       res.send({
