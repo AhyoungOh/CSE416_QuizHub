@@ -94,11 +94,11 @@ router.post(
   '/',
   expressAsyncHandler(async (req, res) => {
     await addPlatform({
-      platformName: req.body.title,
-      platformDescription: req.body.contents,
-      platformImage: req.body.imageLink,
-      ownedQuizzes: req.body.quiz.quizName,
+      platformName: req.body.platformName,
+      platformDescription: req.body.platformDescription,
+      platformImage: req.body.platformImage,
       createdDate: Date.now(),
+      // ownedQuizzes: req.body.quiz.quizName,
     });
     res.send('Platform Created');
   })
@@ -112,9 +112,9 @@ router.put(
 
     console.log(req.body);
     if (PlatformModel) {
-      platform.platformName = req.body.title;
-      platform.platformDescription = req.body.contents;
-      platform.platformImage = req.body.imageLink;
+      platform.platformName = req.body.platformName;
+      platform.platformDescription = req.body.platformDescription;
+      platform.platformImage = req.body.platformImage;
       platform.createdDate = Date.now();
       const updatedPlatform = await platform.save();
       res.send({
@@ -135,13 +135,4 @@ router.delete(
   })
 );
 
-// router.get(
-//   '/:id',
-//   expressAsyncHandler(async (req, res) => {
-//     const platform = new PlatformModel({
-//       ownedQuizzes: req.Quiz.quizName,
-//     });
-//     res.send({ platform });
-//   })
-// );
 export default router;
