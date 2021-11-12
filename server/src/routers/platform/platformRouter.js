@@ -5,18 +5,6 @@ import Quiz from '../../models/quizSchema.js';
 
 const router = express.Router();
 
-const getPlatformById = async (platformId) => {
-  try {
-    const platform = await PlatformModel.findOne({ _id: platformId })
-      //.populate({ path: 'ownedQuizzes', model: 'Quiz' })
-      .exec();
-    return platform;
-  } catch (err) {
-    console.error(err);
-    return {};
-  }
-};
-
 const addPlatform = async ({
   platformName,
   platformDescription,
@@ -79,8 +67,29 @@ router.get(
   })
 );
 
+// const getPlatformById = async (platformId) => {
+//   try {
+//     const platform = await PlatformModel.findOne({ _id: platformId }).exec();
+//     return platform;
+//   } catch (err) {
+//     console.error(err);
+//     return {};
+//   }
+// };
+
 router.get(
   '/:id',
+  expressAsyncHandler(async (req, res) => {
+    const platform = await PlatformModel.findById(req.params.id).exec();
+    console.log('req.params.id', req.params.id);
+    // const platform = await getPlatformById(Number(req.params.id));
+    res.send({ platform });
+  })
+);
+
+//get list
+router.get(
+  '/:id/list',
   expressAsyncHandler(async (req, res) => {
     const platform = await PlatformModel.findById(req.params._id)
       //.populate('ownedQuizzes')
