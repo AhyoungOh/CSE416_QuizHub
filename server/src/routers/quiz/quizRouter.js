@@ -19,7 +19,7 @@ quizRouter.get(
 quizRouter.get(
   '/:id',
   expressAsyncHandler(async (req, res) => {
-    const quiz = await Quiz.findById(req.params._id).exec();
+    const quiz = await Quiz.findById(req.params.id).exec();
     res.send({ quiz });
   })
 );
