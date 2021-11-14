@@ -7,44 +7,47 @@ import pkg from 'mongoose';
 import argon2 from 'argon2';
 const { Schema, model } = pkg;
 
-const consumerSchema = new Schema({
-  consumerDescription: { type: String, default: '' },
-  consumerImage: { type: Number, default: 0 },
-  consumerUsername: { type: String },
-  consumerEmail: { type: String },
-  password: { type: String },
-  consumerIsPrivate: { type: Boolean, default: false },
-  consumerQuizHistoryList: [
-    {
-      Quizzes: {
-        quizId: { type: Schema.Types.ObjectID, ref: 'Quiz' },
-        correctNumber: { type: Number },
-        quizTimeTaken: {
-          minutes: { type: Number },
-          seconds: { type: Number },
+const consumerSchema = new Schema(
+  {
+    consumerDescription: { type: String, default: '' },
+    consumerImage: { type: String },
+    consumerUsername: { type: String },
+    consumerEmail: { type: String },
+    password: { type: String },
+    consumerIsPrivate: { type: Boolean, default: false },
+    consumerQuizHistoryList: [
+      {
+        Quizzes: {
+          quizId: { type: Schema.Types.ObjectID, ref: 'Quiz' },
+          correctNumber: { type: Number },
+          quizTimeTaken: {
+            minutes: { type: Number },
+            seconds: { type: Number },
+          },
+          accomplishedDate: { type: Date },
+          usedTrialNumber: { type: Number },
+        },
+      },
+    ],
+    certificates: [
+      {
+        certificateId: {
+          type: Schema.Types.ObjectID,
+          ref: 'Certificate',
         },
         accomplishedDate: { type: Date },
-        usedTrialNumber: { type: Number },
       },
-    },
-  ],
-  certificates: [
-    {
-      certificateId: {
-        type: Schema.Types.ObjectID,
-        ref: 'Certificate',
+    ],
+    badges: [
+      {
+        badgeId: { type: Schema.Types.ObjectID, ref: 'Badge' },
+        accomplishedDate: { type: Date },
+        badgeVisibility: { type: Boolean },
       },
-      accomplishedDate: { type: Date },
-    },
-  ],
-  badges: [
-    {
-      badgeId: { type: Schema.Types.ObjectID, ref: 'Badge' },
-      accomplishedDate: { type: Date },
-      badgeVisibility: { type: Boolean },
-    },
-  ],
-});
+    ],
+  },
+  { timestamps: true }
+);
 
 consumerSchema.pre('save', async function (next) {
   // 3가지 경우가 있음

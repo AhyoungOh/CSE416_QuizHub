@@ -6,14 +6,18 @@ import pkg from 'mongoose';
 import argon2 from 'argon2';
 const { Schema, model } = pkg;
 
-const creatorSchema = new Schema({
-  ownedplatformId: { type: Schema.Types.ObjectID, ref: 'Platform' }, //this is a function call platform schema
-  creatorImage: { type: String, default: '' },
-  selfIntroduction: { type: String, default: '' },
-  creatorUsername: { type: String },
-  creatorEmail: { type: String },
-  password: { type: String },
-});
+const creatorSchema = new Schema(
+  {
+    ownedplatformId: { type: Schema.Types.ObjectID, ref: 'Platform' }, 
+    creatorImage: { type: String },
+    selfIntroduction: { type: String, default: '' },
+    creatorUsername: { type: String },
+    creatorEmail: { type: String },
+    password: { type: String },
+  }, {
+    timestamps: true
+  }
+);
 
 creatorSchema.methods.comparePassword = async function (password) {
   try {

@@ -11,6 +11,15 @@ import consumerRouter from './src/routers/consumerRouter.js';
 import authRouter from './src/routers/auth/index.js';
 import quizRouter from './src/routers/quiz/quizRouter.js';
 import questionRouter from './src/routers/question/questionRouter.js';
+
+// defining mongoose options
+const options = {
+  useNewUrlParser: true, 
+  useFindAndModify: true, 
+  useCreateIndex: true, 
+  useUnifiedTopology: true,
+}
+
 // middleware
 const app = express();
 app.use(express.json());
