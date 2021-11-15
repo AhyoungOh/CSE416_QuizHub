@@ -33,7 +33,6 @@ app.use(
       'https://cse416-quizhub.netlify.app',
       'http://localhost:3000',
       'http://localhost:4000',
-      // 'http://localhost:5000',
     ],
     credentials: true,
   })
@@ -54,9 +53,9 @@ app.use(
 // router middleware
 app.use('/api/consumer', consumerRouter);
 app.use('/api/creator', creatorRouter);
-app.use('/api/creatorHome', platformRouter);
 app.use('/api/auth', authRouter);
-app.use('/api/quiz', quizRouter);
+app.use('/api/creatorHome', platformRouter);
+app.use('/api/creatorHome/quiz', quizRouter);
 app.use('/api/question', questionRouter);
 
 app.get('/', (req, res) => {

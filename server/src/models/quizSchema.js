@@ -1,8 +1,9 @@
 import mongoose from 'mongoose';
 
 const quizSchema = new mongoose.Schema({
+  // platformName: { type: String },
+  platformId: { type: mongoose.Schema.Types.ObjectId, ref: 'Platform' },
   quizImage: { data: Buffer, type: String },
-  platformName: { type: String },
   quizName: { type: String },
   quizDescription: String,
   quizNumberOfTrials: Number,
@@ -10,7 +11,7 @@ const quizSchema = new mongoose.Schema({
     minutes: { type: Number },
     seconds: { type: Number },
   },
-  quizTotalNumberOfQuestions: Number,
+  // quizTotalNumberOfQuestions: Number,
   quizRewardType: { type: Number, default: 0 },
   quizCertificate: { type: mongoose.Schema.Types.ObjectID, ref: 'Certificate' },
   quizBadge: { type: mongoose.Schema.Types.ObjectID, ref: 'Badge' },

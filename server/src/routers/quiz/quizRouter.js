@@ -1,6 +1,7 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import Quiz from '../../models/quizSchema.js';
+import Platform from '../../models/platformSchema.js';
 import Question from '../../models/questionSchema.js';
 
 const quizRouter = express.Router();
@@ -11,6 +12,8 @@ quizRouter.get(
     const createQuiz = await Quiz.find().populate({
       path: 'quizQuestions',
       model: Question,
+      path: '_id',
+      model: Platform,
     });
     res.send({ createQuiz });
   })
@@ -25,17 +28,37 @@ quizRouter.get(
 );
 
 const addQuiz = async ({
-  quizImage,
+  platformId,
   quizName,
-  quizDescription,
+  quizImage,
   createdDate,
+  quizNumberOfTrials,
+  quizTimeLimitMinutes,
+  quizTimeLimitSeconds,
+  // quizRewardType,
+  // quizCertificate,
+  // quizBadge,
+  // quizCertificateQualification,
+  // quizBadgeQualification,
+  // quizEnableLeaderboard,
+  // quizDescription,
 }) => {
   try {
     await Quiz.create({
-      quizImage,
+      platformId,
       quizName,
-      quizDescription,
+      quizImage,
       createdDate,
+      quizNumberOfTrials,
+      quizTimeLimitMinutes,
+      quizTimeLimitSeconds,
+      // quizRewardType,
+      // quizCertificate,
+      // quizBadge,
+      // quizCertificateQualification,
+      // quizBadgeQualification,
+      // quizEnableLeaderboard,
+      // quizDescription,
     });
   } catch (err) {
     console.error(err);
@@ -44,13 +67,24 @@ const addQuiz = async ({
 };
 
 quizRouter.post(
-  '/',
+  '/:id',
   expressAsyncHandler(async (req, res) => {
+    console.log('req post', req.body);
     await addQuiz({
-      quizImage: req.body.quizImage,
+      platformId: req.body.platformId,
       quizName: req.body.quizName,
-      quizDescription: req.body.quizDescription,
+      quizImage: req.body.quizImage,
       createdDate: Date.now(),
+      quizNumberOfTrials: req.body.quizNumberOfTrials,
+      quizTimeLimitMinutes: req.body.quizTimeLimit.quizTimeLimitMinutes,
+      quizTimeLimitSeconds: req.body.quizTimeLimit.quizTimeLimitSeconds,
+      // quizRewardType: req.body.quizRewardType,
+      // quizCertificate: req.body.quizCertificate,
+      // quizBadge: req.body.quizBadge,
+      // quizCertificateQualification: req.body.quizCertificateQualification,
+      // quizBadgeQualification: req.body.quizBadgeQualification,
+      // quizEnableLeaderboard: req.body.quizEnableLeaderboard,
+      // quizDescription: req.body.quizDescription,
     });
     res.send('Quiz Created');
   })
@@ -73,6 +107,8 @@ quizRouter.put(
       //   minutes: req.body.quizTimeLimit.minutes,
       //   seconds: req.body.quizTimeLimit.seconds,
       // };
+      quiz.quizTimeLimite.minutes = req.body.quizTimeLimit.minutes;
+      quiz.quizTimeLimite.seoncds = req.body.quizTimeLimite.seconds;
       quiz.quizTotalNumberOfQuestions = req.body.quizTotalNumberOfQuestions;
       quiz.quizRewardType = req.body.quizRewardType;
       quiz.quizCertificate = req.body.quizCertificate;

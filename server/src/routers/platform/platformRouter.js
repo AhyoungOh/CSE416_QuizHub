@@ -5,25 +5,6 @@ import Quiz from '../../models/quizSchema.js';
 
 const router = express.Router();
 
-const addPlatform = async ({
-  platformName,
-  platformDescription,
-  platformImage,
-  createdDate,
-}) => {
-  try {
-    await PlatformModel.create({
-      platformName,
-      platformDescription,
-      platformImage,
-      createdDate,
-    });
-  } catch (err) {
-    console.error(err);
-    return {};
-  }
-};
-
 const updatePlatform = async ({
   platformId,
   platformName,
@@ -98,6 +79,24 @@ router.get(
     res.send({ platform });
   })
 );
+const addPlatform = async ({
+  platformName,
+  platformDescription,
+  platformImage,
+  createdDate,
+}) => {
+  try {
+    await PlatformModel.create({
+      platformName,
+      platformDescription,
+      platformImage,
+      createdDate,
+    });
+  } catch (err) {
+    console.error(err);
+    return {};
+  }
+};
 
 router.post(
   '/',
@@ -107,7 +106,6 @@ router.post(
       platformDescription: req.body.platformDescription,
       platformImage: req.body.platformImage,
       createdDate: Date.now(),
-      // ownedQuizzes: req.body.quiz.quizName,
     });
     res.send('Platform Created');
   })
