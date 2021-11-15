@@ -54,6 +54,7 @@ consumerRouter.put(
       console.log(consumerDescription);
       consumer.consumerIsPrivate = req.body.consumerDescription;
       consumer.consumerImage = req.body.consumerImage;
+      //consumer.consumerImage = req.file.path;
       consumer.consumerUsername = req.body.consumerUsername;
       consumer.consumerEmail = req.body.consumerEmail;
       consumer.password = req.body.password;
