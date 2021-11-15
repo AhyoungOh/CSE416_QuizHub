@@ -1,10 +1,10 @@
 import mongoose from 'mongoose';
 
 const quizSchema = new mongoose.Schema({
-  quizImage: { type: String },
+  quizImage: { type: String, default: '' },
   platformName: { type: String },
   quizName: { type: String },
-  quizDescription: String,
+  quizDescription: { type: String, default: ''},
   quizNumberOfTrials: Number,
   quizTimeLimit: {
     minutes: { type: Number },
