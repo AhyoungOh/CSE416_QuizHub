@@ -10,10 +10,8 @@ quizRouter.get(
   '/',
   expressAsyncHandler(async (req, res) => {
     const createQuiz = await Quiz.find().populate({
-      path: 'quizQuestions',
-      model: Question,
-      path: '_id',
-      model: Platform,
+      // path: '_id',
+      // model: Platform,
     });
     res.send({ createQuiz });
   })
@@ -66,11 +64,11 @@ const addQuiz = async ({
   }
 };
 
-quizRouter.post(
-  '/:id',
-  expressAsyncHandler(async (req, res) => {
+quizRouter.post('/', (req, res) => {
+  try {
     console.log('req post', req.body);
-    await addQuiz({
+    const platformId = req.body.platformId;
+    const newOwendQuiz = new Quiz({
       platformId: req.body.platformId,
       quizName: req.body.quizName,
       quizImage: req.body.quizImage,
@@ -86,9 +84,21 @@ quizRouter.post(
       // quizEnableLeaderboard: req.body.quizEnableLeaderboard,
       // quizDescription: req.body.quizDescription,
     });
-    res.send('Quiz Created');
-  })
-);
+    newOwendQuiz.save();
+    Platform.updateOne(
+      { _id: platformId },
+      { $push: { ownedQuizzes: newOwendQuiz._id } },
+      async (err, doc) => {
+        if (err) throw err;
+        if (doc) {
+          res.send('Quiz Created');
+        }
+      }
+    );
+  } catch (error) {
+    res.send('error');
+  }
+});
 
 quizRouter.put(
   '/:id',

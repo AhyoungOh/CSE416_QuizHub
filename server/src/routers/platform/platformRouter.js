@@ -48,16 +48,6 @@ router.get(
   })
 );
 
-// const getPlatformById = async (platformId) => {
-//   try {
-//     const platform = await PlatformModel.findOne({ _id: platformId }).exec();
-//     return platform;
-//   } catch (err) {
-//     console.error(err);
-//     return {};
-//   }
-// };
-
 router.get(
   '/:id',
   expressAsyncHandler(async (req, res) => {
@@ -68,17 +58,6 @@ router.get(
   })
 );
 
-//get list
-router.get(
-  '/:id/list',
-  expressAsyncHandler(async (req, res) => {
-    const platform = await PlatformModel.findById(req.params._id)
-      //.populate('ownedQuizzes')
-      .exec();
-    // const platform = await getPlatformById(Number(req.params._id));
-    res.send({ platform });
-  })
-);
 const addPlatform = async ({
   platformName,
   platformDescription,
