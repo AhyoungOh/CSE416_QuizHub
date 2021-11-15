@@ -1,6 +1,6 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
-import data from '../data.js';
+import data from '../data.js.js';
 import Player from '../models/playerSchema.js';
 
 const playerRouter = express.Router();
