@@ -9,7 +9,7 @@ const { Schema, model } = pkg;
 
 const consumerSchema = new Schema({
   consumerDescription: { type: String, default: '' },
-  consumerImage: { type: Number, default: 0 },
+  consumerImage: { type: String },
   consumerUsername: { type: String },
   consumerEmail: { type: String },
   password: { type: String },

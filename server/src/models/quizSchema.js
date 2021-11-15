@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const quizSchema = new mongoose.Schema({
-  quizImage: { data: Buffer, type: String },
+  quizImage: { type: String },
   platformName: { type: String },
   quizName: { type: String },
   quizDescription: String,
