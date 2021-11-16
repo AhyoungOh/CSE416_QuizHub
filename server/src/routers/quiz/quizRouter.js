@@ -2,6 +2,7 @@ import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import Quiz from '../../models/quizSchema.js';
 import Question from '../../models/questionSchema.js';
+import validUser from '../../middleware/auth/index.js';
 
 const quizRouter = express.Router();
 

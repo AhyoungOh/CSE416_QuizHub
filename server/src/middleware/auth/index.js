@@ -1,10 +1,6 @@
 import Consumer from '../../models/consumerSchema.js';
 import Creator from '../../models/creatorSchema.js';
 const validUser = async (req, res, next) => {
-  // console.log('req session: ', req.session);
-  // console.log('req session: ', req.session.username);
-  // console.log('req session: ', req.session.creatorUsername);
-  // console.log('req session: ', req.session.consumerUsername);
   if (!req.session.creatorUsername && !req.session.consumerUsername)
     return res.status(403).send({
       message: 'not logged in',

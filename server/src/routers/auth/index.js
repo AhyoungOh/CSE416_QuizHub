@@ -79,6 +79,7 @@ router.post('/creator', async (req, res) => {
       creatorUsername: req.body.username,
       password: req.body.password,
       creatorEmail: req.body.email,
+      ownedPlatformId: [],
     });
     await creator.save();
 
@@ -125,8 +126,6 @@ router.post('/login', async (req, res) => {
         return res.status(403).send({
           message: 'password is wrong',
         });
-
-      console.log(creator);
 
       req.session.creatorUsername = creator.creatorUsername;
       return res.send({
