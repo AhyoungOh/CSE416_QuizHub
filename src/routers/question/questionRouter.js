@@ -1,6 +1,7 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import Question from '../../models/questionSchema.js';
+import Quiz from '../../models/quizSchema.js';
 
 const questionRouter = express.Router();
 
@@ -13,37 +14,36 @@ questionRouter.get(
   })
 );
 
-//post sample data
-// questionRouter.post(
-//   '/seed',
-//   expressAsyncHandler(async (req, res) => {
-//     await Question.remove({});
-//     const createQuestion = await Question.insertMany(data.questions);
-//     res.send({ createQuestion });
-//   })
-// );
-
 //create new data
-questionRouter.post(
-  '/',
-  expressAsyncHandler(async (req, res) => {
-    const question = new Question({
+questionRouter.post('/:id', (req, res) => {
+  try {
+    const newQuestion = new Question({
+      quizId: req.body.quizId,
       questionNumber: req.body.questionNumber,
       questionQuestion: req.body.questionQuestion,
       questionOptions: req.body.questionOptions,
       questionAnswer: req.body.questionAnswer,
     });
-    const createdQuestion = await question.save();
-    res.send({
-      message: 'Question Created',
-      question: createdQuestion,
-    });
-  })
-);
+    newQuestion.save();
+    const newQuestionId = newQuestion._id;
+    Quiz.updateOne(
+      { _id: req.body.quizId },
+      { $push: { quizQuestions: newQuestionId } },
+      async (err, doc) => {
+        if (err) throw err;
+        if (doc) {
+          res.send('Question Created');
+        }
+      }
+    );
+  } catch (error) {
+    res.send('err');
+  }
+});
 
 // update
 questionRouter.put(
-  '/:id',
+  '/detail/:id',
   expressAsyncHandler(async (req, res) => {
     const questionId = req.params.id;
     const question = await Question.findById(questionId);
@@ -67,20 +67,28 @@ questionRouter.put(
 );
 
 //remove
-questionRouter.delete(
-  '/:id',
-  expressAsyncHandler(async (req, res) => {
-    const question = await Question.findById(req.params.id);
-    if (question) {
-      const deleteQuestion = await question.remove();
-      res.send({
-        message: 'Question Deleted',
-        quiquestionz: deleteQuestion,
-      });
-    } else {
-      res.status(404).send({ message: 'Question Not Found' });
-    }
-  })
-);
+questionRouter.delete('/detail/:id', (req, res) => {
+  try {
+    const quizId = req.body.quizId;
+    Question.deleteOne({ _id: req.params.id }, async (err, doc) => {
+      if (err) throw err;
+      if (doc) {
+        res.send('Question Deleted');
+      }
+    });
+    Quiz.updateOne(
+      { _id: quizId },
+      { $pull: { quizQuestions: req.params.id } },
+      async (err, doc) => {
+        if (err) throw err;
+        if (doc) {
+          res.send('Quiz Updated');
+        }
+      }
+    );
+  } catch (error) {
+    res.send('err');
+  }
+});
 
 export default questionRouter;

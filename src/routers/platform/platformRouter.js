@@ -8,7 +8,7 @@ const router = express.Router();
 const getPlatformById = async (platformId) => {
   try {
     const platform = await PlatformModel.findOne({ _id: platformId })
-      //.populate({ path: 'ownedQuizzes', model: 'Quiz' })
+      .populate({ path: 'ownedQuizzes', model: 'Quiz' })
       .exec();
     return platform;
   } catch (err) {
