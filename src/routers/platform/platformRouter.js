@@ -71,6 +71,7 @@ router.get(
   '/',
   validUser,
   expressAsyncHandler(async (req, res) => {
+    // console.log('req.creator id', req.creator.ownedPlatformId);
     const createPlatform = await PlatformModel.find({
       _id: req.creator.ownedPlatformId,
     }).populate({
