@@ -2,7 +2,7 @@ import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import PlatformModel from '../../models/platformSchema.js';
 import Quiz from '../../models/quizSchema.js';
-
+import validUser from '../../middleware/auth/index.js';
 const router = express.Router();
 
 const getPlatformById = async (platformId) => {
@@ -69,8 +69,11 @@ const deletePlatform = async ({ platformId }) => {
 
 router.get(
   '/',
+  validUser,
   expressAsyncHandler(async (req, res) => {
-    const createPlatform = await PlatformModel.find().populate({
+    const createPlatform = await PlatformModel.find({
+      _id: req.creator.ownedPlatformId,
+    }).populate({
       path: 'ownedQuizzes',
       model: Quiz,
     });
@@ -110,7 +113,6 @@ router.put(
     const platformId = req.params.id;
     const platform = await PlatformModel.findById(platformId);
 
-    console.log(req.body);
     if (PlatformModel) {
       platform.platformName = req.body.platformName;
       platform.platformDescription = req.body.platformDescription;
