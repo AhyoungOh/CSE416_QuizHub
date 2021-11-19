@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 
 const platformSchema = new mongoose.Schema({
   platformName: { type: String },
+  creatorId: { type: String },
   platformDescription: { type: String, default: '' },
   platformImage: { type: String, default: '' },
   ownedQuizzes: [{ type: mongoose.Schema.Types.ObjectID, ref: 'Quiz' }],
