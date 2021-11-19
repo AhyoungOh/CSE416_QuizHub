@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cd server && npm i && node server.js && cd ../client && npm i && npm run build && cd ../server && rm -rf public && rm -rf build && cd ../client && mv build ../server && cd ../server && mv build public",
+    "start": "cd server && npm i && node server.js & && cd ../client && npm i && npm run build && cd ../server && rm -rf public && rm -rf build && cd ../client && mv build ../server && cd ../server && mv build public",
     "start-window": "cd ./client && npm i && npm run build && cd ../server && del public && del build && cd ../client && move build ../server && cd ../server && ren build public && node server.js",
     "build-window": "cd ./client && cd ../server && del public && del build && cd ../client && move build ../server && cd ../server && ren build public"
   },
