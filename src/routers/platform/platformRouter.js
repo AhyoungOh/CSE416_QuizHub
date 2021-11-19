@@ -122,10 +122,6 @@ router.post(
       } else {
         res.status(404).send({ message: 'Creator Now Found' });
       }
-      // Creator.updateOne(
-      //   { creatorId: req.body.creatorId },
-      //   { $push: { ownedPlatformId: newPlatformId } }
-      // );
     } catch (error) {
       res.send('error');
     }
