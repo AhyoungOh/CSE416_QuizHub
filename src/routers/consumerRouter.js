@@ -16,7 +16,7 @@ consumerRouter.get(
 consumerRouter.get(
   '/:id',
   expressAsyncHandler(async (req, res) => {
-    const consumer = await findById(Number(req.params._id));
+    const consumer = await findById(Number(req.params.id));
     res.send({ consumer });
   })
 );
