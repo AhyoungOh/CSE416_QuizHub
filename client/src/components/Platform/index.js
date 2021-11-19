@@ -18,14 +18,15 @@ function Platform({
       }}
     >
       <Avatar 
-        sx={{ m: 1, bgcolor: 'secondary.main' }}
+        // sx={{ m: 1, bgcolor: 'secondary.main' }}
+        sx={{ width: 120, height: 120, m: 2 }}
         alt={platformName} 
         src={platformImage}>
       </Avatar>
-      <Typography component="h1" variant="h5">
+      <Typography color="primary" variant="h4" sx={{ fontWeight: 'bold' }}>
         {platformName}
       </Typography>
-      <Typography component="h2">
+      <Typography variant="subtitle1" sx={{ m: 1 }}>
         {platformDescription}
       </Typography>
     </Box>
