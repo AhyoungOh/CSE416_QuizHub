@@ -1,7 +1,7 @@
 import Platform from '../Platform';
 import PlatformSpecificQuizCard from '../../components/Card/PlatformSpecificQuizCard';
 import { useHistory } from 'react-router-dom';
-import { Grid, Button, Fab, Card } from '@mui/material';
+import { Grid, Button, Fab, Paper } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import AddIcon from '@mui/icons-material/Add';
 import KeyboardBackspaceRoundedIcon from '@mui/icons-material/KeyboardBackspaceRounded';
@@ -82,10 +82,14 @@ function Detail({ platformData, setVisible }) {
       </Grid>
       <Grid container spacing={3} className={classes.gridContainer} alignItems="center">
         {QuizComponents}
+        <Grid item>
+          <Paper sx={{ borderRadius: '18px', minHeight: '250px', minWidth: '250px' }}>
+            <Fab color="primary" aria-label="add" onClick={updateQuizData} sx={{ m: '100px' }}>
+              <AddIcon />
+            </Fab>
+          </Paper>
+        </Grid>
       </Grid>
-      <Fab color="primary" aria-label="add" onClick={updateQuizData} className={classes.fabStyle}>
-        <AddIcon />
-      </Fab>
     </div>
   );
 }
