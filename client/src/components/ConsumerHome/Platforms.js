@@ -5,7 +5,8 @@ export default function Platforms({ searchWord, searchType }) {
   const [loading, payload, error] = useApiCall(
     process.env.NODE_ENV === 'production'
       ? `/api/creatorHome`
-      : `http://localhost:4000/api/creatorHome`
+      : `http://localhost:4000/api/creatorHome`,
+    { withCredentials: true }
   );
   if (!payload) {
     return <div>No Data</div>;

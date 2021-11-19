@@ -22,7 +22,6 @@ const updateCreator = async ({ creatorId, creatorEmail, selfIntroduction }) => {
       creatorId,
       creatorEmail,
       selfIntroduction,
-      // ownedplatformId,
       creatorImage,
       creatorUsername,
     }).exec();
@@ -55,7 +54,7 @@ creatorRouter.post(
   '/post',
   expressAsyncHandler(async (req, res) => {
     const creator = new Creator({
-      ownedplatformId: req.body.ownedplatformId,
+      ownedPlatformId: req.body.ownedplatformId,
       creatorImage: req.body.creatorImage,
       selfIntroduction: req.body.selfIntroduction,
       creatorUsername: req.body.creatorUsername,

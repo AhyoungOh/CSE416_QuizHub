@@ -75,12 +75,14 @@ router.post('/creator', async (req, res) => {
       });
 
     // 정보 검증이 끝났으므로 user DB에 입력받은 정보를 저장한다.
+    console.log('start');
     const creator = new Creator({
       creatorUsername: req.body.username,
       password: req.body.password,
       creatorEmail: req.body.email,
       ownedPlatformId: [],
     });
+    console.log('end');
     await creator.save();
 
     return res.send({

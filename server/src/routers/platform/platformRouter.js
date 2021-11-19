@@ -70,12 +70,8 @@ const deletePlatform = async ({ platformId }) => {
   }
 };
 
-router.get(
-  '/',
-  validUser,
-  expressAsyncHandler(async (req, res) => {
-    // console.log('req.creator.platformid', req.creator.ownedPlatformId);
-    // console.log(req.session._ctx.creator._id);
+router.get('/', validUser, async (req, res) => {
+  if (req.creator) {
     const createPlatform = await PlatformModel.find({
       _id: req.creator.ownedPlatformId,
     }).populate({
@@ -83,8 +79,14 @@ router.get(
       model: Quiz,
     });
     res.send({ createPlatform });
-  })
-);
+  } else {
+    const createPlatform = await PlatformModel.find({}).populate({
+      path: 'ownedQuizzes',
+      model: Quiz,
+    });
+    res.send({ createPlatform });
+  }
+});
 // router.get(
 //   '/',
 //   expressAsyncHandler(async (req, res) => {
@@ -172,7 +174,7 @@ router.delete(
       });
       const creator = await Creator.findById(creatorId);
       if (creator) {
-        creator.ownedPlatformId.pull(req.params.id);
+        creator.ownedPlatformId.remove(req.params.id);
         const updatedCreator = await creator.save();
         res.send({
           message: 'creator updated',
