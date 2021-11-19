@@ -35,7 +35,7 @@ function CreatorAccountSettings() {
       await axios
         .get(
           process.env.NODE_ENV == 'production'
-            ? `${process.env.REACT_APP_API_SERVER}/api/creator/${user?.id}`
+            ? `/api/creator/${user?.id}`
             : `http://localhost:4000/api/creator/${user?.id}`
         )
         .then((response) => {
@@ -54,7 +54,7 @@ function CreatorAccountSettings() {
     try {
       await axios.put(
         process.env.NODE_ENV == 'production'
-          ? `${process.env.REACT_APP_API_SERVER}/api/creator/${user?.id}`
+          ? `/api/creator/${user?.id}`
           : `http://localhost:4000/api/creator/${user?.id}`,
         {
           creatorEmail: email,
@@ -72,13 +72,13 @@ function CreatorAccountSettings() {
     try {
       await axios.delete(
         process.env.NODE_ENV == 'production'
-          ? `${process.env.REACT_APP_API_SERVER}/api/creator/${user?.id}`
+          ? `/api/creator/${user?.id}`
           : `http://localhost:4000/api/creator/${user?.id}`
       );
       try {
         await axios.delete(
           process.env.NODE_ENV == 'production'
-            ? `${process.env.REACT_APP_API_SERVER}/api/auth`
+            ? `/api/auth`
             : `http://localhost:4000/api/auth`
         );
       } catch (e) {

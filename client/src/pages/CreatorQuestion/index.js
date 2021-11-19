@@ -11,7 +11,7 @@ function CreatorQuestion() {
   const location = useLocation();
   const [loading, testData, error, fetchData] = useApiCall(
     process.env.NODE_ENV === 'production'
-      ? `${process.env.REACT_APP_API_SERVER}/api/question`
+      ? `/api/question`
       : `http://localhost:4000/api/question`
   );
   const [visible, setQuestionVisible] = useState(false);

@@ -22,7 +22,7 @@ function CreatorFunction() {
   const location = useLocation();
   const [loading, testData, error, fetchData] = useApiCall(
     process.env.NODE_ENV === 'production'
-      ? `${process.env.REACT_APP_API_SERVER}/api/creatorHome`
+      ? `/api/creatorHome`
       : `http://localhost:4000/api/creatorHome`,
     true
   );

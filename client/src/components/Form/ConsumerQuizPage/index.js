@@ -39,7 +39,7 @@ function ConsumerQuizPage() {
       await axios
         .get(
           process.env.NODE_ENV == 'production'
-            ? `${process.env.REACT_APP_API_SERVER}/api/quiz/detail/${id}`
+            ? `/api/quiz/detail/${id}`
             : `http://localhost:4000/api/quiz/detail/${id}`
         )
         .then((response) => {
@@ -61,7 +61,7 @@ function ConsumerQuizPage() {
       await axios
         .get(
           process.env.NODE_ENV == 'production'
-            ? `${process.env.REACT_APP_API_SERVER}/api/question/${question_id}`
+            ? `/api/question/${question_id}`
             : `http://localhost:4000/api/question/${question_id}`
         )
         .then((response) => {
@@ -98,12 +98,12 @@ function ConsumerQuizPage() {
   const submitHandler = () => {
     axios.post(
       process.env.NODE_ENV === 'production'
-        ? `${process.env.REACT_APP_API_SERVER}/api/consumer/quiz`
+        ? `/api/consumer/quiz`
         : `http://localhost:4000/api/consumer/quiz`,
       { quizzes: { ...quizInfo.current } },
       { withCredentials: true }
     );
-    history.push(`/result/${id}`)
+    history.push(`/result/${id}`);
   };
   return (
     <div>

@@ -10,10 +10,9 @@ function ApiCall() {
     setLoading(true);
     try {
       const response = await axios.get(
-        process.env.NODE_ENV == 'production' ?
-        `${process.env.REACT_APP_API_server}/platform`
-        :
-        `http://localhost:4000/platform`
+        process.env.NODE_ENV == 'production'
+          ? `/platform`
+          : `http://localhost:4000/platform`
       );
       setLoading(false);
       setPayload(response.data);

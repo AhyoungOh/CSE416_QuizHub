@@ -27,7 +27,7 @@ function WriteQuestion({
   const createquestionData = async () => {
     await axios.post(
       process.env.NODE_ENV === 'production'
-        ? `${process.env.REACT_APP_API_SERVER}/api/question`
+        ? `/api/question`
         : `http://localhost:4000/api/question/${quizId}`,
       {
         questionNumber,
@@ -45,7 +45,7 @@ function WriteQuestion({
   const updatequestionData = async () => {
     await axios.put(
       process.env.NODE_ENV === 'production'
-        ? `${process.env.REACT_APP_API_SERVER}/api/question/detail/${questionData._id}`
+        ? `/api/question/detail/${questionData._id}`
         : `http://localhost:4000/api/question/detail/${questionData._id}`,
       {
         _id: questionData._id,
@@ -63,7 +63,7 @@ function WriteQuestion({
   const deletequestionData = async () => {
     await axios.delete(
       process.env.NODE_ENV === 'production'
-        ? `${process.env.REACT_APP_API_SERVER}/api/question/detail/${questionData._id}`
+        ? `/api/question/detail/${questionData._id}`
         : `http://localhost:4000/api/question/detail/${questionData._id}`
     );
     setQuestionVisible(false);

@@ -20,7 +20,7 @@ function SignIn() {
     try {
       const userInfo = await axios.post(
         process.env.NODE_ENV == 'production'
-          ? `${process.env.REACT_APP_API_SERVER}/api/auth/login`
+          ? `/api/auth/login`
           : `http://localhost:4000/api/auth/login`,
         {
           username: idRef.current.value,

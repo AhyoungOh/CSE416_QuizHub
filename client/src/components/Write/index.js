@@ -29,7 +29,7 @@ function Write({ platformData, setVisible, fetchData }) {
   const createplatformData = async () => {
     await axios.post(
       process.env.NODE_ENV === 'production'
-        ? `${process.env.REACT_APP_API_SERVER}/api/creatorHome`
+        ? `/api/creatorHome`
         : `http://localhost:4000/api/creatorHome`,
       {
         platformName,
@@ -46,7 +46,7 @@ function Write({ platformData, setVisible, fetchData }) {
   const updateplatformData = async () => {
     await axios.put(
       process.env.NODE_ENV === 'production'
-        ? `${process.env.REACT_APP_API_SERVER}/api/creatorHome/${platformData._id}`
+        ? `/api/creatorHome/${platformData._id}`
         : `http://localhost:4000/api/creatorHome/${platformData._id}`,
       {
         _id: platformData._id,
@@ -65,7 +65,7 @@ function Write({ platformData, setVisible, fetchData }) {
   const deleteplatformData = async () => {
     await axios.delete(
       process.env.NODE_ENV === 'production'
-        ? `${process.env.REACT_APP_API_SERVER}/api/creatorHome/${platformData._id}`
+        ? `/api/creatorHome/${platformData._id}`
         : `http://localhost:4000/api/creatorHome/${platformData._id}`
     );
     setVisible(false);

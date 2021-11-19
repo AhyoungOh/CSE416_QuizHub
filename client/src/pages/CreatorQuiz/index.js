@@ -22,7 +22,7 @@ function CreatorQuiz() {
   const location = useLocation();
   const [loading, testData, error, fetchData] = useApiCall(
     process.env.NODE_ENV === 'production'
-      ? `${process.env.REACT_APP_API_SERVER}/api/quiz`
+      ? `/api/quiz`
       : `http://localhost:4000/api/quiz`
   );
   const [visible, setQuizVisible] = useState(false);

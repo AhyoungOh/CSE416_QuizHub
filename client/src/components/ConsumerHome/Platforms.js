@@ -4,7 +4,7 @@ import useApiCall from '../../hooks/useApiCall';
 export default function Platforms({ searchWord, searchType }) {
   const [loading, payload, error] = useApiCall(
     process.env.NODE_ENV === 'production'
-      ? `${process.env.REACT_APP_API_SERVER}/api/creatorHome`
+      ? `/api/creatorHome`
       : `http://localhost:4000/api/creatorHome`
   );
   if (!payload) {

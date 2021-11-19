@@ -31,7 +31,7 @@ function ConsumerQuizPreview() {
       await axios
         .get(
           process.env.NODE_ENV == 'production'
-            ? `${process.env.REACT_APP_API_SERVER}/api/quiz/detail/${id}`
+            ? `/api/quiz/detail/${id}`
             : `http://localhost:4000/api/quiz/detail/${id}`
         )
         .then((response) => {

@@ -17,7 +17,7 @@ function CreatorSignUp() {
     try {
       const creatorInfo = await axios.post(
         process.env.NODE_ENV == 'production'
-          ? `${process.env.REACT_APP_API_SERVER}/api/auth/creator`
+          ? `/api/auth/creator`
           : `http://localhost:4000/api/auth/creator`,
         {
           username: usernameRef.current.value,

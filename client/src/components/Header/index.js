@@ -11,7 +11,7 @@ function Header() {
   const setUserInfo = async () => {
     const userInfo = await axios.get(
       process.env.NODE_ENV === 'production'
-        ? `${process.env.REACT_APP_API_SERVER}/api/auth`
+        ? `/api/auth`
         : `http://localhost:4000/api/auth`,
       { withCredentials: true }
     );
@@ -24,10 +24,10 @@ function Header() {
 
   const signoutClickHandler = async () => {
     try {
-      // await axios.delete(`${process.env.REACT_APP_API_SERVER}/api/auth`);
+      // await axios.delete(`/api/auth`);
       await axios.delete(
         process.env.NODE_ENV === 'production'
-          ? `${process.env.REACT_APP_API_SERVER}/api/auth/`
+          ? `/api/auth/`
           : `http://localhost:4000/api/auth`,
         { withCredentials: true } // session에 데이터를 추가해줌.
       );

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState ,useRef} from 'react';
+import React, { useState, useRef } from 'react';
 import Input from './Input';
 import './style.scss';
 import { useHistory } from 'react-router-dom';
@@ -36,13 +36,13 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
   const [quizEnableLeaderboard, setQuizEnableLeaderboard] = useState(
     quizData?.quizEnableLeaderboard || ''
   );
- 
-  const groupid=useRef(0)
+
+  const groupid = useRef(0);
   const history = useHistory();
   const createquizData = async () => {
     await axios.post(
       process.env.NODE_ENV === 'production'
-        ? `${process.env.REACT_APP_API_SERVER}/api/quiz/${platformId}`
+        ? `/api/quiz/${platformId}`
         : `http://localhost:4000/api/quiz/${platformId}`,
       {
         platformId,
@@ -64,12 +64,12 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
     setQuizVisible(false);
     fetchData();
     //history.push(`/creatorHome/${platformId}`);
-    createCertificate()
+    createCertificate();
   };
   const updatequizData = async () => {
     await axios.put(
       process.env.NODE_ENV === 'production'
-        ? `${process.env.REACT_APP_API_SERVER}/api/quiz/detail/${quizData._id}`
+        ? `/api/quiz/detail/${quizData._id}`
         : `http://localhost:4000/api/quiz/detail/${quizData._id}`,
       {
         _id: quizData._id,
@@ -96,51 +96,60 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
   const deletequizData = async () => {
     await axios.delete(
       process.env.NODE_ENV === 'production'
-        ? `${process.env.REACT_APP_API_SERVER}/api/quiz/deatil/${quizData._id}`
+        ? `/api/quiz/deatil/${quizData._id}`
         : `http://localhost:4000/api/quiz/detail/${quizData._id}`
     );
     setQuizVisible(false);
     fetchData();
     history.push(`/creatorHome/${platformId}`);
   };
-  
-  const createCertificate =  async () => {
-    const apicall={
-      headers:{
+
+  const createCertificate = async () => {
+    const apicall = {
+      headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Token token=ac4e7119623388f9afad927bb881138f',
-      }
-    }
-    const apidata={}
-    const creategroupdata={
-        group: {
-          "name": quizName,
-          "course_name": quizName,
-          "course_description": quizDescription,
-          "course_link":"https://cse416-quizhub.netlify.app",
-          "attach_pdf": true,
-          "certificate_design_id": null,
-          "badge_design_id": null,
-        }    
-      }
+        Authorization: 'Token token=ac4e7119623388f9afad927bb881138f',
+      },
+    };
+    const apidata = {};
+    const creategroupdata = {
+      group: {
+        name: quizName,
+        course_name: quizName,
+        course_description: quizDescription,
+        course_link: 'https://cse416-quizhub.netlify.app',
+        attach_pdf: true,
+        certificate_design_id: null,
+        badge_design_id: null,
+      },
+    };
     try {
-      await axios.post(
-        `https://api.accredible.com/v1/issuer/groups`,creategroupdata,apicall)
-      .then((response) => {
-        console.log(response); 
-        groupid.current=response.data.group.id
-      });
-      await axios.post(
-          `https://api.accredible.com/v1/designers/certificate/initialize`,apidata,apicall)
+      await axios
+        .post(
+          `https://api.accredible.com/v1/issuer/groups`,
+          creategroupdata,
+          apicall
+        )
         .then((response) => {
           console.log(response);
-          history.push(`/createcertificate/${response.data.token}/${groupid.current}/${platformId}`);
+          groupid.current = response.data.group.id;
+        });
+      await axios
+        .post(
+          `https://api.accredible.com/v1/designers/certificate/initialize`,
+          apidata,
+          apicall
+        )
+        .then((response) => {
+          console.log(response);
+          history.push(
+            `/createcertificate/${response.data.token}/${groupid.current}/${platformId}`
+          );
         });
     } catch (e) {
       console.error(e);
     }
-
-  }
+  };
   if (quizData === undefined) {
     return (
       <div className='write'>

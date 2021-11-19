@@ -17,7 +17,7 @@ function ConsumerSignUp() {
     try {
       const consumerInfo = await axios.post(
         process.env.NODE_ENV == 'production'
-          ? `${process.env.REACT_APP_API_SERVER}/api/auth/consumer`
+          ? `/api/auth/consumer`
           : `http://localhost:4000/api/auth/consumer`,
         {
           username: usernameRef.current.value,
