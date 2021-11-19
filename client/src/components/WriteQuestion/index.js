@@ -1,8 +1,8 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import Input from './Input';
-import './style.scss';
 import { useHistory } from 'react-router-dom';
+import { Grid, TextField, Paper, Button } from '@mui/material';
 
 function WriteQuestion({
   questionData,
@@ -24,6 +24,7 @@ function WriteQuestion({
   );
   const history = useHistory();
   console.log('quizId', quizId);
+
   const createquestionData = async () => {
     await axios.post(
       process.env.NODE_ENV === 'production'
@@ -70,48 +71,80 @@ function WriteQuestion({
     fetchData();
     history.push(`/quiz/detail/${quizId}`);
   };
+
   if (questionData === undefined) {
+    // add new question
     return (
       <div className='write'>
-        <div className='inputs-wrapper'>
-          <Input
-            title={'question number'}
-            value={questionNumber}
-            setValue={setQuestionNumber}
+        <Paper sx={{ display: 'flex', flexWrapped: 'wrap', flexDirection: 'column', minWidth: '500px' }}>
+          <TextField
+            required
+            autoFocus 
+            // fullWidth
+            margin="dense"
+            label="Question Number"
+            type="text" 
+            placeholder="Enter question number..."
+            onChange={(e) => setQuestionNumber(e.target.value)}
+            sx={{ m: 3 }}
           />
-          <Input
-            title={'question'}
-            value={questionQuestion}
-            setValue={setQuestionQuestion}
+          <TextField
+            required
+            autoFocus 
+            // fullWidth
+            margin="dense"
+            label="Question"
+            type="text" 
+            placeholder="Enter the question..."
+            onChange={(e) => setQuestionQuestion(e.target.value)}
+            sx={{ m: 3 }}
           />
-          <Input
-            title={'question option'}
-            value={questionOptions}
-            setValue={setQuestionOption}
+          <TextField
+            required
+            autoFocus 
+            // fullWidth
+            margin="dense"
+            label="Options"
+            type="text" 
+            placeholder="Enter the options..."
+            onChange={(e) => setQuestionOption(e.target.value)}
+            sx={{ m: 3 }}
           />
-          <Input
-            title={'question answer'}
-            value={questionAnswer}
-            setValue={setQuetsionAnswer}
+          <TextField
+            required
+            autoFocus 
+            // fullWidth
+            margin="dense"
+            label="Answer"
+            type="text" 
+            placeholder="Enter the answer..."
+            onChange={(e) => setQuetsionAnswer(e.target.value)}
+            sx={{ m: 3 }}
           />
-          <div className='button-wrapper'>
-            <button className='green' onClick={createquestionData}>
-              Create
-            </button>
-            <button
-              className='red'
-              onClick={() => {
-                setQuestionVisible(false);
-              }}
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
+          <Grid container justifyContent="flex-end" spacing={2} sx={{ padding: "25px" }}>
+            <Grid item>
+              <Button variant="contained" onClick={createquestionData}>
+                Create
+              </Button>
+            </Grid>
+              <Grid item>
+              <Button
+                variant="outlined"
+                color="inherit"
+                onClick={() => {
+                    history.push(`/quiz/detail/${quizId}`);
+                  }
+                }
+              >
+                Cancel
+              </Button>
+            </Grid>
+          </Grid>
+        </Paper>
       </div>
     );
   } else {
-    // edit part
+    // edit question
     return (
       <div
         className='write'
@@ -120,36 +153,72 @@ function WriteQuestion({
             setQuestionVisible(false);
         }}
       >
-        <div className='inputs-wrapper'>
-          <Input
-            title={'question number'}
+        <Paper sx={{ display: 'flex', flexWrapped: 'wrap', flexDirection: 'column', minWidth: '500px' }}>
+          <TextField
+            required
+            autoFocus 
+            // fullWidth
+            margin="dense"
+            label="Question Number"
+            type="text" 
+            placeholder="Enter question number..."
             value={questionNumber}
-            setValue={setQuestionNumber}
+            onChange={(e) => setQuestionNumber(e.target.value)}
+            sx={{ m: 3 }}
           />
-          <Input
-            title={'question'}
+          <TextField
+            required
+            autoFocus 
+            // fullWidth
+            margin="dense"
+            label="Question"
+            type="text" 
+            placeholder="Enter the question..."
             value={questionQuestion}
-            setValue={setQuestionQuestion}
+            onChange={(e) => setQuestionQuestion(e.target.value)}
+            sx={{ m: 3 }}
           />
-          <Input
-            title={'question option'}
+          <TextField
+            required
+            autoFocus 
+            // fullWidth
+            margin="dense"
+            label="Options"
+            type="text" 
+            placeholder="Enter the options..."
             value={questionOptions}
-            setValue={setQuestionOption}
+            onChange={(e) => setQuestionOption(e.target.value)}
+            sx={{ m: 3 }}
           />
-          <Input
-            title={'question answer'}
+          <TextField
+            required
+            autoFocus 
+            // fullWidth
+            margin="dense"
+            label="Answer"
+            type="text" 
+            placeholder="Enter the answer..."
             value={questionAnswer}
-            setValue={setQuetsionAnswer}
+            onChange={(e) => setQuetsionAnswer(e.target.value)}
+            sx={{ m: 3 }}
           />
-          <div className='button-wrapper'>
-            <button className='green' onClick={updatequestionData}>
-              Update
-            </button>
-            <button className='red' onClick={deletequestionData}>
-              Delete
-            </button>
-          </div>
-        </div>
+          <Grid container justifyContent="flex-end" spacing={2} sx={{ padding: "25px" }}>
+            <Grid item>
+              <Button
+                variant="contained"
+                color="error"
+                onClick={deletequestionData}
+              >
+                Delete
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button variant="contained" onClick={updatequestionData}>
+                Update
+              </Button>
+            </Grid>
+          </Grid>
+        </Paper>
       </div>
     );
   }

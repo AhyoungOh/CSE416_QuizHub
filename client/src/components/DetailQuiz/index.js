@@ -6,8 +6,9 @@ import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles({
   buttonsContainer: {
-    paddingTop: '20px',
+    paddingTop: '30px',
     paddingBottom: '20px',
+    paddingLeft: '20px',
   }
 });
 
@@ -73,7 +74,12 @@ function DetailQuiz({ quizData, setQuizVisible }) {
       >
         {QuestionComponents}
       </Grid>
-      <Grid container spacing={1} justifyContent="center" className={classes.buttonsContainer}>
+      <Grid 
+        container 
+        spacing={1} 
+        // justifyContent="center" 
+        className={classes.buttonsContainer}
+      >
         <Grid item>
           <Button variant="contained" onClick={updateQuizData}>Edit Quiz</Button>
         </Grid>

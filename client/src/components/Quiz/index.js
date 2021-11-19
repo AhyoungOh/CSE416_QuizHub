@@ -18,7 +18,12 @@ function Quiz({
   return (
     <div className='quiz' onClick={setquizData}>
       {/* TODO: make it into a list on the card */}
-      <Grid container spacing={2} sx={{ m: 2 }}>
+      <Grid 
+        container 
+        // justifyContent="center" 
+        spacing={2} 
+        sx={{ padding: '20px' }}
+      >
         <Grid item>
           <img alt={quizName} src={quizImage} className={classes.imageStyle}/>
         </Grid>
