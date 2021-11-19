@@ -1,6 +1,5 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
-import data from '../data.js.js';
 import Leaderboard from '../models/leaderboardSchema.js';
 
 const leaderboardRouter = express.Router();
