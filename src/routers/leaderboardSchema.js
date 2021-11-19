@@ -14,16 +14,6 @@ leaderboardRouter.get(
   })
 );
 
-//post sample data
-leaderboardRouter.post(
-  '/seed',
-  expressAsyncHandler(async (req, res) => {
-    await Leaderboard.remove({});
-    const createLeaderboard = await Leaderboard.insertMany(data.ranking);
-    res.send({ createLeaderboard });
-  })
-);
-
 //create new data
 leaderboardRouter.post(
   '/post',
