@@ -12,34 +12,29 @@ function PlatformSpecificQuizCard({
   quizName,
   quizDescription,
   quizImage,
-  quizQuestions,
+  // quizQuestions,
   clickAction,
+  quizCreatedDate
 }) {
   return (
     <Grid item xs={12} md={4}>
-      <Card>
+      <Card sx={{ borderRadius: '18px' }}>
         <CardActionArea onClick={clickAction}>
-          <Card sx={{ display: 'flex' }}>
+          <Card sx={{ display: 'flex', minHeight: '250px' }}>
             <CardContent sx={{ flex: 1 }}>
-              <Typography component='h2' variant='h5'>
+              <Typography sx={{ fontWeight: 'bold', fontSize: '30px' }}>
                 {quizName}
               </Typography>
-              <Typography variant='subtitle1' color='text.secondary'>
-                {/* date */}
+              <Typography sx={{ mb: 1.5 }} color='text.secondary'>
+                {quizCreatedDate.slice(0, 10)}
               </Typography>
-              <div className='question'>
-                It has {quizQuestions.length} questions
-              </div>
-              <Typography variant='subtitle1' paragraph>
+              <Typography variant='body1' paragraph>
                 {quizDescription}
               </Typography>
-              {/* <Typography variant="subtitle1" color="primary">
-                            Continue reading...
-                            </Typography> */}
             </CardContent>
             <CardMedia
               component='img'
-              sx={{ width: 160, display: { xs: 'none', sm: 'block' } }}
+              sx={{ width: 250, display: { xs: 'none', sm: 'block' } }}
               image={quizImage}
               alt={quizName}
             />
