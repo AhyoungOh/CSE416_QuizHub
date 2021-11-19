@@ -67,7 +67,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/quiz', quizRouter);
 app.use('/api/question', questionRouter);
 
-app.get('/', (req, res) => {
+app.get('*', (req, res) => {
   res.render('index.html');
 });
 
