@@ -1,7 +1,7 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import PlatformModel from '../../models/platformSchema.js';
-import Creator from '../../models/creatorSchema.js';
+import creator from '../../models/creatorSchema.js';
 import Quiz from '../../models/quizSchema.js';
 import validUser from '../../middleware/auth/index.js';
 import creatorSchema from '../../models/creatorSchema.js';
@@ -85,6 +85,15 @@ router.get(
     res.send({ createPlatform });
   })
 );
+// router.get(
+//   '/',
+//   expressAsyncHandler(async (req, res) => {
+//     console.log('req', req);
+//     const Creator = mongoose.model(creator);
+//     const createPlatform = await PlatformModel.find();
+//     res.send({ createPlatform });
+//   })
+// );
 
 router.get(
   '/:id',
