@@ -1,7 +1,7 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import Consumer from '../models/consumerSchema.js';
-
+import validUser from '../middleware/auth/index.js';
 const consumerRouter = express.Router();
 
 //get data
@@ -51,12 +51,32 @@ consumerRouter.put(
     console.log(req.body);
     if (consumer) {
       consumer.consumerDescription = req.body.consumerDescription;
-      console.log(consumerDescription);
       consumer.consumerIsPrivate = req.body.consumerDescription;
       consumer.consumerImage = req.body.consumerImage;
       consumer.consumerUsername = req.body.consumerUsername;
       consumer.consumerEmail = req.body.consumerEmail;
       consumer.password = req.body.password;
+      const updatedConsumer = await consumer.save();
+      res.send({
+        message: 'Consumer Updated',
+        consumer: updatedConsumer,
+      });
+    } else {
+      res.status(404).send({ message: 'Consumer Not Found' });
+    }
+  })
+);
+
+consumerRouter.post(
+  '/quiz',
+  validUser,
+  expressAsyncHandler(async (req, res) => {
+    const consumerId = req.consumer._id;
+    const consumer = await Consumer.findById(consumerId);
+    if (consumer) {
+      console.log(req.body.quizzes);
+      consumer.consumerQuizHistoryList.push(req.body.quizzes);
+
       const updatedConsumer = await consumer.save();
       res.send({
         message: 'Consumer Updated',

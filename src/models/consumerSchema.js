@@ -14,20 +14,20 @@ const consumerSchema = new Schema({
   consumerEmail: { type: String },
   password: { type: String },
   consumerIsPrivate: { type: Boolean, default: false },
-  consumerQuizHistoryList: [
-    {
-      Quizzes: {
-        quizId: { type: Schema.Types.ObjectID, ref: 'Quiz' },
-        correctNumber: { type: Number },
-        quizTimeTaken: {
-          minutes: { type: Number },
-          seconds: { type: Number },
-        },
-        accomplishedDate: { type: Date },
-        usedTrialNumber: { type: Number },
-      },
-    },
-  ],
+  consumerQuizHistoryList: { type: Array },
+  // {
+  //   Quizzes: {
+  //     quizId: { type: Schema.Types.ObjectID, ref: 'Quiz' },
+  //     // correctNumber: { type: Number },
+  //     answerchoices: [{ type: Number }],
+  //     quizTimeTaken: {
+  //       minutes: { type: Number },
+  //       seconds: { type: Number },
+  //     },
+  //     accomplishedDate: { type: Date },
+  //     usedTrialNumber: { type: Number },
+  //   },
+  // },
   certificates: [
     {
       certificateId: {
