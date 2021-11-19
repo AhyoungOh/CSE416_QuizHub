@@ -109,7 +109,6 @@ router.post('/', (req, res) => {
     });
     newPlatform.save();
     const newPlatformId = newPlatform._id;
-    console.log(newPlatform);
     const Creator = mongoose.model('Creator', creatorSchema);
     Creator.updateOne(
       { creatorId: req.body.creatorId },
