@@ -97,27 +97,40 @@ router.get(
   })
 );
 
-router.post('/', (req, res) => {
-  // console.log('req', req.body.creatorId);
-  try {
-    const newPlatform = new PlatformModel({
-      platformName: req.body.platformName,
-      creatorId: req.body.creatorId,
-      platformDescription: req.body.platformDescription,
-      platformImage: req.body.platformImage,
-      createdDate: Date.now(),
-    });
-    newPlatform.save();
-    const newPlatformId = newPlatform._id;
-    const Creator = mongoose.model('Creator', creatorSchema);
-    Creator.updateOne(
-      { creatorId: req.body.creatorId },
-      { $push: { ownedPlatformId: newPlatformId } }
-    );
-  } catch (error) {
-    res.send('error');
-  }
-});
+router.post(
+  '/',
+  expressAsyncHandler(async (req, res) => {
+    // console.log('req', req.body.creatorId);
+    try {
+      const newPlatform = new PlatformModel({
+        platformName: req.body.platformName,
+        creatorId: req.body.creatorId,
+        platformDescription: req.body.platformDescription,
+        platformImage: req.body.platformImage,
+        createdDate: Date.now(),
+      });
+      newPlatform.save();
+      const newPlatformId = newPlatform._id;
+      const creator = await Creator.findById(req.body.creatorId);
+      if (creator) {
+        creator.ownedPlatformId.push(newPlatform);
+        const updatedCreator = await creator.save();
+        res.send({
+          message: 'creator updated',
+          creator: updatedCreator,
+        });
+      } else {
+        res.status(404).send({ message: 'Creator Now Found' });
+      }
+      // Creator.updateOne(
+      //   { creatorId: req.body.creatorId },
+      //   { $push: { ownedPlatformId: newPlatformId } }
+      // );
+    } catch (error) {
+      res.send('error');
+    }
+  })
+);
 
 router.put(
   '/:id',
