@@ -27,7 +27,7 @@ function WriteQuestion({
   const createquestionData = async () => {
     await axios.post(
       process.env.NODE_ENV === 'production'
-        ? `/api/question`
+        ? `/api/question/${quizId}`
         : `http://localhost:4000/api/question/${quizId}`,
       {
         questionNumber,
