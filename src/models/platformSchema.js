@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
 const platformSchema = new mongoose.Schema({
+  creatorId: { type: String },
   platformName: { type: String },
   platformDescription: { type: String, default: '' },
   platformImage: { type: String, default: '' },

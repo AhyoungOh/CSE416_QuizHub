@@ -1,35 +1,17 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
-import PlatformModel from '../../models/platformSchema.js';
+import Platform from '../../models/platformSchema.js';
 import Quiz from '../../models/quizSchema.js';
+import creatorSchema from '../../models/creatorSchema.js';
 import validUser from '../../middleware/auth/index.js';
 const router = express.Router();
 
 const getPlatformById = async (platformId) => {
   try {
-    const platform = await PlatformModel.findOne({ _id: platformId })
+    const platform = await Platform.findOne({ _id: platformId })
       .populate({ path: 'ownedQuizzes', model: 'Quiz' })
       .exec();
     return platform;
-  } catch (err) {
-    console.error(err);
-    return {};
-  }
-};
-
-const addPlatform = async ({
-  platformName,
-  platformDescription,
-  platformImage,
-  createdDate,
-}) => {
-  try {
-    await PlatformModel.create({
-      platformName,
-      platformDescription,
-      platformImage,
-      createdDate,
-    });
   } catch (err) {
     console.error(err);
     return {};
@@ -45,7 +27,7 @@ const updatePlatform = async ({
 }) => {
   try {
     const query = { _id: platformId };
-    await PlatformModel.updateOne(query, {
+    await Platform.updateOne(query, {
       platformName,
       platformDescription,
       platformImage,
@@ -60,7 +42,7 @@ const updatePlatform = async ({
 const deletePlatform = async ({ platformId }) => {
   try {
     const query = { _id: platformId };
-    await PlatformModel.deleteOne(query).exec();
+    await Platform.deleteOne(query).exec();
   } catch (err) {
     console.error(err);
     return {};
@@ -72,7 +54,7 @@ router.get(
   validUser,
   expressAsyncHandler(async (req, res) => {
     // console.log('req.creator id', req.creator.ownedPlatformId);
-    const createPlatform = await PlatformModel.find({
+    const createPlatform = await Platform.find({
       _id: req.creator.ownedPlatformId,
     }).populate({
       path: 'ownedQuizzes',
@@ -86,7 +68,7 @@ router.get(
 router.get(
   '/:id',
   expressAsyncHandler(async (req, res) => {
-    const platform = await PlatformModel.findById(req.params._id)
+    const platform = await Platform.findById(req.params._id)
       //.populate('ownedQuizzes')
       .exec();
     // const platform = await getPlatformById(Number(req.params._id));
@@ -96,15 +78,28 @@ router.get(
 
 router.post(
   '/',
+  validUser,
   expressAsyncHandler(async (req, res) => {
-    await addPlatform({
-      platformName: req.body.platformName,
-      platformDescription: req.body.platformDescription,
-      platformImage: req.body.platformImage,
-      createdDate: Date.now(),
-      // ownedQuizzes: req.body.quiz.quizName,
-    });
-    res.send('Platform Created');
+    try {
+      console.log('req, creator', req.creator);
+      console.log('req, body', req.body);
+      const newPlatform = new Platform({
+        platformName: req.body.platformName,
+        platformDescription: req.body.platformDescription,
+        platformImage: req.body.platformImage,
+        createdDate: Date.now(),
+      });
+      console.log('newplatform', newPlatform);
+      newPlatform.save();
+      const newPlatformId = newPlatform._id;
+      const Creator = mongoose.model('Creator', creatorSchema);
+      Creator.updateOne(
+        { _id: req.body.creatorId },
+        { $push: { ownedPlatformId: newPlatformId } }
+      );
+    } catch (error) {
+      res.send('create error');
+    }
   })
 );
 
@@ -112,9 +107,9 @@ router.put(
   '/:id',
   expressAsyncHandler(async (req, res) => {
     const platformId = req.params.id;
-    const platform = await PlatformModel.findById(platformId);
+    const platform = await Platform.findById(platformId);
 
-    if (PlatformModel) {
+    if (Platform) {
       platform.platformName = req.body.platformName;
       platform.platformDescription = req.body.platformDescription;
       platform.platformImage = req.body.platformImage;
@@ -122,7 +117,7 @@ router.put(
       const updatedPlatform = await platform.save();
       res.send({
         message: 'Platform Updated',
-        PlatformModel: updatedPlatform,
+        Platform: updatedPlatform,
       });
     } else {
       res.status(404).send({ message: 'Platform Not Found' });
@@ -130,12 +125,28 @@ router.put(
   })
 );
 
-router.delete(
-  '/:id',
-  expressAsyncHandler(async (req, res) => {
-    await deletePlatform({ platformId: req.params.id });
-    res.send('Platform Deleted');
-  })
-);
+router.delete('/:id', (req, res) => {
+  try {
+    const creatorId = req.body.creatorId;
+    Platform.deleteOne({ _id: req.params.id }, async (err, doc) => {
+      if (err) throw err;
+      if (doc) {
+        res.send('Platform Deleted');
+      }
+    });
+    Creator.updateOne(
+      { _id: creatorId },
+      { $pull: { ownedPlatformId: req.params.id } },
+      async (err, doc) => {
+        if (err) throw err;
+        if (doc) {
+          res.send('Creator Updated');
+        }
+      }
+    );
+  } catch (error) {
+    res.send('err');
+  }
+});
 
 export default router;
