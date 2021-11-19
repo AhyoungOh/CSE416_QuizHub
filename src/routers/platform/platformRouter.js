@@ -1,8 +1,11 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import PlatformModel from '../../models/platformSchema.js';
+import Creator from '../../models/creatorSchema.js';
 import Quiz from '../../models/quizSchema.js';
 import validUser from '../../middleware/auth/index.js';
+import creatorSchema from '../../models/creatorSchema.js';
+import mongoose from 'mongoose';
 const router = express.Router();
 
 const getPlatformById = async (platformId) => {
@@ -71,14 +74,14 @@ router.get(
   '/',
   validUser,
   expressAsyncHandler(async (req, res) => {
-    // console.log('req.creator id', req.creator.ownedPlatformId);
+    // console.log('req.creator.platformid', req.creator.ownedPlatformId);
+    // console.log(req.session._ctx.creator._id);
     const createPlatform = await PlatformModel.find({
       _id: req.creator.ownedPlatformId,
     }).populate({
       path: 'ownedQuizzes',
       model: Quiz,
     });
-
     res.send({ createPlatform });
   })
 );
@@ -94,19 +97,28 @@ router.get(
   })
 );
 
-router.post(
-  '/',
-  expressAsyncHandler(async (req, res) => {
-    await addPlatform({
+router.post('/', (req, res) => {
+  // console.log('req', req.body.creatorId);
+  try {
+    const newPlatform = new PlatformModel({
       platformName: req.body.platformName,
+      creatorId: req.body.creatorId,
       platformDescription: req.body.platformDescription,
       platformImage: req.body.platformImage,
       createdDate: Date.now(),
-      // ownedQuizzes: req.body.quiz.quizName,
     });
-    res.send('Platform Created');
-  })
-);
+    newPlatform.save();
+    const newPlatformId = newPlatform._id;
+    console.log(newPlatform);
+    const Creator = mongoose.model('Creator', creatorSchema);
+    Creator.updateOne(
+      { creatorId: req.body.creatorId },
+      { $push: { ownedPlatformId: newPlatformId } }
+    );
+  } catch (error) {
+    res.send('error');
+  }
+});
 
 router.put(
   '/:id',
