@@ -1,8 +1,11 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import PlatformModel from '../../models/platformSchema.js';
+import creator from '../../models/creatorSchema.js';
 import Quiz from '../../models/quizSchema.js';
 import validUser from '../../middleware/auth/index.js';
+import creatorSchema from '../../models/creatorSchema.js';
+import mongoose from 'mongoose';
 const router = express.Router();
 
 const getPlatformById = async (platformId) => {
@@ -71,17 +74,26 @@ router.get(
   '/',
   validUser,
   expressAsyncHandler(async (req, res) => {
-    // console.log('req.creator id', req.creator.ownedPlatformId);
+    // console.log('req.creator.platformid', req.creator.ownedPlatformId);
+    // console.log(req.session._ctx.creator._id);
     const createPlatform = await PlatformModel.find({
       _id: req.creator.ownedPlatformId,
     }).populate({
       path: 'ownedQuizzes',
       model: Quiz,
     });
-
     res.send({ createPlatform });
   })
 );
+// router.get(
+//   '/',
+//   expressAsyncHandler(async (req, res) => {
+//     console.log('req', req);
+//     const Creator = mongoose.model(creator);
+//     const createPlatform = await PlatformModel.find();
+//     res.send({ createPlatform });
+//   })
+// );
 
 router.get(
   '/:id',
@@ -97,14 +109,31 @@ router.get(
 router.post(
   '/',
   expressAsyncHandler(async (req, res) => {
-    await addPlatform({
-      platformName: req.body.platformName,
-      platformDescription: req.body.platformDescription,
-      platformImage: req.body.platformImage,
-      createdDate: Date.now(),
-      // ownedQuizzes: req.body.quiz.quizName,
-    });
-    res.send('Platform Created');
+    // console.log('req', req.body.creatorId);
+    try {
+      const newPlatform = new PlatformModel({
+        platformName: req.body.platformName,
+        creatorId: req.body.creatorId,
+        platformDescription: req.body.platformDescription,
+        platformImage: req.body.platformImage,
+        createdDate: Date.now(),
+      });
+      newPlatform.save();
+      const newPlatformId = newPlatform._id;
+      const creator = await Creator.findById(req.body.creatorId);
+      if (creator) {
+        creator.ownedPlatformId.push(newPlatform);
+        const updatedCreator = await creator.save();
+        res.send({
+          message: 'creator updated',
+          creator: updatedCreator,
+        });
+      } else {
+        res.status(404).send({ message: 'Creator Not Found' });
+      }
+    } catch (error) {
+      res.send('error');
+    }
   })
 );
 
@@ -133,8 +162,28 @@ router.put(
 router.delete(
   '/:id',
   expressAsyncHandler(async (req, res) => {
-    await deletePlatform({ platformId: req.params.id });
-    res.send('Platform Deleted');
+    try {
+      const creatorId = req.body.creatorId;
+      PlatformModel.deleteOne({ _id: req.params.id }, async (err, doc) => {
+        if (err) throw err;
+        if (doc) {
+          res.send('Platform Deleted');
+        }
+      });
+      const creator = await Creator.findById(creatorId);
+      if (creator) {
+        creator.ownedPlatformId.pull(req.params.id);
+        const updatedCreator = await creator.save();
+        res.send({
+          message: 'creator updated',
+          creator: updatedCreator,
+        });
+      } else {
+        res.status(404).send({ message: 'Creator Not Found' });
+      }
+    } catch (error) {
+      res.send('err');
+    }
   })
 );
 
