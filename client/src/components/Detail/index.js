@@ -11,6 +11,7 @@ const useStyles = makeStyles({
     paddingLeft: '40px',
     paddingRight: '40px',
     paddingTop: '20px',
+    paddingBottom: '40px',
   },
   gridContainerButtons: {
     padding: '10px',

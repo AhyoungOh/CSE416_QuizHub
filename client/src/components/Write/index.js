@@ -1,11 +1,9 @@
 import axios from 'axios';
-import React, { useState } from 'react';
-import { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import Input from './Input';
-// import './style.scss';
-import { useHistory } from 'react-router-dom';
-import { Container, Card, Stack, Button } from '@mui/material';
 import { UserContext } from '../../App';
+import { useHistory } from 'react-router-dom';
+import { Stack, Button, TextField, DialogContent, DialogActions } from '@mui/material';
 
 function Write({ platformData, setVisible, fetchData }) {
   const { user, dispatch } = useContext(UserContext);
@@ -73,161 +71,133 @@ function Write({ platformData, setVisible, fetchData }) {
     history.push('/creatorHome');
   };
 
+  // create new platform
   if (platformData === undefined) {
     return (
-      <div
-        className='write'
-        // onClick={() => {
-        //   setVisible(false);
-        // }}
-      >
-        {/* <Card>
-          <Container> */}
-        <Stack
-          component='form'
-          sx={{
-            width: '25ch',
-          }}
-          spacing={2}
-          noValidate
-          autoComplete='off'
-        >
-          <Input
-            title={'Platform Title'}
-            value={platformName}
-            setValue={setPlatformName}
+      <div>
+        <DialogContent>
+          <TextField
+            autoFocus 
+            margin="dense"
+            required
+            fullWidth
+            label="Title"
+            type="text" 
+            placeholder="Enter platform title.."
+            // value={platformName}
+            onChange={setPlatformName}
           />
-          <Input
-            title={'Image Link'}
-            value={platformImage}
-            setValue={setPlatformImage}
+          <TextField
+            autoFocus 
+            fullWidth
+            margin="dense"
+            label="Image Link"
+            type="text" 
+            placeholder="Paste image url..."
+            // value={platformImage}
+            onChange={setPlatformImage}
           />
-          <Input
-            title={'Platform Description'}
-            value={platformDescription}
-            setValue={setPlatformDescription}
+          <TextField
+            autoFocus 
+            fullWidth
+            margin="dense"
+            label="Descirption"
+            type="text" 
+            placeholder="Enter platform description..."
+            // value={platformDescription}
+            onChange={setPlatformDescription}
           />
-        </Stack>
-        <br></br>
-        <Stack spacing={4} direction='row'>
+        </DialogContent>
+        <DialogActions>
           <Button
             variant='contained'
             color='success'
             onClick={createplatformData}
+            sx={{ m: 1 }}
           >
             Create
           </Button>
           <Button
             variant='contained'
+            color="inherit"
             onClick={() => {
               setVisible(false);
             }}
+            sx={{ m: 2 }}
           >
             Cancel
           </Button>
-        </Stack>
-        {/* </Container>
-        <Stack
-          component='form'
-          sx={{
-            width: '25ch',
-          }}
-          spacing={2}
-          noValidate
-          autoComplete='off'
-        >
-          <Input
-            title={'Platform Title'}
-            value={platformName}
-            setValue={setPlatformName}
-          />
-          <Input
-            title={'Image Link'}
-            value={platformImage}
-            setValue={setPlatformImage}
-          />
-          <Input
-            title={'Platform Descirption'}
-            value={platformDescription}
-            setValue={setPlatformDescription}
-          />
-        </Stack>
-        <br></br>
-        <Stack spacing={4} direction='row'>
-          <Button
-            variant='contained'
-            color='success'
-            onClick={createplatformData}
-          >
-            Create
-          </Button>
-          <Button
-            variant='contained'
-            onClick={() => {
-              setVisible(false);
-            }}
-          >
-            Cancel
-          </Button>
-        </Stack>
-        {/* </Container>
-        </Card> */}
+        </DialogActions>
       </div>
     );
   } else {
-    // edit part
+    // edit platform
     return (
       <div
-        className='write'
         onClick={(e) => {
           if ([...e.target?.classList].includes('write')) setVisible(false);
         }}
       >
-        <Stack
-          component='form'
-          sx={{
-            width: '25ch',
-          }}
-          spacing={2}
-          noValidate
-          autoComplete='off'
-        >
-          <Input
-            title={'Platform Title'}
+        <DialogContent>
+          <TextField
+            required
+            autoFocus 
+            fullWidth
+            margin="dense"
+            label="Title"
+            type="text" 
+            placeholder="Enter platform title.."
             value={platformName}
-            setValue={setPlatformName}
+            onChange={setPlatformName}
           />
-          <Input
-            title={'Image Link'}
+          <TextField
+            autoFocus 
+            fullWidth
+            margin="dense"
+            label="Image Link"
+            type="text" 
+            placeholder="Paste image url..."
             value={platformImage}
-            setValue={setPlatformImage}
+            onChange={setPlatformImage}
           />
-          <Input
-            title={'Platform sDescription'}
+          <TextField
+            autoFocus 
+            fullWidth
+            margin="dense"
+            label="Descirption"
+            type="text" 
+            placeholder="Enter platform description..."
             value={platformDescription}
-            setValue={setPlatformDescription}
+            onChange={setPlatformDescription}
           />
-        </Stack>
-        <br></br>
-        <Stack spacing={4} direction='row'>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            color='error'
+            onClick={deleteplatformData}
+            sx={{ m: 1 }}
+          >
+            Delete Platform
+          </Button>
           <Button
             variant='contained'
             color='success'
             onClick={updateplatformData}
+            sx={{ m: 1 }}
           >
             Save
           </Button>
-          <Button
+          {/* <Button
             variant='contained'
-            color='error'
-            onClick={deleteplatformData}
+            onClick={() => {
+              setVisible(false);
+            }}
+            sx={{ m: 2 }}
+            color="inherit"
           >
-            Delete
-          </Button>
-        </Stack>
-        {/* {Input('Platform Title', title, setTitle)} */}
-        {/* {Input('Image Link', imageLink, setImageLink)} */}
-        {/* {Input('Content', contents, setContents)} */}
+            Cancel
+          </Button> */}
+        </DialogActions>
       </div>
     );
   }
