@@ -120,7 +120,7 @@ router.post(
           creator: updatedCreator,
         });
       } else {
-        res.status(404).send({ message: 'Creator Now Found' });
+        res.status(404).send({ message: 'Creator Not Found' });
       }
     } catch (error) {
       res.send('error');
@@ -153,8 +153,28 @@ router.put(
 router.delete(
   '/:id',
   expressAsyncHandler(async (req, res) => {
-    await deletePlatform({ platformId: req.params.id });
-    res.send('Platform Deleted');
+    try {
+      const creatorId = req.body.creatorId;
+      PlatformModel.deleteOne({ _id: req.params.id }, async (err, doc) => {
+        if (err) throw err;
+        if (doc) {
+          res.send('Platform Deleted');
+        }
+      });
+      const creator = await Creator.findById(creatorId);
+      if (creator) {
+        creator.ownedPlatformId.pull(req.params.id);
+        const updatedCreator = await creator.save();
+        res.send({
+          message: 'creator updated',
+          creator: updatedCreator,
+        });
+      } else {
+        res.status(404).send({ message: 'Creator Not Found' });
+      }
+    } catch (error) {
+      res.send('err');
+    }
   })
 );
 
