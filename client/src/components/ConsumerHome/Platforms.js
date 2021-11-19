@@ -1,5 +1,6 @@
-import SinglePlatformCard from './SinglePlatformCard';
 import useApiCall from '../../hooks/useApiCall';
+import BrowsePlatformCard from '../Card/BrowsePlatformCard';
+import { Grid } from '@mui/material';
 
 export default function Platforms({ searchWord, searchType }) {
   const [loading, payload, error] = useApiCall(
@@ -27,7 +28,14 @@ export default function Platforms({ searchWord, searchType }) {
       return data.platformName.toUpperCase().includes(searchWord.toUpperCase());
     })
     .map((data) => {
-      return <SinglePlatformCard platformData={data} />;
+      // TODO: alphabetical order
+      return (<Grid item> <BrowsePlatformCard platformData={data} /> </Grid>);
     });
-  return <div className='mb-3'>{PlatformCardList}</div>;
+  return(
+    <div>
+      <Grid container spacing={3} justifyContent="center">
+        {PlatformCardList}
+      </Grid>
+    </div>
+  );
 }

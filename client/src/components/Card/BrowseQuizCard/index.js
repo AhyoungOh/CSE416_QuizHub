@@ -35,6 +35,7 @@ export default function BrowseQuizCard({ quizData }) {
 
     return(
         <div>
+            {/* TODO: redesign it, scale it down */}
             <Card className={classes.card}>
                 <CardActionArea 
                     onClick={() => {

@@ -1,5 +1,6 @@
-import SingleQuizCard from './SingleQuizCard';
 import useApiCall from '../../hooks/useApiCall';
+import BrowseQuizCard from '../Card/BrowseQuizCard';
+import { Grid } from '@mui/material';
 
 export default function Quizzes({ searchWord, searchType }) {
   const [loading, payload, error] = useApiCall(
@@ -26,7 +27,14 @@ export default function Quizzes({ searchWord, searchType }) {
       return data.quizName.toUpperCase().includes(searchWord.toUpperCase());
     })
     .map((data) => {
-      return <SingleQuizCard quizData={data} />;
+      // TODO: alphabetical order
+      return (<Grid item> <BrowseQuizCard quizData={data} /> </Grid>);
     });
-  return <div>{QuizCardList}</div>;
+  return(
+    <div>
+      <Grid container spacing={3} justifyContent="center">
+        {QuizCardList}
+      </Grid>
+    </div>
+  );
 }
