@@ -19,7 +19,7 @@ leaderboardRouter.post(
   '/post',
   expressAsyncHandler(async (req, res) => {
     const leaderboard = new Leaderboard({
-      userId: req.body.userId,
+      consumerId: req.body.consumerId,
       username: req.body.username,
       score: req.body.score,
       time: {
@@ -45,7 +45,7 @@ leaderboardRouter.put(
 
     console.log(req.body);
     if (leaderboard) {
-      leaderboard.userId = req.body.userId;
+      leaderboard.consumerId = req.body.consumerId;
       leaderboard.username = req.body.username;
       leaderboard.score = req.body.score;
       leaderboard.time.minutes = req.body.time.minutes;
