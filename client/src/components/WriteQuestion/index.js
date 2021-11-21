@@ -139,7 +139,7 @@ function WriteQuestion({
             margin='dense'
             label='Options'
             type='text'
-            placeholder='Enter the answer option1...'
+            placeholder='Enter the answer option 1...'
             onChange={(e) => setQuestionOption1(e.target.value)}
             sx={{ m: 3 }}
           />
@@ -229,9 +229,9 @@ function WriteQuestion({
             margin='dense'
             label='Options'
             type='text'
-            placeholder='Enter the options...'
+            placeholder='Enter the option 1...'
             value={questionOptions}
-            onChange={(e) => setQuestionOption(e.target.value)}
+            onChange={(e) => setQuestionOption1(e.target.value)}
             sx={{ m: 3 }}
           />
           <TextField
