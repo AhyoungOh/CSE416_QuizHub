@@ -28,7 +28,7 @@ function WriteQuestion({
   const [questionOption4, setQuestionOption4] = useState(
     questionData?.questionOption4 || ''
   );
-  const [questionOptions, setQuestionOption] = useState(
+  const [questionOptions, setQuestionOptions] = useState(
     questionData?.questionOptions || ''
   );
   const [questionAnswer, setQuetsionAnswer] = useState(
@@ -139,8 +139,8 @@ function WriteQuestion({
             margin='dense'
             label='Options'
             type='text'
-            placeholder='Enter the options...'
-            onChange={(e) => setQuestionOption(e.target.value)}
+            placeholder='Enter the answer option1...'
+            onChange={(e) => setQuestionOption1(e.target.value)}
             sx={{ m: 3 }}
           />
           <TextField
