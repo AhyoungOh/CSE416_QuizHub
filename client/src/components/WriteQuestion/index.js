@@ -16,12 +16,29 @@ function WriteQuestion({
   const [questionQuestion, setQuestionQuestion] = useState(
     questionData?.questionQuestion || ''
   );
+  const [questionOption1, setQuestionOption1] = useState(
+    questionData?.questionOption1 || ''
+  );
+  const [questionOption2, setQuestionOption2] = useState(
+    questionData?.questionOption2 || ''
+  );
+  const [questionOption3, setQuestionOption3] = useState(
+    questionData?.questionOption3 || ''
+  );
+  const [questionOption4, setQuestionOption4] = useState(
+    questionData?.questionOption4 || ''
+  );
   const [questionOptions, setQuestionOption] = useState(
     questionData?.questionOptions || ''
   );
   const [questionAnswer, setQuetsionAnswer] = useState(
     questionData?.questionAnswer || ''
   );
+  const [option1Visible, setOption1Visible] = useState(true);
+  const [option2Visible, setOption2Visible] = useState(false);
+  const [option3Visible, setOption3Visible] = useState(false);
+  const [option4Visible, setOption4Visible] = useState(false);
+
   const history = useHistory();
   const createquestionData = async () => {
     await axios.post(
