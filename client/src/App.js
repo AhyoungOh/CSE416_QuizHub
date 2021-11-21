@@ -1,24 +1,24 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import AuthPage from './pages/Auth';
-import CreatorFunctionPage from './pages/CreatorFunction';
-import Header from './components/Header';
-import UserAppBar from './components/UserAppBar';
-import './styles/global-style.scss';
-// import bootstrap from 'bootstrap/dist/js/bootstrap.bundle';
-// import 'bootstrap/dist/css/bootstrap.css';
 import { useReducer, createContext } from 'react';
 import dotenv from 'dotenv';
-import ConsumerSignUp from './components/Form/ConsumerSignUp';
+import './styles/global-style.scss';
+// import pages
+import AuthPage from './pages/Auth';
+import CreatorFunctionPage from './pages/CreatorFunction';
 import ConsumerPage from './pages/ConsumerPage/ConsumerPage';
 import CreatorPage from './pages/CreatorPage';
 import ConsumerQuizPreview from './pages/ConsumerQuizPreview';
+import ConsumerPlatformPreview from './pages/ConsumerPlatformPreview';
 import ConsumerQuizPage from './pages/ConsumerQuizPage';
 import ConsumerHomePage from './pages/ConsumerHomePage/ConsumerHomePage';
-import CreatorAccountSettings from './pages/CreatorAccountSettings';
 import CreatorQuiz from './pages/CreatorQuiz';
 import CreatorQuestion from './pages/CreatorQuestion';
 import CreateCertificate from './pages/CreateCertificate';
 import ResultsPage from './pages/ResultPage';
+// import components
+import Header from './components/Header';
+import UserAppBar from './components/UserAppBar';
+import ConsumerSignUp from './components/Form/ConsumerSignUp';
 
 dotenv.config();
 
@@ -88,14 +88,14 @@ function App() {
           <Route path='/consumer-page'>
             <ConsumerPage />
           </Route>
-          {/* <Route path='/creatoraccountsettings'>
-            <CreatorAccountSettings />
-          </Route> */}
           <Route path='/creator-page'>
             <CreatorPage />
           </Route>
           <Route path='/consumerquizpreview/:id'>
             <ConsumerQuizPreview />
+          </Route>
+          <Route path='/consumerplatformpreview/:id'>
+            <ConsumerPlatformPreview />
           </Route>
           <Route path='/consumerquizpage/:id'>
             <ConsumerQuizPage />

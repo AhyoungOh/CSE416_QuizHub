@@ -1,5 +1,6 @@
 import { Card, CardActionArea, Grid, Avatar, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles({
     title: {
@@ -16,6 +17,7 @@ const useStyles = makeStyles({
 
 export default function BrowsePlatformCard({ platformData }) {
     const classes = useStyles();
+    const history = useHistory();
 
     return(
         <div>
@@ -23,8 +25,7 @@ export default function BrowsePlatformCard({ platformData }) {
                 <CardActionArea
                     onClick={() => {
                         console.log(platformData._id)
-                        // history.push(`/consumerquizpreview/${quizData._id}`)
-                        //history.push("/consumerquizpreview/:",{id:quizData._id})
+                        history.push(`/consumerplatformpreview/${platformData._id}`)
                     }}
                     className={classes.card}
                 >
