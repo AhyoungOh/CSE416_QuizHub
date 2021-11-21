@@ -18,9 +18,9 @@ const useStyles = makeStyles({
     borderRadius: '18px',
   },
   fabStyle: {
-    position: 'absolute',
-    bottom: 10,
-    left: 1500,
+    position: 'fixed',
+    bottom: '40px',
+    right: '40px',
     padding: '10px',
   },
 });
