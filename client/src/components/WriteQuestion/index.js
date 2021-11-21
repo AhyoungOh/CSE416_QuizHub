@@ -34,9 +34,13 @@ function WriteQuestion({
   const [questionAnswer, setQuetsionAnswer] = useState(
     questionData?.questionAnswer || ''
   );
-
   const history = useHistory();
   const createquestionData = async () => {
+    questionOptions[0] = questionOption1;
+    questionOptions[1] = questionOption2;
+    questionOptions[2] = questionOption3;
+    questionOptions[3] = questionOption4;
+    console.log('questionOptions', questionOptions);
     await axios.post(
       process.env.NODE_ENV === 'production'
         ? `/api/question/${quizId}`
