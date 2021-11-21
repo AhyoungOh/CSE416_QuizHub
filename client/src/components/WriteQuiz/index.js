@@ -3,6 +3,7 @@ import React, { useState, useRef } from 'react';
 import Input from './Input';
 import './style.scss';
 import { useHistory } from 'react-router-dom';
+import { Grid, TextField, Paper, Button } from '@mui/material';
 
 function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
   // const [platformId, setPlatformId] = useState(quizData?.platformId || '');
@@ -39,6 +40,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
 
   const groupid = useRef(0);
   const history = useHistory();
+
   const createquizData = async () => {
     await axios.post(
       process.env.NODE_ENV === 'production'
@@ -66,6 +68,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
     //history.push(`/creatorHome/${platformId}`);
     createCertificate();
   };
+
   const updatequizData = async () => {
     await axios.put(
       process.env.NODE_ENV === 'production'
@@ -93,6 +96,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
     fetchData();
     history.push(`/quiz/detail/${quizData._id}`);
   };
+
   const deletequizData = async () => {
     await axios.delete(
       process.env.NODE_ENV === 'production'
@@ -111,6 +115,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
         Authorization: 'Token token=ac4e7119623388f9afad927bb881138f',
       },
     };
+
     const apidata = {};
     const creategroupdata = {
       group: {
@@ -123,6 +128,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
         badge_design_id: null,
       },
     };
+    
     try {
       await axios
         .post(
@@ -152,33 +158,80 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
   };
   if (quizData === undefined) {
     return (
+      // create a new quiz
       <div className='write'>
-        <div className='inputs-wrapper'>
-          <Input title={'Quiz Title'} value={quizName} setValue={setQuizName} />
-          <Input
-            title={'Quiz Image'}
-            value={quizImage}
-            setValue={setQuizImage}
+        <Paper sx={{ display: 'flex', flexWrapped: 'wrap', flexDirection: 'column', minWidth: '500px' }}>
+          <TextField
+            required
+            autoFocus 
+            // fullWidth
+            margin="dense"
+            label="Title"
+            type="text" 
+            placeholder="Enter quiz title.."
+            // value={quizName}
+            onChange={(e) => setQuizName(e.target.value)}
+            sx={{ m: 3 }}
           />
-          <Input
-            title={'Quiz Desciprion'}
-            value={quizDescription}
-            setValue={setQuizDescription}
+          <TextField
+            required
+            autoFocus 
+            // fullWidth
+            margin="dense"
+            label="Image"
+            type="text" 
+            placeholder="Paster image url..."
+            // value={quizImage}
+            onChange={(e) => setQuizImage(e.target.value)}
+            sx={{ m: 3 }}
           />
-          <Input
-            title={'Number Of Trials of Quiz'}
-            value={quizNumberOfTrials}
-            setValue={setQuizNumberOfTrials}
+          <TextField
+            required
+            autoFocus 
+            // fullWidth
+            margin="dense"
+            label="Desciprion"
+            type="text" 
+            placeholder="Enter quiz description..."
+            // value={quizDescription}
+            onChange={(e) => setQuizDescription(e.target.value)}
+            sx={{ m: 3 }}
           />
-          <Input
-            title={'Quiz Time Limit (Minutes)'}
-            value={quizTimeLimitMinutes}
-            setValue={setQuizTimeLimitMinutes}
+          <TextField
+            required
+            autoFocus 
+            // fullWidth
+            margin="dense"
+            label="Number Of Trials"
+            type="text" 
+            placeholder="Enter the number of trials..."
+            // value={quizNumberOfTrials}
+            onChange={(e) => setQuizNumberOfTrials(e.target.value)}
+            sx={{ m: 3 }}
           />
-          <Input
-            title={'Quiz Time Limit (Seconds)'}
-            value={quizTimeLimitSeconds}
-            setValue={setQuizTimeLimitSeconds}
+          <TextField
+            required
+            autoFocus 
+            // fullWidth
+            margin="dense"
+            label="Time limit in minutes"
+            type="text" 
+            placeholder="Enter the number of trials..."
+            // value={quizTimeLimitMinutes}
+            onChange={(e) => setQuizTimeLimitMinutes(e.target.value)}
+            sx={{ m: 3 }}
+          />
+          <TextField
+            required
+            autoFocus 
+            // fullWidth
+            margin="dense"
+            label="Time limit in seconds..."
+            type="text" 
+            placeholder="Enter the number of trials..."
+            // value={quizTimeLimitSeconds}
+            onChange={(e) => setQuizTimeLimitSeconds(e.target.value)}
+            sx={{ m: 3 }}
           />
           {/* I commented because of the UI design all the below code is needed */}
           {/* <Input
@@ -211,31 +264,33 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             value={quizEnableLeaderboard}
             setValue={setQuizEnableLeaderboard}
           /> */}
-          {/* <div className='button-wrapper'>
-          <button
-              className='green'
-              onClick={createCertificate}
-            >Create Certificate
-          </button>
-          </div> */}
-          <div className='button-wrapper'>
-            <button className='green' onClick={createquizData}>
-              Create Quiz and Navigate to Certificate Designer
-            </button>
-            <button
-              className='red'
-              onClick={() => {
-                setQuizVisible(false);
-              }}
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
+          <Grid container justifyContent="flex-end" spacing={2} sx={{ padding: "25px" }}>
+            <Grid item>
+              <Button variant="contained" onClick={createquizData}>
+                Create quiz and Navigate to Certificate Designer
+              </Button>
+            </Grid>
+              <Grid item>
+              <Button
+                variant="outlined"
+                color="inherit"
+                onClick={() => {
+                    history.push(`/creatorHome/${platformId}`);
+                  }
+                }
+                // onClick={() => {
+                //   setQuizVisible(false);
+                // }}
+              >
+                Cancel
+              </Button>
+            </Grid>
+          </Grid>
+        </Paper>
       </div>
     );
   } else {
-    // edit part
+    // edit quiz
     return (
       <div
         className='write'
@@ -243,33 +298,80 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
           if ([...e.target?.classList].includes('write')) setQuizVisible(false);
         }}
       >
-        <div className='inputs-wrapper'>
-          <Input title={'Quiz Title'} value={quizName} setValue={setQuizName} />
-          <Input
-            title={'Quiz Image'}
+        <Paper sx={{ display: 'flex', flexWrapped: 'wrap', flexDirection: 'column', minWidth: '500px' }}>
+          <TextField
+            required
+            autoFocus 
+            // fullWidth
+            margin="dense"
+            label="Title"
+            type="text" 
+            placeholder="Enter quiz title.."
+            value={quizName}
+            onChange={(e) => setQuizName(e.target.value)}
+            sx={{ m: 3 }}
+          />
+          <TextField
+            required
+            autoFocus 
+            // fullWidth
+            margin="dense"
+            label="Image"
+            type="text" 
+            placeholder="Paster image url..."
             value={quizImage}
-            setValue={setQuizImage}
+            onChange={(e) => setQuizImage(e.target.value)}
+            sx={{ m: 3 }}
           />
-          <Input
-            title={'Quiz Desciprion'}
+          <TextField
+            required
+            autoFocus 
+            // fullWidth
+            margin="dense"
+            label="Desciprion"
+            type="text" 
+            placeholder="Enter quiz description..."
             value={quizDescription}
-            setValue={setQuizDescription}
+            onChange={(e) => setQuizDescription(e.target.value)}
+            sx={{ m: 3 }}
           />
-          <Input
-            title={'Number Of Trials of Quiz'}
+          <TextField
+            required
+            autoFocus 
+            // fullWidth
+            margin="dense"
+            label="Number Of Trials"
+            type="text" 
+            placeholder="Enter the number of trials..."
             value={quizNumberOfTrials}
-            setValue={setQuizNumberOfTrials}
+            onChange={(e) => setQuizNumberOfTrials(e.target.value)}
+            sx={{ m: 3 }}
           />
-          <Input
-            title={'Quiz Time Limit (Minutes)'}
+          <TextField
+            required
+            autoFocus 
+            // fullWidth
+            margin="dense"
+            label="Time limit in minutes"
+            type="text" 
+            placeholder="Enter the number of trials..."
             value={quizTimeLimitMinutes}
-            setValue={setQuizTimeLimitMinutes}
+            onChange={(e) => setQuizTimeLimitMinutes(e.target.value)}
+            sx={{ m: 3 }}
           />
-          <Input
-            title={'Quiz Time Limit (Seconds)'}
+          <TextField
+            required
+            autoFocus 
+            // fullWidth
+            margin="dense"
+            label="Time limit in seconds..."
+            type="text" 
+            placeholder="Enter the number of trials..."
             value={quizTimeLimitSeconds}
-            setValue={setQuizTimeLimitSeconds}
+            onChange={(e) => setQuizTimeLimitSeconds(e.target.value)}
+            sx={{ m: 3 }}
           />
+          {/* I commented because of the UI design all the below code is needed */}
           {/* <Input
             title={'Quiz RewardType'}
             value={quizRewardType}
@@ -279,6 +381,11 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             title={'Quiz Certificate?'}
             value={quizCertificate}
             setValue={setQuizCertificate}
+          />
+          <Input
+            title={'Quiz Badge?}
+            value={quizBadge}
+            setValue={setBadge}
           />
           <Input
             title={'Quiz Certificate Qualification'}
@@ -295,15 +402,23 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             value={quizEnableLeaderboard}
             setValue={setQuizEnableLeaderboard}
           /> */}
-          <div className='button-wrapper'>
-            <button className='green' onClick={updatequizData}>
-              Update
-            </button>
-            <button className='red' onClick={deletequizData}>
-              Delete
-            </button>
-          </div>
-        </div>
+          <Grid container justifyContent="flex-end" spacing={2} sx={{ padding: "25px" }}>
+              <Grid item>
+              <Button
+                variant="contained"
+                color="error"
+                onClick={deletequizData}
+              >
+                Delete
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button variant="contained" onClick={updatequizData}>
+                Update
+              </Button>
+            </Grid>
+          </Grid>
+        </Paper>
       </div>
     );
   }
