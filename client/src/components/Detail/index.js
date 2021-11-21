@@ -1,5 +1,5 @@
 import Platform from '../Platform';
-import PlatformSpecificQuizCard from '../../components/Card/PlatformSpecificQuizCard';
+import PlatformSpecificQuizCard from '../Card/PlatformSpecificQuizCard';
 import { useHistory } from 'react-router-dom';
 import { Grid, Button, Fab, Paper } from '@mui/material';
 import { makeStyles } from '@mui/styles';
