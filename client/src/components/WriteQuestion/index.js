@@ -34,10 +34,6 @@ function WriteQuestion({
   const [questionAnswer, setQuetsionAnswer] = useState(
     questionData?.questionAnswer || ''
   );
-  const [option1Visible, setOption1Visible] = useState(true);
-  const [option2Visible, setOption2Visible] = useState(false);
-  const [option3Visible, setOption3Visible] = useState(false);
-  const [option4Visible, setOption4Visible] = useState(false);
 
   const history = useHistory();
   const createquestionData = async () => {
@@ -132,15 +128,51 @@ function WriteQuestion({
             onChange={(e) => setQuestionOption(e.target.value)}
             sx={{ m: 3 }}
           /> */}
+
           <TextField
             required
             autoFocus
             // fullWidth
             margin='dense'
-            label='Options'
+            label='Options 1'
             type='text'
-            placeholder='Enter the answer option 1...'
+            placeholder='Enter the option 1...'
+            value={questionOption1}
             onChange={(e) => setQuestionOption1(e.target.value)}
+            sx={{ m: 3 }}
+          />
+          <TextField
+            required
+            autoFocus
+            // fullWidth
+            margin='dense'
+            label='Options 2'
+            type='text'
+            placeholder='Enter the option 2...'
+            value={questionOption2}
+            onChange={(e) => setQuestionOption2(e.target.value)}
+            sx={{ m: 3 }}
+          />
+          <TextField
+            autoFocus
+            // fullWidth
+            margin='dense'
+            label='Options 3'
+            type='text'
+            placeholder='Enter the option 3...'
+            value={questionOption3}
+            onChange={(e) => setQuestionOption3(e.target.value)}
+            sx={{ m: 3 }}
+          />
+          <TextField
+            autoFocus
+            // fullWidth
+            margin='dense'
+            label='Options 4'
+            type='text'
+            placeholder='Enter the option 4...'
+            value={questionOption4}
+            onChange={(e) => setQuestionOption4(e.target.value)}
             sx={{ m: 3 }}
           />
           <TextField
@@ -227,11 +259,45 @@ function WriteQuestion({
             autoFocus
             // fullWidth
             margin='dense'
-            label='Options'
+            label='Options 1'
             type='text'
             placeholder='Enter the option 1...'
-            value={questionOptions}
+            value={questionOption1}
             onChange={(e) => setQuestionOption1(e.target.value)}
+            sx={{ m: 3 }}
+          />
+          <TextField
+            required
+            autoFocus
+            // fullWidth
+            margin='dense'
+            label='Options 2'
+            type='text'
+            placeholder='Enter the option 2...'
+            value={questionOption2}
+            onChange={(e) => setQuestionOption2(e.target.value)}
+            sx={{ m: 3 }}
+          />
+          <TextField
+            autoFocus
+            // fullWidth
+            margin='dense'
+            label='Options 3'
+            type='text'
+            placeholder='Enter the option 3...'
+            value={questionOption3}
+            onChange={(e) => setQuestionOption3(e.target.value)}
+            sx={{ m: 3 }}
+          />
+          <TextField
+            autoFocus
+            // fullWidth
+            margin='dense'
+            label='Options 4'
+            type='text'
+            placeholder='Enter the option 4...'
+            value={questionOption4}
+            onChange={(e) => setQuestionOption4(e.target.value)}
             sx={{ m: 3 }}
           />
           <TextField
