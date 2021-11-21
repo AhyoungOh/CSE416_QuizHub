@@ -29,17 +29,18 @@ function WriteQuestion({
     questionData?.questionOption4 || ''
   );
   const [questionOptions, setQuestionOptions] = useState(
-    questionData?.questionOptions || ''
+    questionData?.questionOptions || []
   );
   const [questionAnswer, setQuetsionAnswer] = useState(
     questionData?.questionAnswer || ''
   );
   const history = useHistory();
   const createquestionData = async () => {
-    questionOptions[0] = questionOption1;
-    questionOptions[1] = questionOption2;
-    questionOptions[2] = questionOption3;
-    questionOptions[3] = questionOption4;
+    console.log('questionOption1', questionOption1);
+    console.log('questionOption2', questionOption2);
+    console.log('questionOption3', questionOption3);
+    console.log('questionOptions', questionOptions);
+    setQuestionOptions((prevQues) => [{ ...prevQues, questionOption1 }]);
     console.log('questionOptions', questionOptions);
     await axios.post(
       process.env.NODE_ENV === 'production'
@@ -48,7 +49,11 @@ function WriteQuestion({
       {
         questionNumber,
         questionQuestion,
-        questionOptions,
+        // questionOptions,
+        questionOption1,
+        questionOption2,
+        questionOption3,
+        questionOption4,
         questionAnswer,
         quizId,
       }
@@ -59,6 +64,13 @@ function WriteQuestion({
   };
 
   const updatequestionData = async () => {
+    setQuestionOptions(
+      questionOption1,
+      questionOption2,
+      questionOption3,
+      questionOption4
+    );
+    console.log('questionOptions', questionOptions);
     await axios.put(
       process.env.NODE_ENV === 'production'
         ? `/api/question/detail/${questionData._id}`
