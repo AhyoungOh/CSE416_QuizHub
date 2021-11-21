@@ -3,10 +3,25 @@ import React, { useState, useContext } from 'react';
 import Input from './Input';
 import { UserContext } from '../../App';
 import { useHistory } from 'react-router-dom';
-import { Stack, Button, TextField, DialogContent, DialogActions } from '@mui/material';
+import { Modal, Button, TextField, DialogContent, DialogActions, Box, Grid, Typography } from '@mui/material';
+
+// modal style
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 500,
+  bgcolor: 'background.paper',
+  boxShadow: 24,
+  p: 4,
+  borderRadius: 2,
+};
 
 function Write({ platformData, setVisible, fetchData }) {
   const { user, dispatch } = useContext(UserContext);
+  // for delete confirm modal
+  const [show, setShow] = useState(false);
   const [platformName, setPlatformName] = useState(
     platformData?.platformName || ''
   );
@@ -174,7 +189,7 @@ function Write({ platformData, setVisible, fetchData }) {
         <DialogActions>
           <Button
             color='error'
-            onClick={deleteplatformData}
+            onClick={() => {setShow(true);}}
             sx={{ m: 1 }}
           >
             Delete Platform
@@ -198,6 +213,38 @@ function Write({ platformData, setVisible, fetchData }) {
             Cancel
           </Button> */}
         </DialogActions>
+        <Modal open={show} onClose={() => setShow(false)}>
+          <Box sx={style}>
+            <Grid container direction='column' spacing={2}>
+              <Grid item>
+                <Typography id='modal-modal-title' variant='h6' component='h2'>
+                  Delete platform
+                </Typography>
+                <Typography id='modal-modal-description' sx={{ mt: 2 }}>
+                  Are you sure you would like to delete platform {platformName}? You will
+                  lose all your data.
+                </Typography>
+              </Grid>
+              <Grid item />
+            </Grid>
+            <Grid container spacing={2} justifyContent='flex-end'>
+              <Grid item>
+                <Button
+                  variant='text'
+                  color='error'
+                  onClick={deleteplatformData}
+                >
+                  Delete
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button variant='contained' onClick={() => setShow(false)}>
+                  Cancel
+                </Button>
+              </Grid>
+            </Grid>
+          </Box>
+        </Modal>
       </div>
     );
   }

@@ -3,9 +3,25 @@ import React, { useState, useRef } from 'react';
 import Input from './Input';
 import './style.scss';
 import { useHistory } from 'react-router-dom';
-import { Grid, TextField, Paper, Button } from '@mui/material';
+import { Grid, TextField, Paper, Button, Typography, Modal, Box } from '@mui/material';
+
+// modal style
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 500,
+  bgcolor: 'background.paper',
+  boxShadow: 24,
+  p: 4,
+  borderRadius: 2,
+};
+
 
 function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
+  // for delete confirm modal
+  const [show, setShow] = useState(false);
   // const [platformId, setPlatformId] = useState(quizData?.platformId || '');
   const [quizName, setQuizName] = useState(quizData?.quizName || '');
   const [quizImage, setQuizImage] = useState(quizData?.quizImage || '');
@@ -407,7 +423,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
               <Button
                 variant="contained"
                 color="error"
-                onClick={deletequizData}
+                onClick={() => {setShow(true);}}
               >
                 Delete
               </Button>
@@ -419,6 +435,38 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             </Grid>
           </Grid>
         </Paper>
+        <Modal open={show} onClose={() => setShow(false)}>
+          <Box sx={style}>
+            <Grid container direction='column' spacing={2}>
+              <Grid item>
+                <Typography id='modal-modal-title' variant='h6' component='h2'>
+                  Delete quiz
+                </Typography>
+                <Typography id='modal-modal-description' sx={{ mt: 2 }}>
+                  Are you sure you would like to delete quiz {quizName}? You will
+                  lose all your data.
+                </Typography>
+              </Grid>
+              <Grid item />
+            </Grid>
+            <Grid container spacing={2} justifyContent='flex-end'>
+              <Grid item>
+                <Button
+                  variant='text'
+                  color='error'
+                  onClick={deletequizData}
+                >
+                  Delete
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button variant='contained' onClick={() => setShow(false)}>
+                  Cancel
+                </Button>
+              </Grid>
+            </Grid>
+          </Box>
+        </Modal>
       </div>
     );
   }
