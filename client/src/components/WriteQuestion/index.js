@@ -121,6 +121,17 @@ function WriteQuestion({
             onChange={(e) => setQuestionQuestion(e.target.value)}
             sx={{ m: 3 }}
           />
+          {/* <TextField
+            required
+            autoFocus
+            // fullWidth
+            margin='dense'
+            label='Options'
+            type='text'
+            placeholder='Enter the options...'
+            onChange={(e) => setQuestionOption(e.target.value)}
+            sx={{ m: 3 }}
+          /> */}
           <TextField
             required
             autoFocus
