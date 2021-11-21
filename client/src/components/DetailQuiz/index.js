@@ -9,7 +9,7 @@ const useStyles = makeStyles({
     paddingTop: '30px',
     paddingBottom: '20px',
     paddingLeft: '20px',
-  }
+  },
 });
 
 function DetailQuiz({ quizData, setQuizVisible }) {
@@ -44,16 +44,15 @@ function DetailQuiz({ quizData, setQuizVisible }) {
   const updateQuestionData = () => {
     history.push(`/question/${quizData._id}`);
   };
-  console.log('quiz questions', quizData);
   return (
     <div>
-      <Grid containter sx={{ paddingLeft: "10px", paddingTop: "10px" }}>
+      <Grid containter sx={{ paddingLeft: '10px', paddingTop: '10px' }}>
         <Button
           onClick={() => {
             history.push(`/creatorHome/${quizData.platformId}`);
           }}
           // startIcon={<KeyboardBackspaceRoundedIcon />}
-          sx={{ color: "gray" }}
+          sx={{ color: 'gray' }}
         >
           Back to platform page
         </Button>
@@ -65,26 +64,30 @@ function DetailQuiz({ quizData, setQuizVisible }) {
         quizImage={quizData.quizImage}
         quizQuestions={quizData.quizQuestions}
       />
-      <Grid 
-        container 
-        direction="column" 
-        spacing={2} 
-        justifyContent="center" 
+      <Grid
+        container
+        direction='column'
+        spacing={2}
+        justifyContent='center'
         sx={{ maxWidth: '1000px', paddingLeft: '20px' }}
       >
         {QuestionComponents}
       </Grid>
-      <Grid 
-        container 
-        spacing={1} 
-        // justifyContent="center" 
+      <Grid
+        container
+        spacing={1}
+        // justifyContent="center"
         className={classes.buttonsContainer}
       >
         <Grid item>
-          <Button variant="contained" onClick={updateQuizData}>Edit Quiz</Button>
+          <Button variant='contained' onClick={updateQuizData}>
+            Edit Quiz
+          </Button>
         </Grid>
         <Grid item>
-          <Button variant="contained" onClick={updateQuestionData}>Add Quesiton</Button>
+          <Button variant='contained' onClick={updateQuestionData}>
+            Add Quesiton
+          </Button>
         </Grid>
       </Grid>
     </div>
