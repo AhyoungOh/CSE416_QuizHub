@@ -23,8 +23,6 @@ function WriteQuestion({
     questionData?.questionAnswer || ''
   );
   const history = useHistory();
-  console.log('quizId', quizId);
-
   const createquestionData = async () => {
     await axios.post(
       process.env.NODE_ENV === 'production'
@@ -76,65 +74,76 @@ function WriteQuestion({
     // add new question
     return (
       <div className='write'>
-        <Paper sx={{ display: 'flex', flexWrapped: 'wrap', flexDirection: 'column', minWidth: '500px' }}>
+        <Paper
+          sx={{
+            display: 'flex',
+            flexWrapped: 'wrap',
+            flexDirection: 'column',
+            minWidth: '500px',
+          }}
+        >
           <TextField
             required
-            autoFocus 
+            autoFocus
             // fullWidth
-            margin="dense"
-            label="Question Number"
-            type="text" 
-            placeholder="Enter question number..."
+            margin='dense'
+            label='Question Number'
+            type='text'
+            placeholder='Enter question number...'
             onChange={(e) => setQuestionNumber(e.target.value)}
             sx={{ m: 3 }}
           />
           <TextField
             required
-            autoFocus 
+            autoFocus
             // fullWidth
-            margin="dense"
-            label="Question"
-            type="text" 
-            placeholder="Enter the question..."
+            margin='dense'
+            label='Question'
+            type='text'
+            placeholder='Enter the question...'
             onChange={(e) => setQuestionQuestion(e.target.value)}
             sx={{ m: 3 }}
           />
           <TextField
             required
-            autoFocus 
+            autoFocus
             // fullWidth
-            margin="dense"
-            label="Options"
-            type="text" 
-            placeholder="Enter the options..."
+            margin='dense'
+            label='Options'
+            type='text'
+            placeholder='Enter the options...'
             onChange={(e) => setQuestionOption(e.target.value)}
             sx={{ m: 3 }}
           />
           <TextField
             required
-            autoFocus 
+            autoFocus
             // fullWidth
-            margin="dense"
-            label="Answer"
-            type="text" 
-            placeholder="Enter the answer..."
+            margin='dense'
+            label='Answer'
+            type='text'
+            placeholder='Enter the answer...'
             onChange={(e) => setQuetsionAnswer(e.target.value)}
             sx={{ m: 3 }}
           />
-          <Grid container justifyContent="flex-end" spacing={2} sx={{ padding: "25px" }}>
+          <Grid
+            container
+            justifyContent='flex-end'
+            spacing={2}
+            sx={{ padding: '25px' }}
+          >
             <Grid item>
-              <Button variant="contained" onClick={createquestionData}>
+              <Button variant='contained' onClick={createquestionData}>
                 Create
               </Button>
             </Grid>
-              <Grid item>
+            <Grid item>
               <Button
-                variant="outlined"
-                color="inherit"
+                variant='outlined'
+                color='inherit'
                 onClick={() => {
-                    history.push(`/quiz/detail/${quizId}`);
-                  }
-                }
+                  history.push(`/quiz/detail/${quizId}`);
+                }}
               >
                 Cancel
               </Button>
@@ -153,67 +162,79 @@ function WriteQuestion({
             setQuestionVisible(false);
         }}
       >
-        <Paper sx={{ display: 'flex', flexWrapped: 'wrap', flexDirection: 'column', minWidth: '500px' }}>
+        <Paper
+          sx={{
+            display: 'flex',
+            flexWrapped: 'wrap',
+            flexDirection: 'column',
+            minWidth: '500px',
+          }}
+        >
           <TextField
             required
-            autoFocus 
+            autoFocus
             // fullWidth
-            margin="dense"
-            label="Question Number"
-            type="text" 
-            placeholder="Enter question number..."
+            margin='dense'
+            label='Question Number'
+            type='text'
+            placeholder='Enter question number...'
             value={questionNumber}
             onChange={(e) => setQuestionNumber(e.target.value)}
             sx={{ m: 3 }}
           />
           <TextField
             required
-            autoFocus 
+            autoFocus
             // fullWidth
-            margin="dense"
-            label="Question"
-            type="text" 
-            placeholder="Enter the question..."
+            margin='dense'
+            label='Question'
+            type='text'
+            placeholder='Enter the question...'
             value={questionQuestion}
             onChange={(e) => setQuestionQuestion(e.target.value)}
             sx={{ m: 3 }}
           />
           <TextField
             required
-            autoFocus 
+            autoFocus
             // fullWidth
-            margin="dense"
-            label="Options"
-            type="text" 
-            placeholder="Enter the options..."
+            margin='dense'
+            label='Options'
+            type='text'
+            placeholder='Enter the options...'
             value={questionOptions}
             onChange={(e) => setQuestionOption(e.target.value)}
             sx={{ m: 3 }}
           />
           <TextField
             required
-            autoFocus 
+            autoFocus
             // fullWidth
-            margin="dense"
-            label="Answer"
-            type="text" 
-            placeholder="Enter the answer..."
+            margin='dense'
+            label='Answer'
+            type='text'
+            placeholder='Enter the answer...'
             value={questionAnswer}
             onChange={(e) => setQuetsionAnswer(e.target.value)}
             sx={{ m: 3 }}
           />
-          <Grid container justifyContent="flex-end" spacing={2} sx={{ padding: "25px" }}>
+          <Grid
+            container
+            justifyContent='flex-end'
+            spacing={2}
+            sx={{ padding: '25px' }}
+          >
             <Grid item>
               <Button
-                variant="contained"
-                color="error"
+                variant='contained'
+                color='error'
                 onClick={deletequestionData}
               >
                 Delete
               </Button>
             </Grid>
             <Grid item>
-              <Button variant="contained" onClick={updatequestionData}>
+              <Button variant='contained' onClick={updatequestionData}>
                 Update
               </Button>
             </Grid>
