@@ -36,12 +36,6 @@ function WriteQuestion({
   );
   const history = useHistory();
   const createquestionData = async () => {
-    console.log('questionOption1', questionOption1);
-    console.log('questionOption2', questionOption2);
-    console.log('questionOption3', questionOption3);
-    console.log('questionOptions', questionOptions);
-    setQuestionOptions((prevQues) => [{ ...prevQues, questionOption1 }]);
-    console.log('questionOptions', questionOptions);
     await axios.post(
       process.env.NODE_ENV === 'production'
         ? `/api/question/${quizId}`
@@ -49,7 +43,6 @@ function WriteQuestion({
       {
         questionNumber,
         questionQuestion,
-        // questionOptions,
         questionOption1,
         questionOption2,
         questionOption3,
@@ -64,13 +57,6 @@ function WriteQuestion({
   };
 
   const updatequestionData = async () => {
-    setQuestionOptions(
-      questionOption1,
-      questionOption2,
-      questionOption3,
-      questionOption4
-    );
-    console.log('questionOptions', questionOptions);
     await axios.put(
       process.env.NODE_ENV === 'production'
         ? `/api/question/detail/${questionData._id}`
@@ -80,6 +66,10 @@ function WriteQuestion({
         questionNumber,
         questionQuestion,
         questionOptions,
+        questionOption1,
+        questionOption2,
+        questionOption3,
+        questionOption4,
         questionAnswer,
       }
     );

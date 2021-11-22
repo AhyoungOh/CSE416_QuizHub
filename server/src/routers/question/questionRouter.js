@@ -17,12 +17,10 @@ questionRouter.get(
 //create new data
 questionRouter.post('/:id', (req, res) => {
   try {
-    console.log('req.body.quesitonOption1', req.body.questionOption1);
     const newQuestion = new Question({
       quizId: req.body.quizId,
       questionNumber: req.body.questionNumber,
       questionQuestion: req.body.questionQuestion,
-      // questionOptions: req.body.questionOptions,
       questionOptions: [
         req.body.questionOption1,
         req.body.questionOption2,
@@ -56,11 +54,16 @@ questionRouter.put(
     const questionId = req.params.id;
     const question = await Question.findById(questionId);
 
-    console.log(req.body);
+    console.log('req.body', req.body);
     if (question) {
       question.questionNumber = req.body.questionNumber;
       question.questionQuestion = req.body.questionQuestion;
-      question.questionOptions = req.body.questionOptions;
+      question.questionOptions = [
+        req.body.questionOption1,
+        req.body.questionOption2,
+        req.body.questionOption3,
+        req.body.questionOption4,
+      ];
       question.questionAnswer = req.body.questionAnswer;
 
       const updatedQuestion = await question.save();
