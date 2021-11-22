@@ -16,11 +16,16 @@ questionRouter.get(
 
 //create new data
 questionRouter.post('/:id', (req, res) => {
+  console.log(req.body.questionOption2);
   try {
     const newQuestion = new Question({
       quizId: req.body.quizId,
       questionNumber: req.body.questionNumber,
       questionQuestion: req.body.questionQuestion,
+      questionOption1: req.body.questionOption1,
+      questionOption2: req.body.questionOption2,
+      questionOption3: req.body.questionOption3,
+      questionOption4: req.body.questionOption4,
       questionOptions: [
         req.body.questionOption1,
         req.body.questionOption2,
@@ -55,18 +60,21 @@ questionRouter.put(
     const question = await Question.findById(questionId);
 
     console.log('req.body', req.body);
+    console.log('question', question);
     if (question) {
       question.questionNumber = req.body.questionNumber;
       question.questionQuestion = req.body.questionQuestion;
-      question.questionOptions = [
-        req.body.questionOption1,
-        req.body.questionOption2,
-        req.body.questionOption3,
-        req.body.questionOption4,
-      ];
+      question.questionOption1 = req.body.questionOption1;
+      question.questionOption2 = req.body.questionOption2;
+      question.questionOption3 = req.body.questionOption3;
+      question.questionOption4 = req.body.questionOption4;
+      question.questionOptions[0] = req.body.questionOption1;
+      question.questionOptions[1] = req.body.questionOption2;
+      question.questionOptions[2] = req.body.questionOption3;
+      question.questionOptions[3] = req.body.questionOption4;
       question.questionAnswer = req.body.questionAnswer;
-
       const updatedQuestion = await question.save();
+      // console.log('update question', updatedAuestion);
       res.send({
         message: 'Question Updated',
         question: updatedQuestion,
