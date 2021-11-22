@@ -96,8 +96,8 @@ function ConsumerQuizPage() {
     }
   };
 
-  const submitHandler = () => {
-    axios.post(
+  const submitHandler = async () => {
+    await axios.post(
       process.env.NODE_ENV === 'production'
         ? `/api/consumer/quiz`
         : `http://localhost:4000/api/consumer/quiz`,

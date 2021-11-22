@@ -7,7 +7,6 @@ import axios from 'axios';
 function Header() {
   const { user, dispatch } = useContext(UserContext);
   const history = useHistory();
-  console.log('user', user);
   const setUserInfo = async () => {
     const userInfo = await axios.get(
       process.env.NODE_ENV === 'production'

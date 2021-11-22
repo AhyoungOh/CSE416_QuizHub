@@ -2,13 +2,21 @@ import axios from 'axios';
 import { Form, Row, Col, Button } from 'react-bootstrap';
 import React, { useState, useRef, useEffect, useContext } from 'react';
 import { UserContext, accountSettingsContext } from '../../App';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams, Link } from 'react-router-dom';
+import useApiCall from '../../hooks/useApiCall';
 
 function ResultsPage() {
   const { id } = useParams();
-  const quizid = id;
-  console.log(quizid);
+  const quizId = id;
+  // console.log(quizid);
+  const [loading, quizResult, error] = useApiCall(
+    process.env.NODE_ENV === 'production'
+      ? `/api/consumer/quizHistory/${quizId}`
+      : `http://localhost:4000/api/consumer/quizHistory/${quizId}`,
+    { withCredentials: true }
+  );
 
+  // console.log('consumer quiz history', payload);
   const result = 85; // need to change this based on takes quiz
   const certificate_qualifier = useRef(0);
 
@@ -22,13 +30,23 @@ function ResultsPage() {
   //const file_download=useRef("")
   const [file_download, setFile] = useState('');
 
+  if (!quizResult) {
+    return <div>No Data</div>;
+  }
+  if (loading) {
+    return <div>loading...</div>;
+  }
+  if (error) {
+    return <div>error...</div>;
+  }
+
   const getQuizInfo = async () => {
     try {
       await axios
         .get(
           process.env.NODE_ENV == 'production'
-            ? `/api/quiz/detail/${quizid}`
-            : `http://localhost:4000/api/quiz/detail/${quizid}`
+            ? `/api/quiz/detail/${quizId}`
+            : `http://localhost:4000/api/quiz/detail/${quizId}`
         )
         .then((response) => {
           console.log(response);
@@ -120,6 +138,9 @@ function ResultsPage() {
       ) : (
         ''
       )}
+      Quiz Result
+      {JSON.stringify(quizResult)}
+      <Link to={`/leaderboard/${quizId}`}>See Leaderboard</Link>
     </div>
   );
 }

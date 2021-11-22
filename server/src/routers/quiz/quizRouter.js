@@ -3,7 +3,7 @@ import expressAsyncHandler from 'express-async-handler';
 import Quiz from '../../models/quizSchema.js';
 import Platform from '../../models/platformSchema.js';
 import Question from '../../models/questionSchema.js';
-
+import Consumer from '../../models/consumerSchema.js';
 const quizRouter = express.Router();
 
 quizRouter.get(
@@ -27,6 +27,50 @@ quizRouter.get(
     res.send({ quiz });
   })
 );
+
+quizRouter.get('/leaderboard/:id', async (req, res) => {
+  const quizId = req.params.id;
+  const allConsumers = await Consumer.find();
+
+  const consumerQuizResultList = allConsumers
+    .filter((consumer) => {
+      return (
+        consumer.consumerQuizHistoryList.findIndex((quizHistory) => {
+          return quizHistory.quizId === quizId;
+        }) !== -1
+      );
+    })
+    .map((data) => {
+      console.log(data);
+      const quizIndex = data.consumerQuizHistoryList.findIndex(
+        (quizHistory) => {
+          return quizHistory.quizId === quizId;
+        }
+      );
+      return {
+        data,
+        quizIndex,
+      };
+    });
+  const sortedConsumerList = consumerQuizResultList.sort((a, b) => {
+    console.log(a);
+    console.log(b);
+    const aQuizHistory = a.data.consumerQuizHistoryList[a.quizIndex];
+    const bQuizHistory = b.data.consumerQuizHistoryList[b.quizIndex];
+    if (aQuizHistory.correctedAnswerNum !== bQuizHistory.correctedAnswerNum)
+      return bQuizHistory.correctedAnswerNum - aQuizHistory.correctedAnswerNum;
+    if (
+      aQuizHistory.quizTimeTaken.minutes !== bQuizHistory.quizTimeTaken.minutes
+    )
+      return (
+        aQuizHistory.quizTimeTaken.minutes - bQuizHistory.quizTimeTaken.minutes
+      );
+    return (
+      aQuizHistory.quizTimeTaken.seconds - bQuizHistory.quizTimeTaken.seconds
+    );
+  });
+  res.send(sortedConsumerList);
+});
 
 quizRouter.post('/:id', (req, res) => {
   try {

@@ -19,6 +19,7 @@ import ResultsPage from './pages/ResultPage';
 import Header from './components/Header';
 import UserAppBar from './components/UserAppBar';
 import ConsumerSignUp from './components/Form/ConsumerSignUp';
+import LeaderboardPage from './pages/LeaderboardPage';
 
 dotenv.config();
 
@@ -104,7 +105,10 @@ function App() {
             <CreateCertificate />
           </Route>
           <Route path='/result/:id'>
-            < ResultsPage/>
+            <ResultsPage />
+          </Route>
+          <Route path='/leaderboard/:quizId'>
+            <LeaderboardPage />
           </Route>
         </Switch>
       </Router>
