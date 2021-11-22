@@ -36,8 +36,10 @@ quizRouter.post('/:id', (req, res) => {
       quizName: req.body.quizName,
       createdDate: Date.now(),
       quizNumberOfTrials: req.body.quizNumberOfTrials,
-      quizTimeLimitMinutes: req.body.quizTimeLimitMinutes,
-      quizTimeLimitSeconds: req.body.quizTimeLimitSeconds,
+      quizTimeLimit: {
+        minutes: req.body.quizTimeLimitMinutes,
+        seconds: req.body.quizTimeLimitSeconds,
+      },
       quizRewardType: req.body.quizRewardType,
       // quizCertificate: req.body.quizCertificate,
       // quizBadge: req.body.quizBadge,
@@ -76,8 +78,10 @@ quizRouter.put(
       quiz.quizName = req.body.quizName;
       quiz.createdDate = Date.now();
       quiz.quizNumberOfTrials = req.body.quizNumberOfTrials;
-      quiz.quizTimeLimitMinutes = req.body.quizTimeLimitMinutes;
-      quiz.quizTimeLimitSeconds = req.body.quizTimeLimitSeconds;
+      quiz.quizTimeLimit = {
+        minutes: req.body.quizTimeLimitMinutes,
+        seconds: req.body.quizTimeLimitSeconds,
+      };
       quiz.quizRewardType = req.body.quizRewardType;
       // quiz.quizCertificate = req.body.quizCertificate;
       // quiz.quizBadge = req.body.quizBadge;

@@ -1,13 +1,12 @@
 import useApiCall from '../../hooks/useApiCall';
-import BrowsePlatformCard from '../Card/BrowsePlatformCard';
+import BrowseQuizCard from '../Card/BrowseQuizCard';
 import { Grid } from '@mui/material';
 
-export default function Platforms({ searchWord, searchType }) {
+export default function Users({ searchWord, searchType }) {
   const [loading, payload, error] = useApiCall(
     process.env.NODE_ENV === 'production'
-      ? `/api/creatorHome`
-      : `http://localhost:4000/api/creatorHome`,
-    { withCredentials: true }
+      ? `/api/consumer`
+      : `http://localhost:4000/api/consumer`
   );
   if (!payload) {
     return <div>No Data</div>;
@@ -18,27 +17,32 @@ export default function Platforms({ searchWord, searchType }) {
   if (error) {
     return <div>error...</div>;
   }
-  const platformData = payload.createPlatform;
-  const PlatformCardList = platformData
+  const consumerData = payload.createConsumer;
+  console.log(consumerData);
+  const ConsumerList = consumerData
     .filter((data) => {
       if (searchWord === null) return true;
-      if (searchType !== 'Platform') return false;
 
-      return data.platformName.toUpperCase().includes(searchWord.toUpperCase());
+      if (searchType !== 'Username') return false;
+
+      return data.consumerUsername
+        .toUpperCase()
+        .includes(searchWord.toUpperCase());
     })
     .map((data) => {
       // TODO: alphabetical order
       return (
         <Grid item>
           {' '}
-          <BrowsePlatformCard platformData={data} />{' '}
+          {JSON.stringify(data)}
+          {/* <BrowseQuizCard consumerData={data} />{' '} */}
         </Grid>
       );
     });
   return (
     <div>
       <Grid container spacing={3} justifyContent='center'>
-        {PlatformCardList}
+        {ConsumerList}
       </Grid>
     </div>
   );

@@ -4,23 +4,20 @@ import PropTypes from 'prop-types';
 import SearchBar from './SearchBar';
 import Platforms from './Platforms';
 import Quizzes from './Quizzes';
+import Users from './Users';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
   return (
     <div
-      role="tabpanel"
+      role='tabpanel'
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          {children}
-        </Box>
-      )}
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
     </div>
   );
 }
@@ -51,23 +48,27 @@ function ConsumerHome() {
 
   return (
     <div>
-      <Grid container direction="column" spacing={2}>
+      <Grid container direction='column' spacing={2}>
         <Grid item />
         <Grid item />
         <Grid item>
-          <SearchBar setSearchWord={setSearchWord} setSearchType={setSearchType} />
+          <SearchBar
+            setSearchWord={setSearchWord}
+            setSearchType={setSearchType}
+          />
         </Grid>
         <Grid item>
           <Box sx={{ width: '100%' }}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-              <Tabs 
-                value={value} 
-                onChange={handleChange} 
-                aria-label="consumer browse tab"
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                aria-label='consumer browse tab'
                 centered
               >
-                <Tab label="Quiz" {...a11yProps(0)} />
-                <Tab label="Platform" {...a11yProps(1)} />
+                <Tab label='Quiz' {...a11yProps(0)} />
+                <Tab label='Platform' {...a11yProps(1)} />
+                <Tab label='Users' {...a11yProps(2)} />
               </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
@@ -75,6 +76,9 @@ function ConsumerHome() {
             </TabPanel>
             <TabPanel value={value} index={1}>
               <Platforms searchWord={searchWord} searchType={searchType} />
+            </TabPanel>
+            <TabPanel value={value} index={2}>
+              <Users searchWord={searchWord} searchType={searchType} />
             </TabPanel>
           </Box>
         </Grid>
