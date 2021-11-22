@@ -41,6 +41,7 @@ function WriteQuestion({
         ? `/api/question/${quizId}`
         : `http://localhost:4000/api/question/${quizId}`,
       {
+        quizId,
         questionNumber,
         questionQuestion,
         questionOption1,
@@ -48,7 +49,6 @@ function WriteQuestion({
         questionOption3,
         questionOption4,
         questionAnswer,
-        quizId,
       }
     );
     setQuestionVisible(false);
@@ -65,7 +65,7 @@ function WriteQuestion({
         _id: questionData._id,
         questionNumber,
         questionQuestion,
-        questionOptions,
+        // questionOptions,
         questionOption1,
         questionOption2,
         questionOption3,
@@ -220,6 +220,8 @@ function WriteQuestion({
     );
   } else {
     // edit question
+    console.log('questionOptions', questionOptions);
+    console.log('questionOption1', questionOption1);
     return (
       <div
         className='write'
