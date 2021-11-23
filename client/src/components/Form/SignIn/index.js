@@ -4,8 +4,10 @@ import axios from 'axios';
 import { UserContext } from '../../../App';
 import { useHistory } from 'react-router-dom';
 // import Sider from '../Sider';
-import { Paper, InputBase, Typography, Button, TextField, Grid } from '@mui/material';
+import { Paper, InputBase, Typography, Button, TextField, Grid, InputAdornment, IconButton } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 const useStyles = makeStyles({
   title: {
@@ -28,6 +30,7 @@ const useStyles = makeStyles({
     marginTop: '18px',
     height: '24px', 
     fontSize: '22px',
+    width: '90%',
   },
   inputBox: {
     borderRadius: '8px',
@@ -44,6 +47,9 @@ const useStyles = makeStyles({
     marginLeft: '10px', 
     marginRight: '10px',
   },
+  contentWrapper: {
+    padding: "20px",
+  },
 });
 
 function SignIn() {
@@ -56,6 +62,7 @@ function SignIn() {
   const userGroupRef = useRef('');
   const idRef = useRef('');
   const [errorMsg, setErrorMsg] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
   const classes = useStyles();
 
   const clickBtnHandler = async (req, res) => {
@@ -86,63 +93,20 @@ function SignIn() {
     }
   };
 
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  // const handleMouseDownPassword = (event) => {
+  //   event.preventDefault();
+  // };
+
   return (
     <div>
-      {/* <section class='section-border border-primary'>
-      <div class='container d-flex flex-column'>
-        <div class='row align-items-center justify-content-center no-gutters min-vh-100'>
-          <div class='col-12 col-md-5 col-lg-4 py-8 py-md-11'>
-            <div class='card text-center'>
-              <div class='card-header'>
-                <h1 class='mb-0 font-weight-bold text-start'>Login</h1>
-              </div>
-              <div class='card-body'>
-                <div class='name text-start'>
-                  <label for='exampleInputEmail1'>Username</label>
-                  <input
-                    type='email'
-                    class='form-control'
-                    id='exampleInputEmail1'
-                    placeholder='e.g. mark_lee1'
-                    ref={idRef}
-                  />
-                  <div id='emailHelp' class='form-text'>
-                    We'll never share your user info with anyone else.
-                  </div>
-                </div>
-                <p></p>
-
-                <div class='form-group mb-5 text-start'>
-                  <label for='password'>Password</label>
-                  <input
-                    type='password'
-                    class='form-control'
-                    id='password'
-                    placeholder='Enter your password'
-                    ref={passwordRef}
-                  />
-                </div>
-
-                <div>
-                  <button
-                    class='btn btn-block btn-primary'
-                    type='button'
-                    onClick={clickBtnHandler}
-                  >
-                    Login
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section> */}
-    {/* TODO: fix the position */}
       <Grid container justifyContent="center" className={classes.container}>
         <Grid item xs={10} s={8} md={6} lg={4}>
           <Paper className={classes.paper}>
-            <Grid container direction="column" spacing={3} sx={{ padding: "20px" }}>
+            <Grid container direction="column" spacing={3} className={classes.contentWrapper}>
               <Grid item>
                 <Typography className={classes.title}>
                   Login
@@ -171,12 +135,24 @@ function SignIn() {
               <Grid item>
                 <Paper className={classes.inputBox}>
                   <InputBase
-                    fullWidth
+                    // fullWidth
                     placeholder="Password"
                     inputRef={passwordRef}
-                    type="text"
+                    type={showPassword ? 'text' : 'password'}
                     // inputProps={{ 'aria-label': 'search google maps' }}
                     className={classes.inputField}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          // onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                        >
+                          {showPassword ? <Visibility /> : <VisibilityOff /> }
+                        </IconButton>
+                      </InputAdornment>
+                    }
                   />
                 </Paper>
                 {/* <TextField
