@@ -56,6 +56,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
 
   const groupid = useRef(0);
   const history = useHistory();
+  const [group,setGroup]=useState(0)
 
   const createquizData = async () => {
     await axios.post(
@@ -82,7 +83,8 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
     setQuizVisible(false);
     fetchData();
     //history.push(`/creatorHome/${platformId}`);
-    createCertificate();
+    //createCertificate();
+    createBadge()
   };
 
   const updatequizData = async () => {
@@ -124,15 +126,16 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
     history.push(`/creatorHome/${platformId}`);
   };
 
-  const createCertificate = async () => {
-    const apicall = {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Token token=ac4e7119623388f9afad927bb881138f',
-      },
-    };
+  const apicall = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Token token=ac4e7119623388f9afad927bb881138f',
+    },
+  };
 
-    const apidata = {};
+  const apidata = {};
+
+  const createGroup = async () => {
     const creategroupdata = {
       group: {
         name: quizName,
@@ -143,8 +146,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
         certificate_design_id: null,
         badge_design_id: null,
       },
-    };
-    
+    }
     try {
       await axios
         .post(
@@ -156,6 +158,41 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
           console.log(response);
           groupid.current = response.data.group.id;
         });
+      }catch (e) {
+        console.error(e);
+      }
+  }
+
+  const createBadge = async () => {
+    try {
+      if(group==0){
+        createGroup()
+        setGroup(1)
+      }
+      await axios
+        .post(
+          `https://api.accredible.com/v1/designers/badge/initialize`,
+          apidata,
+          apicall
+        )
+        .then((response) => {
+          console.log(response);
+          history.push(
+            `/createbadge/${response.data.token}/${groupid.current}/${platformId}`
+          );
+        });
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+
+  const createCertificate = async () => {
+    try {
+      if(group==0){
+        createGroup()
+        setGroup(1)
+      }
       await axios
         .post(
           `https://api.accredible.com/v1/designers/certificate/initialize`,
@@ -172,6 +209,8 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
       console.error(e);
     }
   };
+
+
   if (quizData === undefined) {
     return (
       // create a new quiz
@@ -285,6 +324,11 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
               <Button variant="contained" onClick={createquizData}>
                 Create quiz and Navigate to Certificate Designer
               </Button>
+            </Grid>
+            <Grid item>
+            <Button variant="contained" onClick={createquizData}>
+                Navigate to Badge Designer
+            </Button>
             </Grid>
               <Grid item>
               <Button

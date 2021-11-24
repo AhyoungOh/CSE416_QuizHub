@@ -14,6 +14,7 @@ import ConsumerHomePage from './pages/ConsumerHomePage/ConsumerHomePage';
 import CreatorQuiz from './pages/CreatorQuiz';
 import CreatorQuestion from './pages/CreatorQuestion';
 import CreateCertificate from './pages/CreateCertificate';
+import CreateBadge from './pages/CreateBadge';
 import ResultsPage from './pages/ResultPage';
 // import components
 import UserAppBar from './components/UserAppBar';
@@ -102,6 +103,9 @@ function App() {
           </Route>
           <Route path='/createcertificate/:token/:groupid/:platformId'>
             <CreateCertificate />
+          </Route>
+          <Route path='/createbadge/:token/:groupid/:platformId'>
+            <CreateBadge />
           </Route>
           <Route path='/result/:id'>
             <ResultsPage />
