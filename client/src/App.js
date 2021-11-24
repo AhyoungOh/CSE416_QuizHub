@@ -16,7 +16,6 @@ import CreatorQuestion from './pages/CreatorQuestion';
 import CreateCertificate from './pages/CreateCertificate';
 import ResultsPage from './pages/ResultPage';
 // import components
-import Header from './components/Header';
 import UserAppBar from './components/UserAppBar';
 import ConsumerSignUp from './components/Form/ConsumerSignUp';
 import LeaderboardPage from './pages/LeaderboardPage';
