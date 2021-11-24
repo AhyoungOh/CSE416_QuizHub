@@ -95,6 +95,8 @@ function UserAppBar() {
                 history.push('/consumerHome');
               } else if (user.isCreator === true) {
                 history.push('/creatorHome');
+              } else {
+                history.push('/');
               }
             }}
           />

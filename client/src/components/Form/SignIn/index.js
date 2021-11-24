@@ -180,6 +180,9 @@ function SignIn() {
                   Log in
                 </Button>
               </Grid>
+              <Grid item sx={{ alignSelf: 'center' }}>
+                <Typography>Don't have an account yet? <Button href='/auth/creator_signup'>Sign up</Button></Typography>
+              </Grid>
             </Grid>
           </Paper>
         </Grid> 
