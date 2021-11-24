@@ -1,10 +1,9 @@
-import './style.scss';
 import { useRef, useContext, useState } from 'react';
 import axios from 'axios';
 import { UserContext } from '../../../App';
 import { useHistory } from 'react-router-dom';
 // import Sider from '../Sider';
-import { Paper, InputBase, Typography, Button, TextField, Grid, InputAdornment, IconButton } from '@mui/material';
+import { Paper, InputBase, Typography, Button, TextField, Grid, InputAdornment, IconButton, Alert, Collapse } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -48,8 +47,13 @@ const useStyles = makeStyles({
     marginRight: '10px',
   },
   contentWrapper: {
-    padding: "20px",
+    padding: '20px',
   },
+  alert: {
+    width: '50%',
+    display: 'flex',
+    paddingTop: '30px',
+  }
 });
 
 function SignIn() {
@@ -63,6 +67,7 @@ function SignIn() {
   const idRef = useRef('');
   const [errorMsg, setErrorMsg] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
+  const [showError, setShowError] = useState(false);
   const classes = useStyles();
 
   const clickBtnHandler = async (req, res) => {
@@ -89,6 +94,7 @@ function SignIn() {
       }
     } catch (e) {
       setErrorMsg(JSON.stringify(e));
+      setShowError(true);
       console.error(e);
     }
   };
@@ -177,6 +183,18 @@ function SignIn() {
             </Grid>
           </Paper>
         </Grid> 
+      </Grid>
+      <Grid container justifyContent="center">
+        <Collapse in={showError} className={classes.alert}>
+          <Alert
+            severity="error"
+            // variant="filled"
+            onClose={() => {setShowError(false);}}
+            sx={{ fontSize: '18px' }}
+          >
+            Incorrect username or password.
+          </Alert>
+        </Collapse>
       </Grid>
     </div>
   );
