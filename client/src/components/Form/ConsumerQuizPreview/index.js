@@ -1,13 +1,51 @@
 // TODO: add ui for consumer quiz preview card
 import axios from 'axios';
-import { Button, Form, Row, Col } from 'react-bootstrap';
+// import { Button, Form, Row, Col } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import { useHistory, Link, useParams } from 'react-router-dom';
 import useApiCall from '../../../hooks/useApiCall';
+import { Paper, InputBase, Typography, Button, List, ListItem, ListItemIcon, ListItemText, Grid, Card, CardMedia, CardContent, CardActionArea, Box } from '@mui/material';
+import { makeStyles } from '@mui/styles';
+import AccessAlarmRoundedIcon from '@mui/icons-material/AccessAlarmRounded';
+import AssignmentRoundedIcon from '@mui/icons-material/AssignmentRounded';
+import MilitaryTechRoundedIcon from '@mui/icons-material/MilitaryTechRounded';
+import HistoryRoundedIcon from '@mui/icons-material/HistoryRounded';
+
+const useStyles = makeStyles({
+  returnButton: {
+    marginLeft: '120px',
+    marginTop: '20px',
+  },
+  cardWrapper: {
+    marginLeft: '100px',
+    marginRight: '100px',
+    marginBottom: '40px',
+  },
+  card: {
+    borderRadius: '38px',
+    minHeight: '500px',
+    maxWidth: '1200px',
+  },
+  cardMedia: {
+    margin: "20px",
+    maxWidth: "40%",
+    // minWidth: "50%",
+    borderRadius: "19px",
+  },
+  title: {
+    fontSize: '40px',
+    fontWeight: 'bold',
+    marginLeft: '20px',
+  },
+  subtitle: {
+    marginLeft: '20px',
+  },
+});
 
 function ConsumerQuizPreview() {
   const { id } = useParams(); //
   const history = useHistory();
+  const classes = useStyles();
 
   const [image, setImage] = useState('');
   const [name, setName] = useState('');
@@ -49,80 +87,96 @@ function ConsumerQuizPreview() {
       console.error(e);
     }
   };
+
   // clickBtnHandler();
   useEffect(() => {
     fetchData();
   }, []);
+
   return (
     <div>
-      <Form>
-        <Form.Group as={Row} className='mb-3' controlId='formPlaintextEmail'>
-          <Form.Label column sm='2'>
-            Name
-          </Form.Label>
-          <Col sm='10'>
-            <div> {name} </div>
-          </Col>
-        </Form.Group>
-        <Form.Group as={Row} className='mb-3' controlId='formPlaintextEmail'>
-          <Form.Label column sm='2'>
-            Description
-          </Form.Label>
-          <Col sm='10'>
-            <div> {description} </div>
-          </Col>
-        </Form.Group>
-        <Form.Group as={Row} className='mb-3' controlId='formPlaintextEmail'>
-          <Form.Label column sm='2'>
-            Trials
-          </Form.Label>
-          <Col sm='10'>
-            <div> {trials} </div>
-          </Col>
-        </Form.Group>
-        <Form.Group as={Row} className='mb-3' controlId='formPlaintextEmail'>
-          <Form.Label column sm='2'>
-            Time
-          </Form.Label>
-          <Col sm='10'>
-            <div>
-              {' '}
-              {time_min} :{time_sec}{' '}
-            </div>
-          </Col>
-        </Form.Group>
-        <Form.Group as={Row} className='mb-3' controlId='formPlaintextEmail'>
-          <Form.Label column sm='2'>
-            Number of Questions
-          </Form.Label>
-          <Col sm='10'>
-            <div> {num_questions} </div>
-          </Col>
-        </Form.Group>
-        <Form.Group as={Row} className='mb-3' controlId='formPlaintextEmail'>
-          <Form.Label column sm='2'>
-            Reward
-          </Form.Label>
-          <Col sm='10'>
-            <div> {reward} </div>
-          </Col>
-        </Form.Group>
-      </Form>
-
-      <Row>
-        <Col></Col>
-        <Col></Col>
-        <Button
-          onClick={() => {
-            console.log(id);
-            history.push(`/consumerquizpage/${id}`);
-            //history.push('/consumerquizpage',id);
-          }}
-        >
-          Start Quiz
-        </Button>
-        <Col></Col>
-      </Row>
+      <Grid container direction="column" spacing={1}>
+        <Grid item>
+          <Button 
+            color="inherit"
+            className={classes.returnButton}
+            onClick={() => {
+              history.push(`/consumerHome`);
+            }}
+          >
+            Back to quizzes
+          </Button>
+        </Grid>
+        <Grid item className={classes.cardWrapper}>
+          <Card className={classes.card} xs={12} md={8}>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              {/* TODO: adjust the the layout of the picture */}
+                <CardMedia
+                  component="img"
+                  image={image}
+                  alt={name}
+                  className={classes.cardMedia}
+                />
+                <CardContent>
+                  <Typography variant="h5" className={classes.title}>{name}</Typography>
+                  <Typography variant="subtitle1" className={classes.subtitle}>{description}</Typography>
+                  {/* TODO: add platform name and platform avatar */}
+                  <List sx={{ marginTop: '30px', marginLeft: '20px' }}>
+                    <ListItem>
+                      <ListItemIcon>
+                        <AccessAlarmRoundedIcon />
+                      </ListItemIcon>
+                      <ListItemText 
+                        primary={
+                          <Typography>{time_min}:{time_sec} minutes</Typography>
+                        }
+                      />
+                    </ListItem>
+                    <ListItem>
+                      <ListItemIcon>
+                        <AssignmentRoundedIcon />
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={
+                          <Typography>{num_questions} questions</Typography>
+                        }
+                      />
+                    </ListItem>
+                    <ListItem>
+                      <ListItemIcon>
+                        <MilitaryTechRoundedIcon />
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={
+                          reward ? <Typography>{reward}</Typography> : <Typography>No reward</Typography>
+                        }
+                      />
+                    </ListItem>
+                    <ListItem>
+                      <ListItemIcon>
+                        <HistoryRoundedIcon />
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={
+                          <Typography>{trials} trials</Typography>
+                        }
+                      />
+                    </ListItem>
+                  </List>
+                  <Button 
+                    variant="contained"
+                    onClick={()=>{
+                      history.push(`/consumerquizpage/${id}`);
+                    }}
+                    sx={{ marginLeft: '30px', marginTop: '10px'}}
+                  >
+                    Start
+                  </Button>
+                </CardContent>
+            </Box>
+          </Card>
+        </Grid>
+      </Grid>
     </div>
   );
 }
