@@ -52,8 +52,7 @@ function ResultsPage() {
           console.log(response);
           //quizName.current=response.data.quiz.quizName
           setQuizName(response.data.quiz.quizName);
-          certificate_qualifier.current =
-            response.data.quiz.quizCertificateQualification;
+          certificate_qualifier.current = response.data.quiz.quizCertificateQualification;
           certificate_id.current = response.data.quiz.quizCertificate;
         });
     } catch (e) {

@@ -4,7 +4,7 @@ import { useHistory, useParams } from 'react-router-dom';
 
 function CreateCertificate() {
   const history = useHistory();
-  const { token, groupid, platformId } = useParams();
+  const { token, groupid, quizid } = useParams();
   console.log(groupid);
   console.log(token);
   const design_id = useRef();
@@ -25,24 +25,23 @@ function CreateCertificate() {
         );
         console.log('Encoded Content:', e.data.design.encoded_content);
 
-        async function createCertificate() {
-          try {
-            await axios.post(
-              process.env.NODE_ENV == 'production'
-                ? `/api/certificate`
-                : `http://localhost:4000/api/certificate`,
-              {
-                certificateRasterizedContentUrl:
-                  e.data.design.rasterized_content_url,
-                certificateEncodedContent: e.data.design.encoded_content,
-                certificateUploadFile: '',
-                certificateRequirementsAccuracy: 100,
-              }
-            );
-          } catch (e) {
-            console.error(e);
-          }
-        }
+        // async function createCertificate() {
+        //   try {
+        //     await axios.post(
+        //       process.env.NODE_ENV == 'production'
+        //         ? `/api/certificate`
+        //         : `http://localhost:4000/api/certificate`,
+        //       {
+        //         certificateRasterizedContentUrl:e.data.design.rasterized_content_url,
+        //         certificateEncodedContent: e.data.design.encoded_content,
+        //         certificateUploadFile: '',
+        //         certificateRequirementsAccuracy: 100,
+        //       }
+        //     );
+        //   } catch (e) {
+        //     console.error(e);
+        //   }
+        // }
         async function updateGroup() {
           const apicall = {
             headers: {
@@ -69,9 +68,9 @@ function CreateCertificate() {
             console.error(e);
           }
         }
-        createCertificate();
+        //createCertificate();
         updateGroup();
-        history.push(`/creatorHome/${platformId}`);
+        history.push(`/quiz/detail/${quizid}`);
       }
     });
   }, []);

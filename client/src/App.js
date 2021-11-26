@@ -101,10 +101,10 @@ function App() {
           <Route path='/consumerquizpage/:id'>
             <ConsumerQuizPage />
           </Route>
-          <Route path='/createcertificate/:token/:groupid/:platformId'>
+          <Route path='/createcertificate/:token/:groupid/:quizid'>
             <CreateCertificate />
           </Route>
-          <Route path='/createbadge/:token/:groupid/:platformId'>
+          <Route path='/createbadge/:token/:groupid/:quizid'>
             <CreateBadge />
           </Route>
           <Route path='/result/:id'>

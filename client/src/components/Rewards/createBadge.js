@@ -4,7 +4,7 @@ import { useHistory, useParams } from 'react-router-dom';
 
 function CreateBadge() {
   const history = useHistory();
-  const { token, groupid, platformId } = useParams();
+  const { token, groupid,quizid} = useParams();
   console.log(groupid);
   console.log(token);
   const design_id = useRef();
@@ -70,7 +70,7 @@ function CreateBadge() {
         }
         createBadge();
         updateGroup();
-        history.push(`/creatorHome/${platformId}`);
+        history.push(`/quiz/detail/${quizid}`);
       }
     });
   }, []);

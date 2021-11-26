@@ -1,5 +1,7 @@
 import Quiz from '../Quiz';
 import Question from '../Question';
+import React, { useState, useRef } from 'react';
+import axios from 'axios';
 import { Link, useHistory } from 'react-router-dom';
 import { Grid, Button } from '@mui/material';
 import { makeStyles } from '@mui/styles';
@@ -15,10 +17,114 @@ const useStyles = makeStyles({
 function DetailQuiz({ quizData, setQuizVisible }) {
   const owned = [];
   const history = useHistory();
+  const groupid = useRef(0);
+
+  const [group,setGroup]=useState(0)
+
   const classes = useStyles();
   for (let i = 0; i < Object.keys(quizData.quizQuestions).length; i++) {
     owned.push(quizData.quizQuestions[i].questionQuestion + ', ');
   }
+
+  const apicall = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Token token=ac4e7119623388f9afad927bb881138f',
+    },
+  };
+
+  const apidata = {};
+
+  const creategroupdata = {
+    group: {
+      name: quizData.quizName,
+      course_name: quizData.quizName,
+      course_description: quizData.quizDescription,
+      course_link: 'https://cse416-quizhub.netlify.app',
+      attach_pdf: true,
+      certificate_design_id: null,
+      badge_design_id: null,
+    },
+  }
+
+  const createCertificate = async () => {
+    try {
+      console.log(group)
+      if(group==0){
+        //createGroup()
+        await axios
+        .post(
+          `https://api.accredible.com/v1/issuer/groups`,
+          creategroupdata,
+          apicall
+        )
+        .then((response) => {
+          console.log(response);
+          groupid.current = response.data.group.id;
+          //setGroupId(response.data.group.id)
+        });
+        setGroup(1)
+      }
+      console.log(groupid)
+
+      await axios
+        .post(
+          `https://api.accredible.com/v1/designers/certificate/initialize`,
+          apidata,
+          apicall
+        )
+        .then((response) => {
+          console.log(response);
+          history.push(
+            `/createcertificate/${response.data.token}/${groupid.current}/${quizData._id}`
+          );
+        });
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const createBadge = async () => {
+    try {
+      console.log(group)
+      if(group==0){
+        //createGroup()
+        try{
+        await axios
+        .post(
+          `https://api.accredible.com/v1/issuer/groups`,
+          creategroupdata,
+          apicall
+        )
+        .then((response) => {
+          console.log(response);
+          groupid.current = response.data.group.id;
+          
+        });
+        } catch (e){
+         console.error(e);
+        }
+        setGroup(1)
+      }
+      console.log(groupid)
+
+      await axios
+        .post(
+          `https://api.accredible.com/v1/designers/badge/initialize`,
+          apidata,
+          apicall
+        )
+        .then((response) => {
+          console.log(response);
+          history.push(
+            `/createbadge/${response.data.token}/${groupid.current}/${quizData._id}`
+          );
+        });
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   const QuestionComponents = quizData.quizQuestions.map((questionData) => {
     return (
       <Grid item>
@@ -87,6 +193,16 @@ function DetailQuiz({ quizData, setQuizVisible }) {
         <Grid item>
           <Button variant='contained' onClick={updateQuestionData}>
             Add Quesiton
+          </Button>
+        </Grid>
+        <Grid item>
+          <Button variant='contained' onClick={createCertificate}>
+            Add Certificate
+          </Button>
+        </Grid>
+        <Grid item>
+          <Button variant='contained' onClick={createBadge}>
+            Add Badge
           </Button>
         </Grid>
       </Grid>

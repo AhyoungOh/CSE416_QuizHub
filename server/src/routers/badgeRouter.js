@@ -7,7 +7,7 @@ const badgeRouter = express.Router();
 
 //get data
 badgeRouter.get(
-  '/get',
+  '/',
   expressAsyncHandler(async (req, res) => {
     const createBadge = await Badge.find();
     res.send({ createBadge });
@@ -26,7 +26,7 @@ badgeRouter.post(
 
 //create new data
 badgeRouter.post(
-  '/post',
+  '/',
   expressAsyncHandler(async (req, res) => {
     const badge = new Badge({
       badgeRasterizedContentUrl: req.body.badgeRasterizedContentUrl,
