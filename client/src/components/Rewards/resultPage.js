@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect, useContext } from 'react';
 import { UserContext, accountSettingsContext } from '../../App';
 import { useHistory, useParams, Link } from 'react-router-dom';
 import useApiCall from '../../hooks/useApiCall';
+import CreateBadge from './createBadge';
 
 function ResultsPage() {
   const { id } = useParams();
@@ -29,6 +30,7 @@ function ResultsPage() {
   const credential_id = useRef('');
   //const file_download=useRef("")
   const [file_download, setFile] = useState('');
+  const [img,setImage] = useState('')
 
   if (!quizResult) {
     return <div>No Data</div>;
@@ -52,7 +54,8 @@ function ResultsPage() {
           console.log(response);
           //quizName.current=response.data.quiz.quizName
           setQuizName(response.data.quiz.quizName);
-          certificate_qualifier.current = response.data.quiz.quizCertificateQualification;
+          certificate_qualifier.current =
+            response.data.quiz.quizCertificateQualification;
           certificate_id.current = response.data.quiz.quizCertificate;
         });
     } catch (e) {
@@ -90,6 +93,8 @@ function ResultsPage() {
           .then((response) => {
             console.log(response);
             credential_id.current = response.data.credential.id;
+            setImage(response.data.credential.badge.image.preview)
+            console.log(response.data.credential.badge.image.preview)
           });
         //pdfCredential()
         await axios
@@ -104,11 +109,31 @@ function ResultsPage() {
             //file_download.current=response.data.file
             setFile(response.data.file);
           });
+        createBadge()
       } catch (e) {
         console.error(e);
       }
     }
   };
+
+  const createBadge = async () =>{
+    try{
+      await axios.post(
+        process.env.NODE_ENV == 'production'
+          ? `/api/badge`
+          : `http://localhost:4000/api/badge`,
+        {
+          badgeUploadFile: img,
+        }
+      ).then((response)=>{
+        console.log(response)
+      });
+      
+    } catch (e){
+
+    }
+  }
+
   createCredential();
 
   return (
@@ -129,6 +154,7 @@ function ResultsPage() {
         </h1>
       </Form>
       {console.log(file_download.current)}
+      <img src={img} width="200" height="200"></img>
       {result >= certificate_qualifier.current ? (
         <a href={file_download} download>
           {' '}

@@ -25,23 +25,6 @@ function CreateBadge() {
         );
         console.log('Encoded Content:', e.data.design.encoded_content);
 
-        async function createBadge() {
-          try {
-            await axios.post(
-              process.env.NODE_ENV == 'production'
-                ? `/api/badge`
-                : `http://localhost:4000/api/badge`,
-              {
-                badgeRasterizedContentUrl:e.data.design.rasterized_content_url,
-                badgeEncodedContent: e.data.design.encoded_content,
-                badgeUploadFile: '',
-                badgeRequirementsAccuracy: 100,
-              }
-            );
-          } catch (e) {
-            console.error(e);
-          }
-        }
         async function updateGroup() {
           const apicall = {
             headers: {
@@ -68,7 +51,6 @@ function CreateBadge() {
             console.error(e);
           }
         }
-        createBadge();
         updateGroup();
         history.push(`/quiz/detail/${quizid}`);
       }

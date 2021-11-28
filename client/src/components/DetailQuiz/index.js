@@ -17,10 +17,10 @@ const useStyles = makeStyles({
 function DetailQuiz({ quizData, setQuizVisible }) {
   const owned = [];
   const history = useHistory();
+
   const groupid = useRef(0);
-
-  const [group,setGroup]=useState(0)
-
+  const isGroup = useRef(0)
+ 
   const classes = useStyles();
   for (let i = 0; i < Object.keys(quizData.quizQuestions).length; i++) {
     owned.push(quizData.quizQuestions[i].questionQuestion + ', ');
@@ -49,9 +49,9 @@ function DetailQuiz({ quizData, setQuizVisible }) {
 
   const createCertificate = async () => {
     try {
-      console.log(group)
-      if(group==0){
-        //createGroup()
+      console.log(isGroup.current)
+      if(isGroup.current==0){
+        
         await axios
         .post(
           `https://api.accredible.com/v1/issuer/groups`,
@@ -63,8 +63,9 @@ function DetailQuiz({ quizData, setQuizVisible }) {
           groupid.current = response.data.group.id;
           //setGroupId(response.data.group.id)
         });
-        setGroup(1)
+        isGroup.current=1
       }
+      console.log(isGroup.current)
       console.log(groupid)
 
       await axios
@@ -86,9 +87,9 @@ function DetailQuiz({ quizData, setQuizVisible }) {
 
   const createBadge = async () => {
     try {
-      console.log(group)
-      if(group==0){
-        //createGroup()
+      console.log(isGroup.current)
+      if(isGroup.current==0){
+        
         try{
         await axios
         .post(
@@ -104,7 +105,7 @@ function DetailQuiz({ quizData, setQuizVisible }) {
         } catch (e){
          console.error(e);
         }
-        setGroup(1)
+        isGroup.current=1
       }
       console.log(groupid)
 
