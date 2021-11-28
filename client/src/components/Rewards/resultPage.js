@@ -20,6 +20,7 @@ function ResultsPage() {
   // console.log('consumer quiz history', payload);
   const result = 85; // need to change this based on takes quiz
   const certificate_qualifier = useRef(0);
+  const badge_qualifier=useRef(0)
 
   //const quizName=useRef("")
   const [quizName, setQuizName] = useState('');
@@ -54,8 +55,8 @@ function ResultsPage() {
           console.log(response);
           //quizName.current=response.data.quiz.quizName
           setQuizName(response.data.quiz.quizName);
-          certificate_qualifier.current =
-            response.data.quiz.quizCertificateQualification;
+          certificate_qualifier.current =response.data.quiz.quizCertificateQualification;
+          badge_qualifier.current=response.data.quiz.quizBadgeQualification;
           certificate_id.current = response.data.quiz.quizCertificate;
         });
     } catch (e) {
@@ -73,7 +74,7 @@ function ResultsPage() {
   };
 
   const createCredential = async () => {
-    if (result >= certificate_qualifier.current) {
+    if (result >= certificate_qualifier.current || result>= badge_qualifier.current) {
       console.log('inside create credential');
       const apidata = {
         credential: {
@@ -153,8 +154,10 @@ function ResultsPage() {
             : 'Sorry please try again'}
         </h1>
       </Form>
-      {console.log(file_download.current)}
-      <img src={img} width="200" height="200"></img>
+      {console.log(file_download)}
+      {console.log(badge_qualifier.current)}
+      {console.log(certificate_qualifier.current)}
+      {result >= badge_qualifier.current ? (<img src={img} width="200" height="200"></img>) : ("")}
       {result >= certificate_qualifier.current ? (
         <a href={file_download} download>
           {' '}
