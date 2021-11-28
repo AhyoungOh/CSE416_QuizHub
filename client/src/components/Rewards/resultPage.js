@@ -18,7 +18,7 @@ function ResultsPage() {
   );
 
   // console.log('consumer quiz history', payload);
-  const result = 85; // need to change this based on takes quiz
+  const [result,setResult] = useState(''); // need to change this based on takes quiz
   const certificate_qualifier = useRef(0);
   const badge_qualifier=useRef(0)
 
@@ -58,6 +58,14 @@ function ResultsPage() {
           certificate_qualifier.current =response.data.quiz.quizCertificateQualification;
           badge_qualifier.current=response.data.quiz.quizBadgeQualification;
           certificate_id.current = response.data.quiz.quizCertificate;
+          let correct = Number(quizResult[0].correctedAnswerNum)
+          console.log(correct)
+          let ques = Number(response.data.quiz.quizTotalNumberOfQuestions) > 0 ? Number(response.data.quiz.quizTotalNumberOfQuestions) : response.data.quiz.quizQuestions.length
+          console.log(ques)
+          let res=(correct/ques)*100
+          console.log(res)
+          setResult(res.toFixed(2)+"")
+          console.log(result)
         });
     } catch (e) {
       console.error(e);
@@ -74,7 +82,7 @@ function ResultsPage() {
   };
 
   const createCredential = async () => {
-    if (result >= certificate_qualifier.current || result>= badge_qualifier.current) {
+    if (result >= certificate_qualifier.current || result >= badge_qualifier.current) {
       console.log('inside create credential');
       const apidata = {
         credential: {
