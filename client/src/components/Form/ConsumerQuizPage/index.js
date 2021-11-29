@@ -224,9 +224,13 @@ function ConsumerQuizPage() {
         <Collapse in={showAlert} className={classes.alert}>
           <Alert
             severity="warning"
-            onClose={() => {setShowAlert(false);}}
             action={
-              <Button color="inherit" size="small" onClick={submitHandler}>Submit</Button>
+              <div>
+                <Button color="warning" size="small" onClick={submitHandler}>Submit</Button>
+                <IconButton color="inherit" size="small" onClick={() => {setShowAlert(false);}} component="span">
+                  <CloseRoundedIcon />
+                </IconButton>
+              </div>
             }
           >
             Still have {num_questions - quizInfo.current.answerchoices.length} questions not finished.
