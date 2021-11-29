@@ -4,7 +4,14 @@ import Detail from '../../components/Detail';
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import useApiCall from '../../hooks/useApiCall';
-import { Grid, Dialog, Box, Fab, DialogTitle, DialogContent } from '@mui/material';
+import {
+  Grid,
+  Dialog,
+  Box,
+  Fab,
+  DialogTitle,
+  DialogContent,
+} from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 
@@ -34,6 +41,11 @@ function CreatorFunction() {
       : `http://localhost:4000/api/creatorHome`,
     true
   );
+  // const [loading, testData, error, fetchData] = useApiCall(
+  //   process.env.NODE_ENV === 'production'
+  //     ? `${process.env.REACT_APP_API_SERVER}/api/creatorHome`
+  //     : `http://localhost:4000/api/creatorHome`
+  // );
   const classes = useStyles();
   const [platformvisible, setPlatformVisible] = useState(false);
 
@@ -52,7 +64,7 @@ function CreatorFunction() {
     return (
       <Grid item xs={12} sm={6} md={4}>
         <PlatformPreviewCard
-          key={platformData._id}
+          // key={platformData._id}
           platformName={platformData.platformName}
           createdDate={platformData.createdDate}
           platformImage={platformData.platformImage}
@@ -82,15 +94,16 @@ function CreatorFunction() {
           >
             {PlatformComponents}
           </Grid>
-          <Fab 
-            color="primary" 
-            aria-label="add" 
-            onClick={() => setPlatformVisible((state) => !state)} 
-            className={classes.fabStyle}>
+          <Fab
+            color='primary'
+            aria-label='add'
+            onClick={() => setPlatformVisible((state) => !state)}
+            className={classes.fabStyle}
+          >
             <AddRoundedIcon />
           </Fab>
           <Dialog
-            keepMounted 
+            keepMounted
             open={platformvisible}
             onClose={() => setPlatformVisible(false)}
             // sx={{ borderRadius: "18px" }}
@@ -98,7 +111,7 @@ function CreatorFunction() {
             <DialogTitle>Add a new platform</DialogTitle>
             <Write
               platformData={selectedplatformData}
-              setData={() => {}}
+              // setData={() => {}}
               setVisible={setPlatformVisible}
               fetchData={fetchData}
             />
@@ -113,7 +126,7 @@ function CreatorFunction() {
             setVisible={setPlatformVisible}
           />
           <Dialog
-            keepMounted 
+            keepMounted
             open={platformvisible}
             onClose={() => setPlatformVisible(false)}
             // sx={{ borderRadius: "18px" }}
