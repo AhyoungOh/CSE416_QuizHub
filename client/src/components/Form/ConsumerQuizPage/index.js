@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useRef, useEffect, useContext, useState } from 'react';
 import { useHistory, Link, useParams } from 'react-router-dom';
 import useApiCall from '../../../hooks/useApiCall';
-import { Grid, Button, Modal, Box, Typography, Card, IconButton } from '@mui/material';
+import { Grid, Button, Modal, Box, Typography, Card, IconButton, Alert, Collapse } from '@mui/material';
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
@@ -50,6 +50,11 @@ const useStyles = makeStyles({
   submitButton: {
     borderRadius: '30px',
   },
+  alert: {
+    width: '50%',
+    display: 'flex',
+    paddingTop: '20px',
+  }
 });
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
@@ -99,9 +104,12 @@ function ConsumerQuizPage() {
   // for selecting option card
   const [select, setSelect] = useState(4);
 
-  // state
+  // quiz answering state
   const [end, setEnd] = useState(false);
   const [start, setStart] = useState(true);
+
+  // warning
+  const [showAlert, setShowAlert] = useState(false);
 
   const fetchData = async () => {
     try {
@@ -191,6 +199,14 @@ function ConsumerQuizPage() {
     setSelect(answer);
   };
 
+  const checkSubmit = () => {
+    if (quizInfo.current.answerchoices.length !== num_questions) {
+      setShowAlert(true);
+    } else {
+      submitHandler();
+    }
+  }
+
   const submitHandler = async () => {
     await axios.post(
       process.env.NODE_ENV === 'production'
@@ -204,6 +220,20 @@ function ConsumerQuizPage() {
 
   return (
     <div>
+      <Grid container justifyContent="center">
+        <Collapse in={showAlert} className={classes.alert}>
+          <Alert
+            severity="warning"
+            onClose={() => {setShowAlert(false);}}
+            action={
+              <Button color="inherit" size="small" onClick={submitHandler}>Submit</Button>
+            }
+          >
+            Still have {num_questions - quizInfo.current.answerchoices.length} questions not finished.
+          </Alert>
+          
+        </Collapse>
+      </Grid>
       <Grid container direction="column" spacing={3} className={classes.container}>
         <Grid item>
           {/* Quiz button */}
@@ -306,7 +336,7 @@ function ConsumerQuizPage() {
         </Grid>
         <Grid item alignSelf="flex-end">
           { end ? (
-            <Button variant="contained" onClick={submitHandler} className={classes.submitButton}>Submit</Button>
+            <Button variant="contained" onClick={checkSubmit} className={classes.submitButton}>Submit</Button>
           ) : (
             ''
           )}
