@@ -8,15 +8,14 @@ import useApiCall from '../../hooks/useApiCall';
 function ResultsPage() {
   const { id } = useParams();
   const quizId = id;
-  // console.log(quizid);
   const [loading, quizResult, error] = useApiCall(
     process.env.NODE_ENV === 'production'
       ? `/api/consumer/quizHistory/${quizId}`
       : `http://localhost:4000/api/consumer/quizHistory/${quizId}`,
     { withCredentials: true }
   );
-
-  // console.log('consumer quiz history', payload);
+  const [leaderboardVisible, setLeaderboardVisible] = useState('');
+  // console.log('consumer quiz history', quizResult);
   const result = 85; // need to change this based on takes quiz
   const certificate_qualifier = useRef(0);
 
@@ -49,8 +48,10 @@ function ResultsPage() {
             : `http://localhost:4000/api/quiz/detail/${quizId}`
         )
         .then((response) => {
-          console.log(response);
+          // console.log(response.data.quiz.quizEnableLeaderboard);
           //quizName.current=response.data.quiz.quizName
+          setLeaderboardVisible(response.data.quiz.quizEnableLeaderboard);
+          // console.log('leaderobard visible', leaderboardVisible);
           setQuizName(response.data.quiz.quizName);
           certificate_qualifier.current =
             response.data.quiz.quizCertificateQualification;
@@ -72,7 +73,7 @@ function ResultsPage() {
 
   const createCredential = async () => {
     if (result >= certificate_qualifier.current) {
-      console.log('inside create credential');
+      // console.log('inside create credential');
       const apidata = {
         credential: {
           recipient: {
@@ -84,8 +85,8 @@ function ResultsPage() {
         },
       };
       try {
-        console.log(apidata);
-        console.log(quizName);
+        // console.log(apidata);
+        // console.log(quizName);
         await axios
           .post(`https://api.accredible.com/v1/credentials`, apidata, apicall)
           .then((response) => {
@@ -129,7 +130,7 @@ function ResultsPage() {
             : 'Sorry please try again'}
         </h1>
       </Form>
-      {console.log(file_download.current)}
+      {/* {console.log(file_download.current)} */}
       {result >= certificate_qualifier.current ? (
         <a href={file_download} download>
           {' '}
@@ -140,7 +141,9 @@ function ResultsPage() {
       )}
       Quiz Result
       {JSON.stringify(quizResult)}
-      <Link to={`/leaderboard/${quizId}`}>See Leaderboard</Link>
+      {leaderboardVisible ? (
+        <Link to={`/leaderboard/${quizId}`}>See Leaderboard</Link>
+      ) : null}
     </div>
   );
 }
