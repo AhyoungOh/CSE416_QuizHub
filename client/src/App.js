@@ -19,6 +19,52 @@ import ResultsPage from './pages/ResultPage';
 import UserAppBar from './components/UserAppBar';
 import ConsumerSignUp from './components/Form/ConsumerSignUp';
 import LeaderboardPage from './pages/LeaderboardPage';
+// mui theme setup
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      light: '#69aeff',
+      main: '#007fff',
+      dark: '#0054cb',
+      contrastText: '#fff',
+      // contrastText: '#000',
+    },
+    secondary: {
+      light: '#fff3b0',
+      main: '#ffc080',
+      dark: '#c99052',
+      contrastText: '#fff',
+    },
+  },
+  typography: {
+    fontFamily: [
+      'Inter',
+      'Roboto',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+    ].join(','),
+    button: {
+      fontFamily: [
+        'Open Sans',
+        'Roboto',
+        'Arial',
+      ].join(','),
+      textTransform: 'none',
+      fontWeight: '700',
+      letterSpacing: '0.03em',
+      fontStyle: 'normal',
+    },
+  },
+  // MuiButton: {
+  //   selected: {
+  //     backgroundColor: '#007fff', 
+  //     color: '#FFFFFF',
+  //   },
+  // },
+});
 
 dotenv.config();
 
@@ -64,54 +110,56 @@ function App() {
   });
 
   return (
-    <UserContext.Provider value={{ user, dispatch }}>
-      <Router>
-        {/* <Header /> */}
-        <UserAppBar />
-        <Route exact path='/' component={ConsumerSignUp} />
-        <Switch>
-          <Route path='/auth'>
-            <AuthPage />
-          </Route>
-          <Route path='/creatorHome'>
-            <CreatorFunctionPage />
-          </Route>
-          <Route path='/quiz'>
-            <CreatorQuiz />
-          </Route>
-          <Route path='/question'>
-            <CreatorQuestion />
-          </Route>
-          <Route path='/consumerHome'>
-            <ConsumerHomePage />
-          </Route>
-          <Route path='/consumer-page'>
-            <ConsumerPage />
-          </Route>
-          <Route path='/creator-page'>
-            <CreatorPage />
-          </Route>
-          <Route path='/consumerquizpreview/:id'>
-            <ConsumerQuizPreview />
-          </Route>
-          <Route path='/consumerplatformpreview/:id'>
-            <ConsumerPlatformPreview />
-          </Route>
-          <Route path='/consumerquizpage/:id'>
-            <ConsumerQuizPage />
-          </Route>
-          <Route path='/createcertificate/:token/:groupid/:platformId'>
-            <CreateCertificate />
-          </Route>
-          <Route path='/result/:id'>
-            <ResultsPage />
-          </Route>
-          <Route path='/leaderboard/:quizId'>
-            <LeaderboardPage />
-          </Route>
-        </Switch>
-      </Router>
-    </UserContext.Provider>
+    <ThemeProvider theme={theme}>
+      <UserContext.Provider value={{ user, dispatch }}>
+        <Router>
+          {/* <Header /> */}
+          <UserAppBar />
+          <Route exact path='/' component={ConsumerSignUp} />
+          <Switch>
+            <Route path='/auth'>
+              <AuthPage />
+            </Route>
+            <Route path='/creatorHome'>
+              <CreatorFunctionPage />
+            </Route>
+            <Route path='/quiz'>
+              <CreatorQuiz />
+            </Route>
+            <Route path='/question'>
+              <CreatorQuestion />
+            </Route>
+            <Route path='/consumerHome'>
+              <ConsumerHomePage />
+            </Route>
+            <Route path='/consumer-page'>
+              <ConsumerPage />
+            </Route>
+            <Route path='/creator-page'>
+              <CreatorPage />
+            </Route>
+            <Route path='/consumerquizpreview/:id'>
+              <ConsumerQuizPreview />
+            </Route>
+            <Route path='/consumerplatformpreview/:id'>
+              <ConsumerPlatformPreview />
+            </Route>
+            <Route path='/consumerquizpage/:id'>
+              <ConsumerQuizPage />
+            </Route>
+            <Route path='/createcertificate/:token/:groupid/:platformId'>
+              <CreateCertificate />
+            </Route>
+            <Route path='/result/:id'>
+              <ResultsPage />
+            </Route>
+            <Route path='/leaderboard/:quizId'>
+              <LeaderboardPage />
+            </Route>
+          </Switch>
+        </Router>
+      </UserContext.Provider>
+    </ThemeProvider>
   );
 }
 
