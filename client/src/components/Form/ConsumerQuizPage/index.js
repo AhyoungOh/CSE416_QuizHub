@@ -1,9 +1,23 @@
 // TODO: add ui for quiz taking
 import axios from 'axios';
-import { Button, Form, Row, Col, ButtonGroup, Modal } from 'react-bootstrap';
+import { Form, Row, Col, ButtonGroup } from 'react-bootstrap';
 import { useRef, useEffect, useContext, useState } from 'react';
 import { useHistory, Link, useParams } from 'react-router-dom';
 import useApiCall from '../../../hooks/useApiCall';
+import { Grid, Button, Modal, Box, Typography } from '@mui/material';
+
+// modal style
+const style = {
+  position: 'absolute',
+  top: '40%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 600,
+  bgcolor: 'background.paper',
+  boxShadow: 24,
+  p: 4,
+  borderRadius: 2,
+};
 
 function ConsumerQuizPage() {
   const history = useHistory();
@@ -31,6 +45,7 @@ function ConsumerQuizPage() {
     usedTrialNumber: 0,
   });
 
+  // for quit confirm modal
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -106,45 +121,51 @@ function ConsumerQuizPage() {
     );
     history.push(`/result/${id}`);
   };
+
   return (
     <div>
+      {/* Quiz button */}
       <Button variant='link' onClick={handleShow}>
         Quit Quiz
       </Button>
-      <Modal
-        show={show}
-        onHide={handleClose}
-        backdrop='static'
-        keyboard={false}
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Quit Quiz</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          Are you sure you would like to quit. You will loose all your answered
-          questions.
-        </Modal.Body>
-        <Modal.Footer>
-          <Col></Col>
-          <Col>
-            <Button variant='secondary' onClick={handleClose}>
-              Close
-            </Button>
-          </Col>
-          <Col>
-            <Button
-              variant='danger'
-              onClick={() => {
-                history.push(`/consumerquizpreview/${id}`);
-                //history.push('/consumerquizpreview',quizid);
-              }}
-            >
-              Ok
-            </Button>
-          </Col>
-        </Modal.Footer>
+
+      {/* Quit confirm modal */}
+      <Modal open={show} onClose={handleClose}>
+        <Box sx={style}>
+          <Grid container direction='column' spacing={2}>
+            <Grid item>
+              <Typography id='modal-modal-title' variant='h6' component='h2'>
+                Delete platform
+              </Typography>
+              <Typography id='modal-modal-description' sx={{ mt: 2 }}>
+                Are you sure you would like to quit? You will lose all your answers.
+              </Typography>
+            </Grid>
+            <Grid item />
+          </Grid>
+          <Grid container spacing={2} justifyContent='flex-end'>
+            <Grid item>
+              <Button
+                variant='text'
+                color='error'
+                onClick={() => {
+                  history.push(`/consumerquizpreview/${id}`);
+                  //history.push('/consumerquizpreview',quizid);
+                }}
+              >
+                Quit
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button variant='contained' onClick={handleClose}>
+                Cancel
+              </Button>
+            </Grid>
+          </Grid>
+        </Box>
       </Modal>
 
+      {/* question */}
       <Form>
         <Form.Group as={Row} className='mb-3' controlId='formPlaintextEmail'>
           <Form.Label column sm='2'>
@@ -155,18 +176,23 @@ function ConsumerQuizPage() {
           </Col>
         </Form.Group>
       </Form>
-
+      
+      {/* Options */}
       <Row>
         {quiz_questions[qnum - 1]?.questionOptions.map((e, i) => (
           <Button id={i} onClick={() => selectAnswer(i)}>
+            {/* {i+1}. {e} */}
             {e}
           </Button>
         ))}
       </Row>
+
+      {/* Progress bar and prev, next buttons */}
       <ButtonGroup aria-label='Basic example'>
         <Button variant='secondary' onClick={prevQuestionNum}>
           Prev
         </Button>
+        {/* if last question -> disabled */}
         <Button variant='secondary' onClick={nextQuestionNum}>
           Next
         </Button>
