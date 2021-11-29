@@ -143,9 +143,7 @@ function ResultsPage() {
       {JSON.stringify(quizResult)}
       {leaderboardVisible ? (
         <Link to={`/leaderboard/${quizId}`}>See Leaderboard</Link>
-      ) : (
-        <div>This quiz has no leaderboard</div>
-      )}
+      ) : null}
     </div>
   );
 }
