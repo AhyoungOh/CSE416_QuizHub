@@ -199,7 +199,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             label='Title'
             type='text'
             placeholder='Enter quiz title..'
-            // value={quizName}
+            value={quizName}
             onChange={(e) => setQuizName(e.target.value)}
             // sx={{ m: 1 }}
           />
@@ -211,7 +211,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             label='Image'
             type='text'
             placeholder='Paster image url...'
-            // value={quizImage}
+            value={quizImage}
             onChange={(e) => setQuizImage(e.target.value)}
             // sx={{ m: 1 }}
           />
@@ -223,7 +223,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             label='Desciprion'
             type='text'
             placeholder='Enter quiz description...'
-            // value={quizDescription}
+            value={quizDescription}
             onChange={(e) => setQuizDescription(e.target.value)}
             // sx={{ m: 1 }}
           />
@@ -235,7 +235,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             label='Number Of Trials'
             type='number'
             placeholder='Enter the number of trials...'
-            // value={quizNumberOfTrials}
+            value={quizNumberOfTrials}
             onChange={(e) => setQuizNumberOfTrials(e.target.value)}
             // sx={{ m: 1 }}
           />
@@ -247,7 +247,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             label='Time limit in minutes'
             type='number'
             placeholder='Enter the number of trials...'
-            // value={quizTimeLimitMinutes}
+            value={quizTimeLimitMinutes}
             onChange={(e) => setQuizTimeLimitMinutes(e.target.value)}
             // sx={{ m: 1 }}
           />
@@ -259,7 +259,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             label='Time limit in seconds...'
             type='number'
             placeholder='Enter the number of trials...'
-            // value={quizTimeLimitSeconds}
+            value={quizTimeLimitSeconds}
             onChange={(e) => setQuizTimeLimitSeconds(e.target.value)}
             // sx={{ m: 1 }}
           />
@@ -271,6 +271,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             label='Quiz RewardType'
             type='text'
             placeholder='Certificate or Badge'
+            value={quizRewardType}
             onChange={(e) => setQuizRewardType(e.target.value)}
             // sx={{ m: 1 }}
           />
@@ -281,6 +282,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             label='Quiz Reward Qualification'
             type='number'
             placeholder='Enter the number for reward qualification'
+            value={quizCertificateQualification}
             onChange={(e) => setQuizCertificateQualification(e.target.value)}
           />
           <TextField
@@ -290,6 +292,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             label='Quiz Leaderboard Enable'
             type='boolean'
             placeholder='True or False'
+            value={quizEnableLeaderboard}
             onChange={(e) => setQuizEnableLeaderboard(e.target.value)}
           />
           <Grid
@@ -348,7 +351,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             placeholder='Enter quiz title..'
             value={quizName}
             onChange={(e) => setQuizName(e.target.value)}
-            sx={{ m: 3 }}
+            // sx={{ m: 3 }}
           />
           <TextField
             required
@@ -360,7 +363,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             placeholder='Paster image url...'
             value={quizImage}
             onChange={(e) => setQuizImage(e.target.value)}
-            sx={{ m: 3 }}
+            // sx={{ m: 3 }}
           />
           <TextField
             required
@@ -372,7 +375,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             placeholder='Enter quiz description...'
             value={quizDescription}
             onChange={(e) => setQuizDescription(e.target.value)}
-            sx={{ m: 3 }}
+            // sx={{ m: 3 }}
           />
           <TextField
             required
@@ -384,7 +387,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             placeholder='Enter the number of trials...'
             value={quizNumberOfTrials}
             onChange={(e) => setQuizNumberOfTrials(e.target.value)}
-            sx={{ m: 3 }}
+            // sx={{ m: 3 }}
           />
           <TextField
             required
@@ -396,7 +399,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             placeholder='Enter the number of trials...'
             value={quizTimeLimitMinutes}
             onChange={(e) => setQuizTimeLimitMinutes(e.target.value)}
-            sx={{ m: 3 }}
+            // sx={{ m: 3 }}
           />
           <TextField
             required
@@ -408,7 +411,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             placeholder='Enter the number of trials...'
             value={quizTimeLimitSeconds}
             onChange={(e) => setQuizTimeLimitSeconds(e.target.value)}
-            sx={{ m: 3 }}
+            // sx={{ m: 3 }}
           />
           {/* I commented because of the UI design all the below code is needed */}
           <Input
