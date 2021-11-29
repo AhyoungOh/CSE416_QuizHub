@@ -74,6 +74,7 @@ function ResultsPage() {
 
   getQuizInfo();
 
+
   const apicall = {
     headers: {
       'Content-Type': 'application/json',
@@ -118,7 +119,7 @@ function ResultsPage() {
             //file_download.current=response.data.file
             setFile(response.data.file);
           });
-        createBadge()
+
       } catch (e) {
         console.error(e);
       }
@@ -133,17 +134,22 @@ function ResultsPage() {
           : `http://localhost:4000/api/badge`,
         {
           badgeUploadFile: img,
+          consumerId: user.id,
         }
       ).then((response)=>{
         console.log(response)
       });
       
     } catch (e){
-
+      console.error(e);
     }
   }
 
   createCredential();
+
+  if(result>= badge_qualifier.current){
+  createBadge();
+  }
 
   return (
     <div>

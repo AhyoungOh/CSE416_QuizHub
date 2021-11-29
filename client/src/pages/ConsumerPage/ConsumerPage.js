@@ -6,6 +6,7 @@ import { UserContext } from '../../App';
 import useApiCall from '../../hooks/useApiCall';
 import { Tab, Tabs, Box, Avatar, Typography, Grid } from '@mui/material';
 import ConsumerProfileForm from '../../components/Form/ConsumerProfileForm';
+import ConsumerMyBadges from '../../components/Form/ConsumerMyBadges'
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -101,7 +102,7 @@ export default function ConsumerPage() {
                     Quizzes
                 </TabPanel>
                 <TabPanel value={value} index={2}>
-                    Badges
+                    <ConsumerMyBadges/>
                 </TabPanel>
             </Box>
         </div>
