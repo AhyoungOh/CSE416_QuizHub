@@ -21,7 +21,7 @@ const useStyles = makeStyles({
   },
   paper: {
     borderRadius: '19px',
-    minHeight: '600px',
+    minHeight: '500px',
   },
   container: {
     position: 'fixed',
@@ -31,7 +31,7 @@ const useStyles = makeStyles({
     marginLeft: '16px',
     marginTop: '18px',
     height: '24px', 
-    fontSize: '22px',
+    fontSize: '18px',
     width: '90%',
   },
   inputBox: {
@@ -41,8 +41,8 @@ const useStyles = makeStyles({
     boxShadow: '0px 4px 4px rgba(51, 51, 51, 0.04), 0px 4px 16px rgba(51, 51, 51, 0.08)',
   },
   button: {
-    height: '55px',
-    fontSize: '20px',
+    height: '50px',
+    fontSize: '18px',
     borderRadius: '9px',
   },
   buttonGrid: {
@@ -111,12 +111,14 @@ function CreatorSignUp() {
                     value="creator"
                     label="Creator"
                     wrapped
+                    sx={{fontSize: '15px'}}
                     // href='/auth/creator_signup'
                   />
                   <Tab
                     value="consumer"
                     label="Consumer"
                     wrapped
+                    sx={{fontSize: '15px'}}
                     href='/auth/consumer_signup'
                   />
                 </Tabs>
