@@ -18,7 +18,7 @@ const useStyles = makeStyles({
   container: {
     // padding: '30px',
     position: 'fixed',
-    top: '20%',
+    top: '25%',
   },
   paper: {
     minHeight: '400px',
@@ -52,7 +52,7 @@ const useStyles = makeStyles({
   alert: {
     width: '50%',
     display: 'flex',
-    paddingTop: '30px',
+    paddingTop: '20px',
   }
 });
 
@@ -193,7 +193,7 @@ function SignIn() {
             severity="error"
             // variant="filled"
             onClose={() => {setShowError(false);}}
-            sx={{ fontSize: '18px' }}
+            sx={{ fontSize: '15px' }}
           >
             Incorrect username or password.
           </Alert>
