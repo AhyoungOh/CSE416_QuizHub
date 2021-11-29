@@ -3,7 +3,19 @@ import React, { useState, useRef } from 'react';
 import Input from './Input';
 import './style.scss';
 import { useHistory } from 'react-router-dom';
-import { Grid, TextField, Paper, Button, Typography, Modal, Box } from '@mui/material';
+import {
+  Grid,
+  TextField,
+  Paper,
+  Button,
+  Typography,
+  Modal,
+  Box,
+  Select,
+  FormControl,
+  InputLabel,
+  MenuItem,
+} from '@mui/material';
 
 // modal style
 const style = {
@@ -17,7 +29,6 @@ const style = {
   p: 4,
   borderRadius: 2,
 };
-
 
 function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
   // for delete confirm modal
@@ -53,10 +64,10 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
   const [quizEnableLeaderboard, setQuizEnableLeaderboard] = useState(
     quizData?.quizEnableLeaderboard || ''
   );
-
+  // console.log('quizData.quizEnableleaderboard', quizData.quizEnableLeaderboard);
+  // console.log('quizEnableLeaderboard', quizEnableLeaderboard);
   const groupid = useRef(0);
   const history = useHistory();
-
   const createquizData = async () => {
     await axios.post(
       process.env.NODE_ENV === 'production'
@@ -64,17 +75,17 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
         : `http://localhost:4000/api/quiz/${platformId}`,
       {
         platformId,
-        quizName,
         quizImage,
+        quizName,
         createdDate: Date.now(),
         quizNumberOfTrials,
         quizTimeLimitMinutes,
         quizTimeLimitSeconds,
         quizRewardType,
-        quizCertificate,
-        quizBadge,
+        // quizCertificate,
+        // quizBadge,
         quizCertificateQualification,
-        quizBadgeQualification,
+        // quizBadgeQualification,
         quizEnableLeaderboard,
         quizDescription,
       }
@@ -100,10 +111,10 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
         quizTimeLimitMinutes,
         quizTimeLimitSeconds,
         quizRewardType,
-        quizCertificate,
-        quizBadge,
+        // quizCertificate,
+        // quizBadge,
         quizCertificateQualification,
-        quizBadgeQualification,
+        // quizBadgeQualification,
         quizEnableLeaderboard,
         quizDescription,
       }
@@ -144,7 +155,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
         badge_design_id: null,
       },
     };
-    
+
     try {
       await axios
         .post(
@@ -176,124 +187,144 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
     return (
       // create a new quiz
       <div className='write'>
-        <Paper sx={{ display: 'flex', flexWrapped: 'wrap', flexDirection: 'column', minWidth: '500px' }}>
+        <Paper
+          sx={{
+            display: 'flex',
+            flexWrapped: 'wrap',
+            flexDirection: 'column',
+            minWidth: '500px',
+          }}
+        >
           <TextField
             required
-            autoFocus 
+            autoFocus
             // fullWidth
-            margin="dense"
-            label="Title"
-            type="text" 
-            placeholder="Enter quiz title.."
-            // value={quizName}
+            margin='dense'
+            label='Title'
+            type='text'
+            placeholder='Enter quiz title..'
+            value={quizName}
             onChange={(e) => setQuizName(e.target.value)}
-            sx={{ m: 3 }}
+            // sx={{ m: 1 }}
           />
           <TextField
             required
-            autoFocus 
+            autoFocus
             // fullWidth
-            margin="dense"
-            label="Image"
-            type="text" 
-            placeholder="Paster image url..."
-            // value={quizImage}
+            margin='dense'
+            label='Image'
+            type='text'
+            placeholder='Paster image url...'
+            value={quizImage}
             onChange={(e) => setQuizImage(e.target.value)}
-            sx={{ m: 3 }}
+            // sx={{ m: 1 }}
           />
           <TextField
             required
-            autoFocus 
+            autoFocus
             // fullWidth
-            margin="dense"
-            label="Desciprion"
-            type="text" 
-            placeholder="Enter quiz description..."
-            // value={quizDescription}
+            margin='dense'
+            label='Desciprion'
+            type='text'
+            placeholder='Enter quiz description...'
+            value={quizDescription}
             onChange={(e) => setQuizDescription(e.target.value)}
-            sx={{ m: 3 }}
+            // sx={{ m: 1 }}
           />
           <TextField
             required
-            autoFocus 
+            autoFocus
             // fullWidth
-            margin="dense"
-            label="Number Of Trials"
-            type="text" 
-            placeholder="Enter the number of trials..."
-            // value={quizNumberOfTrials}
+            margin='dense'
+            label='Number Of Trials'
+            type='number'
+            placeholder='Enter the number of trials...'
+            value={quizNumberOfTrials}
             onChange={(e) => setQuizNumberOfTrials(e.target.value)}
-            sx={{ m: 3 }}
+            // sx={{ m: 1 }}
           />
           <TextField
             required
-            autoFocus 
+            autoFocus
             // fullWidth
-            margin="dense"
-            label="Time limit in minutes"
-            type="text" 
-            placeholder="Enter the number of trials..."
-            // value={quizTimeLimitMinutes}
+            margin='dense'
+            label='Time limit in minutes'
+            type='number'
+            placeholder='Enter the time limit in minutes...'
+            value={quizTimeLimitMinutes}
             onChange={(e) => setQuizTimeLimitMinutes(e.target.value)}
-            sx={{ m: 3 }}
+            // sx={{ m: 1 }}
           />
           <TextField
             required
-            autoFocus 
+            autoFocus
             // fullWidth
-            margin="dense"
-            label="Time limit in seconds..."
-            type="text" 
-            placeholder="Enter the number of trials..."
-            // value={quizTimeLimitSeconds}
+            margin='dense'
+            label='Time limit in seconds...'
+            type='number'
+            placeholder='Enter the time limit in seconds...'
+            value={quizTimeLimitSeconds}
             onChange={(e) => setQuizTimeLimitSeconds(e.target.value)}
-            sx={{ m: 3 }}
+            // sx={{ m: 1 }}
           />
           {/* I commented because of the UI design all the below code is needed */}
-          {/* <Input
-            title={'Quiz RewardType'}
-            value={quizRewardType}
-            setValue={setQuizRewardType}
-          />
-          <Input
-            title={'Quiz Certificate?'}
-            value={quizCertificate}
-            setValue={setQuizCertificate}
-          />
-          <Input
-            title={'Quiz Badge?}
-            value={quizBadge}
-            setValue={setBadge}
-          />
-          <Input
-            title={'Quiz Certificate Qualification'}
+          <FormControl fullWidth>
+            <InputLabel id='demo-simple-select-label'>Reward Type </InputLabel>
+            <Select
+              required
+              autoFocus
+              value={quizRewardType}
+              label='Leaderboard Enable'
+              onChange={(e) => setQuizRewardType(e.target.value)}
+            >
+              <MenuItem value={0}>Certificate</MenuItem>
+              <MenuItem value={1}>Badge</MenuItem>
+              <MenuItem value={2}>No Reward</MenuItem>
+            </Select>
+          </FormControl>
+          <TextField
+            required
+            autoFocus
+            margin='dense'
+            label='Quiz Reward Qualification'
+            type='number'
+            placeholder='Enter the number for reward qualification'
             value={quizCertificateQualification}
-            setValue={setQuizCertificateQualification}
+            onChange={(e) => setQuizCertificateQualification(e.target.value)}
           />
-          <Input
-            title={'Quiz Badge Qualification'}
-            value={quizBadgeQualification}
-            setValue={setQuizBadgeQualification}
-          />
-          <Input
-            title={'Quiz Enable Leaderboard'}
-            value={quizEnableLeaderboard}
-            setValue={setQuizEnableLeaderboard}
-          /> */}
-          <Grid container justifyContent="flex-end" spacing={2} sx={{ padding: "25px" }}>
+          <FormControl fullWidth>
+            <InputLabel id='demo-simple-select-label'>
+              Leaderboard Enable
+            </InputLabel>
+            <Select
+              required
+              autoFocus
+              value={quizEnableLeaderboard}
+              label='Leaderboard Enable'
+              onChange={(e) => setQuizEnableLeaderboard(e.target.value)}
+            >
+              <MenuItem value={true}>Yes Leaderboard</MenuItem>
+              <MenuItem value={false}>No Leaderboard</MenuItem>
+            </Select>
+          </FormControl>
+          <Grid
+            container
+            justifyContent='flex-end'
+            spacing={2}
+            sx={{ padding: '25px' }}
+          >
             <Grid item>
-              <Button variant="contained" onClick={createquizData}>
+              <Button variant='contained' onClick={createquizData}>
                 Create quiz and Navigate to Certificate Designer
               </Button>
             </Grid>
-              <Grid item>
+            <Grid item>
               <Button
-                variant="outlined"
-                color="inherit"
+                variant='outlined'
+                color='inherit'
                 onClick={() => {
-                    history.push(`/creatorHome/${platformId}`);
-                  }
-                }
+                  history.push(`/creatorHome/${platformId}`);
+                }}
                 // onClick={() => {
                 //   setQuizVisible(false);
                 // }}
@@ -314,122 +345,145 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
           if ([...e.target?.classList].includes('write')) setQuizVisible(false);
         }}
       >
-        <Paper sx={{ display: 'flex', flexWrapped: 'wrap', flexDirection: 'column', minWidth: '500px' }}>
+        <Paper
+          sx={{
+            display: 'flex',
+            flexWrapped: 'wrap',
+            flexDirection: 'column',
+            minWidth: '500px',
+          }}
+        >
           <TextField
             required
-            autoFocus 
+            autoFocus
             // fullWidth
-            margin="dense"
-            label="Title"
-            type="text" 
-            placeholder="Enter quiz title.."
+            margin='dense'
+            label='Title'
+            type='text'
+            placeholder='Enter quiz title..'
             value={quizName}
             onChange={(e) => setQuizName(e.target.value)}
-            sx={{ m: 3 }}
+            // sx={{ m: 3 }}
           />
           <TextField
             required
-            autoFocus 
+            autoFocus
             // fullWidth
-            margin="dense"
-            label="Image"
-            type="text" 
-            placeholder="Paster image url..."
+            margin='dense'
+            label='Image'
+            type='text'
+            placeholder='Paster image url...'
             value={quizImage}
             onChange={(e) => setQuizImage(e.target.value)}
-            sx={{ m: 3 }}
+            // sx={{ m: 3 }}
           />
           <TextField
             required
-            autoFocus 
+            autoFocus
             // fullWidth
-            margin="dense"
-            label="Desciprion"
-            type="text" 
-            placeholder="Enter quiz description..."
+            margin='dense'
+            label='Desciprion'
+            type='text'
+            placeholder='Enter quiz description...'
             value={quizDescription}
             onChange={(e) => setQuizDescription(e.target.value)}
-            sx={{ m: 3 }}
+            // sx={{ m: 3 }}
           />
           <TextField
             required
-            autoFocus 
+            autoFocus
             // fullWidth
-            margin="dense"
-            label="Number Of Trials"
-            type="text" 
-            placeholder="Enter the number of trials..."
+            margin='dense'
+            label='Number Of Trials'
+            type='number'
+            placeholder='Enter the number of trials...'
             value={quizNumberOfTrials}
             onChange={(e) => setQuizNumberOfTrials(e.target.value)}
-            sx={{ m: 3 }}
+            // sx={{ m: 3 }}
           />
           <TextField
             required
-            autoFocus 
+            autoFocus
             // fullWidth
-            margin="dense"
-            label="Time limit in minutes"
-            type="text" 
-            placeholder="Enter the number of trials..."
+            margin='dense'
+            label='Time limit in minutes'
+            type='number'
+            placeholder='Enter the number of trials...'
             value={quizTimeLimitMinutes}
             onChange={(e) => setQuizTimeLimitMinutes(e.target.value)}
-            sx={{ m: 3 }}
+            // sx={{ m: 3 }}
           />
           <TextField
             required
-            autoFocus 
+            autoFocus
             // fullWidth
-            margin="dense"
-            label="Time limit in seconds..."
-            type="text" 
-            placeholder="Enter the number of trials..."
+            margin='dense'
+            label='Time limit in seconds...'
+            type='number'
+            placeholder='Enter the number of trials...'
             value={quizTimeLimitSeconds}
             onChange={(e) => setQuizTimeLimitSeconds(e.target.value)}
-            sx={{ m: 3 }}
+            // sx={{ m: 3 }}
           />
           {/* I commented because of the UI design all the below code is needed */}
-          {/* <Input
-            title={'Quiz RewardType'}
-            value={quizRewardType}
-            setValue={setQuizRewardType}
-          />
-          <Input
-            title={'Quiz Certificate?'}
-            value={quizCertificate}
-            setValue={setQuizCertificate}
-          />
-          <Input
-            title={'Quiz Badge?}
-            value={quizBadge}
-            setValue={setBadge}
-          />
-          <Input
-            title={'Quiz Certificate Qualification'}
+          <FormControl fullWidth>
+            <InputLabel id='demo-simple-select-label'>Reward Type </InputLabel>
+            <Select
+              required
+              autoFocus
+              value={quizRewardType}
+              label='Leaderboard Enable'
+              onChange={(e) => setQuizRewardType(e.target.value)}
+            >
+              <MenuItem value={0}>Certificate</MenuItem>
+              <MenuItem value={1}>Badge</MenuItem>
+              <MenuItem value={2}>No Reward</MenuItem>
+            </Select>
+          </FormControl>
+          <TextField
+            required
+            autoFocus
+            margin='dense'
+            label='Quiz Reward Qualification'
+            type='number'
+            placeholder='Enter the number for reward qualification'
             value={quizCertificateQualification}
-            setValue={setQuizCertificateQualification}
+            onChange={(e) => setQuizCertificateQualification(e.target.value)}
           />
-          <Input
-            title={'Quiz Badge Qualification'}
-            value={quizBadgeQualification}
-            setValue={setQuizBadgeQualification}
-          />
-          <Input
-            title={'Quiz Enable Leaderboard'}
-            value={quizEnableLeaderboard}
-            setValue={setQuizEnableLeaderboard}
-          /> */}
-          <Grid container justifyContent="flex-end" spacing={2} sx={{ padding: "25px" }}>
-              <Grid item>
+          <FormControl fullWidth>
+            <InputLabel id='demo-simple-select-label'>
+              Leaderboard Enable
+            </InputLabel>
+            <Select
+              required
+              autoFocus
+              value={quizEnableLeaderboard}
+              label='Leaderboard Enable'
+              onChange={(e) => setQuizEnableLeaderboard(e.target.value)}
+            >
+              <MenuItem value={true}>Yes Leaderboard</MenuItem>
+              <MenuItem value={false}>No Leaderboard</MenuItem>
+            </Select>
+          </FormControl>
+          <Grid
+            container
+            justifyContent='flex-end'
+            spacing={2}
+            sx={{ padding: '25px' }}
+          >
+            <Grid item>
               <Button
-                variant="contained"
-                color="error"
-                onClick={() => {setShow(true);}}
+                variant='contained'
+                color='error'
+                onClick={() => {
+                  setShow(true);
+                }}
               >
                 Delete
               </Button>
             </Grid>
             <Grid item>
-              <Button variant="contained" onClick={updatequizData}>
+              <Button variant='contained' onClick={updatequizData}>
                 Update
               </Button>
             </Grid>
@@ -443,19 +497,15 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
                   Delete quiz
                 </Typography>
                 <Typography id='modal-modal-description' sx={{ mt: 2 }}>
-                  Are you sure you would like to delete quiz {quizName}? You will
-                  lose all your data.
+                  Are you sure you would like to delete quiz {quizName}? You
+                  will lose all your data.
                 </Typography>
               </Grid>
               <Grid item />
             </Grid>
             <Grid container spacing={2} justifyContent='flex-end'>
               <Grid item>
-                <Button
-                  variant='text'
-                  color='error'
-                  onClick={deletequizData}
-                >
+                <Button variant='text' color='error' onClick={deletequizData}>
                   Delete
                 </Button>
               </Grid>

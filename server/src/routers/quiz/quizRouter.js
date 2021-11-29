@@ -74,11 +74,12 @@ quizRouter.get('/leaderboard/:id', async (req, res) => {
 
 quizRouter.post('/:id', (req, res) => {
   try {
+    console.log('body', req.body);
     const newQuiz = new Quiz({
       platformId: req.body.platformId,
       quizImage: req.body.quizImage,
       quizName: req.body.quizName,
-      createdDate: Date.now(),
+      createdDate: req.body.createdDate,
       quizNumberOfTrials: req.body.quizNumberOfTrials,
       quizTimeLimit: {
         minutes: req.body.quizTimeLimitMinutes,
@@ -88,8 +89,8 @@ quizRouter.post('/:id', (req, res) => {
       // quizCertificate: req.body.quizCertificate,
       // quizBadge: req.body.quizBadge,
       quizCertificateQualification: req.body.quizCertificateQualification,
-      quizBadgeQualification: req.body.quizBadgeQualification,
-      // quizEnableLeaderboard: req.body.quizEnableLeaderboard,
+      // quizBadgeQualification: req.body.quizBadgeQualification,
+      quizEnableLeaderboard: req.body.quizEnableLeaderboard,
       quizDescription: req.body.quizDescription,
     });
     newQuiz.save();
@@ -130,8 +131,8 @@ quizRouter.put(
       // quiz.quizCertificate = req.body.quizCertificate;
       // quiz.quizBadge = req.body.quizBadge;
       quiz.quizCertificateQualification = req.body.quizCertificateQualification;
-      quiz.quizBadgeQualification = req.body.quizBadgeQualification;
-      // quiz.quizEnableLeaderboard = req.body.quizEnableLeaderboard;
+      // quiz.quizBadgeQualification = req.body.quizBadgeQualification;
+      quiz.quizEnableLeaderboard = req.body.quizEnableLeaderboard;
       quiz.quizDescription = req.body.quizDescription;
 
       const updatedQuiz = await quiz.save();

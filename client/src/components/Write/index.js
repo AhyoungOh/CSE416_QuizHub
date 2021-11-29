@@ -109,8 +109,8 @@ function Write({ platformData, setVisible, fetchData }) {
             label='Title'
             type='text'
             placeholder='Enter platform title..'
-            // value={platformName}
-            onChange={setPlatformName}
+            value={platformName}
+            onChange={(e) => setPlatformName(e.target.value)}
           />
           <TextField
             autoFocus
@@ -119,8 +119,8 @@ function Write({ platformData, setVisible, fetchData }) {
             label='Image Link'
             type='text'
             placeholder='Paste image url...'
-            // value={platformImage}
-            onChange={setPlatformImage}
+            value={platformImage}
+            onChange={(e) => setPlatformImage(e.target.value)}
           />
           <TextField
             autoFocus
@@ -129,8 +129,8 @@ function Write({ platformData, setVisible, fetchData }) {
             label='Descirption'
             type='text'
             placeholder='Enter platform description...'
-            // value={platformDescription}
-            onChange={setPlatformDescription}
+            value={platformDescription}
+            onChange={(e) => setPlatformDescription(e.target.value)}
           />
         </DialogContent>
         <DialogActions>
@@ -173,7 +173,7 @@ function Write({ platformData, setVisible, fetchData }) {
             type='text'
             placeholder='Enter platform title..'
             value={platformName}
-            onChange={setPlatformName}
+            onChange={(e) => setPlatformName(e.target.value)}
           />
           <TextField
             autoFocus
@@ -183,7 +183,7 @@ function Write({ platformData, setVisible, fetchData }) {
             type='text'
             placeholder='Paste image url...'
             value={platformImage}
-            onChange={setPlatformImage}
+            onChange={(e) => setPlatformImage(e.target.value)}
           />
           <TextField
             autoFocus
@@ -193,7 +193,7 @@ function Write({ platformData, setVisible, fetchData }) {
             type='text'
             placeholder='Enter platform description...'
             value={platformDescription}
-            onChange={setPlatformDescription}
+            onChange={(e) => setPlatformDescription(e.target.value)}
           />
         </DialogContent>
         <DialogActions>

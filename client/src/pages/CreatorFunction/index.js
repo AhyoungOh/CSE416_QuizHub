@@ -134,7 +134,7 @@ function CreatorFunction() {
             <DialogTitle>Edit platform</DialogTitle>
             <Write
               platformData={selectedplatformData}
-              setData={() => {}}
+              // setData={() => {}}
               setVisible={setPlatformVisible}
               fetchData={fetchData}
             />

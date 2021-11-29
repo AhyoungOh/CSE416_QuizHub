@@ -1,5 +1,6 @@
 import Quiz from '../Quiz';
 import Question from '../Question';
+import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Grid, Button } from '@mui/material';
 import { makeStyles } from '@mui/styles';
@@ -87,11 +88,13 @@ function DetailQuiz({ quizData, setQuizVisible }) {
             Edit Quiz
           </Button>
         </Grid>
-        <Grid item>
-          <Button variant='contained' onClick={gotoLeaderboard}>
-            Go to Leaderboard
-          </Button>
-        </Grid>
+        {quizData.quizEnableLeaderboard ? (
+          <Grid item>
+            <Button variant='contained' onClick={gotoLeaderboard}>
+              Go to Leaderboard
+            </Button>
+          </Grid>
+        ) : null}
         <Grid item>
           <Button variant='contained' onClick={updateQuestionData}>
             Add Quesiton

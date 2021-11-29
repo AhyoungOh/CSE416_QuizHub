@@ -53,7 +53,7 @@ function CreatorQuiz() {
           ></Grid>
           <WriteQuiz
             quizData={selectedquizData}
-            setData={() => {}}
+            // setData={() => {}}
             setQuizVisible={setQuizVisible}
             platformId={id}
             fetchData={fetchData}
@@ -62,13 +62,13 @@ function CreatorQuiz() {
         <Route exact path={`/quiz/detail/:id`}>
           <DetailQuiz
             quizData={selectedquizData}
-            setTestData={() => {}}
+            // setTestData={() => {}}
             setQuizVisible={setQuizVisible}
           />
           {visible ? (
             <WriteQuiz
               quizData={selectedquizData}
-              setData={() => {}}
+              // setData={() => {}}
               setQuizVisible={setQuizVisible}
               platformId={selectedquizData.platformId}
               fetchData={fetchData}
