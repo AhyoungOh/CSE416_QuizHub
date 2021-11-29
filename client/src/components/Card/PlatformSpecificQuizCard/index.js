@@ -21,6 +21,12 @@ function PlatformSpecificQuizCard({
       <Card sx={{ borderRadius: '18px' }}>
         <CardActionArea onClick={clickAction}>
           <Card sx={{ display: 'flex', minHeight: '250px' }}>
+            <CardMedia
+                component='img'
+                sx={{ width: 250, display: { xs: 'none', sm: 'block' } }}
+                image={quizImage}
+                alt={quizName}
+              />
             <CardContent sx={{ flex: 1 }}>
               <Typography sx={{ fontWeight: 'bold', fontSize: '30px' }}>
                 {quizName}
@@ -32,12 +38,6 @@ function PlatformSpecificQuizCard({
                 {quizDescription}
               </Typography>
             </CardContent>
-            <CardMedia
-              component='img'
-              sx={{ width: 250, display: { xs: 'none', sm: 'block' } }}
-              image={quizImage}
-              alt={quizName}
-            />
           </Card>
         </CardActionArea>
       </Card>
