@@ -60,10 +60,10 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
   const [quizEnableLeaderboard, setQuizEnableLeaderboard] = useState(
     quizData?.quizEnableLeaderboard || ''
   );
-
+  // console.log('quizData.quizEnableleaderboard', quizData.quizEnableLeaderboard);
+  // console.log('quizEnableLeaderboard', quizEnableLeaderboard);
   const groupid = useRef(0);
   const history = useHistory();
-
   const createquizData = async () => {
     await axios.post(
       process.env.NODE_ENV === 'production'
@@ -71,17 +71,17 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
         : `http://localhost:4000/api/quiz/${platformId}`,
       {
         platformId,
-        quizName,
         quizImage,
+        quizName,
         createdDate: Date.now(),
         quizNumberOfTrials,
         quizTimeLimitMinutes,
         quizTimeLimitSeconds,
         quizRewardType,
-        quizCertificate,
-        quizBadge,
+        // quizCertificate,
+        // quizBadge,
         quizCertificateQualification,
-        quizBadgeQualification,
+        // quizBadgeQualification,
         quizEnableLeaderboard,
         quizDescription,
       }
@@ -107,10 +107,10 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
         quizTimeLimitMinutes,
         quizTimeLimitSeconds,
         quizRewardType,
-        quizCertificate,
-        quizBadge,
+        // quizCertificate,
+        // quizBadge,
         quizCertificateQualification,
-        quizBadgeQualification,
+        // quizBadgeQualification,
         quizEnableLeaderboard,
         quizDescription,
       }
@@ -246,7 +246,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             margin='dense'
             label='Time limit in minutes'
             type='number'
-            placeholder='Enter the number of trials...'
+            placeholder='Enter the time limit in minutes...'
             value={quizTimeLimitMinutes}
             onChange={(e) => setQuizTimeLimitMinutes(e.target.value)}
             // sx={{ m: 1 }}
@@ -258,7 +258,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             margin='dense'
             label='Time limit in seconds...'
             type='number'
-            placeholder='Enter the number of trials...'
+            placeholder='Enter the time limit in seconds...'
             value={quizTimeLimitSeconds}
             onChange={(e) => setQuizTimeLimitSeconds(e.target.value)}
             // sx={{ m: 1 }}
@@ -269,8 +269,8 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             autoFocus
             margin='dense'
             label='Quiz RewardType'
-            type='text'
-            placeholder='Certificate or Badge'
+            type='number'
+            placeholder='0 for Certificate or 1 for Badge'
             value={quizRewardType}
             onChange={(e) => setQuizRewardType(e.target.value)}
             // sx={{ m: 1 }}
@@ -419,8 +419,8 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             autoFocus
             margin='dense'
             label='Quiz RewardType'
-            type='text'
-            placeholder='Certificate or Badge'
+            type='number'
+            placeholder='0 for Certificate or 1 for Badge'
             value={quizRewardType}
             onChange={(e) => setQuizRewardType(e.target.value)}
             // sx={{ m: 1 }}
@@ -441,7 +441,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             margin='dense'
             label='Quiz Leaderboard Enable'
             type='boolean'
-            placeholder='True or False'
+            placeholder='true or false'
             value={quizEnableLeaderboard}
             onChange={(e) => setQuizEnableLeaderboard(e.target.value)}
           />
