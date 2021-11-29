@@ -383,7 +383,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             // fullWidth
             margin='dense'
             label='Number Of Trials'
-            type='text'
+            type='number'
             placeholder='Enter the number of trials...'
             value={quizNumberOfTrials}
             onChange={(e) => setQuizNumberOfTrials(e.target.value)}
@@ -395,7 +395,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             // fullWidth
             margin='dense'
             label='Time limit in minutes'
-            type='text'
+            type='number'
             placeholder='Enter the number of trials...'
             value={quizTimeLimitMinutes}
             onChange={(e) => setQuizTimeLimitMinutes(e.target.value)}
@@ -407,27 +407,43 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             // fullWidth
             margin='dense'
             label='Time limit in seconds...'
-            type='text'
+            type='number'
             placeholder='Enter the number of trials...'
             value={quizTimeLimitSeconds}
             onChange={(e) => setQuizTimeLimitSeconds(e.target.value)}
             // sx={{ m: 3 }}
           />
           {/* I commented because of the UI design all the below code is needed */}
-          <Input
-            title={'Quiz RewardType'}
+          <TextField
+            required
+            autoFocus
+            margin='dense'
+            label='Quiz RewardType'
+            type='text'
+            placeholder='Certificate or Badge'
             value={quizRewardType}
-            setValue={setQuizRewardType}
+            onChange={(e) => setQuizRewardType(e.target.value)}
+            // sx={{ m: 1 }}
           />
-          <Input
-            title={'Quiz Reward Qualification'}
+          <TextField
+            required
+            autoFocus
+            margin='dense'
+            label='Quiz Reward Qualification'
+            type='number'
+            placeholder='Enter the number for reward qualification'
             value={quizCertificateQualification}
-            setValue={setQuizCertificateQualification}
+            onChange={(e) => setQuizCertificateQualification(e.target.value)}
           />
-          <Input
-            title={'Quiz Enable Leaderboard'}
+          <TextField
+            required
+            autoFocus
+            margin='dense'
+            label='Quiz Leaderboard Enable'
+            type='boolean'
+            placeholder='True or False'
             value={quizEnableLeaderboard}
-            setValue={setQuizEnableLeaderboard}
+            onChange={(e) => setQuizEnableLeaderboard(e.target.value)}
           />
           <Grid
             container
