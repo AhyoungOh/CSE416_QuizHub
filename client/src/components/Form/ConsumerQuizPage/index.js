@@ -4,8 +4,10 @@ import { Form, Row, Col, ButtonGroup } from 'react-bootstrap';
 import { useRef, useEffect, useContext, useState } from 'react';
 import { useHistory, Link, useParams } from 'react-router-dom';
 import useApiCall from '../../../hooks/useApiCall';
-import { Grid, Button, Modal, Box, Typography, Card, CardActionArea, ButtonBase } from '@mui/material';
+import { Grid, Button, Modal, Box, Typography, Card, CardActionArea, IconButton } from '@mui/material';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
+import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles({
@@ -201,7 +203,7 @@ function ConsumerQuizPage() {
 
   return (
     <div>
-      <Grid container direction="column" spacing={1} className={classes.container}>
+      <Grid container direction="column" spacing={2} className={classes.container}>
         <Grid item>
           {/* Quiz button */}
           <Button color="inherit" onClick={handleShow} startIcon={<CloseRoundedIcon />}>
@@ -270,31 +272,39 @@ function ConsumerQuizPage() {
         </Grid>
         <Grid item>
           {/* Progress bar and prev, next buttons */}
-          <Grid container>
-            { start ? 
-              <Button color='inherit' disabled>
-                Prev
-              </Button>
-              :
-              <Button color='inherit' onClick={prevQuestionNum}>
-                Prev
-              </Button>
-            }
-            {/* if last question -> disabled */}
-            { end ? 
-              <Button color='inherit' disabled>
-                Next
-              </Button>
-              :
-              <Button color='inherit' onClick={nextQuestionNum}>
-                Next
-              </Button>
-            }
-            { end ? (
-              <Button onClick={submitHandler}>Submit</Button>
-            ) : (
-              ''
-            )}
+          <Grid container spacing={2}>
+            <Grid item>
+              { start ? 
+                // <Button color='inherit' disabled>
+                //   Prev
+                // </Button>
+                <IconButton sx={{backgroundColor: '#ffffff'}} color="primary" component="span" disabled>
+                  <ArrowBackRoundedIcon />
+                </IconButton>
+                :
+                <IconButton sx={{backgroundColor: '#ffffff'}} color="primary" component="span" onClick={prevQuestionNum}>
+                  <ArrowBackRoundedIcon />
+                </IconButton>
+              }
+            </Grid>
+            <Grid item>
+              { end ? 
+                <IconButton sx={{backgroundColor: '#ffffff'}} color="primary" component="span" disabled>
+                  <ArrowForwardRoundedIcon />
+                </IconButton>
+                :
+                <IconButton sx={{backgroundColor: '#ffffff'}} color="primary" component="span" onClick={nextQuestionNum}>
+                  <ArrowForwardRoundedIcon />
+                </IconButton>
+              }
+            </Grid>
+            <Grid item>
+              { end ? (
+                <Button onClick={submitHandler}>Submit</Button>
+              ) : (
+                ''
+              )}
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
