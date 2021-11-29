@@ -111,7 +111,7 @@ router.get(
 router.post(
   '/',
   expressAsyncHandler(async (req, res) => {
-    // console.log('req', req.body.creatorId);
+    console.log('req', req.body.creatorId);
     try {
       const newPlatform = new PlatformModel({
         platformName: req.body.platformName,

@@ -1,6 +1,6 @@
 import Quiz from '../Quiz';
 import Question from '../Question';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Grid, Button } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
@@ -44,6 +44,9 @@ function DetailQuiz({ quizData, setQuizVisible }) {
   const updateQuestionData = () => {
     history.push(`/question/${quizData._id}`);
   };
+  const gotoLeaderboard = () => {
+    history.push(`/leaderboard/${quizData._id}`);
+  };
   return (
     <div>
       <Grid containter sx={{ paddingLeft: '10px', paddingTop: '10px' }}>
@@ -82,6 +85,11 @@ function DetailQuiz({ quizData, setQuizVisible }) {
         <Grid item>
           <Button variant='contained' onClick={updateQuizData}>
             Edit Quiz
+          </Button>
+        </Grid>
+        <Grid item>
+          <Button variant='contained' onClick={gotoLeaderboard}>
+            Go to Leaderboard
           </Button>
         </Grid>
         <Grid item>

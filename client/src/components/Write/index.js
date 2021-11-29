@@ -3,7 +3,16 @@ import React, { useState, useContext } from 'react';
 import Input from './Input';
 import { UserContext } from '../../App';
 import { useHistory } from 'react-router-dom';
-import { Modal, Button, TextField, DialogContent, DialogActions, Box, Grid, Typography } from '@mui/material';
+import {
+  Modal,
+  Button,
+  TextField,
+  DialogContent,
+  DialogActions,
+  Box,
+  Grid,
+  Typography,
+} from '@mui/material';
 
 // modal style
 const style = {
@@ -40,16 +49,17 @@ function Write({ platformData, setVisible, fetchData }) {
   const history = useHistory();
 
   const createplatformData = async () => {
+    console.log('user', user.id);
     await axios.post(
       process.env.NODE_ENV === 'production'
         ? `/api/creatorHome`
         : `http://localhost:4000/api/creatorHome`,
       {
         platformName,
+        creatorId: user.id,
         platformDescription,
         platformImage,
-        createdDate: Date.now(),
-        creatorId: user.id,
+        // createdDate: Date.now(),
       }
     );
     setVisible(false);
@@ -92,33 +102,33 @@ function Write({ platformData, setVisible, fetchData }) {
       <div>
         <DialogContent>
           <TextField
-            autoFocus 
-            margin="dense"
+            autoFocus
+            margin='dense'
             required
             fullWidth
-            label="Title"
-            type="text" 
-            placeholder="Enter platform title.."
+            label='Title'
+            type='text'
+            placeholder='Enter platform title..'
             // value={platformName}
             onChange={setPlatformName}
           />
           <TextField
-            autoFocus 
+            autoFocus
             fullWidth
-            margin="dense"
-            label="Image Link"
-            type="text" 
-            placeholder="Paste image url..."
+            margin='dense'
+            label='Image Link'
+            type='text'
+            placeholder='Paste image url...'
             // value={platformImage}
             onChange={setPlatformImage}
           />
           <TextField
-            autoFocus 
+            autoFocus
             fullWidth
-            margin="dense"
-            label="Descirption"
-            type="text" 
-            placeholder="Enter platform description..."
+            margin='dense'
+            label='Descirption'
+            type='text'
+            placeholder='Enter platform description...'
             // value={platformDescription}
             onChange={setPlatformDescription}
           />
@@ -134,7 +144,7 @@ function Write({ platformData, setVisible, fetchData }) {
           </Button>
           <Button
             variant='contained'
-            color="inherit"
+            color='inherit'
             onClick={() => {
               setVisible(false);
             }}
@@ -156,32 +166,32 @@ function Write({ platformData, setVisible, fetchData }) {
         <DialogContent>
           <TextField
             required
-            autoFocus 
+            autoFocus
             fullWidth
-            margin="dense"
-            label="Title"
-            type="text" 
-            placeholder="Enter platform title.."
+            margin='dense'
+            label='Title'
+            type='text'
+            placeholder='Enter platform title..'
             value={platformName}
             onChange={setPlatformName}
           />
           <TextField
-            autoFocus 
+            autoFocus
             fullWidth
-            margin="dense"
-            label="Image Link"
-            type="text" 
-            placeholder="Paste image url..."
+            margin='dense'
+            label='Image Link'
+            type='text'
+            placeholder='Paste image url...'
             value={platformImage}
             onChange={setPlatformImage}
           />
           <TextField
-            autoFocus 
+            autoFocus
             fullWidth
-            margin="dense"
-            label="Descirption"
-            type="text" 
-            placeholder="Enter platform description..."
+            margin='dense'
+            label='Descirption'
+            type='text'
+            placeholder='Enter platform description...'
             value={platformDescription}
             onChange={setPlatformDescription}
           />
@@ -189,7 +199,9 @@ function Write({ platformData, setVisible, fetchData }) {
         <DialogActions>
           <Button
             color='error'
-            onClick={() => {setShow(true);}}
+            onClick={() => {
+              setShow(true);
+            }}
             sx={{ m: 1 }}
           >
             Delete Platform
@@ -221,8 +233,8 @@ function Write({ platformData, setVisible, fetchData }) {
                   Delete platform
                 </Typography>
                 <Typography id='modal-modal-description' sx={{ mt: 2 }}>
-                  Are you sure you would like to delete platform {platformName}? You will
-                  lose all your data.
+                  Are you sure you would like to delete platform {platformName}?
+                  You will lose all your data.
                 </Typography>
               </Grid>
               <Grid item />
