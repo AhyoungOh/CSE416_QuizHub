@@ -1,31 +1,34 @@
-// TODO: add ui for quiz taking
+// TODO: make it responsive
 import axios from 'axios';
-import { Form, Row, Col, ButtonGroup } from 'react-bootstrap';
 import { useRef, useEffect, useContext, useState } from 'react';
 import { useHistory, Link, useParams } from 'react-router-dom';
 import useApiCall from '../../../hooks/useApiCall';
-import { Grid, Button, Modal, Box, Typography, Card, CardActionArea, IconButton } from '@mui/material';
+import { Grid, Button, Modal, Box, Typography, Card, IconButton } from '@mui/material';
+import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
-import { makeStyles } from '@mui/styles';
+import { makeStyles, styled } from '@mui/styles';
+
+// modal style
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 500,
+  bgcolor: 'background.paper',
+  boxShadow: 24,
+  p: 4,
+  borderRadius: 2,
+};
 
 const useStyles = makeStyles({
   container: {
-    paddingTop: '40px',
+    paddingTop: '20px',
+    paddingBottom: '20px',
     paddingLeft: '70px',
     paddingRight: '70px',
-  },
-  modal: {
-    position: 'absolute',
-    top: '40%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 600,
-    bgcolor: 'background.paper',
-    boxShadow: 24,
-    p: 4,
-    borderRadius: 2,
   },
   question: {
     fontWeight: '700',
@@ -36,29 +39,31 @@ const useStyles = makeStyles({
   card: {
     borderRadius: '19px',
     minHeight: '300px',
-    // minWidth: '300px',
   },
   button: {
     padding: '30px',
     minHeight: '300px',
     minWidth: '100%',
     fontWeight: '600',
-    backgroundColor: '#ffffff', 
     borderRadius: '18px',
-    // "&:active": {
-    //   backgroundColor: '#007fff', 
-    //   color: '#FFFFFF',
-    // },
   },
-  select: {
-    padding: '30px',
-    minHeight: '300px',
-    minWidth: '100%',
-    fontWeight: '600',
-    backgroundColor: '#007fff', 
-    color: '#FFFFFF',
-  }
+  submitButton: {
+    borderRadius: '30px',
+  },
 });
+
+const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
+  height: '8px',
+  width: '1000px',
+  borderRadius: '2px',
+  [`&.${linearProgressClasses.colorPrimary}`]: {
+    backgroundColor: theme.palette.grey[200],
+  },
+  [`& .${linearProgressClasses.bar}`]: {
+    borderRadius: '2px',
+    backgroundColor: '#007fff',
+  },
+}));
 
 function ConsumerQuizPage() {
   const history = useHistory();
@@ -140,13 +145,11 @@ function ConsumerQuizPage() {
 
   const nextQuestionNum = () => {
     const answerList = quizInfo.current.answerchoices;
-    console.log(answerList);
+    // console.log(answerList);
     setStart(false);
     if (qnum !== num_questions) {
       setQnum(qnum + 1);
-      // const nextqnum = qnum + 1;
-      // console.log("nextqnum", nextqnum);
-      console.log("answerList[qnum]", answerList[qnum]);
+      // console.log("answerList[qnum]", answerList[qnum]);
       if (0 <= answerList[qnum] && answerList[qnum] <= 3) {
         setSelect(answerList[qnum]);
       } else {
@@ -171,7 +174,7 @@ function ConsumerQuizPage() {
         setStart(true);
         // setSelect(answerList[1]);
       }
-      console.log("answerList[qnum-2]", answerList[qnum-2]);
+      // console.log("answerList[qnum-2]", answerList[qnum-2]);
       setSelect(answerList[qnum-2]);
     }
   };
@@ -180,13 +183,11 @@ function ConsumerQuizPage() {
     const answerList = quizInfo.current.answerchoices;
     if (answerList.length < qnum) {
       // new answer
-      console.log("qnum", qnum);
       quizInfo.current.answerchoices.push(answer);
     } else {
       // change answer
       quizInfo.current.answerchoices[qnum - 1] = answer;
     }
-    console.log("selectAnswer", answer);
     setSelect(answer);
   };
 
@@ -203,19 +204,19 @@ function ConsumerQuizPage() {
 
   return (
     <div>
-      <Grid container direction="column" spacing={2} className={classes.container}>
+      <Grid container direction="column" spacing={3} className={classes.container}>
         <Grid item>
           {/* Quiz button */}
           <Button color="inherit" onClick={handleShow} startIcon={<CloseRoundedIcon />}>
-            Quit Quiz
+            Quit
           </Button>
           {/* Quit confirm modal */}
           <Modal open={show} onClose={handleClose}>
-            <Box className={classes.modal}>
+            <Box sx={style}>
               <Grid container direction='column' spacing={2}>
                 <Grid item>
                   <Typography id='modal-modal-title' variant='h6' component='h2'>
-                    Delete platform
+                    Quit the quiz
                   </Typography>
                   <Typography id='modal-modal-description' sx={{ mt: 2 }}>
                     Are you sure you would like to quit? You will lose all your answers.
@@ -258,7 +259,8 @@ function ConsumerQuizPage() {
                   <Button 
                     className={classes.button}
                     onClick={() => selectAnswer(i)}
-                    color= {select === i ? "primary" : "inherit"}
+                    // color= {select === i ? "primary" : "inherit"}
+                    variant= {select === i ? "contained" : "text"}
                   >
                     <Typography className={classes.options}>
                       {/* {i+1}. {e} */}
@@ -272,12 +274,9 @@ function ConsumerQuizPage() {
         </Grid>
         <Grid item>
           {/* Progress bar and prev, next buttons */}
-          <Grid container spacing={2}>
+          <Grid container spacing={2} alignItems="center" justifyContent="center">
             <Grid item>
               { start ? 
-                // <Button color='inherit' disabled>
-                //   Prev
-                // </Button>
                 <IconButton sx={{backgroundColor: '#ffffff'}} color="primary" component="span" disabled>
                   <ArrowBackRoundedIcon />
                 </IconButton>
@@ -286,6 +285,11 @@ function ConsumerQuizPage() {
                   <ArrowBackRoundedIcon />
                 </IconButton>
               }
+            </Grid>
+            <Grid item>
+              <Box sx={{ flexGrow: 1 }}>
+                <BorderLinearProgress variant="determinate" value={qnum/num_questions*100} />
+              </Box>
             </Grid>
             <Grid item>
               { end ? 
@@ -298,14 +302,14 @@ function ConsumerQuizPage() {
                 </IconButton>
               }
             </Grid>
-            <Grid item>
-              { end ? (
-                <Button onClick={submitHandler}>Submit</Button>
-              ) : (
-                ''
-              )}
-            </Grid>
           </Grid>
+        </Grid>
+        <Grid item alignSelf="flex-end">
+          { end ? (
+            <Button variant="contained" onClick={submitHandler} className={classes.submitButton}>Submit</Button>
+          ) : (
+            ''
+          )}
         </Grid>
       </Grid>
     </div>
