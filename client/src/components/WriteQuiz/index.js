@@ -11,6 +11,10 @@ import {
   Typography,
   Modal,
   Box,
+  Select,
+  FormControl,
+  InputLabel,
+  MenuItem,
 } from '@mui/material';
 
 // modal style
@@ -264,17 +268,20 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             // sx={{ m: 1 }}
           />
           {/* I commented because of the UI design all the below code is needed */}
-          <TextField
-            required
-            autoFocus
-            margin='dense'
-            label='Quiz RewardType'
-            type='number'
-            placeholder='0 for Certificate or 1 for Badge'
-            value={quizRewardType}
-            onChange={(e) => setQuizRewardType(e.target.value)}
-            // sx={{ m: 1 }}
-          />
+          <FormControl fullWidth>
+            <InputLabel id='demo-simple-select-label'>Reward Type </InputLabel>
+            <Select
+              required
+              autoFocus
+              value={quizRewardType}
+              label='Leaderboard Enable'
+              onChange={(e) => setQuizRewardType(e.target.value)}
+            >
+              <MenuItem value={0}>Certificate</MenuItem>
+              <MenuItem value={1}>Badge</MenuItem>
+              <MenuItem value={2}>No Reward</MenuItem>
+            </Select>
+          </FormControl>
           <TextField
             required
             autoFocus
@@ -285,16 +292,21 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             value={quizCertificateQualification}
             onChange={(e) => setQuizCertificateQualification(e.target.value)}
           />
-          <TextField
-            required
-            autoFocus
-            margin='dense'
-            label='Quiz Leaderboard Enable'
-            type='boolean'
-            placeholder='True or False'
-            value={quizEnableLeaderboard}
-            onChange={(e) => setQuizEnableLeaderboard(e.target.value)}
-          />
+          <FormControl fullWidth>
+            <InputLabel id='demo-simple-select-label'>
+              Leaderboard Enable
+            </InputLabel>
+            <Select
+              required
+              autoFocus
+              value={quizEnableLeaderboard}
+              label='Leaderboard Enable'
+              onChange={(e) => setQuizEnableLeaderboard(e.target.value)}
+            >
+              <MenuItem value={true}>Yes Leaderboard</MenuItem>
+              <MenuItem value={false}>No Leaderboard</MenuItem>
+            </Select>
+          </FormControl>
           <Grid
             container
             justifyContent='flex-end'
@@ -414,17 +426,20 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             // sx={{ m: 3 }}
           />
           {/* I commented because of the UI design all the below code is needed */}
-          <TextField
-            required
-            autoFocus
-            margin='dense'
-            label='Quiz RewardType'
-            type='number'
-            placeholder='0 for Certificate or 1 for Badge'
-            value={quizRewardType}
-            onChange={(e) => setQuizRewardType(e.target.value)}
-            // sx={{ m: 1 }}
-          />
+          <FormControl fullWidth>
+            <InputLabel id='demo-simple-select-label'>Reward Type </InputLabel>
+            <Select
+              required
+              autoFocus
+              value={quizRewardType}
+              label='Leaderboard Enable'
+              onChange={(e) => setQuizRewardType(e.target.value)}
+            >
+              <MenuItem value={0}>Certificate</MenuItem>
+              <MenuItem value={1}>Badge</MenuItem>
+              <MenuItem value={2}>No Reward</MenuItem>
+            </Select>
+          </FormControl>
           <TextField
             required
             autoFocus
@@ -435,16 +450,21 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             value={quizCertificateQualification}
             onChange={(e) => setQuizCertificateQualification(e.target.value)}
           />
-          <TextField
-            required
-            autoFocus
-            margin='dense'
-            label='Quiz Leaderboard Enable'
-            type='boolean'
-            placeholder='true or false'
-            value={quizEnableLeaderboard}
-            onChange={(e) => setQuizEnableLeaderboard(e.target.value)}
-          />
+          <FormControl fullWidth>
+            <InputLabel id='demo-simple-select-label'>
+              Leaderboard Enable
+            </InputLabel>
+            <Select
+              required
+              autoFocus
+              value={quizEnableLeaderboard}
+              label='Leaderboard Enable'
+              onChange={(e) => setQuizEnableLeaderboard(e.target.value)}
+            >
+              <MenuItem value={true}>Yes Leaderboard</MenuItem>
+              <MenuItem value={false}>No Leaderboard</MenuItem>
+            </Select>
+          </FormControl>
           <Grid
             container
             justifyContent='flex-end'
