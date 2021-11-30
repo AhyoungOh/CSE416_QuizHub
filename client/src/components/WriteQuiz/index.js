@@ -15,6 +15,7 @@ import {
   FormControl,
   InputLabel,
   MenuItem,
+  Slider,
 } from '@mui/material';
 
 // modal style
