@@ -10,7 +10,6 @@ const useStyles = makeStyles({
     },
     card: {
         width: '300px',
-        // minHeight: '200px',
         borderRadius: '10px',
         display: 'flex',
         flexDirection: 'row',
@@ -20,8 +19,7 @@ const useStyles = makeStyles({
     },
     cardMedia: {
         width: '300px',
-        // height: 0,
-        // paddingTop: '56.25%', // 16:9
+        maxHeight: '250px',
     }
 });
 
@@ -31,6 +29,8 @@ export default function BrowseQuizCard({ quizData }) {
 
     // console.log('quizData.quizImage');
     // console.log(quizData.quizImage);
+
+    const img = './primary_default.png';
 
     return(
         <div>
@@ -46,7 +46,7 @@ export default function BrowseQuizCard({ quizData }) {
                     <Box xs={{ display:'flex', flexDirection: 'column' }}>
                         <CardMedia
                             component='img'
-                            image={quizData.quizImage}
+                            image={quizData.quizImage.length > 10 ? quizData.quizImage : img}
                             alt=''
                             className={classes.cardMedia}
                         />
