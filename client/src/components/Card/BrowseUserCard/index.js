@@ -14,9 +14,9 @@ const useStyles = makeStyles({
         height: '114px',
         borderRadius: '19px',
     },
-  });
+});
 
-export default function BrowsePlatformCard({ platformData }) {
+export default function BrowseUserCard({ consumerData }) {
     const classes = useStyles();
     const history = useHistory();
 
@@ -25,8 +25,8 @@ export default function BrowsePlatformCard({ platformData }) {
             <Card className={classes.card}>
                 <CardActionArea
                     onClick={() => {
-                        console.log(platformData._id)
-                        history.push(`/consumerplatformpreview/${platformData._id}`)
+                        console.log(consumerData._id)
+                        // history.push(`/consumerplayerpreview/${consumerData._id}`)
                     }}
                     className={classes.card}
                 >
@@ -34,19 +34,19 @@ export default function BrowsePlatformCard({ platformData }) {
                         {/* TODO: adjust the position on the card */}
                         <Grid item>
                             <Avatar 
-                                src={platformData.platformImage} 
+                                src={consumerData.consumerImage} 
                                 style={{
                                     width: '70px',
                                     height: '70px',
                                     marginLeft: '17px',
                                 }} 
-                                alt={platformData.platformName}
+                                alt={consumerData.consumerUsername}
                             />
                         </Grid>
                         <Grid item>
                             {/* fontFamily: 'DM Serif Display' */}
                             <Typography className={classes.title}>
-                                {platformData.platformName}
+                                {consumerData.consumerUsername}
                             </Typography>
                         </Grid>
                     </Grid>

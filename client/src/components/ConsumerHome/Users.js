@@ -1,5 +1,6 @@
 import useApiCall from '../../hooks/useApiCall';
 import BrowseQuizCard from '../Card/BrowseQuizCard';
+import BrowseUserCard from '../Card/BrowseUserCard';
 import { Grid } from '@mui/material';
 
 export default function Users({ searchWord, searchType }) {
@@ -34,8 +35,7 @@ export default function Users({ searchWord, searchType }) {
       return (
         <Grid item>
           {' '}
-          {JSON.stringify(data)}
-          {/* <BrowseQuizCard consumerData={data} />{' '} */}
+          <BrowseUserCard consumerData={data} />{' '}
         </Grid>
       );
     });
