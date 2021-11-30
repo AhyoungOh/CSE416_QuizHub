@@ -7,6 +7,7 @@ function DetailQuestion({ questiondata, setQuestionVisible }) {
   const updateQuestionData = () => {
     setQuestionVisible(true);
   };
+  // console.log('questionNumber:', questiondata.questionNumber);
   return (
     <div>
       {/* <button
@@ -23,8 +24,10 @@ function DetailQuestion({ questiondata, setQuestionVisible }) {
           questionAnswer={questiondata.questionAnswer}
         />
       </Grid>
-      <Grid sx={{ paddingLeft: '20px'}}>
-        <Button variant="contained" onClick={updateQuestionData}>Edit Question</Button>
+      <Grid sx={{ paddingLeft: '20px' }}>
+        <Button variant='contained' onClick={updateQuestionData}>
+          Edit Question
+        </Button>
       </Grid>
     </div>
   );
