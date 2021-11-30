@@ -16,7 +16,7 @@ questionRouter.get(
 
 //create new data
 questionRouter.post('/:id', (req, res) => {
-  console.log(req.body.questionOption2);
+  // console.log(req.body.questionOption2);
   try {
     const newQuestion = new Question({
       quizId: req.body.quizId,
@@ -62,7 +62,7 @@ questionRouter.put(
     console.log('req.body', req.body);
     console.log('question', question);
     if (question) {
-      question.questionNumber = req.body.questionNumber;
+      // question.questionNumber = req.body.questionNumber;
       question.questionQuestion = req.body.questionQuestion;
       question.questionOption1 = req.body.questionOption1;
       question.questionOption2 = req.body.questionOption2;
