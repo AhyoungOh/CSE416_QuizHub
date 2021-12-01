@@ -73,7 +73,6 @@ export default function ConsumerPage() {
                 alignItems="center"
                 className={classes.container}
             >
-                {/* TODO: fix the left and top padding */}
                 <Grid item alignSelf="center" justifySelf="center">
                     <Avatar 
                         src={user.img} 
@@ -85,8 +84,6 @@ export default function ConsumerPage() {
                     />
                     {/* TODO: add change profile pic button */}
                 </Grid>
-                {/* TODO: fix the left and top padding */}
-                {/* TODO: make the username in blue */}
                 <Grid item alignSelf="center" justifySelf="center">
                     <Typography variant="h5" color="primary" className={classes.name}>
                         {user.username}

@@ -18,7 +18,6 @@ function PlatformPreviewCard({
     const classes = useStyles();
     return (
         <Card sx={{ borderRadius: '18px', maxWidth: '300px', minWidth: '300px' }}>
-            {/* TODO: fix the size and ratio */}
             <CardHeader
                 title={
                     <Typography sx={{ fontWeight: 'bold', fontSize: '23px' }}>
@@ -35,7 +34,6 @@ function PlatformPreviewCard({
                 sx={{ paddingLeft: '15px', paddingTop: '15px', paddingRight: '25px' }}
             />
             <CardContent>
-                {/* TODO: styling for list items */}
                 <List>
                     <ListItem>
                         <ListItemIcon>
@@ -52,7 +50,6 @@ function PlatformPreviewCard({
                 </List>
             </CardContent>
             <CardActions>
-                {/* TODO: solve the alignment problem */}
                 <Grid container justifyContent='end'>
                     <Grid item>
                         <IconButton aria-label="more" onClick={setplatformData} sx={{ m: 1 }}>

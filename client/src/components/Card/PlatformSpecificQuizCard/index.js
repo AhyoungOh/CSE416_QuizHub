@@ -17,7 +17,7 @@ function PlatformSpecificQuizCard({
   quizCreatedDate
 }) {
   return (
-    <Grid item xs={12} md={4}>
+    <Grid item sm={12} md={6} lg={4}>
       <Card sx={{ borderRadius: '18px' }}>
         <CardActionArea onClick={clickAction}>
           <Card sx={{ display: 'flex', minHeight: '250px' }}>
@@ -28,7 +28,7 @@ function PlatformSpecificQuizCard({
                 alt={quizName}
               />
             <CardContent sx={{ flex: 1 }}>
-              <Typography sx={{ fontWeight: 'bold', fontSize: '30px' }}>
+              <Typography variant='h5' sx={{ fontWeight: 'bold' }}>
                 {quizName}
               </Typography>
               <Typography sx={{ mb: 1.5 }} color='text.secondary'>

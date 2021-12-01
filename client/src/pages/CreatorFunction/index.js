@@ -92,7 +92,6 @@ function CreatorFunction() {
       <Switch>
         {/* Creator homepage + add new platform */}
         <Route exact path='/creatorHome'>
-          {/* TODO: add creator username and creator img */}
           <Grid 
             container
             spacing={2}
@@ -100,7 +99,6 @@ function CreatorFunction() {
             alignItems="center"
             className={classes.container}
           >
-            {/* TODO: fix the left and top padding */}
             <Grid item alignSelf="center" justifySelf="center">
               <Avatar 
                 src={user.img} 
@@ -110,7 +108,6 @@ function CreatorFunction() {
                 }} 
                 alt={user.username}
               />
-              {/* TODO: add change profile pic button */}
             </Grid>
             <Grid item alignSelf="center" justifySelf="center">
               <Typography variant="h5" color="primary" className={classes.name}>

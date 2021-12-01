@@ -70,16 +70,8 @@ function Detail({ platformData, setVisible }) {
         platformImage={platformData.platformImage}
         platformDescription={platformData.platformDescription}
       />
-      <Grid container spacing={2} justifyContent="center" alignItems="center" className={classes.gridContainerButtons}>
-        <Grid item>
-          {/* TODO: change the placement of the button */}
-          <Button onClick={updatePlatformData}>Edit Platform</Button>
-          {/* <Fab color="primary" variant="outlined" aria-label="edit" onClick={updatePlatformData} variant="extended">
-            <EditIcon sx={{ mr: 1 }}/>
-            Edit platform
-          </Fab> */}
-        </Grid>
-        {/* <Button variant="contained" onClick={updateQuizData}>Add Quiz</Button> */}
+      <Grid container justifyContent='center' sx={{ paddingTop: '20px' }}>
+        <Button variant='contained' color='inherit' onClick={updatePlatformData}>Edit Platform</Button>
       </Grid>
       <Grid container spacing={3} className={classes.gridContainer} alignItems="center">
         {QuizComponents}
