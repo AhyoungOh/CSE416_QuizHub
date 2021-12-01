@@ -2,7 +2,8 @@ import PlatformPreviewCard from '../../components/Card/platformPreviewCard';
 import Write from '../../components/Write';
 import Detail from '../../components/Detail';
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { UserContext } from '../../App';
 import useApiCall from '../../hooks/useApiCall';
 import {
   Grid,
@@ -10,7 +11,8 @@ import {
   Box,
   Fab,
   DialogTitle,
-  DialogContent,
+  Typography,
+  Avatar
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
@@ -21,19 +23,23 @@ const useStyles = makeStyles({
     paddingRight: '40px',
     paddingTop: '40px',
   },
-  cardStyle: {
-    borderRadius: '18px',
-  },
   fabStyle: {
     position: 'fixed',
     bottom: '40px',
     right: '40px',
     padding: '10px',
   },
+  container: {
+    paddingTop: '30px',
+  },
+  name: {
+    fontWeight: 'bold',
+  },
 });
 
 function CreatorFunction() {
   const history = useHistory();
+  const { user, dispatch } = useContext(UserContext);
   const location = useLocation();
   const [loading, testData, error, fetchData] = useApiCall(
     process.env.NODE_ENV === 'production'
@@ -62,7 +68,7 @@ function CreatorFunction() {
   }
   const PlatformComponents = testData.createPlatform.map((platformData) => {
     return (
-      <Grid item xs={12} sm={6} md={4}>
+      <Grid item>
         <PlatformPreviewCard
           // key={platformData._id}
           platformName={platformData.platformName}
@@ -87,10 +93,35 @@ function CreatorFunction() {
         {/* Creator homepage + add new platform */}
         <Route exact path='/creatorHome'>
           {/* TODO: add creator username and creator img */}
-          <Grid
+          <Grid 
             container
             spacing={2}
-            justify='center'
+            direction="column"
+            alignItems="center"
+            className={classes.container}
+          >
+            {/* TODO: fix the left and top padding */}
+            <Grid item alignSelf="center" justifySelf="center">
+              <Avatar 
+                src={user.img} 
+                style={{
+                    width: "100px",
+                    height: "100px",
+                }} 
+                alt={user.username}
+              />
+              {/* TODO: add change profile pic button */}
+            </Grid>
+            <Grid item alignSelf="center" justifySelf="center">
+              <Typography variant="h5" color="primary" className={classes.name}>
+                {user.username}
+              </Typography>
+            </Grid>
+          </Grid>
+          <Grid
+            container
+            spacing={1}
+            justifyContent='center'
             className={classes.gridContainer}
           >
             {PlatformComponents}
