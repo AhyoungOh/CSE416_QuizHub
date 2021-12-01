@@ -12,6 +12,29 @@ function CreateCertificate() {
   const design_id = useRef();
   var source = 'https://embed.certificates.design/?issuer_token=';
 
+  async function createBadge() {
+    const apicall = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Token token=38040def040af70134a08e39a3db35d3',
+      },
+    };
+    try {
+      await axios
+      .post(`https://api.accredible.com/v1/designers/badge/initialize`,
+    {},
+    apicall)
+    .then((response) => {
+    console.log(response);
+    history.push(
+    `/createbadge/${response.data.token}/${groupid}/${quizid}`
+    );
+    });
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
   useEffect(() => {
     window.addEventListener('message', function (e) {
       if (
@@ -54,29 +77,12 @@ function CreateCertificate() {
           }
         }
         updateGroup();
-        if(rewardtype==1){
-          async function createBadge() {
-            const apicall = {
-              headers: {
-                'Content-Type': 'application/json',
-                Authorization: 'Token token=38040def040af70134a08e39a3db35d3',
-              },
-            };
-            try {
-              await axios
-              .post(`https://api.accredible.com/v1/designers/badge/initialize`,
-            {},
-            apicall)
-            .then((response) => {
-            console.log(response);
-            history.push(
-            `/createbadge/${response.data.token}/${groupid}/${quizid}`
-            );
-            });
-            } catch (e) {
-              console.error(e);
-            }
-          }
+        console.log(rewardtype)
+        if(rewardtype==0){
+          console.log("inside zero")
+          history.push(`/quiz/detail/${quizid}`);
+        }
+        else if(rewardtype==1){
           createBadge()
         }
         else{
