@@ -135,6 +135,7 @@ function ResultsPage() {
         {
           badgeUploadFile: img,
           consumerId: user.id,
+          badgeVisibility: true,
         }
       ).then((response)=>{
         console.log(response)

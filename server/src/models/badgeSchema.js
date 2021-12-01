@@ -6,6 +6,7 @@ const badgeSchema = new mongoose.Schema({
   badgeUploadFile: { data: Buffer, type: String },
   consumerId:  { type: String },
   badgeRequirementsAccuracy: { type: Number, min: 0, max: 100 },
+  badgeVisibility: { type: Boolean }
 });
 const Badge = mongoose.model('Badge', badgeSchema);
 

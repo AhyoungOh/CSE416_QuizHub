@@ -41,7 +41,7 @@ const consumerSchema = new Schema({
     {
       badgeId: { type: Schema.Types.ObjectID, ref: 'Badge' },
       accomplishedDate: { type: Date },
-      badgeVisibility: { type: Boolean },
+      badgeVisibility: { type: Boolean }, // remove this moved to badge
     },
   ],
 });

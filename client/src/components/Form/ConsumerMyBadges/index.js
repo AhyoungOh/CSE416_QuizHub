@@ -2,10 +2,17 @@ import axios from 'axios';
 import { useContext, useState ,useRef, useEffect} from 'react';
 import { useHistory } from 'react-router-dom';
 import { UserContext } from '../../../App';
+import {
+  FormGroup,
+  Switch,
+  FormControlLabel,
+  stepIconClasses,
+} from '@mui/material';
 
 function ConsumerMyBadges() {
   
-  const [img_arr,setImgArr]=useState([])
+  const [badge_arr,setBadgeArr]=useState([])
+  
   
   const getBadgeId = async () => {
     try {
@@ -35,11 +42,9 @@ function ConsumerMyBadges() {
           : `http://localhost:4000/api/badge/${badge_id}`,
       ).then((response)=>{
           console.log(response)
-          //img_arr.current.push(response.data.badge.badgeUploadFile)
-          setImgArr(arr => [...arr, response.data.badge.badgeUploadFile,])
-          console.log(img_arr)
+          setBadgeArr(arr=>[...arr,response.data.badge])
+          console.log(response.data.badge.badgeVisibility)
       })
-      
     } catch (e) {
       console.error(e);
     }
@@ -49,12 +54,37 @@ function ConsumerMyBadges() {
     getBadgeId();
   }, []);
 
+  const setIsPrivate=async (value,e)=> {
+    console.log(value._id)
+    try {
+      await axios.put(
+        process.env.NODE_ENV == 'production'
+          ? `/api/badge/${value._id}`
+          : `http://localhost:4000/api/badge/${value._id}`,
+          {
+            badgeVisibility: value.badgeVisibility==true ? false : true,
+          }
+      ).then((response)=>{
+          console.log(response)
+          console.log(response.data.Badge.badgeVisibility)
+      })
+      setBadgeArr(badge_arr.map((badge)=>
+      badge._id==value._id ? { ...badge_arr, badgeVisibility: !value.badgeVisibility,badgeUploadFile: value.badgeUploadFile } :{...badge_arr}
+      )) //cannot toggle in one go
+    } catch (e) {
+      console.error(e);
+    }
+  }
   
   return (
     <div>
-     {img_arr.map((value) => (
-         <img src={value} width="200" height="200"></img>
-        ))}
+      {badge_arr.map((value,index) => (
+          <><img src={value.badgeUploadFile} width="200" height="200"></img>
+          <FormGroup>
+          <FormControlLabel checked={!value.badgeVisibility} control={<Switch onChange={(e) => setIsPrivate(value,e)}/>} label="Make Private" />
+          </FormGroup>
+          </>
+         ))}
     </div>
   );
 }

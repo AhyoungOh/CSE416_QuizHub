@@ -72,11 +72,13 @@ badgeRouter.put(
 
     console.log(req.body);
     if (Badge) {
-      badge.badgeRasterizedContentUrl = req.body.badgeRasterizedContentUrl;
-      badge.badgeEncodedContent = req.body.badgeEncodedContent;
-      badge.badgeUploadFile = req.body.badgeUploadFile;
-      badge.badgeRequirementsAccuracy = req.body.badgeRequirementsAccuracy;
+      // badge.badgeRasterizedContentUrl = req.body.badgeRasterizedContentUrl;
+      // badge.badgeEncodedContent = req.body.badgeEncodedContent;
+      // badge.badgeUploadFile = req.body.badgeUploadFile!=null ? req.body.badgeUploadFile!=null :badge.UploadFile;
+      // badge.badgeRequirementsAccuracy = req.body.badgeRequirementsAccuracy;
+      badge.badgeVisibility=req.body.badgeVisibility;
       const updatedBadge = await badge.save();
+
       res.send({
         message: 'Badge Updated',
         Badge: updatedBadge,
