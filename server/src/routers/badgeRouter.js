@@ -43,6 +43,7 @@ badgeRouter.post(
       badgeUploadFile: req.body.badgeUploadFile,
       consumerId: req.body.consumerId,
       badgeRequirementsAccuracy: req.body.badgeRequirementsAccuracy,
+      badgeVisibility:req.body.badgeVisibility,
     });
     const createdBadge = await badge.save();
     const consumer = await Consumer.findById(req.body.consumerId);

@@ -15,8 +15,10 @@ const useStyles = makeStyles({
 });
 
 function DetailQuiz({ quizData, setQuizVisible }) {
+
   const owned = [];
   const history = useHistory();
+
 
   const groupid = useRef(0);
   const isGroup = useRef(0)
@@ -29,7 +31,7 @@ function DetailQuiz({ quizData, setQuizVisible }) {
   const apicall = {
     headers: {
       'Content-Type': 'application/json',
-      Authorization: 'Token token=ac4e7119623388f9afad927bb881138f',
+      Authorization: 'Token token=38040def040af70134a08e39a3db35d3',
     },
   };
 
@@ -61,7 +63,7 @@ function DetailQuiz({ quizData, setQuizVisible }) {
         .then((response) => {
           console.log(response);
           groupid.current = response.data.group.id;
-          //setGroupId(response.data.group.id)
+        
         });
         isGroup.current=1
       }
@@ -77,7 +79,7 @@ function DetailQuiz({ quizData, setQuizVisible }) {
         .then((response) => {
           console.log(response);
           history.push(
-            `/createcertificate/${response.data.token}/${groupid.current}/${quizData._id}`
+            `/createcertificate/${response.data.token}/${groupid.current}/${quizData._id}/${0}`
           );
         });
     } catch (e) {
@@ -125,6 +127,44 @@ function DetailQuiz({ quizData, setQuizVisible }) {
       console.error(e);
     }
   };
+
+  const createCertificateandBadge = async () => {
+    try {
+      console.log(isGroup.current)
+      if(isGroup.current==0){
+        
+        await axios
+        .post(
+          `https://api.accredible.com/v1/issuer/groups`,
+          creategroupdata,
+          apicall
+        )
+        .then((response) => {
+          console.log(response);
+          groupid.current = response.data.group.id;
+        
+        });
+        isGroup.current=1
+      }
+      console.log(isGroup.current)
+      console.log(groupid)
+
+      await axios
+        .post(
+          `https://api.accredible.com/v1/designers/certificate/initialize`,
+          apidata,
+          apicall
+        )
+        .then((response) => {
+          console.log(response);
+          history.push(
+            `/createcertificate/${response.data.token}/${groupid.current}/${quizData._id}/${1}`
+          );
+        });
+    } catch (e) {
+      console.error(e);
+    }
+  }
 
   const QuestionComponents = quizData.quizQuestions.map((questionData) => {
     return (
@@ -204,6 +244,11 @@ function DetailQuiz({ quizData, setQuizVisible }) {
         <Grid item>
           <Button variant='contained' onClick={createBadge}>
             Add Badge
+          </Button>
+        </Grid>
+        <Grid item>
+          <Button variant='contained' onClick={createCertificateandBadge}>
+            Add Certificate and Badge
           </Button>
         </Grid>
       </Grid>

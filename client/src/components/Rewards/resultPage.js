@@ -33,15 +33,15 @@ function ResultsPage() {
   const [file_download, setFile] = useState('');
   const [img,setImage] = useState('')
 
-  if (!quizResult) {
-    return <div>No Data</div>;
-  }
-  if (loading) {
-    return <div>loading...</div>;
-  }
-  if (error) {
-    return <div>error...</div>;
-  }
+  // if (!quizResult) {
+  //   return <div>No Data</div>;
+  // }
+  // if (loading) {
+  //   return <div>loading...</div>;
+  // }
+  // if (error) {
+  //   return <div>error...</div>;
+  // }
 
   const getQuizInfo = async () => {
     try {
@@ -54,7 +54,6 @@ function ResultsPage() {
         .then((response) => {
           console.log(response);
           //quizName.current=response.data.quiz.quizName
-          setQuizName(response.data.quiz.quizName);
           certificate_qualifier.current =response.data.quiz.quizCertificateQualification;
           badge_qualifier.current=response.data.quiz.quizBadgeQualification;
           certificate_id.current = response.data.quiz.quizCertificate;
@@ -66,19 +65,25 @@ function ResultsPage() {
           console.log(res)
           setResult(res.toFixed(2)+"")
           console.log(result)
+          setQuizName(response.data.quiz.quizName);
         });
     } catch (e) {
       console.error(e);
     }
   };
 
-  getQuizInfo();
-
+  useEffect(() => {
+    getQuizInfo();
+  }, []);
+  
+  useEffect(() => {
+    createCredential();
+  }, [quizName]);
 
   const apicall = {
     headers: {
       'Content-Type': 'application/json',
-      Authorization: 'Token token=ac4e7119623388f9afad927bb881138f',
+      Authorization: 'Token token=38040def040af70134a08e39a3db35d3',
     },
   };
 
@@ -88,8 +93,8 @@ function ResultsPage() {
       const apidata = {
         credential: {
           recipient: {
-            name: user.username, // for testing purposes the name is Chellsea otherwise it will be user.username
-            email: user.email, //email is chellsea.robinson@stonybrook.edu otherwise it will be user.email
+            name: user.username, 
+            email: user.email, 
             id: user.id,
           },
           group_name: quizName, //quizName.current
@@ -119,7 +124,9 @@ function ResultsPage() {
             //file_download.current=response.data.file
             setFile(response.data.file);
           });
-
+          if(result >= badge_qualifier.current){
+            createBadge()
+          }
       } catch (e) {
         console.error(e);
       }
@@ -144,12 +151,6 @@ function ResultsPage() {
     } catch (e){
       console.error(e);
     }
-  }
-
-  createCredential();
-
-  if(result>= badge_qualifier.current){
-  createBadge();
   }
 
   return (
