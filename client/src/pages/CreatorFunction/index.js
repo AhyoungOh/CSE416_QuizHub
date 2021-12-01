@@ -86,6 +86,7 @@ function CreatorFunction() {
       <Switch>
         {/* Creator homepage + add new platform */}
         <Route exact path='/creatorHome'>
+          {/* TODO: add creator username and creator img */}
           <Grid
             container
             spacing={2}

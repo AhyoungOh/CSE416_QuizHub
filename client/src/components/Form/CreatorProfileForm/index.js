@@ -25,17 +25,23 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  width: 500,
   bgcolor: 'background.paper',
   boxShadow: 24,
   p: 4,
   borderRadius: 2,
 };
 
+// const useStyles = makeStyles({
+//   dialogTitle: {
+//     fontSize
+//   },
+// });
+
 function CreatorProfileForm() {
   const history = useHistory();
   const { user, dispatch } = useContext(UserContext);
-
+  // const classes = useStyles();
   // states
   const [edit, setEdit] = useState(false); // for edit dialogue
   const [show, setShow] = useState(false); // for delete account modal
@@ -93,40 +99,33 @@ function CreatorProfileForm() {
 
   return (
     <div>
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-        }}
-      >
-        <Grid container direction='column' alignItems='center' spacing={1}>
+      <Grid container direction='column' spacing={3}>
+        <Grid item container justifyContent='center' spacing={2}>
           <Grid item>
             <Typography>Email</Typography>
           </Grid>
-        </Grid>
-        <Grid container direction='column' alignItems='center' spacing={1}>
           <Grid item>
             <Typography>{user.email}</Typography>
           </Grid>
         </Grid>
-      </Box>
-      <Grid container direction='row' spacing={2} justifyContent='center'>
-        <Grid item>
-          <Button variant='contained' onClick={() => setEdit(true)}>
-            Edit
-          </Button>
-        </Grid>
-        <Grid item>
-          <Button variant='text' color='error' onClick={() => setShow(true)}>
-            Delete Account
-          </Button>
+        <Grid item container spacing={2} justifyContent='center'>
+          <Grid item>
+            <Button variant='contained' onClick={() => setEdit(true)}>
+              Edit
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button variant='text' color='error' onClick={() => setShow(true)}>
+              Delete Account
+            </Button>
+          </Grid>
         </Grid>
       </Grid>
       <Modal open={show} onClose={() => setShow(false)}>
         <Box sx={style}>
           <Grid container direction='column' spacing={2}>
             <Grid item>
-              <Typography id='modal-modal-title' variant='h6' component='h2'>
+              <Typography id='modal-modal-title' variant='h6' sx={{ fontWeight: 'bold' }}>
                 Delete account
               </Typography>
               <Typography id='modal-modal-description' sx={{ mt: 2 }}>
@@ -136,7 +135,6 @@ function CreatorProfileForm() {
             </Grid>
             <Grid item />
           </Grid>
-          {/* TODO: fix the alignment */}
           <Grid container direction='row' spacing={2}>
             <Grid item />
             <Grid item />
@@ -160,7 +158,11 @@ function CreatorProfileForm() {
         </Box>
       </Modal>
       <Dialog open={edit} keepMounted onClose={() => setEdit(false)}>
-        <DialogTitle>Edit Account Information</DialogTitle>
+        <DialogTitle>
+          <Typography variant='h6' sx={{ fontWeight: 'bold' }}>
+            Edit Account Information
+          </Typography>
+        </DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
