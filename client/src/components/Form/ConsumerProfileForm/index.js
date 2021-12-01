@@ -78,7 +78,7 @@ function ConsumerProfileForm() {
       await axios.delete(
         process.env.NODE_ENV == 'production'
           ? `/api/creator/${user?.id}`
-          : `http://localhost:4000/api/creator/${user?.id}`
+          : `http://localhost:4000/api/consumer/${user?.id}`
       );
       try {
         await axios.delete(
@@ -111,7 +111,12 @@ function ConsumerProfileForm() {
     // save button, edit button, cancel button, delete account button
     <div>
       {/* TODO: fix the listing and display of the information */}
-      <Grid container direction='column' spacing={2} sx={{ paddingLeft: '400px'}}>
+      <Grid
+        container
+        direction='column'
+        spacing={2}
+        sx={{ paddingLeft: '400px' }}
+      >
         <Grid item container justifyContent='flex-start' spacing={2}>
           <Grid item>
             <Typography>Email</Typography>
@@ -136,7 +141,13 @@ function ConsumerProfileForm() {
             <Typography>{user.description}</Typography>
           </Grid>
         </Grid>
-        <Grid item container direction='row' spacing={2} justifyContent='flex-start'>
+        <Grid
+          item
+          container
+          direction='row'
+          spacing={2}
+          justifyContent='flex-start'
+        >
           <Grid item>
             <Button variant='contained' onClick={() => setEdit(true)}>
               Edit
