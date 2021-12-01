@@ -82,8 +82,8 @@ function Leaderboard() {
   console.log(players);
 
   const rows = players.map((rowData, index) => {
-    // console.log(rowData);
-    return(
+    if (rowData.length !== 0) {
+      return(
         <Grid item lg={8}>
           <Paper elevation={0} className={classes.paper}>
             <Grid container justifyContent='space-evenly'>
@@ -125,9 +125,13 @@ function Leaderboard() {
             </Grid>
           </Paper>
         </Grid>
-    );
+      );
+    } else {
+      return(
+        <Typography>No entries yet!</Typography>
+      );
+    }
   });
-
 
   // leaderboard is returning all the consumers that have taken the quiz before
   // return <div className='Leaderboard'>{JSON.stringify(leaderboard, null, 2)}</div>;
@@ -166,7 +170,15 @@ function Leaderboard() {
               </Grid>
             </Paper>
           </Grid>
-          {rows}
+          {rows.length !== 0 ? 
+            rows 
+            : 
+            <Grid item alignSelf='center'>
+              <Typography sx={{ paddingTop: '20px' }}>
+                No entries yet!
+              </Typography>
+            </Grid>
+          }
         </Grid>
       </Grid>
     </div>
