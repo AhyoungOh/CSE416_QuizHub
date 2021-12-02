@@ -48,11 +48,7 @@ const theme = createTheme({
       '"Apple Color Emoji"',
     ].join(','),
     button: {
-      fontFamily: [
-        'Open Sans',
-        'Roboto',
-        'Arial',
-      ].join(','),
+      fontFamily: ['Open Sans', 'Roboto', 'Arial'].join(','),
       textTransform: 'none',
       fontWeight: '700',
       letterSpacing: '0.03em',
@@ -61,7 +57,7 @@ const theme = createTheme({
   },
   // MuiButton: {
   //   selected: {
-  //     backgroundColor: '#007fff', 
+  //     backgroundColor: '#007fff',
   //     color: '#FFFFFF',
   //   },
   // },
@@ -80,7 +76,7 @@ const userReducer = (state, action) => {
           img: action.payload.consumer.consumerImage,
           email: action.payload.consumer.consumerEmail,
           description: action.payload.consumer.consumerDescription,
-          isPrivate: action.payload.consumer.isPrivate,
+          isPrivate: action.payload.consumer.consumerIsPrivate,
           // password: action.payload.password,
         };
       }
@@ -97,6 +93,14 @@ const userReducer = (state, action) => {
       break;
     case 'signout':
       return { id: '', password: '' };
+    case 'edit':
+      return {
+        ...state,
+        email: action.payload.consumer.email,
+        description: action.payload.consumer.description,
+        isPrivate: action.payload.consumer.isPrivate,
+        img: action.payload.consumer.consumerImg,
+      };
     default:
       throw new Error();
   }
@@ -112,57 +116,57 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-    <UserContext.Provider value={{ user, dispatch }}>
-      <Router>
-        {/* <Header /> */}
-        <UserAppBar />
-        <Route exact path='/' component={ConsumerSignUp} />
-        <Switch>
-          <Route path='/auth'>
-            <AuthPage />
-          </Route>
-          <Route path='/creatorHome'>
-            <CreatorFunctionPage />
-          </Route>
-          <Route path='/quiz'>
-            <CreatorQuiz />
-          </Route>
-          <Route path='/question'>
-            <CreatorQuestion />
-          </Route>
-          <Route path='/consumerHome'>
-            <ConsumerHomePage />
-          </Route>
-          <Route path='/consumer-page'>
-            <ConsumerPage />
-          </Route>
-          <Route path='/creator-page'>
-            <CreatorPage />
-          </Route>
-          <Route path='/consumerquizpreview/:id'>
-            <ConsumerQuizPreview />
-          </Route>
-          <Route path='/consumerplatformpreview/:id'>
-            <ConsumerPlatformPreview />
-          </Route>
-          <Route path='/consumerquizpage/:id'>
-            <ConsumerQuizPage />
-          </Route>
-          <Route path='/createcertificate/:token/:groupid/:quizid/:rewardtype'>
-            <CreateCertificate />
-          </Route>
-          <Route path='/createbadge/:token/:groupid/:quizid'>
-            <CreateBadge />
-          </Route>
-          <Route path='/result/:id'>
-            <ResultsPage />
-          </Route>
-          <Route path='/leaderboard/:quizId'>
-            <LeaderboardPage />
-          </Route>
-        </Switch>
-      </Router>
-    </UserContext.Provider>
+      <UserContext.Provider value={{ user, dispatch }}>
+        <Router>
+          {/* <Header /> */}
+          <UserAppBar />
+          <Route exact path='/' component={ConsumerSignUp} />
+          <Switch>
+            <Route path='/auth'>
+              <AuthPage />
+            </Route>
+            <Route path='/creatorHome'>
+              <CreatorFunctionPage />
+            </Route>
+            <Route path='/quiz'>
+              <CreatorQuiz />
+            </Route>
+            <Route path='/question'>
+              <CreatorQuestion />
+            </Route>
+            <Route path='/consumerHome'>
+              <ConsumerHomePage />
+            </Route>
+            <Route path='/consumer-page'>
+              <ConsumerPage />
+            </Route>
+            <Route path='/creator-page'>
+              <CreatorPage />
+            </Route>
+            <Route path='/consumerquizpreview/:id'>
+              <ConsumerQuizPreview />
+            </Route>
+            <Route path='/consumerplatformpreview/:id'>
+              <ConsumerPlatformPreview />
+            </Route>
+            <Route path='/consumerquizpage/:id'>
+              <ConsumerQuizPage />
+            </Route>
+            <Route path='/createcertificate/:token/:groupid/:quizid/:rewardtype'>
+              <CreateCertificate />
+            </Route>
+            <Route path='/createbadge/:token/:groupid/:quizid'>
+              <CreateBadge />
+            </Route>
+            <Route path='/result/:id'>
+              <ResultsPage />
+            </Route>
+            <Route path='/leaderboard/:quizId'>
+              <LeaderboardPage />
+            </Route>
+          </Switch>
+        </Router>
+      </UserContext.Provider>
     </ThemeProvider>
   );
 }
