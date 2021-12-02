@@ -28,11 +28,16 @@ export default function Quizzes({ searchWord, searchType }) {
     })
     .map((data) => {
       // TODO: alphabetical order
-      return (<Grid item> <BrowseQuizCard quizData={data} /> </Grid>);
+      return (
+        <Grid item key={data.quizName}>
+          {' '}
+          <BrowseQuizCard quizData={data} />{' '}
+        </Grid>
+      );
     });
-  return(
+  return (
     <div>
-      <Grid container spacing={3} justifyContent="center">
+      <Grid container spacing={3} justifyContent='center'>
         {QuizCardList}
       </Grid>
     </div>

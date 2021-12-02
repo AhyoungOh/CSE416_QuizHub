@@ -19,6 +19,7 @@ consumerRouter.get(
   '/:id',
   expressAsyncHandler(async (req, res) => {
     const consumer = await findById(Number(req.params.id));
+    console.log(consumer);
     res.send({ consumer });
   })
 );
@@ -58,30 +59,35 @@ consumerRouter.post(
 );
 
 // update
-consumerRouter.put(
-  '/:id',
-  expressAsyncHandler(async (req, res) => {
-    const consumerId = req.params.id;
-    const consumer = await Consumer.findById(consumerId);
+consumerRouter.put('/:id', async (req, res) => {
+  const consumerId = req.params.id;
+  const consumer = await Consumer.findById(consumerId);
 
-    console.log(req.body);
-    if (consumer) {
+  console.log('req', req.body);
+  if (consumer) {
+    if (req.body.consumerDescription !== '') {
       consumer.consumerDescription = req.body.consumerDescription;
-      consumer.consumerIsPrivate = req.body.consumerDescription;
-      consumer.consumerImage = req.body.consumerImage;
-      consumer.consumerUsername = req.body.consumerUsername;
-      consumer.consumerEmail = req.body.consumerEmail;
-      consumer.password = req.body.password;
-      const updatedConsumer = await consumer.save();
-      res.send({
-        message: 'Consumer Updated',
-        consumer: updatedConsumer,
-      });
-    } else {
-      res.status(404).send({ message: 'Consumer Not Found' });
     }
-  })
-);
+    if (req.body.consumerImage !== '') {
+      consumer.consumerImage = req.body.consumerImage;
+    }
+    if (req.body.consumerEmail !== '') {
+      consumer.consumerEmail = req.body.consumerEmail;
+    }
+    if (req.body.consumerPassword !== '') {
+      consumer.password = req.body.consumerPassword;
+    }
+    consumer.consumerIsPrivate = req.body.consumerIsPrivate;
+
+    const updatedConsumer = await consumer.save();
+    res.send({
+      message: 'Consumer Updated',
+      consumer: updatedConsumer,
+    });
+  } else {
+    res.status(404).send({ message: 'Consumer Not Found' });
+  }
+});
 
 consumerRouter.post('/quiz', validUser, async (req, res) => {
   const consumer = req.consumer;

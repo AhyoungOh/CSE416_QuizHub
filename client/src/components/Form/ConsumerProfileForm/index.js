@@ -46,6 +46,12 @@ function ConsumerProfileForm() {
   const [isPrivate, setIsPrivate] = useState(
     user.isPrivate ? user.isPrivate : false
   );
+  const [consumerImg, setConsumerImg] = useState(
+    user.consumerImage ? user.consumerImage : ''
+  );
+  const [consumerPassword, setConsumerPassword] = useState(
+    user.consumerPassword ? user.consumerPassword : ''
+  );
 
   // saveButtonHandler: handle saving on changes and setEdit(false)
   const saveButtonHandler = async () => {
@@ -58,8 +64,21 @@ function ConsumerProfileForm() {
           consumerEmail: email,
           consumerDescription: description,
           consumerIsPrivate: isPrivate,
+          consumerPassword: consumerPassword,
+          consumerImage: consumerImg,
         }
       );
+      dispatch({
+        type: 'edit',
+        payload: {
+          consumer: {
+            email: email,
+            description: description,
+            isPrivate: isPrivate,
+            img: consumerImg,
+          },
+        },
+      });
       setEdit(false);
     } catch (e) {
       console.error(e);
@@ -77,22 +96,22 @@ function ConsumerProfileForm() {
       // remove user data from the database
       await axios.delete(
         process.env.NODE_ENV == 'production'
-          ? `/api/creator/${user?.id}`
+          ? `/api/consumer/${user?.id}`
           : `http://localhost:4000/api/consumer/${user?.id}`
       );
-      try {
-        await axios.delete(
-          process.env.NODE_ENV == 'production'
-            ? `/api/auth`
-            : `http://localhost:4000/api/auth`
-        );
-        // log user out
-        dispatch({ type: 'signout' });
-        // redirect to homepage
-        history.push('/');
-      } catch (e) {
-        console.error(e);
-      }
+      // try {
+      //   await axios.delete(
+      //     process.env.NODE_ENV == 'production'
+      //       ? `/api/auth`
+      //       : `http://localhost:4000/api/auth`
+      //   );
+      // log user out
+      dispatch({ type: 'signout' });
+      // redirect to homepage
+      history.push('/');
+      // } catch (e) {
+      //   console.error(e);
+      // }
       history.push('/');
     } catch (e) {
       console.log(e);
@@ -103,9 +122,10 @@ function ConsumerProfileForm() {
     setEmail(user.email ? user.email : '');
     setDescription(user.description ? user.description : '');
     setIsPrivate(user.isPrivate ? user.isPrivate : false);
+    setConsumerPassword(user.consumerPassword ? user.consumerPassword : '');
     setEdit(false);
   };
-
+  console.log('user', user);
   return (
     // email, private account toggle, description
     // save button, edit button, cancel button, delete account button
@@ -209,6 +229,7 @@ function ConsumerProfileForm() {
             onChange={(e) => setEmail(e.target.value)}
             defaultValue={email ? email : 'Enter your email address'}
           />
+
           <TextField
             autoFocus
             margin='dense'
@@ -220,6 +241,28 @@ function ConsumerProfileForm() {
             fullWidth
             multiline
             onChange={(e) => setDescription(e.target.value)}
+          />
+          <TextField
+            autoFocus
+            margin='dense'
+            label='profile-image'
+            defaultValue={consumerImg ? consumerImg : 'Enter your image'}
+            rows={3}
+            fullWidth
+            multiline
+            onChange={(e) => setConsumerImg(e.target.value)}
+          />
+          <TextField
+            autoFocus
+            margin='dense'
+            label='Password'
+            defaultValue={
+              consumerPassword ? consumerPassword : 'Enter your password'
+            }
+            rows={3}
+            fullWidth
+            multiline
+            onChange={(e) => setConsumerPassword(e.target.value)}
           />
           <FormControl>
             <FormControlLabel

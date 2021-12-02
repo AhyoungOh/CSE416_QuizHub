@@ -56,6 +56,7 @@ consumerSchema.pre('save', async function (next) {
 
   try {
     // 패스워드를 해싱해서 저장.
+    console.log('password', this.password);
     const hash = await argon2.hash(this.password);
     this.password = hash;
     next();
