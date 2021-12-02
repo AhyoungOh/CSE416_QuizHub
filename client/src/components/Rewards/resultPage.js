@@ -4,7 +4,6 @@ import React, { useState, useRef, useEffect, useContext } from 'react';
 import { UserContext, accountSettingsContext } from '../../App';
 import { useHistory, useParams, Link } from 'react-router-dom';
 import useApiCall from '../../hooks/useApiCall';
-import CreateBadge from './createBadge';
 
 function ResultsPage() {
   const { id } = useParams();
@@ -32,6 +31,8 @@ function ResultsPage() {
   //const file_download=useRef("")
   const [file_download, setFile] = useState('');
   const [img,setImage] = useState('')
+
+  const image =useRef("")
 
   // if (!quizResult) {
   //   return <div>No Data</div>;
@@ -68,7 +69,7 @@ function ResultsPage() {
           console.log(res)
           setResult(res.toFixed(2)+"")
           console.log(result)
-          setQuizName(response.data.quiz.quizName);
+          
         });
     } catch (e) {
       console.error(e);
@@ -105,7 +106,7 @@ function ResultsPage() {
       };
       try {
         // console.log(apidata);
-        // console.log(quizName);
+        console.log(quizName);
         await axios
           .post(`https://api.accredible.com/v1/credentials`, apidata, apicall)
           .then((response) => {
@@ -113,8 +114,26 @@ function ResultsPage() {
             credential_id.current = response.data.credential.id;
             setImage(response.data.credential.badge.image.preview)
             console.log(response.data.credential.badge.image.preview)
+            image.current=response.data.credential.badge.image.preview
+            console.log(img)
+            console.log(img.current)
           });
         //pdfCredential()
+        if(result >= badge_qualifier.current){
+          //createBadge()
+          await axios.post(
+            process.env.NODE_ENV == 'production'
+              ? `/api/badge`
+              : `http://localhost:4000/api/badge`,
+            {
+              badgeUploadFile: image.current,
+              consumerId: user.id,
+              badgeVisibility: true,
+            }
+          ).then((response)=>{
+            console.log(response)
+          });
+        }
         await axios
           .post(
             `https://api.accredible.com/v1/credentials/generate_single_pdf/${credential_id.current}`,
@@ -127,9 +146,6 @@ function ResultsPage() {
             //file_download.current=response.data.file
             setFile(response.data.file);
           });
-          if(result >= badge_qualifier.current){
-            createBadge()
-          }
       } catch (e) {
         console.error(e);
       }
