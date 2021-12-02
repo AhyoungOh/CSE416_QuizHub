@@ -236,16 +236,19 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
               <MenuItem value={'both'}>Both</MenuItem>
             </Select>
           </FormControl>
-          <TextField
-            // required
-            autoFocus
-            margin='dense'
-            label='Quiz Certificate Reward Qualification'
-            type='number'
-            placeholder='Enter the number for certificate reward qualification'
-            value={quizCertificateQualification}
-            onChange={(e) => setQuizCertificateQualification(e.target.value)}
-          />
+          {certificatevisible ? (
+            <TextField
+              // required
+              autoFocus
+              margin='dense'
+              label='Quiz Certificate Reward Qualification'
+              type='number'
+              placeholder='Enter the number for certificate reward qualification'
+              value={quizCertificateQualification}
+              onChange={(e) => setQuizCertificateQualification(e.target.value)}
+            />
+          ) : null}
+
           <TextField
             // required
             autoFocus
