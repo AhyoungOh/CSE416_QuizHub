@@ -11,7 +11,7 @@ const quizSchema = new mongoose.Schema({
     seconds: { type: Number },
   },
   quizTotalNumberOfQuestions: Number,
-  quizRewardType: { type: Number, default: 0 },
+  quizRewardType: { type: String },
   quizCertificate: { type: mongoose.Schema.Types.ObjectID, ref: 'Certificate' },
   quizBadge: { type: mongoose.Schema.Types.ObjectID, ref: 'Badge' },
   quizCertificateQualification: Number,
