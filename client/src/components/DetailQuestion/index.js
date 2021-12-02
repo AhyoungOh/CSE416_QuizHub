@@ -7,14 +7,14 @@ function DetailQuestion({ questiondata, setQuestionVisible }) {
   const updateQuestionData = () => {
     setQuestionVisible(true);
   };
-  // console.log('questionNumber:', questiondata.questionNumber);
+  console.log('questionData:', questiondata.quizId);
   return (
     <div>
-      {/* <button
+      <button
         onClick={() => history.push(`/quiz/detail/${questiondata.quizId}`)}
       >
         Back to Question List
-      </button> */}
+      </button>
       {/* TODO: question edit card */}
       <Grid sx={{ padding: '20px' }}>
         <Question
