@@ -35,13 +35,15 @@ const useStyles = makeStyles({
   },
   startButton: {
     padding: '10px', 
-    minWidth: '350px', 
+    minWidth: '300px', 
     borderRadius: '10px',
+    marginLeft: '10px',
   }
 });
 
 function ConsumerQuizPreview() {
-  const { id } = useParams(); //
+  const { id } = useParams(); 
+  const quizId = id;
   const history = useHistory();
   const classes = useStyles();
 
@@ -53,6 +55,7 @@ function ConsumerQuizPreview() {
   const [time_sec, setTimeSec] = useState(0);
   const [reward, setReward] = useState(0);
   const [num_questions, setNumQuestions] = useState(0);
+  const [leaderboardVisible, setLeaderboardVisible] = useState('');
 
   // if (!payload) {
   //   return <div>No Data</div>;
@@ -80,6 +83,7 @@ function ConsumerQuizPreview() {
           setTimeSec(response.data.quiz.quizTimeLimit.seconds);
           setReward(response.data.quiz.quizRewardType);
           setNumQuestions(response.data.quiz.quizQuestions.length);
+          setLeaderboardVisible(response.data.quiz.quizEnableLeaderboard);
         });
     } catch (e) {
       console.error(e);
@@ -167,6 +171,9 @@ function ConsumerQuizPreview() {
                   </ListItem>
                 </List>
               </Box>
+              {leaderboardVisible ? (
+                <Button href={`/leaderboard/${quizId}`} sx={{ marginLeft: '10px' }}>See Leaderboard</Button>
+              ) : null}
               <Button 
                 variant="contained"
                 onClick={()=>{

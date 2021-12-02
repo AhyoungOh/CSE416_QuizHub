@@ -3,7 +3,7 @@ import Question from '../Question';
 import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import { Link, useHistory } from 'react-router-dom';
-import { Grid, Button } from '@mui/material';
+import { Grid, Button, Card, CardMedia, CardActionArea, CardContent, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles({
@@ -19,11 +19,11 @@ function DetailQuiz({ quizData, setQuizVisible }) {
   const owned = [];
   const history = useHistory();
 
-
   const groupid = useRef(0);
   const isGroup = useRef(0)
  
   const classes = useStyles();
+
   for (let i = 0; i < Object.keys(quizData.quizQuestions).length; i++) {
     owned.push(quizData.quizQuestions[i].questionQuestion + ', ');
   }
@@ -181,19 +181,24 @@ function DetailQuiz({ quizData, setQuizVisible }) {
       </Grid>
     );
   });
+
   const questionNumber = [];
   for (let i = 0; i < Object.keys(quizData.quizQuestions).length; i++) {
     questionNumber.push(quizData.quizQuestions[i].quesitonNumber);
   }
+
   const updateQuizData = () => {
     setQuizVisible(true);
   };
+
   const updateQuestionData = () => {
     history.push(`/question/${quizData._id}`);
   };
+
   const gotoLeaderboard = () => {
     history.push(`/leaderboard/${quizData._id}`);
   };
+
   return (
     <div>
       <Grid containter sx={{ paddingLeft: '10px', paddingTop: '10px' }}>
@@ -214,6 +219,8 @@ function DetailQuiz({ quizData, setQuizVisible }) {
         quizImage={quizData.quizImage}
         quizQuestions={quizData.quizQuestions}
       />
+
+      {/* TODO: move them to another section or modal */}
       <Grid
         container
         direction='column'
@@ -223,6 +230,7 @@ function DetailQuiz({ quizData, setQuizVisible }) {
       >
         {QuestionComponents}
       </Grid>
+
       <Grid
         container
         spacing={1}
