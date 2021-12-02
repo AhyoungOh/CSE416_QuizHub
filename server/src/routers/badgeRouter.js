@@ -1,16 +1,25 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
-import data from '../../data.js';
-import Badge from '../../models/badgeSchema.js';
+//import data from '../../data.js';
+import Consumer from '../models/consumerSchema.js';
+import Badge from '../models/badgeSchema.js';
 
 const badgeRouter = express.Router();
 
 //get data
 badgeRouter.get(
-  '/get',
+  '/',
   expressAsyncHandler(async (req, res) => {
     const createBadge = await Badge.find();
     res.send({ createBadge });
+  })
+);
+
+badgeRouter.get(
+  '/:id',
+  expressAsyncHandler(async (req, res) => {
+    const badge = await Badge.findById(req.params.id);
+    res.send({ badge });
   })
 );
 
@@ -26,15 +35,28 @@ badgeRouter.post(
 
 //create new data
 badgeRouter.post(
-  '/post',
+  '/',
   expressAsyncHandler(async (req, res) => {
     const badge = new Badge({
       badgeRasterizedContentUrl: req.body.badgeRasterizedContentUrl,
       badgeEncodedContent: req.body.badgeEncodedContent,
       badgeUploadFile: req.body.badgeUploadFile,
+      consumerId: req.body.consumerId,
       badgeRequirementsAccuracy: req.body.badgeRequirementsAccuracy,
+      badgeVisibility:req.body.badgeVisibility,
     });
     const createdBadge = await badge.save();
+    const consumer = await Consumer.findById(req.body.consumerId);
+    const updatedBadge = {
+      badgeId: createdBadge._id,
+      badgeVisibility: true,
+    }
+    if (consumer) {
+      consumer.badges.push(updatedBadge);
+      const updatedConsumer = await consumer.save();
+    } else {
+      res.status(404).send({ message: 'Creator Not Found' });
+    }
     res.send({
       message: 'Badge Created',
       badge: createdBadge,
@@ -51,11 +73,13 @@ badgeRouter.put(
 
     console.log(req.body);
     if (Badge) {
-      badge.badgeRasterizedContentUrl = req.body.badgeRasterizedContentUrl;
-      badge.badgeEncodedContent = req.body.badgeEncodedContent;
-      badge.badgeUploadFile = req.body.badgeUploadFile;
-      badge.badgeRequirementsAccuracy = req.body.badgeRequirementsAccuracy;
+      // badge.badgeRasterizedContentUrl = req.body.badgeRasterizedContentUrl;
+      // badge.badgeEncodedContent = req.body.badgeEncodedContent;
+      // badge.badgeUploadFile = req.body.badgeUploadFile!=null ? req.body.badgeUploadFile!=null :badge.UploadFile;
+      // badge.badgeRequirementsAccuracy = req.body.badgeRequirementsAccuracy;
+      badge.badgeVisibility=req.body.badgeVisibility;
       const updatedBadge = await badge.save();
+
       res.send({
         message: 'Badge Updated',
         Badge: updatedBadge,

@@ -11,6 +11,7 @@ import consumerRouter from './src/routers/consumerRouter.js';
 import authRouter from './src/routers/auth/index.js';
 import quizRouter from './src/routers/quiz/quizRouter.js';
 import questionRouter from './src/routers/question/questionRouter.js';
+import badgeRouter from './src/routers/badgeRouter.js';
 
 import ejs from 'ejs';
 import path from 'path';
@@ -66,6 +67,7 @@ app.use('/api/creatorHome', platformRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/quiz', quizRouter);
 app.use('/api/question', questionRouter);
+app.use('/api/badge',badgeRouter)
 
 app.get('*', (req, res) => {
   res.render('index.html');

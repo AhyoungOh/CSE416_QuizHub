@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import Input from './Input';
 import './style.scss';
 import { useHistory } from 'react-router-dom';
@@ -53,10 +53,10 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
   const [quizRewardType, setQuizRewardType] = useState(
     quizData?.quizRewardType || ''
   );
-  const [quizCertificate, setQuizCertificate] = useState(
-    quizData?.quizCertificate || ''
-  );
-  const [quizBadge, setQuizBadge] = useState(quizData?.quizBadge || '');
+  // const [quizCertificate, setQuizCertificate] = useState(
+  //   quizData?.quizCertificate || ''
+  // );
+  // const [quizBadge, setQuizBadge] = useState(quizData?.quizBadge || '');
   const [quizCertificateQualification, setQuizCertificateQualification] =
     useState(quizData?.quizCertificateQualification || '');
   const [quizBadgeQualification, setQuizBadgeQualification] = useState(
@@ -67,7 +67,8 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
   );
   // console.log('quizData.quizEnableleaderboard', quizData.quizEnableLeaderboard);
   // console.log('quizEnableLeaderboard', quizEnableLeaderboard);
-  const groupid = useRef(0);
+  const [badgevisible, setBadgevisible] = useState(false);
+  const [certificatevisible, setCertificatevisible] = useState(false);
   const history = useHistory();
   const createquizData = async () => {
     await axios.post(
@@ -86,17 +87,15 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
         // quizCertificate,
         // quizBadge,
         quizCertificateQualification,
-        // quizBadgeQualification,
+        quizBadgeQualification,
         quizEnableLeaderboard,
         quizDescription,
       }
     );
     setQuizVisible(false);
     fetchData();
-    //history.push(`/creatorHome/${platformId}`);
-    createCertificate();
+    history.push(`/creatorHome/${platformId}`);
   };
-
   const updatequizData = async () => {
     await axios.put(
       process.env.NODE_ENV === 'production'
@@ -115,7 +114,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
         // quizCertificate,
         // quizBadge,
         quizCertificateQualification,
-        // quizBadgeQualification,
+        quizBadgeQualification,
         quizEnableLeaderboard,
         quizDescription,
       }
@@ -135,55 +134,9 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
     fetchData();
     history.push(`/creatorHome/${platformId}`);
   };
+  console.log('certificate', certificatevisible);
+  console.log('badge', badgevisible);
 
-  const createCertificate = async () => {
-    const apicall = {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Token token=ac4e7119623388f9afad927bb881138f',
-      },
-    };
-
-    const apidata = {};
-    const creategroupdata = {
-      group: {
-        name: quizName,
-        course_name: quizName,
-        course_description: quizDescription,
-        course_link: 'https://cse416-quizhub.netlify.app',
-        attach_pdf: true,
-        certificate_design_id: null,
-        badge_design_id: null,
-      },
-    };
-
-    try {
-      await axios
-        .post(
-          `https://api.accredible.com/v1/issuer/groups`,
-          creategroupdata,
-          apicall
-        )
-        .then((response) => {
-          console.log(response);
-          groupid.current = response.data.group.id;
-        });
-      await axios
-        .post(
-          `https://api.accredible.com/v1/designers/certificate/initialize`,
-          apidata,
-          apicall
-        )
-        .then((response) => {
-          console.log(response);
-          history.push(
-            `/createcertificate/${response.data.token}/${groupid.current}/${platformId}`
-          );
-        });
-    } catch (e) {
-      console.error(e);
-    }
-  };
   if (quizData === undefined) {
     return (
       // create a new quiz
@@ -244,31 +197,39 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             onChange={(e) => setQuizNumberOfTrials(e.target.value)}
             // sx={{ m: 1 }}
           />
-          <TextField
-            required
-            autoFocus
-            // fullWidth
-            margin='dense'
-            label='Time limit in minutes'
-            type='number'
-            placeholder='Enter the time limit in minutes...'
-            value={quizTimeLimitMinutes}
-            onChange={(e) => setQuizTimeLimitMinutes(e.target.value)}
-            // sx={{ m: 1 }}
-          />
-          <TextField
-            required
-            autoFocus
-            // fullWidth
-            margin='dense'
-            label='Time limit in seconds...'
-            type='number'
-            placeholder='Enter the time limit in seconds...'
-            value={quizTimeLimitSeconds}
-            onChange={(e) => setQuizTimeLimitSeconds(e.target.value)}
-            // sx={{ m: 1 }}
-          />
-          {/* I commented because of the UI design all the below code is needed */}
+          <Box
+            component='form'
+            sx={{
+              '& .MuiTextField-root': { m: 1, width: '30ch' },
+            }}
+            noValidate
+            autoComplete='off'
+          >
+            <TextField
+              required
+              autoFocus
+              // fullWidth
+              margin='dense'
+              label='Time limit in minutes'
+              type='number'
+              placeholder='Enter the time limit in minutes...'
+              value={quizTimeLimitMinutes}
+              onChange={(e) => setQuizTimeLimitMinutes(e.target.value)}
+              // sx={{ m: 1 }}
+            />
+            <TextField
+              required
+              autoFocus
+              // fullWidth
+              margin='dense'
+              label='Time limit in seconds...'
+              type='number'
+              placeholder='Enter the time limit in seconds...'
+              value={quizTimeLimitSeconds}
+              onChange={(e) => setQuizTimeLimitSeconds(e.target.value)}
+              // sx={{ m: 1 }}
+            />
+          </Box>
           <FormControl fullWidth>
             <InputLabel id='demo-simple-select-label'>Reward Type </InputLabel>
             <Select
@@ -278,21 +239,69 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
               label='Leaderboard Enable'
               onChange={(e) => setQuizRewardType(e.target.value)}
             >
-              <MenuItem value={0}>Certificate</MenuItem>
-              <MenuItem value={1}>Badge</MenuItem>
-              <MenuItem value={2}>No Reward</MenuItem>
+              <MenuItem
+                value={'none'}
+                onClick={() => {
+                  setCertificatevisible(false);
+                  setBadgevisible(false);
+                }}
+              >
+                No Reward
+              </MenuItem>
+              <MenuItem
+                value={'certificate'}
+                onClick={() => {
+                  setCertificatevisible(true);
+                  setBadgevisible(false);
+                }}
+              >
+                Certificate
+              </MenuItem>
+              <MenuItem
+                value={'badge'}
+                onClick={() => {
+                  setBadgevisible(true);
+                  setCertificatevisible(false);
+                }}
+              >
+                Badge
+              </MenuItem>
+              <MenuItem
+                value={'both'}
+                onClick={() => {
+                  setCertificatevisible(true);
+                  setBadgevisible(true);
+                }}
+              >
+                Both
+              </MenuItem>
             </Select>
           </FormControl>
-          <TextField
-            required
-            autoFocus
-            margin='dense'
-            label='Quiz Reward Qualification'
-            type='number'
-            placeholder='Enter the number for reward qualification'
-            value={quizCertificateQualification}
-            onChange={(e) => setQuizCertificateQualification(e.target.value)}
-          />
+          {certificatevisible ? (
+            <TextField
+              // required
+              autoFocus
+              margin='dense'
+              label='Quiz Certificate Reward Qualification'
+              type='number'
+              placeholder='Enter the number for certificate reward qualification'
+              value={quizCertificateQualification}
+              onChange={(e) => setQuizCertificateQualification(e.target.value)}
+            />
+          ) : null}
+          {badgevisible ? (
+            <TextField
+              // required
+              autoFocus
+              margin='dense'
+              label='Quiz Badge Reward Qualification'
+              type='number'
+              placeholder='Enter the number for badge reward qualification'
+              value={quizBadgeQualification}
+              onChange={(e) => setQuizBadgeQualification(e.target.value)}
+            />
+          ) : null}
+
           <FormControl fullWidth>
             <InputLabel id='demo-simple-select-label'>
               Leaderboard Enable
@@ -316,7 +325,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
           >
             <Grid item>
               <Button variant='contained' onClick={createquizData}>
-                Create quiz and Navigate to Certificate Designer
+                Create quiz
               </Button>
             </Grid>
             <Grid item>
@@ -402,30 +411,39 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             onChange={(e) => setQuizNumberOfTrials(e.target.value)}
             // sx={{ m: 3 }}
           />
-          <TextField
-            required
-            autoFocus
-            // fullWidth
-            margin='dense'
-            label='Time limit in minutes'
-            type='number'
-            placeholder='Enter the number of trials...'
-            value={quizTimeLimitMinutes}
-            onChange={(e) => setQuizTimeLimitMinutes(e.target.value)}
-            // sx={{ m: 3 }}
-          />
-          <TextField
-            required
-            autoFocus
-            // fullWidth
-            margin='dense'
-            label='Time limit in seconds...'
-            type='number'
-            placeholder='Enter the number of trials...'
-            value={quizTimeLimitSeconds}
-            onChange={(e) => setQuizTimeLimitSeconds(e.target.value)}
-            // sx={{ m: 3 }}
-          />
+          <Box
+            component='form'
+            sx={{
+              '& .MuiTextField-root': { m: 1, width: '30ch' },
+            }}
+            noValidate
+            autoComplete='off'
+          >
+            <TextField
+              required
+              autoFocus
+              // fullWidth
+              margin='dense'
+              label='Time limit in minutes'
+              type='number'
+              placeholder='Enter time limit in minutes...'
+              value={quizTimeLimitMinutes}
+              onChange={(e) => setQuizTimeLimitMinutes(e.target.value)}
+              // sx={{ m: 3 }}
+            />
+            <TextField
+              required
+              autoFocus
+              // fullWidth
+              margin='dense'
+              label='Time limit in seconds...'
+              type='number'
+              placeholder='Enter time limit in seconds...'
+              value={quizTimeLimitSeconds}
+              onChange={(e) => setQuizTimeLimitSeconds(e.target.value)}
+              // sx={{ m: 3 }}
+            />
+          </Box>
           {/* I commented because of the UI design all the below code is needed */}
           <FormControl fullWidth>
             <InputLabel id='demo-simple-select-label'>Reward Type </InputLabel>
@@ -436,11 +454,13 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
               label='Leaderboard Enable'
               onChange={(e) => setQuizRewardType(e.target.value)}
             >
-              <MenuItem value={0}>Certificate</MenuItem>
-              <MenuItem value={1}>Badge</MenuItem>
-              <MenuItem value={2}>No Reward</MenuItem>
+              <MenuItem value={'none'}>No Reward</MenuItem>
+              <MenuItem value={'certificate'}>Certificate</MenuItem>
+              <MenuItem value={'badge'}>Badge</MenuItem>
+              <MenuItem value={'both'}>Both</MenuItem>
             </Select>
           </FormControl>
+
           <TextField
             required
             autoFocus
@@ -450,6 +470,16 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             placeholder='Enter the number for reward qualification'
             value={quizCertificateQualification}
             onChange={(e) => setQuizCertificateQualification(e.target.value)}
+          />
+          <TextField
+            // required
+            autoFocus
+            margin='dense'
+            label='Quiz Badge Reward Qualification'
+            type='number'
+            placeholder='Enter the number for badge reward qualification'
+            value={quizBadgeQualification}
+            onChange={(e) => setQuizBadgeQualification(e.target.value)}
           />
           <FormControl fullWidth>
             <InputLabel id='demo-simple-select-label'>

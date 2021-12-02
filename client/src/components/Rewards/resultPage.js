@@ -14,10 +14,12 @@ function ResultsPage() {
       : `http://localhost:4000/api/consumer/quizHistory/${quizId}`,
     { withCredentials: true }
   );
+
+  // console.log('consumer quiz history', payload);
+  const [result,setResult] = useState(''); // need to change this based on takes quiz
   const [leaderboardVisible, setLeaderboardVisible] = useState('');
-  // console.log('consumer quiz history', quizResult);
-  const result = 85; // need to change this based on takes quiz
   const certificate_qualifier = useRef(0);
+  const badge_qualifier=useRef(0)
 
   //const quizName=useRef("")
   const [quizName, setQuizName] = useState('');
@@ -28,16 +30,19 @@ function ResultsPage() {
   const credential_id = useRef('');
   //const file_download=useRef("")
   const [file_download, setFile] = useState('');
+  const [img,setImage] = useState('')
 
-  if (!quizResult) {
-    return <div>No Data</div>;
-  }
-  if (loading) {
-    return <div>loading...</div>;
-  }
-  if (error) {
-    return <div>error...</div>;
-  }
+  const image =useRef("")
+
+  // if (!quizResult) {
+  //   return <div>No Data</div>;
+  // }
+  // if (loading) {
+  //   return <div>loading...</div>;
+  // }
+  // if (error) {
+  //   return <div>error...</div>;
+  // }
 
   const getQuizInfo = async () => {
     try {
@@ -53,32 +58,47 @@ function ResultsPage() {
           setLeaderboardVisible(response.data.quiz.quizEnableLeaderboard);
           // console.log('leaderobard visible', leaderboardVisible);
           setQuizName(response.data.quiz.quizName);
-          certificate_qualifier.current =
-            response.data.quiz.quizCertificateQualification;
+          certificate_qualifier.current =response.data.quiz.quizCertificateQualification;
+          badge_qualifier.current=response.data.quiz.quizBadgeQualification;
           certificate_id.current = response.data.quiz.quizCertificate;
+          let correct = Number(quizResult[0].correctedAnswerNum)
+          console.log(correct)
+          let ques = Number(response.data.quiz.quizTotalNumberOfQuestions) > 0 ? Number(response.data.quiz.quizTotalNumberOfQuestions) : response.data.quiz.quizQuestions.length
+          console.log(ques)
+          let res=(correct/ques)*100
+          console.log(res)
+          setResult(res.toFixed(2)+"")
+          console.log(result)
+          
         });
     } catch (e) {
       console.error(e);
     }
   };
 
-  getQuizInfo();
+  useEffect(() => {
+    getQuizInfo();
+  }, []);
+  
+  useEffect(() => {
+    createCredential();
+  }, [quizName]);
 
   const apicall = {
     headers: {
       'Content-Type': 'application/json',
-      Authorization: 'Token token=ac4e7119623388f9afad927bb881138f',
+      Authorization: 'Token token=38040def040af70134a08e39a3db35d3',
     },
   };
 
   const createCredential = async () => {
-    if (result >= certificate_qualifier.current) {
-      // console.log('inside create credential');
+    if (result >= certificate_qualifier.current || result >= badge_qualifier.current) {
+      console.log('inside create credential');
       const apidata = {
         credential: {
           recipient: {
-            name: user.username, // for testing purposes the name is Chellsea otherwise it will be user.username
-            email: user.email, //email is chellsea.robinson@stonybrook.edu otherwise it will be user.email
+            name: user.username, 
+            email: user.email, 
             id: user.id,
           },
           group_name: quizName, //quizName.current
@@ -86,14 +106,34 @@ function ResultsPage() {
       };
       try {
         // console.log(apidata);
-        // console.log(quizName);
+        console.log(quizName);
         await axios
           .post(`https://api.accredible.com/v1/credentials`, apidata, apicall)
           .then((response) => {
             console.log(response);
             credential_id.current = response.data.credential.id;
+            setImage(response.data.credential.badge.image.preview)
+            console.log(response.data.credential.badge.image.preview)
+            image.current=response.data.credential.badge.image.preview
+            console.log(img)
+            console.log(img.current)
           });
         //pdfCredential()
+        if(result >= badge_qualifier.current){
+          //createBadge()
+          await axios.post(
+            process.env.NODE_ENV == 'production'
+              ? `/api/badge`
+              : `http://localhost:4000/api/badge`,
+            {
+              badgeUploadFile: image.current,
+              consumerId: user.id,
+              badgeVisibility: true,
+            }
+          ).then((response)=>{
+            console.log(response)
+          });
+        }
         await axios
           .post(
             `https://api.accredible.com/v1/credentials/generate_single_pdf/${credential_id.current}`,
@@ -111,7 +151,26 @@ function ResultsPage() {
       }
     }
   };
-  createCredential();
+
+  const createBadge = async () =>{
+    try{
+      await axios.post(
+        process.env.NODE_ENV == 'production'
+          ? `/api/badge`
+          : `http://localhost:4000/api/badge`,
+        {
+          badgeUploadFile: img,
+          consumerId: user.id,
+          badgeVisibility: true,
+        }
+      ).then((response)=>{
+        console.log(response)
+      });
+      
+    } catch (e){
+      console.error(e);
+    }
+  }
 
   return (
     <div>
@@ -130,7 +189,10 @@ function ResultsPage() {
             : 'Sorry please try again'}
         </h1>
       </Form>
-      {/* {console.log(file_download.current)} */}
+      {/* {console.log(file_download)}
+      {console.log(badge_qualifier.current)}
+      {console.log(certificate_qualifier.current)} */}
+      {result >= badge_qualifier.current ? (<img src={img} width="200" height="200"></img>) : ("")}
       {result >= certificate_qualifier.current ? (
         <a href={file_download} download>
           {' '}

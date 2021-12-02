@@ -89,7 +89,7 @@ quizRouter.post('/:id', (req, res) => {
       // quizCertificate: req.body.quizCertificate,
       // quizBadge: req.body.quizBadge,
       quizCertificateQualification: req.body.quizCertificateQualification,
-      // quizBadgeQualification: req.body.quizBadgeQualification,
+      quizBadgeQualification: req.body.quizBadgeQualification,
       quizEnableLeaderboard: req.body.quizEnableLeaderboard,
       quizDescription: req.body.quizDescription,
     });
@@ -131,7 +131,7 @@ quizRouter.put(
       // quiz.quizCertificate = req.body.quizCertificate;
       // quiz.quizBadge = req.body.quizBadge;
       quiz.quizCertificateQualification = req.body.quizCertificateQualification;
-      // quiz.quizBadgeQualification = req.body.quizBadgeQualification;
+      quiz.quizBadgeQualification = req.body.quizBadgeQualification;
       quiz.quizEnableLeaderboard = req.body.quizEnableLeaderboard;
       quiz.quizDescription = req.body.quizDescription;
 

@@ -7,6 +7,7 @@ import useApiCall from '../../hooks/useApiCall';
 import { Tab, Tabs, Box, Avatar, Typography, Grid } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import ConsumerProfileForm from '../../components/Form/ConsumerProfileForm';
+import ConsumerMyBadges from '../../components/Form/ConsumerMyBadges'
 
 const useStyles = makeStyles({
     container: {
@@ -110,7 +111,7 @@ export default function ConsumerPage() {
                     Quizzes
                 </TabPanel>
                 <TabPanel value={value} index={2}>
-                    Badges
+                    <ConsumerMyBadges/>
                 </TabPanel>
             </Box>
         </div>
