@@ -100,6 +100,9 @@ function CreatorProfileForm() {
   return (
     <div>
       <Grid container direction='column' spacing={3}>
+        <button onClick={() => history.replace('/creatorHome')}>
+          Back to my home
+        </button>
         <Grid item container justifyContent='center' spacing={2}>
           <Grid item>
             <Typography>Email</Typography>
@@ -125,7 +128,11 @@ function CreatorProfileForm() {
         <Box sx={style}>
           <Grid container direction='column' spacing={2}>
             <Grid item>
-              <Typography id='modal-modal-title' variant='h6' sx={{ fontWeight: 'bold' }}>
+              <Typography
+                id='modal-modal-title'
+                variant='h6'
+                sx={{ fontWeight: 'bold' }}
+              >
                 Delete account
               </Typography>
               <Typography id='modal-modal-description' sx={{ mt: 2 }}>
