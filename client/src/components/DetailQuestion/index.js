@@ -9,11 +9,14 @@ function DetailQuestion({ questiondata, setQuestionVisible }) {
   };
   return (
     <div>
-      <button
-        onClick={() => history.push(`/quiz/detail/${questiondata.quizId}`)}
-      >
-        Back to Question List
-      </button>
+      <Grid containter sx={{ paddingLeft: '10px', paddingTop: '10px' }}>
+        <Button
+          onClick={() => history.push(`/quiz/detail/${questiondata.quizId}`)}
+          sx={{ color: 'gray' }}
+        >
+          Back to Question List
+        </Button>
+      </Grid>
       {/* TODO: question edit card */}
       <Grid sx={{ padding: '20px' }}>
         <Question
