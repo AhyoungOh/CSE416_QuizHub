@@ -7,7 +7,6 @@ import { makeStyles } from '@mui/styles';
 const useStyles = makeStyles({
   inputPaper: {
     borderRadius: '5px',
-    // width: '537px',
     minWidth: '350px',
     height: '56px',
   },
@@ -23,13 +22,13 @@ const useStyles = makeStyles({
   },
   selector: {
     height: '56px',
-    fontSize: '20px',
+    fontSize: '18px',
   },
   inputBase: {
     height: '56px',
     minWidth: '260px',
     paddingLeft: '20px',
-    fontSize: '20px',
+    fontSize: '18px',
   }
 });
 

@@ -191,6 +191,9 @@ function DetailQuiz({ quizData, setQuizVisible }) {
   const updateQuestionData = () => {
     history.push(`/question/${quizData._id}`);
   };
+  const gotoLeaderboard = () => {
+    history.push(`/leaderboard/${quizData._id}`);
+  };
   return (
     <div>
       <Grid containter sx={{ paddingLeft: '10px', paddingTop: '10px' }}>
@@ -231,6 +234,13 @@ function DetailQuiz({ quizData, setQuizVisible }) {
             Edit Quiz
           </Button>
         </Grid>
+        {quizData.quizEnableLeaderboard ? (
+          <Grid item>
+            <Button variant='contained' onClick={gotoLeaderboard}>
+              Go to Leaderboard
+            </Button>
+          </Grid>
+        ) : null}
         <Grid item>
           <Button variant='contained' onClick={updateQuestionData}>
             Add Quesiton

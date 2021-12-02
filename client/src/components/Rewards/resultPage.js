@@ -9,7 +9,6 @@ import CreateBadge from './createBadge';
 function ResultsPage() {
   const { id } = useParams();
   const quizId = id;
-  // console.log(quizid);
   const [loading, quizResult, error] = useApiCall(
     process.env.NODE_ENV === 'production'
       ? `/api/consumer/quizHistory/${quizId}`
@@ -19,6 +18,7 @@ function ResultsPage() {
 
   // console.log('consumer quiz history', payload);
   const [result,setResult] = useState(''); // need to change this based on takes quiz
+  const [leaderboardVisible, setLeaderboardVisible] = useState('');
   const certificate_qualifier = useRef(0);
   const badge_qualifier=useRef(0)
 
@@ -52,8 +52,11 @@ function ResultsPage() {
             : `http://localhost:4000/api/quiz/detail/${quizId}`
         )
         .then((response) => {
-          console.log(response);
+          // console.log(response.data.quiz.quizEnableLeaderboard);
           //quizName.current=response.data.quiz.quizName
+          setLeaderboardVisible(response.data.quiz.quizEnableLeaderboard);
+          // console.log('leaderobard visible', leaderboardVisible);
+          setQuizName(response.data.quiz.quizName);
           certificate_qualifier.current =response.data.quiz.quizCertificateQualification;
           badge_qualifier.current=response.data.quiz.quizBadgeQualification;
           certificate_id.current = response.data.quiz.quizCertificate;
@@ -101,8 +104,8 @@ function ResultsPage() {
         },
       };
       try {
-        console.log(apidata);
-        console.log(quizName);
+        // console.log(apidata);
+        // console.log(quizName);
         await axios
           .post(`https://api.accredible.com/v1/credentials`, apidata, apicall)
           .then((response) => {
@@ -170,9 +173,9 @@ function ResultsPage() {
             : 'Sorry please try again'}
         </h1>
       </Form>
-      {console.log(file_download)}
+      {/* {console.log(file_download)}
       {console.log(badge_qualifier.current)}
-      {console.log(certificate_qualifier.current)}
+      {console.log(certificate_qualifier.current)} */}
       {result >= badge_qualifier.current ? (<img src={img} width="200" height="200"></img>) : ("")}
       {result >= certificate_qualifier.current ? (
         <a href={file_download} download>
@@ -184,7 +187,9 @@ function ResultsPage() {
       )}
       Quiz Result
       {JSON.stringify(quizResult)}
-      <Link to={`/leaderboard/${quizId}`}>See Leaderboard</Link>
+      {leaderboardVisible ? (
+        <Link to={`/leaderboard/${quizId}`}>See Leaderboard</Link>
+      ) : null}
     </div>
   );
 }

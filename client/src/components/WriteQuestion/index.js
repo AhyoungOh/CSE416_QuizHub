@@ -35,6 +35,22 @@ function WriteQuestion({
     questionData?.questionAnswer || ''
   );
   const history = useHistory();
+  const getQuestionNumber = async () => {
+    try {
+      await axios
+        .get(
+          process.env.NODE_ENV === 'production'
+            ? `/api/quiz/detail/${quizId}`
+            : `http://localhost:4000/api/quiz/detail/${quizId}`
+        )
+        .then((Response) => {
+          setQuestionNumber(Response.data.quiz.quizQuestions.length + 1);
+        });
+    } catch (e) {
+      console.error(e);
+    }
+  };
+  getQuestionNumber();
   const createquestionData = async () => {
     await axios.post(
       process.env.NODE_ENV === 'production'
@@ -63,9 +79,7 @@ function WriteQuestion({
         : `http://localhost:4000/api/question/detail/${questionData._id}`,
       {
         _id: questionData._id,
-        questionNumber,
         questionQuestion,
-        // questionOptions,
         questionOption1,
         questionOption2,
         questionOption3,
@@ -101,17 +115,7 @@ function WriteQuestion({
             minWidth: '500px',
           }}
         >
-          <TextField
-            required
-            autoFocus
-            // fullWidth
-            margin='dense'
-            label='Question Number'
-            type='text'
-            placeholder='Enter question number...'
-            onChange={(e) => setQuestionNumber(e.target.value)}
-            sx={{ m: 3 }}
-          />
+          <div>Question Number {questionNumber}</div>
           <TextField
             required
             autoFocus
@@ -121,20 +125,8 @@ function WriteQuestion({
             type='text'
             placeholder='Enter the question...'
             onChange={(e) => setQuestionQuestion(e.target.value)}
-            sx={{ m: 3 }}
+            // sx={{ m: 3 }}
           />
-          {/* <TextField
-            required
-            autoFocus
-            // fullWidth
-            margin='dense'
-            label='Options'
-            type='text'
-            placeholder='Enter the options...'
-            onChange={(e) => setQuestionOption(e.target.value)}
-            sx={{ m: 3 }}
-          /> */}
-
           <TextField
             required
             autoFocus
@@ -145,7 +137,7 @@ function WriteQuestion({
             placeholder='Enter the option 1...'
             value={questionOption1}
             onChange={(e) => setQuestionOption1(e.target.value)}
-            sx={{ m: 3 }}
+            // sx={{ m: 3 }}
           />
           <TextField
             required
@@ -157,7 +149,7 @@ function WriteQuestion({
             placeholder='Enter the option 2...'
             value={questionOption2}
             onChange={(e) => setQuestionOption2(e.target.value)}
-            sx={{ m: 3 }}
+            // sx={{ m: 3 }}
           />
           <TextField
             autoFocus
@@ -168,7 +160,7 @@ function WriteQuestion({
             placeholder='Enter the option 3...'
             value={questionOption3}
             onChange={(e) => setQuestionOption3(e.target.value)}
-            sx={{ m: 3 }}
+            // sx={{ m: 3 }}
           />
           <TextField
             autoFocus
@@ -179,7 +171,7 @@ function WriteQuestion({
             placeholder='Enter the option 4...'
             value={questionOption4}
             onChange={(e) => setQuestionOption4(e.target.value)}
-            sx={{ m: 3 }}
+            // sx={{ m: 3 }}
           />
           <TextField
             required
@@ -187,10 +179,10 @@ function WriteQuestion({
             // fullWidth
             margin='dense'
             label='Answer'
-            type='text'
-            placeholder='Enter the answer...'
+            type='number'
+            placeholder='Enter the answer number...'
             onChange={(e) => setQuetsionAnswer(e.target.value)}
-            sx={{ m: 3 }}
+            // sx={{ m: 3 }}
           />
           <Grid
             container
@@ -220,8 +212,8 @@ function WriteQuestion({
     );
   } else {
     // edit question
-    console.log('questionOptions', questionOptions);
-    console.log('questionOption1', questionOption1);
+    // console.log('questionOptions', questionOptions);
+    // console.log('questionOption1', questionOption1);
     return (
       <div
         className='write'
@@ -243,24 +235,12 @@ function WriteQuestion({
             autoFocus
             // fullWidth
             margin='dense'
-            label='Question Number'
-            type='text'
-            placeholder='Enter question number...'
-            value={questionNumber}
-            onChange={(e) => setQuestionNumber(e.target.value)}
-            sx={{ m: 3 }}
-          />
-          <TextField
-            required
-            autoFocus
-            // fullWidth
-            margin='dense'
             label='Question'
             type='text'
             placeholder='Enter the question...'
             value={questionQuestion}
             onChange={(e) => setQuestionQuestion(e.target.value)}
-            sx={{ m: 3 }}
+            // sx={{ m: 3 }}
           />
           <TextField
             required
@@ -272,7 +252,7 @@ function WriteQuestion({
             placeholder='Enter the option 1...'
             value={questionOption1}
             onChange={(e) => setQuestionOption1(e.target.value)}
-            sx={{ m: 3 }}
+            // sx={{ m: 3 }}
           />
           <TextField
             required
@@ -284,7 +264,7 @@ function WriteQuestion({
             placeholder='Enter the option 2...'
             value={questionOption2}
             onChange={(e) => setQuestionOption2(e.target.value)}
-            sx={{ m: 3 }}
+            // sx={{ m: 3 }}
           />
           <TextField
             autoFocus
@@ -295,7 +275,7 @@ function WriteQuestion({
             placeholder='Enter the option 3...'
             value={questionOption3}
             onChange={(e) => setQuestionOption3(e.target.value)}
-            sx={{ m: 3 }}
+            // sx={{ m: 3 }}
           />
           <TextField
             autoFocus
@@ -306,7 +286,7 @@ function WriteQuestion({
             placeholder='Enter the option 4...'
             value={questionOption4}
             onChange={(e) => setQuestionOption4(e.target.value)}
-            sx={{ m: 3 }}
+            // sx={{ m: 3 }}
           />
           <TextField
             required
@@ -314,11 +294,11 @@ function WriteQuestion({
             // fullWidth
             margin='dense'
             label='Answer'
-            type='text'
+            type='number'
             placeholder='Enter the answer...'
             value={questionAnswer}
             onChange={(e) => setQuetsionAnswer(e.target.value)}
-            sx={{ m: 3 }}
+            // sx={{ m: 3 }}
           />
           <Grid
             container

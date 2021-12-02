@@ -1,6 +1,5 @@
 // TODO: add ui for consumer quiz preview card
 import axios from 'axios';
-// import { Button, Form, Row, Col } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import { useHistory, Link, useParams } from 'react-router-dom';
 import useApiCall from '../../../hooks/useApiCall';
@@ -13,33 +12,32 @@ import HistoryRoundedIcon from '@mui/icons-material/HistoryRounded';
 
 const useStyles = makeStyles({
   returnButton: {
-    marginLeft: '120px',
-    marginTop: '20px',
-  },
-  cardWrapper: {
-    marginLeft: '100px',
-    marginRight: '100px',
-    marginBottom: '40px',
+    padding: '10px',
   },
   card: {
     borderRadius: '38px',
-    minHeight: '500px',
-    maxWidth: '1200px',
+    display: 'flex',
+    // minHeight: '400px',
+    // maxWidth: '1200px',
   },
   cardMedia: {
-    margin: "20px",
-    maxWidth: "40%",
-    // minWidth: "50%",
-    borderRadius: "19px",
+    maxWidth: '50%',
+    // minHeight: '400px',
+    display: { xs: 'none', sm: 'block' },
+  },
+  infoWrapper: {
+    diplay: 'flex', 
+    flexDirection: 'column',
+    padding: '20px',
   },
   title: {
-    fontSize: '40px',
     fontWeight: 'bold',
-    marginLeft: '20px',
   },
-  subtitle: {
-    marginLeft: '20px',
-  },
+  startButton: {
+    padding: '10px', 
+    minWidth: '350px', 
+    borderRadius: '10px',
+  }
 });
 
 function ConsumerQuizPreview() {
@@ -95,7 +93,7 @@ function ConsumerQuizPreview() {
 
   return (
     <div>
-      <Grid container direction="column" spacing={1}>
+      <Grid container direction="column" spacing={1} alignItems="center">
         <Grid item>
           <Button 
             color="inherit"
@@ -107,73 +105,80 @@ function ConsumerQuizPreview() {
             Back to quizzes
           </Button>
         </Grid>
-        <Grid item className={classes.cardWrapper}>
-          <Card className={classes.card} xs={12} md={8}>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              {/* TODO: adjust the the layout of the picture */}
-                <CardMedia
-                  component="img"
-                  image={image}
-                  alt={name}
-                  className={classes.cardMedia}
-                />
-                <CardContent>
-                  <Typography variant="h5" className={classes.title}>{name}</Typography>
-                  <Typography variant="subtitle1" className={classes.subtitle}>{description}</Typography>
-                  {/* TODO: add platform name and platform avatar */}
-                  <List sx={{ marginTop: '30px', marginLeft: '20px' }}>
-                    <ListItem>
-                      <ListItemIcon>
-                        <AccessAlarmRoundedIcon />
-                      </ListItemIcon>
-                      <ListItemText 
-                        primary={
-                          <Typography>{time_min}:{time_sec} minutes</Typography>
-                        }
-                      />
-                    </ListItem>
-                    <ListItem>
-                      <ListItemIcon>
-                        <AssignmentRoundedIcon />
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={
-                          <Typography>{num_questions} questions</Typography>
-                        }
-                      />
-                    </ListItem>
-                    <ListItem>
-                      <ListItemIcon>
-                        <MilitaryTechRoundedIcon />
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={
-                          reward ? <Typography>{reward}</Typography> : <Typography>No reward</Typography>
-                        }
-                      />
-                    </ListItem>
-                    <ListItem>
-                      <ListItemIcon>
-                        <HistoryRoundedIcon />
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={
-                          <Typography>{trials} trials</Typography>
-                        }
-                      />
-                    </ListItem>
-                  </List>
-                  <Button 
-                    variant="contained"
-                    onClick={()=>{
-                      history.push(`/consumerquizpage/${id}`);
-                    }}
-                    sx={{ marginLeft: '30px', marginTop: '10px'}}
-                  >
-                    Start
-                  </Button>
-                </CardContent>
+        <Grid item xs={12} m={10}>
+          <Card sx={{ borderRadius: '18px' }}>
+            {/* TODO: adjust the the layout of the picture */}
+            <Card sx={{ display: 'flex'}}>
+            <CardMedia
+              component="img"
+              image={image}
+              alt={name}
+              className={classes.cardMedia}
+            />
+            <Box className={classes.infoWrapper}>
+              <CardContent sx={{ flex: 1 }}>
+                <Typography variant="h4" className={classes.title}>{name}</Typography>
+                <Typography variant="subtitle1">{description}</Typography>
+                {/* TODO: add platform name and platform avatar */}
+              </CardContent>
+              <Box sx={{ display: 'flex', flexDirection: 'row'}}>
+                <List>
+                  <ListItem>
+                    <ListItemIcon>
+                      <AccessAlarmRoundedIcon />
+                    </ListItemIcon>
+                    <ListItemText 
+                      primary={
+                        <Typography>{time_min}:{time_sec} minutes</Typography>
+                      }
+                    />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon>
+                      <AssignmentRoundedIcon />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={
+                        <Typography>{num_questions} questions</Typography>
+                      }
+                    />
+                  </ListItem>
+                </List>
+                <List>
+                  <ListItem>
+                    <ListItemIcon>
+                      <MilitaryTechRoundedIcon />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={
+                        reward ? <Typography>{reward}</Typography> : <Typography>No reward</Typography>
+                      }
+                    />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon>
+                      <HistoryRoundedIcon />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={
+                        <Typography>{trials} trials</Typography>
+                      }
+                    />
+                  </ListItem>
+                </List>
+              </Box>
+              <Button 
+                variant="contained"
+                onClick={()=>{
+                  history.push(`/consumerquizpage/${id}`);
+                }}
+                className={classes.startButton}
+                color="primary"
+              >
+                Start the Quiz
+              </Button>
             </Box>
+            </Card>
           </Card>
         </Grid>
       </Grid>

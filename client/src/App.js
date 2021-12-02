@@ -20,6 +20,52 @@ import ResultsPage from './pages/ResultPage';
 import UserAppBar from './components/UserAppBar';
 import ConsumerSignUp from './components/Form/ConsumerSignUp';
 import LeaderboardPage from './pages/LeaderboardPage';
+// mui theme setup
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      light: '#69aeff',
+      main: '#007fff',
+      dark: '#0054cb',
+      contrastText: '#fff',
+      // contrastText: '#000',
+    },
+    secondary: {
+      light: '#fff3b0',
+      main: '#ffc080',
+      dark: '#c99052',
+      contrastText: '#fff',
+    },
+  },
+  typography: {
+    fontFamily: [
+      'Inter',
+      'Roboto',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+    ].join(','),
+    button: {
+      fontFamily: [
+        'Open Sans',
+        'Roboto',
+        'Arial',
+      ].join(','),
+      textTransform: 'none',
+      fontWeight: '700',
+      letterSpacing: '0.03em',
+      fontStyle: 'normal',
+    },
+  },
+  // MuiButton: {
+  //   selected: {
+  //     backgroundColor: '#007fff', 
+  //     color: '#FFFFFF',
+  //   },
+  // },
+});
 
 dotenv.config();
 
@@ -65,6 +111,7 @@ function App() {
   });
 
   return (
+    <ThemeProvider theme={theme}>
     <UserContext.Provider value={{ user, dispatch }}>
       <Router>
         {/* <Header /> */}
@@ -116,6 +163,7 @@ function App() {
         </Switch>
       </Router>
     </UserContext.Provider>
+    </ThemeProvider>
   );
 }
 

@@ -17,11 +17,10 @@ function PlatformPreviewCard({
 }){
     const classes = useStyles();
     return (
-        <Card sx={{ borderRadius: '18px' }}>
-            {/* TODO: fix the size and ratio */}
+        <Card sx={{ borderRadius: '18px', maxWidth: '300px', minWidth: '300px' }}>
             <CardHeader
                 title={
-                    <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
+                    <Typography sx={{ fontWeight: 'bold', fontSize: '23px' }}>
                         {platformName}
                     </Typography>
                 }
@@ -32,9 +31,9 @@ function PlatformPreviewCard({
                         sx={{ width: 70, height: 70, m: 1 }}
                     />
                 }
+                sx={{ paddingLeft: '15px', paddingTop: '15px', paddingRight: '25px' }}
             />
             <CardContent>
-                {/* TODO: styling for list items */}
                 <List>
                     <ListItem>
                         <ListItemIcon>
@@ -51,9 +50,7 @@ function PlatformPreviewCard({
                 </List>
             </CardContent>
             <CardActions>
-                {/* TODO: solve the alignment problem */}
-                <Grid container sx={{ alignItems: 'center'}}>
-                    <Grid item sx={{ minWidth: "90%" }} />
+                <Grid container justifyContent='end'>
                     <Grid item>
                         <IconButton aria-label="more" onClick={setplatformData} sx={{ m: 1 }}>
                             <ArrowForwardRoundedIcon />

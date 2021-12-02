@@ -4,25 +4,22 @@ import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles({
     title: {
-        // fontFamily: "Roboto",
-        // fontFamily: "Varela Round",
-        fontSize: "35px",
-        fontWeight: "bolder",
+        // fontFamily: 'Roboto',
+        // fontFamily: 'Varela Round',
+        fontWeight: 'bold',
     },
     card: {
-        width: "300px",
-        // minHeight: "200px",
-        borderRadius: "10px",
-        display: "flex",
-        flexDirection: "row",
+        width: '300px',
+        borderRadius: '10px',
+        display: 'flex',
+        flexDirection: 'row',
     },
     cardContent: {
-        paddingLeft: "20px",
+        paddingLeft: '20px',
     },
     cardMedia: {
-        width: "300px",
-        // height: 0,
-        // paddingTop: '56.25%', // 16:9
+        width: '300px',
+        maxHeight: '250px',
     }
 });
 
@@ -30,8 +27,10 @@ export default function BrowseQuizCard({ quizData }) {
     const classes = useStyles();
     const history = useHistory();
 
-    // console.log("quizData.quizImage");
+    // console.log('quizData.quizImage');
     // console.log(quizData.quizImage);
+
+    const img = './primary_default.png';
 
     return(
         <div>
@@ -41,24 +40,24 @@ export default function BrowseQuizCard({ quizData }) {
                     onClick={() => {
                         console.log(quizData._id)
                         history.push(`/consumerquizpreview/${quizData._id}`)
-                        //history.push("/consumerquizpreview/:",{id:quizData._id})
+                        //history.push('/consumerquizpreview/:',{id:quizData._id})
                     }}
                 >
                     <Box xs={{ display:'flex', flexDirection: 'column' }}>
                         <CardMedia
-                            component="img"
-                            image={quizData.quizImage}
-                            alt=""
+                            component='img'
+                            image={quizData.quizImage.length > 10 ? quizData.quizImage : img}
+                            alt=''
                             className={classes.cardMedia}
                         />
                         <CardContent className={classes.cardContent}>
-                            <Typography component="div" variant="h5" className={classes.title}>
+                            <Typography component='div' variant='h5' className={classes.title}>
                                 {quizData.quizName}
                             </Typography>
-                            {/* <Typography variant="subtitle1" color="text.secondary" component="div">
+                            {/* <Typography variant='subtitle1' color='text.secondary' component='div'>
                                 {quizData.quizDescription}
                             </Typography> */}
-                            <Typography variant="subtitble1" color="text.secondary" >
+                            <Typography variant='subtitble1' color='text.secondary' >
                                 {quizData.createdDate.slice(0, 10)}
                             </Typography>
                         </CardContent>

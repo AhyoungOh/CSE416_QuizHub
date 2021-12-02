@@ -5,8 +5,20 @@ import { useHistory } from 'react-router-dom';
 import { UserContext } from '../../App';
 import useApiCall from '../../hooks/useApiCall';
 import { Tab, Tabs, Box, Avatar, Typography, Grid } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import ConsumerProfileForm from '../../components/Form/ConsumerProfileForm';
 import ConsumerMyBadges from '../../components/Form/ConsumerMyBadges'
+
+const useStyles = makeStyles({
+    container: {
+        // padding: '20px',
+        paddingTop: '30px',
+        paddingBottom: '20px',
+    },
+    name: {
+        fontWeight: 'bold',
+    },
+});
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -44,6 +56,7 @@ function a11yProps(index) {
 
 export default function ConsumerPage() {
     const { user, dispatch } = useContext(UserContext);
+    const classes = useStyles();
     
     // states
     const [value, setValue] = useState(0);
@@ -59,10 +72,9 @@ export default function ConsumerPage() {
                 spacing={2}
                 direction="column"
                 alignItems="center"
+                className={classes.container}
             >
-                <Grid item />
-                {/* TODO: fix the left and top padding */}
-                <Grid item alignItems="center" justify="center">
+                <Grid item alignSelf="center" justifySelf="center">
                     <Avatar 
                         src={user.img} 
                         style={{
@@ -73,14 +85,11 @@ export default function ConsumerPage() {
                     />
                     {/* TODO: add change profile pic button */}
                 </Grid>
-                {/* TODO: fix the left and top padding */}
-                {/* TODO: make the username in blue */}
-                <Grid item alignItems="center" justify="center">
-                    <Typography variant="h5">
-                        <b>{user.username}</b>
+                <Grid item alignSelf="center" justifySelf="center">
+                    <Typography variant="h5" color="primary" className={classes.name}>
+                        {user.username}
                     </Typography>
                 </Grid>
-                <Grid item />
             </Grid>
             <Box container sx={{ width: '100%' }}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>

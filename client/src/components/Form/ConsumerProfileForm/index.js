@@ -25,7 +25,7 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  width: 500,
   bgcolor: 'background.paper',
   boxShadow: 24,
   p: 4,
@@ -111,45 +111,42 @@ function ConsumerProfileForm() {
     // save button, edit button, cancel button, delete account button
     <div>
       {/* TODO: fix the listing and display of the information */}
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-        }}
-      >
-        <Grid container direction='column' alignItems='center' spacing={1}>
+      <Grid container direction='column' spacing={2} sx={{ paddingLeft: '400px'}}>
+        <Grid item container justifyContent='flex-start' spacing={2}>
           <Grid item>
             <Typography>Email</Typography>
           </Grid>
           <Grid item>
+            <Typography>{user.email}</Typography>
+          </Grid>
+        </Grid>
+        <Grid item container justifyContent='flex-start' spacing={2}>
+          <Grid item>
             <Typography>Private account</Typography>
           </Grid>
           <Grid item>
-            <Typography>Self-introduction</Typography>
+            <Typography>{user.isPrivate ? 'private' : 'public'}</Typography>
           </Grid>
         </Grid>
-        <Grid container direction='column' alignItems='center' spacing={1}>
+        <Grid item container justifyContent='flex-start' spacing={2}>
           <Grid item>
-            <Typography>{user.email}</Typography>
-          </Grid>
-          <Grid item>
-            <Typography>{user.isPrivate ? 'private' : 'public'}</Typography>
+            <Typography>Self-introduction</Typography>
           </Grid>
           <Grid item>
             <Typography>{user.description}</Typography>
           </Grid>
         </Grid>
-      </Box>
-      <Grid container direction='row' spacing={2} justifyContent='center'>
-        <Grid item>
-          <Button variant='contained' onClick={() => setEdit(true)}>
-            Edit
-          </Button>
-        </Grid>
-        <Grid item>
-          <Button variant='text' color='error' onClick={() => setShow(true)}>
-            Delete Account
-          </Button>
+        <Grid item container direction='row' spacing={2} justifyContent='flex-start'>
+          <Grid item>
+            <Button variant='contained' onClick={() => setEdit(true)}>
+              Edit
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button variant='text' color='error' onClick={() => setShow(true)}>
+              Delete Account
+            </Button>
+          </Grid>
         </Grid>
       </Grid>
       <Modal open={show} onClose={() => setShow(false)}>
@@ -185,7 +182,11 @@ function ConsumerProfileForm() {
         </Box>
       </Modal>
       <Dialog open={edit} keepMounted onClose={() => setEdit(false)}>
-        <DialogTitle>Edit Account Information</DialogTitle>
+        <DialogTitle>
+          <Typography variant='h6' sx={{ fontWeight: 'bold' }}>
+            Edit Account Information
+          </Typography>
+        </DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
@@ -221,6 +222,7 @@ function ConsumerProfileForm() {
           </FormControl>
         </DialogContent>
         <DialogActions>
+          {/* TODO: fix the spacing */}
           <Button variant='contained' onClick={saveButtonHandler}>
             Save
           </Button>

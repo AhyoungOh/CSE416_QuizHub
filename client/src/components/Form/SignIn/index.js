@@ -18,7 +18,7 @@ const useStyles = makeStyles({
   container: {
     // padding: '30px',
     position: 'fixed',
-    top: '30%',
+    top: '25%',
   },
   paper: {
     minHeight: '400px',
@@ -28,7 +28,7 @@ const useStyles = makeStyles({
     marginLeft: '16px',
     marginTop: '18px',
     height: '24px', 
-    fontSize: '22px',
+    fontSize: '18px',
     width: '90%',
   },
   inputBox: {
@@ -37,8 +37,8 @@ const useStyles = makeStyles({
     boxShadow: '0px 4px 4px rgba(51, 51, 51, 0.04), 0px 4px 16px rgba(51, 51, 51, 0.08)',
   },
   button: {
-    height: '55px',
-    fontSize: '20px',
+    height: '50px',
+    fontSize: '18px',
     borderRadius: '9px',
   },
   buttonGrid: {
@@ -52,7 +52,7 @@ const useStyles = makeStyles({
   alert: {
     width: '50%',
     display: 'flex',
-    paddingTop: '30px',
+    paddingTop: '20px',
   }
 });
 
@@ -193,7 +193,7 @@ function SignIn() {
             severity="error"
             // variant="filled"
             onClose={() => {setShowError(false);}}
-            sx={{ fontSize: '18px' }}
+            sx={{ fontSize: '15px' }}
           >
             Incorrect username or password.
           </Alert>
