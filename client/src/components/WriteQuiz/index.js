@@ -53,10 +53,10 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
   const [quizRewardType, setQuizRewardType] = useState(
     quizData?.quizRewardType || ''
   );
-  const [quizCertificate, setQuizCertificate] = useState(
-    quizData?.quizCertificate || ''
-  );
-  const [quizBadge, setQuizBadge] = useState(quizData?.quizBadge || '');
+  // const [quizCertificate, setQuizCertificate] = useState(
+  //   quizData?.quizCertificate || ''
+  // );
+  // const [quizBadge, setQuizBadge] = useState(quizData?.quizBadge || '');
   const [quizCertificateQualification, setQuizCertificateQualification] =
     useState(quizData?.quizCertificateQualification || '');
   const [quizBadgeQualification, setQuizBadgeQualification] = useState(
@@ -67,7 +67,8 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
   );
   // console.log('quizData.quizEnableleaderboard', quizData.quizEnableLeaderboard);
   // console.log('quizEnableLeaderboard', quizEnableLeaderboard);
-
+  const [badgevisible, setBadgevisible] = useState(false);
+  const [certificatevisible, setCertificatevisible] = useState(false);
   const history = useHistory();
   const createquizData = async () => {
     await axios.post(
@@ -86,7 +87,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
         // quizCertificate,
         // quizBadge,
         quizCertificateQualification,
-        // quizBadgeQualification,
+        quizBadgeQualification,
         quizEnableLeaderboard,
         quizDescription,
       }
@@ -114,7 +115,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
         // quizCertificate,
         // quizBadge,
         quizCertificateQualification,
-        // quizBadgeQualification,
+        quizBadgeQualification,
         quizEnableLeaderboard,
         quizDescription,
       }
@@ -236,14 +237,24 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             </Select>
           </FormControl>
           <TextField
-            required
+            // required
             autoFocus
             margin='dense'
-            label='Quiz Reward Qualification'
+            label='Quiz Certificate Reward Qualification'
             type='number'
-            placeholder='Enter the number for reward qualification'
+            placeholder='Enter the number for certificate reward qualification'
             value={quizCertificateQualification}
             onChange={(e) => setQuizCertificateQualification(e.target.value)}
+          />
+          <TextField
+            // required
+            autoFocus
+            margin='dense'
+            label='Quiz Badge Reward Qualification'
+            type='number'
+            placeholder='Enter the number for badge reward qualification'
+            value={quizBadgeQualification}
+            onChange={(e) => setQuizBadgeQualification(e.target.value)}
           />
           <FormControl fullWidth>
             <InputLabel id='demo-simple-select-label'>
@@ -403,6 +414,16 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             placeholder='Enter the number for reward qualification'
             value={quizCertificateQualification}
             onChange={(e) => setQuizCertificateQualification(e.target.value)}
+          />
+          <TextField
+            // required
+            autoFocus
+            margin='dense'
+            label='Quiz Badge Reward Qualification'
+            type='number'
+            placeholder='Enter the number for badge reward qualification'
+            value={quizBadgeQualification}
+            onChange={(e) => setQuizBadgeQualification(e.target.value)}
           />
           <FormControl fullWidth>
             <InputLabel id='demo-simple-select-label'>
