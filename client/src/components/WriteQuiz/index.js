@@ -248,17 +248,19 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
               onChange={(e) => setQuizCertificateQualification(e.target.value)}
             />
           ) : null}
+          {badgevisible ? (
+            <TextField
+              // required
+              autoFocus
+              margin='dense'
+              label='Quiz Badge Reward Qualification'
+              type='number'
+              placeholder='Enter the number for badge reward qualification'
+              value={quizBadgeQualification}
+              onChange={(e) => setQuizBadgeQualification(e.target.value)}
+            />
+          ) : null}
 
-          <TextField
-            // required
-            autoFocus
-            margin='dense'
-            label='Quiz Badge Reward Qualification'
-            type='number'
-            placeholder='Enter the number for badge reward qualification'
-            value={quizBadgeQualification}
-            onChange={(e) => setQuizBadgeQualification(e.target.value)}
-          />
           <FormControl fullWidth>
             <InputLabel id='demo-simple-select-label'>
               Leaderboard Enable
