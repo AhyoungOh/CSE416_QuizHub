@@ -7,7 +7,6 @@ function DetailQuestion({ questiondata, setQuestionVisible }) {
   const updateQuestionData = () => {
     setQuestionVisible(true);
   };
-  console.log('questionData:', questiondata.quizId);
   return (
     <div>
       <button

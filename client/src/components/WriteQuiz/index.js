@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import Input from './Input';
 import './style.scss';
 import { useHistory } from 'react-router-dom';
@@ -67,7 +67,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
   );
   // console.log('quizData.quizEnableleaderboard', quizData.quizEnableLeaderboard);
   // console.log('quizEnableLeaderboard', quizEnableLeaderboard);
-  
+
   const history = useHistory();
   const createquizData = async () => {
     await axios.post(
@@ -229,9 +229,10 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
               label='Leaderboard Enable'
               onChange={(e) => setQuizRewardType(e.target.value)}
             >
-              <MenuItem value={0}>Certificate</MenuItem>
-              <MenuItem value={1}>Badge</MenuItem>
-              <MenuItem value={2}>No Reward</MenuItem>
+              <MenuItem value={'none'}>No Reward</MenuItem>
+              <MenuItem value={'certificate'}>Certificate</MenuItem>
+              <MenuItem value={'badge'}>Badge</MenuItem>
+              <MenuItem value={'both'}>Both</MenuItem>
             </Select>
           </FormControl>
           <TextField
@@ -266,8 +267,8 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             sx={{ padding: '25px' }}
           >
             <Grid item>
-              <Button variant="contained" onClick={createquizData}>
-                Create quiz 
+              <Button variant='contained' onClick={createquizData}>
+                Create quiz
               </Button>
             </Grid>
             <Grid item>
@@ -387,9 +388,10 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
               label='Leaderboard Enable'
               onChange={(e) => setQuizRewardType(e.target.value)}
             >
-              <MenuItem value={0}>Certificate</MenuItem>
-              <MenuItem value={1}>Badge</MenuItem>
-              <MenuItem value={2}>No Reward</MenuItem>
+              <MenuItem value={'none'}>No Reward</MenuItem>
+              <MenuItem value={'certificate'}>Certificate</MenuItem>
+              <MenuItem value={'badge'}>Badge</MenuItem>
+              <MenuItem value={'both'}>Both</MenuItem>
             </Select>
           </FormControl>
           <TextField

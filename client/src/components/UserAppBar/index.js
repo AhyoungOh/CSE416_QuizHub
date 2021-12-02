@@ -153,7 +153,7 @@ function UserAppBar() {
                 onClick={() => {
                   if (isCreator == 'Creator') {
                     // history.push('/creatoraccountsettings');
-                    history.push('creator-page');
+                    history.replace('/creator-page');
                     handleClose();
                   } else {
                     history.push('/consumer-page');
