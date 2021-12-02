@@ -96,7 +96,6 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
     fetchData();
     history.push(`/creatorHome/${platformId}`);
   };
-
   const updatequizData = async () => {
     await axios.put(
       process.env.NODE_ENV === 'production'
@@ -135,6 +134,8 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
     fetchData();
     history.push(`/creatorHome/${platformId}`);
   };
+  console.log('certificate', certificatevisible);
+  console.log('badge', badgevisible);
 
   if (quizData === undefined) {
     return (
@@ -196,31 +197,39 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             onChange={(e) => setQuizNumberOfTrials(e.target.value)}
             // sx={{ m: 1 }}
           />
-          <TextField
-            required
-            autoFocus
-            // fullWidth
-            margin='dense'
-            label='Time limit in minutes'
-            type='number'
-            placeholder='Enter the time limit in minutes...'
-            value={quizTimeLimitMinutes}
-            onChange={(e) => setQuizTimeLimitMinutes(e.target.value)}
-            // sx={{ m: 1 }}
-          />
-          <TextField
-            required
-            autoFocus
-            // fullWidth
-            margin='dense'
-            label='Time limit in seconds...'
-            type='number'
-            placeholder='Enter the time limit in seconds...'
-            value={quizTimeLimitSeconds}
-            onChange={(e) => setQuizTimeLimitSeconds(e.target.value)}
-            // sx={{ m: 1 }}
-          />
-          {/* I commented because of the UI design all the below code is needed */}
+          <Box
+            component='form'
+            sx={{
+              '& .MuiTextField-root': { m: 1, width: '30ch' },
+            }}
+            noValidate
+            autoComplete='off'
+          >
+            <TextField
+              required
+              autoFocus
+              // fullWidth
+              margin='dense'
+              label='Time limit in minutes'
+              type='number'
+              placeholder='Enter the time limit in minutes...'
+              value={quizTimeLimitMinutes}
+              onChange={(e) => setQuizTimeLimitMinutes(e.target.value)}
+              // sx={{ m: 1 }}
+            />
+            <TextField
+              required
+              autoFocus
+              // fullWidth
+              margin='dense'
+              label='Time limit in seconds...'
+              type='number'
+              placeholder='Enter the time limit in seconds...'
+              value={quizTimeLimitSeconds}
+              onChange={(e) => setQuizTimeLimitSeconds(e.target.value)}
+              // sx={{ m: 1 }}
+            />
+          </Box>
           <FormControl fullWidth>
             <InputLabel id='demo-simple-select-label'>Reward Type </InputLabel>
             <Select
@@ -230,10 +239,42 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
               label='Leaderboard Enable'
               onChange={(e) => setQuizRewardType(e.target.value)}
             >
-              <MenuItem value={'none'}>No Reward</MenuItem>
-              <MenuItem value={'certificate'}>Certificate</MenuItem>
-              <MenuItem value={'badge'}>Badge</MenuItem>
-              <MenuItem value={'both'}>Both</MenuItem>
+              <MenuItem
+                value={'none'}
+                onClick={() => {
+                  setCertificatevisible(false);
+                  setBadgevisible(false);
+                }}
+              >
+                No Reward
+              </MenuItem>
+              <MenuItem
+                value={'certificate'}
+                onClick={() => {
+                  setCertificatevisible(true);
+                  setBadgevisible(false);
+                }}
+              >
+                Certificate
+              </MenuItem>
+              <MenuItem
+                value={'badge'}
+                onClick={() => {
+                  setBadgevisible(true);
+                  setCertificatevisible(false);
+                }}
+              >
+                Badge
+              </MenuItem>
+              <MenuItem
+                value={'both'}
+                onClick={() => {
+                  setCertificatevisible(true);
+                  setBadgevisible(true);
+                }}
+              >
+                Both
+              </MenuItem>
             </Select>
           </FormControl>
           {certificatevisible ? (
@@ -370,30 +411,39 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             onChange={(e) => setQuizNumberOfTrials(e.target.value)}
             // sx={{ m: 3 }}
           />
-          <TextField
-            required
-            autoFocus
-            // fullWidth
-            margin='dense'
-            label='Time limit in minutes'
-            type='number'
-            placeholder='Enter the number of trials...'
-            value={quizTimeLimitMinutes}
-            onChange={(e) => setQuizTimeLimitMinutes(e.target.value)}
-            // sx={{ m: 3 }}
-          />
-          <TextField
-            required
-            autoFocus
-            // fullWidth
-            margin='dense'
-            label='Time limit in seconds...'
-            type='number'
-            placeholder='Enter the number of trials...'
-            value={quizTimeLimitSeconds}
-            onChange={(e) => setQuizTimeLimitSeconds(e.target.value)}
-            // sx={{ m: 3 }}
-          />
+          <Box
+            component='form'
+            sx={{
+              '& .MuiTextField-root': { m: 1, width: '30ch' },
+            }}
+            noValidate
+            autoComplete='off'
+          >
+            <TextField
+              required
+              autoFocus
+              // fullWidth
+              margin='dense'
+              label='Time limit in minutes'
+              type='number'
+              placeholder='Enter time limit in minutes...'
+              value={quizTimeLimitMinutes}
+              onChange={(e) => setQuizTimeLimitMinutes(e.target.value)}
+              // sx={{ m: 3 }}
+            />
+            <TextField
+              required
+              autoFocus
+              // fullWidth
+              margin='dense'
+              label='Time limit in seconds...'
+              type='number'
+              placeholder='Enter time limit in seconds...'
+              value={quizTimeLimitSeconds}
+              onChange={(e) => setQuizTimeLimitSeconds(e.target.value)}
+              // sx={{ m: 3 }}
+            />
+          </Box>
           {/* I commented because of the UI design all the below code is needed */}
           <FormControl fullWidth>
             <InputLabel id='demo-simple-select-label'>Reward Type </InputLabel>
@@ -410,6 +460,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
               <MenuItem value={'both'}>Both</MenuItem>
             </Select>
           </FormControl>
+
           <TextField
             required
             autoFocus
