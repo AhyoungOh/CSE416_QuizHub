@@ -3,7 +3,16 @@ import Question from '../Question';
 import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import { Link, useHistory } from 'react-router-dom';
-import { Grid, Button, Card, CardMedia, CardActionArea, CardContent, Typography, getNativeSelectUtilityClasses } from '@mui/material';
+import {
+  Grid,
+  Button,
+  Card,
+  CardMedia,
+  CardActionArea,
+  CardContent,
+  Typography,
+  getNativeSelectUtilityClasses,
+} from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles({
@@ -15,13 +24,12 @@ const useStyles = makeStyles({
 });
 
 function DetailQuiz({ quizData, setQuizVisible }) {
-
   const owned = [];
   const history = useHistory();
 
   const groupid = useRef(0);
-  const isGroup = useRef(0)
- 
+  const isGroup = useRef(0);
+
   const classes = useStyles();
 
   for (let i = 0; i < Object.keys(quizData.quizQuestions).length; i++) {
@@ -47,28 +55,26 @@ function DetailQuiz({ quizData, setQuizVisible }) {
       certificate_design_id: null,
       badge_design_id: null,
     },
-  }
+  };
 
   const createCertificate = async () => {
     try {
-      console.log(isGroup.current)
-      if(isGroup.current==0){
-        
+      console.log(isGroup.current);
+      if (isGroup.current == 0) {
         await axios
-        .post(
-          `https://api.accredible.com/v1/issuer/groups`,
-          creategroupdata,
-          apicall
-        )
-        .then((response) => {
-          console.log(response);
-          groupid.current = response.data.group.id;
-        
-        });
-        isGroup.current=1
+          .post(
+            `https://api.accredible.com/v1/issuer/groups`,
+            creategroupdata,
+            apicall
+          )
+          .then((response) => {
+            console.log(response);
+            groupid.current = response.data.group.id;
+          });
+        isGroup.current = 1;
       }
-      console.log(isGroup.current)
-      console.log(groupid)
+      console.log(isGroup.current);
+      console.log(groupid);
 
       await axios
         .post(
@@ -79,7 +85,9 @@ function DetailQuiz({ quizData, setQuizVisible }) {
         .then((response) => {
           console.log(response);
           history.push(
-            `/createcertificate/${response.data.token}/${groupid.current}/${quizData._id}/${0}`
+            `/createcertificate/${response.data.token}/${groupid.current}/${
+              quizData._id
+            }/${0}`
           );
         });
     } catch (e) {
@@ -89,27 +97,25 @@ function DetailQuiz({ quizData, setQuizVisible }) {
 
   const createBadge = async () => {
     try {
-      console.log(isGroup.current)
-      if(isGroup.current==0){
-        
-        try{
-        await axios
-        .post(
-          `https://api.accredible.com/v1/issuer/groups`,
-          creategroupdata,
-          apicall
-        )
-        .then((response) => {
-          console.log(response);
-          groupid.current = response.data.group.id;
-          
-        });
-        } catch (e){
-         console.error(e);
+      console.log(isGroup.current);
+      if (isGroup.current == 0) {
+        try {
+          await axios
+            .post(
+              `https://api.accredible.com/v1/issuer/groups`,
+              creategroupdata,
+              apicall
+            )
+            .then((response) => {
+              console.log(response);
+              groupid.current = response.data.group.id;
+            });
+        } catch (e) {
+          console.error(e);
         }
-        isGroup.current=1
+        isGroup.current = 1;
       }
-      console.log(groupid)
+      console.log(groupid);
 
       await axios
         .post(
@@ -130,24 +136,22 @@ function DetailQuiz({ quizData, setQuizVisible }) {
 
   const createCertificateandBadge = async () => {
     try {
-      console.log(isGroup.current)
-      if(isGroup.current==0){
-        
+      console.log(isGroup.current);
+      if (isGroup.current == 0) {
         await axios
-        .post(
-          `https://api.accredible.com/v1/issuer/groups`,
-          creategroupdata,
-          apicall
-        )
-        .then((response) => {
-          console.log(response);
-          groupid.current = response.data.group.id;
-        
-        });
-        isGroup.current=1
+          .post(
+            `https://api.accredible.com/v1/issuer/groups`,
+            creategroupdata,
+            apicall
+          )
+          .then((response) => {
+            console.log(response);
+            groupid.current = response.data.group.id;
+          });
+        isGroup.current = 1;
       }
-      console.log(isGroup.current)
-      console.log(groupid)
+      console.log(isGroup.current);
+      console.log(groupid);
 
       await axios
         .post(
@@ -158,13 +162,15 @@ function DetailQuiz({ quizData, setQuizVisible }) {
         .then((response) => {
           console.log(response);
           history.push(
-            `/createcertificate/${response.data.token}/${groupid.current}/${quizData._id}/${1}`
+            `/createcertificate/${response.data.token}/${groupid.current}/${
+              quizData._id
+            }/${1}`
           );
         });
     } catch (e) {
       console.error(e);
     }
-  }
+  };
 
   const QuestionComponents = quizData.quizQuestions.map((questionData) => {
     return (
@@ -254,26 +260,43 @@ function DetailQuiz({ quizData, setQuizVisible }) {
             Add Quesiton
           </Button>
         </Grid>
-        <Grid item>
-         {quizData.quizCertificateQualification==null || quizData.quizBadgeQualification!=null ? null:
-          <Button variant='contained' onClick={createCertificate}>
-            Add Certificate
-          </Button>
-        }
+        {/* <Grid item>
+          {quizData.quizCertificateQualification == null ||
+          quizData.quizBadgeQualification != null ? null : (
+            <Button variant='contained' onClick={createCertificate}>
+              Add Certificate
+            </Button>
+          )}
         </Grid>
         <Grid item>
-          { quizData.quizCertificateQualification!=null || quizData.quizBadgeQualification==null ? null:
-          <Button variant='contained' onClick={createBadge}>
-            Add Badge
-          </Button>
-          }
+          {quizData.quizCertificateQualification != null ||
+          quizData.quizBadgeQualification == null ? null : (
+            <Button variant='contained' onClick={createBadge}>
+              Add Badge
+            </Button>
+          )}
+        </Grid> */}
+        {/* {quizData.quizCertificateQualification == null ||
+            quizData.quizBadgeQualification == null ? (
+              ''
+            ) : (
+              <Button variant='contained' onClick={createCertificateandBadge}>
+                Add Certificate and Badge
+              </Button>
+            )} */}
+        <Grid item>
+          {quizData.quizRewardType === 'certificate' ? (
+            <Button variant='contained' onClick={createCertificate}>
+              Add Certificate
+            </Button>
+          ) : null}
         </Grid>
         <Grid item>
-          { quizData.quizCertificateQualification==null || quizData.quizBadgeQualification==null ? "":
-          <Button variant='contained'  onClick={createCertificateandBadge}>
-            Add Certificate and Badge
-          </Button>
-          }
+          {quizData.quizRewardType === 'badge' ? (
+            <Button variant='contained' onClick={createBadge}>
+              Add Badge
+            </Button>
+          ) : null}
         </Grid>
       </Grid>
     </div>
