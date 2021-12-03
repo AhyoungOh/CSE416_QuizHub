@@ -54,7 +54,7 @@ function ConsumerMyBadges() {
     getBadgeId();
   }, []);
 
-  const setIsPrivate=async (value,e)=> {
+  const setIsPrivate=async (value,index,e)=> {
     console.log(value._id)
     try {
       await axios.put(
@@ -67,10 +67,10 @@ function ConsumerMyBadges() {
       ).then((response)=>{
           console.log(response)
           console.log(response.data.Badge.badgeVisibility)
+          let new_arr=[...badge_arr]
+          new_arr[index]=response.data.Badge
+          setBadgeArr(new_arr)
       })
-      setBadgeArr(badge_arr.map((badge)=>
-      badge._id==value._id ? { ...badge_arr, badgeVisibility: !value.badgeVisibility,badgeUploadFile: value.badgeUploadFile } :{...badge_arr}
-      )) //cannot toggle in one go
     } catch (e) {
       console.error(e);
     }
@@ -81,7 +81,7 @@ function ConsumerMyBadges() {
       {badge_arr.map((value,index) => (
           <><img src={value.badgeUploadFile} width="200" height="200"></img>
           <FormGroup>
-          <FormControlLabel checked={!value.badgeVisibility} control={<Switch onChange={(e) => setIsPrivate(value,e)}/>} label="Make Private" />
+          <FormControlLabel checked={!value.badgeVisibility} control={<Switch onChange={(e) => setIsPrivate(value,index,e)}/>} label="Make Private" />
           </FormGroup>
           </>
          ))}

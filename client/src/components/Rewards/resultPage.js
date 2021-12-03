@@ -55,6 +55,7 @@ function ResultsPage() {
         .then((response) => {
           // console.log(response.data.quiz.quizEnableLeaderboard);
           //quizName.current=response.data.quiz.quizName
+          console.log(quizResult)
           setLeaderboardVisible(response.data.quiz.quizEnableLeaderboard);
           // console.log('leaderobard visible', leaderboardVisible);
           setQuizName(response.data.quiz.quizName);
@@ -152,26 +153,6 @@ function ResultsPage() {
     }
   };
 
-  const createBadge = async () =>{
-    try{
-      await axios.post(
-        process.env.NODE_ENV == 'production'
-          ? `/api/badge`
-          : `http://localhost:4000/api/badge`,
-        {
-          badgeUploadFile: img,
-          consumerId: user.id,
-          badgeVisibility: true,
-        }
-      ).then((response)=>{
-        console.log(response)
-      });
-      
-    } catch (e){
-      console.error(e);
-    }
-  }
-
   return (
     <div>
       <Form>
@@ -184,7 +165,7 @@ function ResultsPage() {
           </Col>
         </Form.Group>
         <h1>
-          {result >= certificate_qualifier.current
+          {result >= certificate_qualifier.current || result >= badge_qualifier.current
             ? 'Congratulations'
             : 'Sorry please try again'}
         </h1>
