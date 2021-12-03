@@ -3,8 +3,21 @@ import axios from 'axios';
 import { useRef, useEffect, useContext, useState } from 'react';
 import { useHistory, Link, useParams } from 'react-router-dom';
 import useApiCall from '../../../hooks/useApiCall';
-import { Grid, Button, Modal, Box, Typography, Card, IconButton, Alert, Collapse } from '@mui/material';
-import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
+import { UserContext } from '../../../App';
+import {
+  Grid,
+  Button,
+  Modal,
+  Box,
+  Typography,
+  Card,
+  IconButton,
+  Alert,
+  Collapse,
+} from '@mui/material';
+import LinearProgress, {
+  linearProgressClasses,
+} from '@mui/material/LinearProgress';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
@@ -54,7 +67,7 @@ const useStyles = makeStyles({
     width: '50%',
     display: 'flex',
     paddingTop: '20px',
-  }
+  },
 });
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
@@ -71,9 +84,10 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 }));
 
 function ConsumerQuizPage() {
+  const { user, dispatch } = useContext(UserContext);
   const history = useHistory();
   const classes = useStyles();
-  
+
   const { id } = useParams(); //
   const quizid = id;
 
@@ -83,6 +97,7 @@ function ConsumerQuizPage() {
 
   const time_min = useRef('');
   const time_sec = useRef('');
+  const [timer, setTimer] = useState(0);
   const [quiz_questions, setQuizQuestions] = useState([]);
   const num_questions = quiz_questions.length;
   const question = useRef('');
@@ -111,20 +126,43 @@ function ConsumerQuizPage() {
   // warning
   const [showAlert, setShowAlert] = useState(false);
 
+  const leftTime = useRef(0);
+  const leftTimeTimer = useRef(null);
+
+  const runTimer = () => {
+    leftTimeTimer.current = setInterval(() => {
+      leftTime.current = leftTime.current - 1;
+      setTimer(leftTime.current);
+      if (leftTime.current === 0) {
+        clearInterval(leftTimeTimer.current);
+        leftTimeTimer.current = null;
+      }
+    }, 1000);
+  };
   const fetchData = async () => {
     try {
-      await axios
-        .get(
-          process.env.NODE_ENV == 'production'
-            ? `/api/quiz/detail/${id}`
-            : `http://localhost:4000/api/quiz/detail/${id}`
-        )
-        .then((response) => {
-          time_min.current = response.data.quiz.quizTimeLimit.minutes;
-          time_sec.current = response.data.quiz.quizTimeLimit.seconds;
-          setQuizQuestions(response.data.quiz.quizQuestions);
-          // setQuestionOptions(response.data.quiz.quizQuestions.questionOptions);
-        });
+      const response = await axios.get(
+        process.env.NODE_ENV == 'production'
+          ? `/api/quiz/detail/${id}`
+          : `http://localhost:4000/api/quiz/detail/${id}`
+      );
+      time_min.current = response.data.quiz.quizTimeLimit.minutes;
+      time_sec.current = response.data.quiz.quizTimeLimit.seconds;
+      setQuizQuestions(response.data.quiz.quizQuestions);
+      // console.log('response : ', response..quiz.usedTrialNumber);
+      const usedTrialNumber = user.consumerQuizHistoryList.find((e) => {
+        return e.id === id;
+      }).usedTrialNumber;
+
+      quizInfo.current = {
+        ...quizInfo.current,
+        usedTrialNumber: usedTrialNumber + 1,
+      };
+      leftTime.current =
+        60 * Number(time_min.current) + Number(time_sec.current);
+      setTimer(leftTime.current);
+
+      runTimer();
     } catch (e) {
       console.error(e);
     }
@@ -133,23 +171,23 @@ function ConsumerQuizPage() {
     fetchData();
   }, []);
 
-  const getQuestions = async (question_id) => {
-    try {
-      await axios
-        .get(
-          process.env.NODE_ENV == 'production'
-            ? `/api/question/${question_id}`
-            : `http://localhost:4000/api/question/${question_id}`
-        )
-        .then((response) => {
-          //console.log(quizid)
-          question.current = response.data.createQuestion.questionQuestions;
-          answer.current = response.data.createQuestion.questionAnswer;
-        });
-    } catch (e) {
-      console.error(e);
-    }
-  };
+  // const getQuestions = async (question_id) => {
+  //   try {
+  //     await axios
+  //       .get(
+  //         process.env.NODE_ENV == 'production'
+  //           ? `/api/question/${question_id}`
+  //           : `http://localhost:4000/api/question/${question_id}`
+  //       )
+  //       .then((response) => {
+  //         //console.log(quizid)
+  //         question.current = response.data.createQuestion.questionQuestions;
+  //         answer.current = response.data.createQuestion.questionAnswer;
+  //       });
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
+  // };
 
   const nextQuestionNum = () => {
     const answerList = quizInfo.current.answerchoices;
@@ -163,13 +201,13 @@ function ConsumerQuizPage() {
       } else {
         setSelect(4);
       }
-      if (qnum === num_questions-1) {
+      if (qnum === num_questions - 1) {
         setEnd(true);
       }
     } else {
       if (answerList[qnum]) {
         setSelect(answerList[qnum]);
-      } 
+      }
     }
   };
 
@@ -183,7 +221,7 @@ function ConsumerQuizPage() {
         // setSelect(answerList[1]);
       }
       // console.log("answerList[qnum-2]", answerList[qnum-2]);
-      setSelect(answerList[qnum-2]);
+      setSelect(answerList[qnum - 2]);
     }
   };
 
@@ -205,14 +243,28 @@ function ConsumerQuizPage() {
     } else {
       submitHandler();
     }
-  }
+  };
 
   const submitHandler = async () => {
+    const calculateTakenTime = () => {
+      const originSeconds =
+        60 * Number(time_min.current) + Number(time_sec.current);
+      const takenSeconds = originSeconds - leftTime.current;
+      const minutes = String(Math.floor(takenSeconds / 60));
+      const seconds = String(takenSeconds % 60);
+      return { minutes, seconds };
+    };
     await axios.post(
       process.env.NODE_ENV === 'production'
         ? `/api/consumer/quiz`
         : `http://localhost:4000/api/consumer/quiz`,
-      { quizzes: { ...quizInfo.current } },
+      {
+        quizzes: {
+          ...quizInfo.current,
+          quizTimeTaken: calculateTakenTime(),
+          usedTrialNumber: quizInfo.current.usedTrialNumber + 1,
+        },
+      },
       { withCredentials: true }
     );
     history.push(`/result/${id}`);
@@ -220,40 +272,64 @@ function ConsumerQuizPage() {
 
   return (
     <div>
-      <Grid container justifyContent="center">
+      <Grid container justifyContent='center'>
         <Collapse in={showAlert} className={classes.alert}>
           <Alert
-            severity="warning"
+            severity='warning'
             action={
               <div>
-                <Button color="warning" size="small" onClick={submitHandler}>Submit</Button>
-                <IconButton color="inherit" size="small" onClick={() => {setShowAlert(false);}} component="span">
+                <Button color='warning' size='small' onClick={submitHandler}>
+                  Submit
+                </Button>
+                <IconButton
+                  color='inherit'
+                  size='small'
+                  onClick={() => {
+                    setShowAlert(false);
+                  }}
+                  component='span'
+                >
                   <CloseRoundedIcon />
                 </IconButton>
               </div>
             }
           >
-            Still have {num_questions - quizInfo.current.answerchoices.length} questions not finished.
+            Still have {num_questions - quizInfo.current.answerchoices.length}{' '}
+            questions not finished.
           </Alert>
-          
         </Collapse>
       </Grid>
-      <Grid container direction="column" spacing={3} className={classes.container}>
+      <Grid
+        container
+        direction='column'
+        spacing={3}
+        className={classes.container}
+      >
         <Grid item>
           {/* Quiz button */}
-          <Button color="inherit" onClick={handleShow} startIcon={<CloseRoundedIcon />}>
+          <Button
+            color='inherit'
+            onClick={handleShow}
+            startIcon={<CloseRoundedIcon />}
+          >
             Quit
           </Button>
+          <div>Seconds : {timer}</div>
           {/* Quit confirm modal */}
           <Modal open={show} onClose={handleClose}>
             <Box sx={style}>
               <Grid container direction='column' spacing={2}>
                 <Grid item>
-                  <Typography id='modal-modal-title' variant='h6' component='h2'>
+                  <Typography
+                    id='modal-modal-title'
+                    variant='h6'
+                    component='h2'
+                  >
                     Quit the quiz
                   </Typography>
                   <Typography id='modal-modal-description' sx={{ mt: 2 }}>
-                    Are you sure you would like to quit? You will lose all your answers.
+                    Are you sure you would like to quit? You will lose all your
+                    answers.
                   </Typography>
                 </Grid>
                 <Grid item />
@@ -286,15 +362,15 @@ function ConsumerQuizPage() {
         </Grid>
         <Grid item>
           {/* Options */}
-          <Grid container spacing={2} justifyContent="center">
+          <Grid container spacing={2} justifyContent='center'>
             {quiz_questions[qnum - 1]?.questionOptions.map((e, i) => (
               <Grid item xs={12} s={6} md={3}>
                 <Card id={i} className={classes.card}>
-                  <Button 
+                  <Button
                     className={classes.button}
                     onClick={() => selectAnswer(i)}
                     // color= {select === i ? "primary" : "inherit"}
-                    variant= {select === i ? "contained" : "text"}
+                    variant={select === i ? 'contained' : 'text'}
                   >
                     <Typography className={classes.options}>
                       {/* {i+1}. {e} */}
@@ -308,39 +384,73 @@ function ConsumerQuizPage() {
         </Grid>
         <Grid item>
           {/* Progress bar and prev, next buttons */}
-          <Grid container spacing={2} alignItems="center" justifyContent="center">
+          <Grid
+            container
+            spacing={2}
+            alignItems='center'
+            justifyContent='center'
+          >
             <Grid item>
-              { start ? 
-                <IconButton sx={{backgroundColor: '#ffffff'}} color="primary" component="span" disabled>
+              {start ? (
+                <IconButton
+                  sx={{ backgroundColor: '#ffffff' }}
+                  color='primary'
+                  component='span'
+                  disabled
+                >
                   <ArrowBackRoundedIcon />
                 </IconButton>
-                :
-                <IconButton sx={{backgroundColor: '#ffffff'}} color="primary" component="span" onClick={prevQuestionNum}>
+              ) : (
+                <IconButton
+                  sx={{ backgroundColor: '#ffffff' }}
+                  color='primary'
+                  component='span'
+                  onClick={prevQuestionNum}
+                >
                   <ArrowBackRoundedIcon />
                 </IconButton>
-              }
+              )}
             </Grid>
             <Grid item>
               <Box sx={{ flexGrow: 1 }}>
-                <BorderLinearProgress variant="determinate" value={qnum/num_questions*100} />
+                <BorderLinearProgress
+                  variant='determinate'
+                  value={(qnum / num_questions) * 100}
+                />
               </Box>
             </Grid>
             <Grid item>
-              { end ? 
-                <IconButton sx={{backgroundColor: '#ffffff'}} color="primary" component="span" disabled>
+              {end ? (
+                <IconButton
+                  sx={{ backgroundColor: '#ffffff' }}
+                  color='primary'
+                  component='span'
+                  disabled
+                >
                   <ArrowForwardRoundedIcon />
                 </IconButton>
-                :
-                <IconButton sx={{backgroundColor: '#ffffff'}} color="primary" component="span" onClick={nextQuestionNum}>
+              ) : (
+                <IconButton
+                  sx={{ backgroundColor: '#ffffff' }}
+                  color='primary'
+                  component='span'
+                  onClick={nextQuestionNum}
+                >
                   <ArrowForwardRoundedIcon />
                 </IconButton>
-              }
+              )}
             </Grid>
           </Grid>
         </Grid>
-        <Grid item alignSelf="flex-end">
-          { end ? (
-            <Button variant="contained" onClick={checkSubmit} className={classes.submitButton}>Submit</Button>
+        <Grid item alignSelf='flex-end'>
+          {end ? (
+            <Button
+              variant='contained'
+              onClick={checkSubmit}
+              className={classes.submitButton}
+            >
+              Submit
+            </Button>
           ) : (
             ''
           )}
