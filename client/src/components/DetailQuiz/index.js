@@ -21,6 +21,10 @@ const useStyles = makeStyles({
     paddingBottom: '20px',
     paddingLeft: '20px',
   },
+  cardContainer: {
+    paddingTop: '10px',
+    paddingBottom: '20px',
+  },
 });
 
 function DetailQuiz({ quizData, setQuizVisible }) {
@@ -174,7 +178,7 @@ function DetailQuiz({ quizData, setQuizVisible }) {
 
   const QuestionComponents = quizData.quizQuestions.map((questionData) => {
     return (
-      <Grid item>
+      <Grid item sx={{ minWidth: '800px' }}>
         <Question
           questionNumber={questionData.questionNumber}
           questionQuestion={questionData.questionQuestion}
@@ -219,86 +223,109 @@ function DetailQuiz({ quizData, setQuizVisible }) {
         </Button>
       </Grid>
       {/* TODO: change it to creator preview quiz card */}
-      <Quiz
-        quizName={quizData.quizName}
-        quizDescription={quizData.quizDescription}
-        quizImage={quizData.quizImage}
-        quizQuestions={quizData.quizQuestions}
-      />
+      <Grid container justifyContent='center' className={classes.cardContainer} spacing={2}>
+        <Grid item>
+          <Card sx={{ borderRadius: '18px' }}>
+            <Card sx={{ display: 'flex', minHeight: '400px', maxWidth: '1000px' }}>
+              <CardMedia
+                component='img'
+                sx={{ width: 400, display: { xs: 'none', sm: 'block' } }}
+                image={quizData.quizImage}
+                alt={quizData.quizName}
+              />
+              <CardContent sx={{ flex: 1 }}>
+                <Typography variant='h5' sx={{ fontWeight: 'bold' }}>
+                  {quizData.quizName}
+                </Typography>
+                {/* <Typography sx={{ mb: 1.5 }} color='text.secondary'>
+                  {quizCreatedDate.slice(0, 10)}
+                </Typography> */}
+                <Typography variant='body1' paragraph>
+                  Question numbers: {quizData.quizQuestions.length}
+                </Typography>
+                <Typography variant='body1' paragraph>
+                  {quizData.quizDescription}
+                </Typography>
+                <Grid
+                  container
+                  spacing={1}
+                  // justifyContent="center"
+                  className={classes.buttonsContainer}
+                >
+                  <Grid item>
+                    <Button variant='contained' onClick={updateQuizData}>
+                      Edit Quiz
+                    </Button>
+                  </Grid>
+                  {quizData.quizEnableLeaderboard ? (
+                    <Grid item>
+                      <Button variant='contained' onClick={gotoLeaderboard}>
+                        Go to Leaderboard
+                      </Button>
+                    </Grid>
+                  ) : null}
+                  <Grid item>
+                    <Button variant='contained' onClick={updateQuestionData}>
+                      Add Quesiton
+                    </Button>
+                  </Grid>
+                  <Grid item>
+                    {quizData.quizRewardType === 'certificate' ? (
+                      <Button variant='contained' onClick={createCertificate}>
+                        Add Certificate
+                      </Button>
+                    ) : null}
+                  </Grid>
+                  <Grid item>
+                    {quizData.quizRewardType === 'badge' ? (
+                      <Button variant='contained' onClick={createBadge}>
+                        Add Badge
+                      </Button>
+                    ) : null}
+                  </Grid>
+                </Grid>
+              </CardContent>
+            </Card>
+          </Card>
+        </Grid>
+        <Grid
+          item
+          container
+          direction='column'
+          spacing={2}
+          justifyContent='center'
+          alignItems='center'
+          sx={{ maxWidth: '1000px' }}
+        >
+          {QuestionComponents}
+        </Grid>
+      </Grid>
 
       {/* TODO: move them to another section or modal */}
-      <Grid
-        container
-        direction='column'
-        spacing={2}
-        justifyContent='center'
-        sx={{ maxWidth: '1000px', paddingLeft: '20px' }}
-      >
-        {QuestionComponents}
-      </Grid>
-
-      <Grid
-        container
-        spacing={1}
-        // justifyContent="center"
-        className={classes.buttonsContainer}
-      >
-        <Grid item>
-          <Button variant='contained' onClick={updateQuizData}>
-            Edit Quiz
+      {/* <Grid item>
+        {quizData.quizCertificateQualification == null ||
+        quizData.quizBadgeQualification != null ? null : (
+          <Button variant='contained' onClick={createCertificate}>
+            Add Certificate
           </Button>
-        </Grid>
-        {quizData.quizEnableLeaderboard ? (
-          <Grid item>
-            <Button variant='contained' onClick={gotoLeaderboard}>
-              Go to Leaderboard
-            </Button>
-          </Grid>
-        ) : null}
-        <Grid item>
-          <Button variant='contained' onClick={updateQuestionData}>
-            Add Quesiton
-          </Button>
-        </Grid>
-        {/* <Grid item>
-          {quizData.quizCertificateQualification == null ||
-          quizData.quizBadgeQualification != null ? null : (
-            <Button variant='contained' onClick={createCertificate}>
-              Add Certificate
-            </Button>
-          )}
-        </Grid>
-        <Grid item>
-          {quizData.quizCertificateQualification != null ||
-          quizData.quizBadgeQualification == null ? null : (
-            <Button variant='contained' onClick={createBadge}>
-              Add Badge
-            </Button>
-          )}
-        </Grid> */}
-        {/* {quizData.quizCertificateQualification == null ||
-            quizData.quizBadgeQualification == null ? (
-              ''
-            ) : (
-              <Button variant='contained' onClick={createCertificateandBadge}>
-                Add Certificate and Badge
-              </Button>
-            )} */}
-        <Grid item>
-          {quizData.quizRewardType === 'certificate' ? (
-            <Button variant='contained' onClick={createCertificate}>
-              Add Certificate
-            </Button>
-          ) : null}
-        </Grid>
-        <Grid item>
-          {quizData.quizRewardType === 'badge' ? (
-            <Button variant='contained' onClick={createBadge}>
-              Add Badge
-            </Button>
-          ) : null}
-        </Grid>
+        )}
       </Grid>
+      <Grid item>
+        {quizData.quizCertificateQualification != null ||
+        quizData.quizBadgeQualification == null ? null : (
+          <Button variant='contained' onClick={createBadge}>
+            Add Badge
+          </Button>
+        )}
+      </Grid> */}
+      {/* {quizData.quizCertificateQualification == null ||
+          quizData.quizBadgeQualification == null ? (
+            ''
+          ) : (
+            <Button variant='contained' onClick={createCertificateandBadge}>
+              Add Certificate and Badge
+            </Button>
+          )} */}
     </div>
   );
 }
