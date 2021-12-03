@@ -3,7 +3,7 @@ import Question from '../Question';
 import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import { Link, useHistory } from 'react-router-dom';
-import { Grid, Button, Card, CardMedia, CardActionArea, CardContent, Typography } from '@mui/material';
+import { Grid, Button, Card, CardMedia, CardActionArea, CardContent, Typography, getNativeSelectUtilityClasses } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles({
@@ -255,19 +255,25 @@ function DetailQuiz({ quizData, setQuizVisible }) {
           </Button>
         </Grid>
         <Grid item>
+         {quizData.quizCertificateQualification==null || quizData.quizBadgeQualification!=null ? null:
           <Button variant='contained' onClick={createCertificate}>
             Add Certificate
           </Button>
+        }
         </Grid>
         <Grid item>
+          { quizData.quizCertificateQualification!=null || quizData.quizBadgeQualification==null ? null:
           <Button variant='contained' onClick={createBadge}>
             Add Badge
           </Button>
+          }
         </Grid>
         <Grid item>
-          <Button variant='contained' onClick={createCertificateandBadge}>
+          { quizData.quizCertificateQualification==null || quizData.quizBadgeQualification==null ? "":
+          <Button variant='contained'  onClick={createCertificateandBadge}>
             Add Certificate and Badge
           </Button>
+          }
         </Grid>
       </Grid>
     </div>
