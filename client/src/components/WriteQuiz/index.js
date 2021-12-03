@@ -173,6 +173,13 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             onChange={(e) => setQuizImage(e.target.value)}
             // sx={{ m: 1 }}
           />
+          {/* <input
+            type='file'
+            class='form-control'
+            id='customFile'
+            value={quizImage}
+            onChange={(e) => setQuizImage(e.target.value)}
+          /> */}
           <TextField
             required
             autoFocus
