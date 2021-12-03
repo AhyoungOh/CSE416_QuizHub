@@ -33,11 +33,13 @@ export default function PlayerBadges({badges}) {
   }, []);
 
   const BadgeComponents = badgeArr.map((badge, index) => {
-    return(
-      <Grid item>
-          <img src={badge.badgeUploadFile} width="200" height="200"></img>
-      </Grid>
-    )
+    if(badge.badgeVisibility){
+      return(
+        <Grid item>
+            <img src={badge.badgeUploadFile} width="200" height="200"></img>
+        </Grid>
+      );
+    }
   });
 
   return(
