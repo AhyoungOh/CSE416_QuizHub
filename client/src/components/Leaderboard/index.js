@@ -1,16 +1,16 @@
-import { useContext, useEffect } from 'react';
-import { useHistory, Link, useParams } from 'react-router-dom';
+import { useState } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 import { UserContext } from '../../App';
 import axios from 'axios';
 import useApiCall from '../../hooks/useApiCall';
-import { Grid, Paper, Button, Typography, Avatar } from '@mui/material';
+import { Grid, Paper, Snackbar, Link, Typography, Avatar } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles({
   rowText: {
     paddingTop: '20px',
     paddingBottom: '20px',
-    minWidth: '150px',
+    minWidth: '200px',
     maxWidth: '200px',
     textAlign: 'center',
   },
@@ -29,7 +29,10 @@ function compare(a, b){
 function Leaderboard() {
   const { quizId } = useParams();
   const classes = useStyles();
+  const history = useHistory();
   // console.log(quizid);
+  const [open, setOpen] = useState(false);
+
   const [loading, leaderboard, error] = useApiCall(
     process.env.NODE_ENV === 'production'
       ? `/api/quiz/leaderboard/${quizId}`
@@ -49,15 +52,14 @@ function Leaderboard() {
 
   const players = [];
   for (const data of leaderboard) {
-    // console.log(data.data.consumerQuizHistoryList[data.quizIndex]);
     const row = {};
+    row['id'] = data.data._id;
     row['username'] = data.data.consumerUsername;
     row['correct'] = data.data.consumerQuizHistoryList[data.quizIndex].correctedAnswerNum;
     row['min'] = data.data.consumerQuizHistoryList[data.quizIndex].quizTimeTaken.minutes;
     row['sec'] = data.data.consumerQuizHistoryList[data.quizIndex].quizTimeTaken.seconds;
     row['img'] = data.data.consumerImage;
     row['isPrivate'] = data.data.consumerIsPrivate;
-    // console.log(row);
     players.push(row);
   }
   console.log(players);
@@ -93,7 +95,7 @@ function Leaderboard() {
                 </Typography>
               </Grid>
               <Grid item alignSelf='center'>
-                <Grid container alignItems='center' sx={{ minWidth: '150px', maxWidth: '200px' }}>
+                <Grid container alignItems='center' sx={{ minWidth: '200px', maxWidth: '200px' }}>
                   <Grid item sx={{ paddingLeft: '20px' }}>
                     <Avatar 
                       src={rowData.img}
@@ -106,8 +108,22 @@ function Leaderboard() {
                     />
                   </Grid>
                   <Grid item>
-                    <Typography sx={{ paddingLeft: '10px', paddingTop: '20px', paddingBottom: '20px'}}>
-                      {rowData.username}
+                    <Typography 
+                      sx={{ paddingLeft: '10px', paddingTop: '20px', paddingBottom: '20px'}}
+                    >
+                      <Link 
+                        underline="hover"
+                        onClick={()=> {
+                          if (rowData.isPrivate) {
+                            setOpen(true);
+                            return ;
+                          } else {
+                            history.push(`/playerprofile/${rowData.id}`);
+                          }
+                        }}
+                      >
+                        {rowData.username}
+                      </Link>
                     </Typography>
                   </Grid>
                 </Grid>
@@ -181,6 +197,12 @@ function Leaderboard() {
           }
         </Grid>
       </Grid>
+      <Snackbar
+        open={open}
+        autoHideDuration={3000}
+        onClose={()=>{setOpen(false)}}
+        message="Private user!"
+      />
     </div>
   )
 }
