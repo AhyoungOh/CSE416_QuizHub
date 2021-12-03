@@ -1,8 +1,8 @@
-import useApiCall from '../../hooks/useApiCall';
-import BrowseQuizCard from '../Card/BrowseQuizCard';
+import useApiCall from '../../../hooks/useApiCall';
+import BrowseQuizCard from '../../Card/BrowseQuizCard';
 import { Grid } from '@mui/material';
 
-export default function Quizzes() {
+export default function QuizzesResult({ searchWord, searchType }) {
   const [loading, payload, error] = useApiCall(
     process.env.NODE_ENV === 'production'
       ? `/api/quiz`
@@ -19,8 +19,14 @@ export default function Quizzes() {
   }
   const quizData = payload.createQuiz;
   const QuizCardList = quizData
+    .filter((data) => {
+      if (searchWord === null) return true;
+
+      if (searchType !== 'Quiz') return false;
+
+      return data.quizName.toUpperCase().includes(searchWord.toUpperCase());
+    })
     .map((data) => {
-      // TODO: alphabetical order
       return (
         <Grid item key={data.quizName}>
           {' '}

@@ -7,7 +7,8 @@ import { makeStyles } from '@mui/styles';
 const useStyles = makeStyles({
   inputPaper: {
     borderRadius: '5px',
-    minWidth: '350px',
+    // minWidth: '300px',
+    width: '100%',
     height: '56px',
   },
   selectorPaper: {

@@ -1,8 +1,8 @@
-import useApiCall from '../../hooks/useApiCall';
-import BrowsePlatformCard from '../Card/BrowsePlatformCard';
+import useApiCall from '../../../hooks/useApiCall';
+import BrowsePlatformCard from '../../Card/BrowsePlatformCard';
 import { Grid } from '@mui/material';
 
-export default function Platforms() {
+export default function PlatformsResult({ searchWord, searchType }) {
   const [loading, payload, error] = useApiCall(
     process.env.NODE_ENV === 'production'
       ? `/api/creatorHome`
@@ -20,17 +20,23 @@ export default function Platforms() {
   }
   const platformData = payload.createPlatform;
   const PlatformCardList = platformData
+    .filter((data) => {
+      if (searchWord === null) return true;
+      if (searchType !== 'Platform') return false;
+
+      return data.platformName.toUpperCase().includes(searchWord.toUpperCase());
+    })
     .map((data) => {
-        // TODO: alphabetical order
-        return (
+      return (
         <Grid item>
-            {' '}
-            <BrowsePlatformCard platformData={data} />{' '}
+          {' '}
+          <BrowsePlatformCard platformData={data} />{' '}
         </Grid>
-        );
+      );
     });
   return (
     <div>
+      {/* TODO: add total __ result */}
       <Grid container spacing={3} justifyContent='center'>
         {PlatformCardList}
       </Grid>

@@ -1,9 +1,8 @@
-// TODO: decide if we allow consumers to browse other consumers
-import useApiCall from '../../hooks/useApiCall';
-import BrowseUserCard from '../Card/BrowseUserCard';
+import useApiCall from '../../../hooks/useApiCall';
+import BrowseUserCard from '../../Card/BrowseUserCard';
 import { Grid } from '@mui/material';
 
-export default function Users() {
+export default function UsersResult({ searchWord, searchType }) {
   const [loading, payload, error] = useApiCall(
     process.env.NODE_ENV === 'production'
       ? `/api/consumer`
@@ -21,6 +20,15 @@ export default function Users() {
   const consumerData = payload.createConsumer;
   // console.log(consumerData);
   const ConsumerList = consumerData
+    .filter((data) => {
+      if (searchWord === null) return true;
+
+      if (searchType !== 'Username') return false;
+
+      return data.consumerUsername
+        .toUpperCase()
+        .includes(searchWord.toUpperCase());
+    })
     .map((data) => {
       return (
         <Grid item>

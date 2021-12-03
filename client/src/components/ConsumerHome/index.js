@@ -2,6 +2,9 @@ import { useState } from 'react';
 import { Grid, Tabs, Tab, Box, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import SearchBar from './SearchBar';
+import PlatformsResult from './SearchResult/PlatformsResult';
+import QuizzesResult from './SearchResult/QuizzesResult';
+import UsersResult from './SearchResult/UsersResult';
 import Platforms from './Platforms';
 import Quizzes from './Quizzes';
 import Users from './Users';
@@ -48,40 +51,49 @@ function ConsumerHome() {
 
   return (
     <div>
-      <Grid container direction='column' spacing={2}>
-        <Grid item />
-        <Grid item />
+      <Grid container direction='column' spacing={2} sx={{ padding: '20px' }}>
         <Grid item>
           <SearchBar
             setSearchWord={setSearchWord}
             setSearchType={setSearchType}
           />
         </Grid>
-        <Grid item>
-          <Box sx={{ width: '100%' }}>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-              <Tabs
-                value={value}
-                onChange={handleChange}
-                aria-label='consumer browse tab'
-                centered
-              >
-                <Tab label='Quiz' {...a11yProps(0)} />
-                <Tab label='Platform' {...a11yProps(1)} />
-                <Tab label='Users' {...a11yProps(2)} />
-              </Tabs>
+        { searchWord ?
+          <Grid item sx={{ marginTop: '60px' }}>
+            <QuizzesResult searchWord={searchWord} searchType={searchType} />
+            <PlatformsResult searchWord={searchWord} searchType={searchType} />
+            <UsersResult searchWord={searchWord} searchType={searchType} />
+          </Grid>
+          :
+          <Grid item>
+            <Box sx={{ width: '100%' }}>
+              <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                <Tabs
+                  value={value}
+                  onChange={handleChange}
+                  aria-label='consumer browse tab'
+                  centered
+                >
+                  <Tab label='Quiz' {...a11yProps(0)} />
+                  <Tab label='Platform' {...a11yProps(1)} />
+                  <Tab label='Users' {...a11yProps(2)} />
+                </Tabs>
+              </Box>
+              <TabPanel value={value} index={0}>
+                {/* return all quizzes */}
+                <Quizzes />
+              </TabPanel>
+              <TabPanel value={value} index={1}>
+                {/* return all platforms */}
+                <Platforms />
+              </TabPanel>
+              <TabPanel value={value} index={2}>
+                {/* TODO: decide if we allow consumers to browse other consumers */}
+                <Users />
+              </TabPanel>
             </Box>
-            <TabPanel value={value} index={0}>
-              <Quizzes searchWord={searchWord} searchType={searchType} />
-            </TabPanel>
-            <TabPanel value={value} index={1}>
-              <Platforms searchWord={searchWord} searchType={searchType} />
-            </TabPanel>
-            <TabPanel value={value} index={2}>
-              <Users searchWord={searchWord} searchType={searchType} />
-            </TabPanel>
-          </Box>
-        </Grid>
+          </Grid>
+        }
       </Grid>
     </div>
   );
