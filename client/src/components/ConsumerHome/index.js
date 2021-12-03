@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Grid, Tabs, Tab, Box, Typography } from '@mui/material';
+import { useHistory } from 'react-router-dom';
+import { Grid, Tabs, Tab, Box, Button, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import SearchBar from './SearchBar';
 import PlatformsResult from './SearchResult/PlatformsResult';
@@ -45,18 +46,34 @@ function ConsumerHome() {
   const [searchType, setSearchType] = useState(null);
   const [value, setValue] = useState(0);
 
+  const history = useHistory();
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
+  const refresh = () => {
+    window.location.reload(false);
+  }
+
   return (
     <div>
-      <Grid container direction='column' spacing={2} sx={{ padding: '20px' }}>
+      <Grid container direction='column' spacing={2} sx={{ paddingTop: '40px' }}>
         <Grid item>
-          <SearchBar
-            setSearchWord={setSearchWord}
-            setSearchType={setSearchType}
-          />
+          <Grid container spacing={2} justifyContent='center'>
+            <Button 
+              // onClick={() => {
+              //   history.replace('/consumerhome');
+              // }}
+              onClick={refresh}
+            >
+              All
+            </Button>
+            <SearchBar
+              setSearchWord={setSearchWord}
+              setSearchType={setSearchType}
+            />
+          </Grid>
         </Grid>
         { searchWord ?
           <Grid item sx={{ marginTop: '60px' }}>
