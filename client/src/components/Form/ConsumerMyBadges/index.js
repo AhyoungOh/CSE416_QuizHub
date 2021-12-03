@@ -2,16 +2,13 @@ import axios from 'axios';
 import { useContext, useState ,useRef, useEffect} from 'react';
 import { useHistory } from 'react-router-dom';
 import { UserContext } from '../../../App';
-import {
-  FormGroup,
-  Switch,
-  FormControlLabel,
-  stepIconClasses,
-} from '@mui/material';
+import { Card, Grid, IconButton } from '@mui/material';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 function ConsumerMyBadges() {
   
-  const [badge_arr,setBadgeArr]=useState([])
+  const [badge_arr, setBadgeArr] = useState([]);
   
   const getBadgeId = async () => {
     try {
@@ -77,13 +74,28 @@ function ConsumerMyBadges() {
   
   return (
     <div>
-      {badge_arr.map((value,index) => (
-          <><img src={value.badgeUploadFile} width="200" height="200"></img>
-          <FormGroup>
-          <FormControlLabel checked={!value.badgeVisibility} control={<Switch onChange={(e) => setIsPrivate(value,index,e)}/>} label="Make Private" />
-          </FormGroup>
-          </>
-         ))}
+      <Grid container justifyContent='center' spacing={2} sx={{ paddingLeft: '20px', paddingRight: '20px' }}>
+        {badge_arr.map((value,index) => (
+          <Grid item>
+            <Card>
+              <Grid container direction='column' alignItems='center'>
+                <Grid item>
+                  <img src={value.badgeUploadFile} width="200" height="200"></img>
+                </Grid>
+                <Grid item>
+                  <IconButton onClick={(e) => setIsPrivate(value,index,e)}>
+                    { value.badgeVisibility ? 
+                      <Visibility sx={{ fontSize: 20 }} />
+                      :
+                      <VisibilityOff sx={{ fontSize: 20 }} />
+                    }
+                  </IconButton>
+                </Grid>
+              </Grid>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
     </div>
   );
 }
