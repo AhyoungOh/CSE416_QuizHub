@@ -77,6 +77,9 @@ const userReducer = (state, action) => {
           email: action.payload.consumer.consumerEmail,
           description: action.payload.consumer.consumerDescription,
           isPrivate: action.payload.consumer.consumerIsPrivate,
+          consumerQuizHistoryList:
+            action.payload.consumer.consumerQuizHistoryList,
+
           // password: action.payload.password,
         };
       }
