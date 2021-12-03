@@ -100,9 +100,15 @@ function CreatorProfileForm() {
   return (
     <div>
       <Grid container direction='column' spacing={3}>
-        <button onClick={() => history.replace('/creatorHome')}>
-          Back to my home
-        </button>
+        <Grid item alignSelf='center'>
+          <Button 
+            onClick={() => history.replace('/creatorHome')}
+            // startIcon={<KeyboardBackspaceRoundedIcon />}
+            sx={{ color: "gray" }}
+          >
+            Back to my home
+          </Button>
+        </Grid>
         <Grid item container justifyContent='center' spacing={2}>
           <Grid item>
             <Typography>Email</Typography>
