@@ -73,20 +73,20 @@ function CreatorProfileForm() {
           ? `/api/consumer/${user?.id}`
           : `http://localhost:4000/api/consumer/${user?.id}`
       );
-      try {
-        await axios.delete(
-          process.env.NODE_ENV == 'production'
-            ? `/api/auth`
-            : `http://localhost:4000/api/auth`
-        );
-        // log user out
-        dispatch({ type: 'signout' });
-        // redirect to homepage
-        history.push('/');
-      } catch (e) {
-        console.error(e);
-      }
+      // try {
+      //   await axios.delete(
+      //     process.env.NODE_ENV == 'production'
+      //       ? `/api/auth`
+      //       : `http://localhost:4000/api/auth`
+      //   );
+      // log user out
+      dispatch({ type: 'signout' });
+      // redirect to homepage
       history.push('/');
+      // } catch (e) {
+      //   console.error(e);
+      // }
+      // history.push('/');
     } catch (e) {
       console.log(e);
     }
