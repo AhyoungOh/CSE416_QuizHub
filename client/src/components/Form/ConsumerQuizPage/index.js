@@ -150,7 +150,6 @@ function ConsumerQuizPage() {
       time_sec.current = Number(response.data.quiz.quizTimeLimit.seconds);
       setQuizQuestions(response.data.quiz.quizQuestions);
       const usedTrialNumber = user.consumerQuizHistoryList.find((e) => {
-        console.log(e);
         return e.quizId === id;
       }).usedTrialNumber;
 
@@ -161,7 +160,6 @@ function ConsumerQuizPage() {
       leftTime.current =
         60 * Number(time_min.current) + Number(time_sec.current);
       setTimer(Number(leftTime.current));
-      console.log(leftTime.current);
       runTimer();
     } catch (e) {
       console.error(e);
@@ -254,6 +252,7 @@ function ConsumerQuizPage() {
       const seconds = Number(takenSeconds % 60);
       return { minutes, seconds };
     };
+    console.log(calculateTakenTime());
     await axios.post(
       process.env.NODE_ENV === 'production'
         ? `/api/consumer/quiz`

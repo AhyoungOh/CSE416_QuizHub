@@ -108,6 +108,7 @@ consumerRouter.post('/quiz', validUser, async (req, res) => {
     for (let i = 0; i < answers.length; i++) {
       if (submittedAnswers[i] === answers[i]) correctedAnswerNum++;
     }
+
     consumer.consumerQuizHistoryList.push({
       ...req.body.quizzes,
       correctedAnswerNum,
@@ -128,6 +129,7 @@ consumerRouter.post('/quiz', validUser, async (req, res) => {
     if (submittedAnswers[i] === answers[i]) submittedCorrectedAnswerNum++;
     if (originAnswers[i] === answers[i]) originCorrectedAnswerNum++;
   }
+  console.log(req.body.quizzes);
   if (submittedCorrectedAnswerNum >= originCorrectedAnswerNum) {
     consumer.consumerQuizHistoryList[matchedQuizIndex] = {
       ...req.body.quizzes,
