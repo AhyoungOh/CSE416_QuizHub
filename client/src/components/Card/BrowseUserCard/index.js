@@ -25,7 +25,7 @@ export default function BrowseUserCard({ consumerData }) {
       <Card className={classes.card}>
         <CardActionArea
           onClick={() => {
-            // history.push(`/consumerplayerpreview/${consumerData._id}`)
+            history.push(`/playerprofile/${consumerData._id}`)
           }}
           className={classes.card}
         >

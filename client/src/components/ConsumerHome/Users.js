@@ -19,7 +19,7 @@ export default function Users({ searchWord, searchType }) {
     return <div>error...</div>;
   }
   const consumerData = payload.createConsumer;
-  console.log(consumerData);
+  // console.log(consumerData);
   const ConsumerList = consumerData
     .filter((data) => {
       if (searchWord === null) return true;

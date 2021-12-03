@@ -9,6 +9,7 @@ import { makeStyles } from '@mui/styles';
 import ConsumerProfileForm from '../../components/Form/ConsumerProfileForm';
 import ConsumerMyBadges from '../../components/Form/ConsumerMyBadges';
 import ConsumerMyQuizzes from '../../components/Form/ConsumerMyQuizzes';
+
 const useStyles = makeStyles({
   container: {
     // padding: '20px',

@@ -16,6 +16,7 @@ import CreatorQuestion from './pages/CreatorQuestion';
 import CreateCertificate from './pages/CreateCertificate';
 import CreateBadge from './pages/CreateBadge';
 import ResultsPage from './pages/ResultPage';
+import PlayerProfilePage from './pages/PlayerProfilePage';
 // import components
 import UserAppBar from './components/UserAppBar';
 import ConsumerSignUp from './components/Form/ConsumerSignUp';
@@ -166,6 +167,9 @@ function App() {
             </Route>
             <Route path='/leaderboard/:quizId'>
               <LeaderboardPage />
+            </Route>
+            <Route path='/playerprofile/:id'>
+              <PlayerProfilePage />
             </Route>
           </Switch>
         </Router>

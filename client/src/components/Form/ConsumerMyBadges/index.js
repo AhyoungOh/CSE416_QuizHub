@@ -13,7 +13,6 @@ function ConsumerMyBadges() {
   
   const [badge_arr,setBadgeArr]=useState([])
   
-  
   const getBadgeId = async () => {
     try {
       const userInfo = await axios.get(
