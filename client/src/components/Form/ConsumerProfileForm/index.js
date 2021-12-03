@@ -125,7 +125,6 @@ function ConsumerProfileForm() {
     setConsumerPassword(user.consumerPassword ? user.consumerPassword : '');
     setEdit(false);
   };
-  console.log('user', user);
   return (
     // email, private account toggle, description
     // save button, edit button, cancel button, delete account button
