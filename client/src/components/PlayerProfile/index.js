@@ -1,7 +1,8 @@
 import useApiCall from '../../hooks/useApiCall';
-import { FormGroup, FormControlLabel, Avatar, Typography, Grid } from '@mui/material';
+import { Avatar, Typography, Grid } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { useLocation } from 'react-router-dom';
+import PlayerBadges from '../Form/PlayerBadges';
 
 const useStyles = makeStyles({
     container: {
@@ -14,7 +15,7 @@ const useStyles = makeStyles({
     },
 });
 
-export default function Player() {
+export default function PlayerProfile() {
     const location = useLocation();
     const classes = useStyles();
 
@@ -36,13 +37,13 @@ export default function Player() {
     const consumerData = payload.createConsumer.find((el) => {
         return el._id === id;
     });
-    console.log(consumerData);
+    // console.log("consumerData.badges", consumerData.badges);
     
     return(
         <div>
             <Grid
                 container
-                spacing={1}
+                spacing={2}
                 direction='column'
                 alignItems='center'
                 className={classes.container}
@@ -68,6 +69,7 @@ export default function Player() {
                     </Typography>
                 </Grid>
             </Grid>
+            <PlayerBadges badges={consumerData.badges} />
         </div>
     );
 }
