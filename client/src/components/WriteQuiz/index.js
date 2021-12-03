@@ -266,15 +266,15 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
               >
                 Badge
               </MenuItem>
-              <MenuItem
+              {/* <MenuItem
                 value={'both'}
                 onClick={() => {
                   setCertificatevisible(true);
                   setBadgevisible(true);
                 }}
               >
-                Both
-              </MenuItem>
+                Both */}
+              {/* </MenuItem> */}
             </Select>
           </FormControl>
           {certificatevisible ? (
@@ -457,7 +457,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
               <MenuItem value={'none'}>No Reward</MenuItem>
               <MenuItem value={'certificate'}>Certificate</MenuItem>
               <MenuItem value={'badge'}>Badge</MenuItem>
-              <MenuItem value={'both'}>Both</MenuItem>
+              {/* <MenuItem value={'both'}>Both</MenuItem> */}
             </Select>
           </FormControl>
 
