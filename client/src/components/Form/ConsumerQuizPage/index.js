@@ -146,12 +146,12 @@ function ConsumerQuizPage() {
           ? `/api/quiz/detail/${id}`
           : `http://localhost:4000/api/quiz/detail/${id}`
       );
-      time_min.current = response.data.quiz.quizTimeLimit.minutes;
-      time_sec.current = response.data.quiz.quizTimeLimit.seconds;
+      time_min.current = Number(response.data.quiz.quizTimeLimit.minutes);
+      time_sec.current = Number(response.data.quiz.quizTimeLimit.seconds);
       setQuizQuestions(response.data.quiz.quizQuestions);
-      // console.log('response : ', response..quiz.usedTrialNumber);
       const usedTrialNumber = user.consumerQuizHistoryList.find((e) => {
-        return e.id === id;
+        console.log(e);
+        return e.quizId === id;
       }).usedTrialNumber;
 
       quizInfo.current = {
@@ -160,8 +160,8 @@ function ConsumerQuizPage() {
       };
       leftTime.current =
         60 * Number(time_min.current) + Number(time_sec.current);
-      setTimer(leftTime.current);
-
+      setTimer(Number(leftTime.current));
+      console.log(leftTime.current);
       runTimer();
     } catch (e) {
       console.error(e);
@@ -250,8 +250,8 @@ function ConsumerQuizPage() {
       const originSeconds =
         60 * Number(time_min.current) + Number(time_sec.current);
       const takenSeconds = originSeconds - leftTime.current;
-      const minutes = String(Math.floor(takenSeconds / 60));
-      const seconds = String(takenSeconds % 60);
+      const minutes = Number(Math.floor(takenSeconds / 60));
+      const seconds = Number(takenSeconds % 60);
       return { minutes, seconds };
     };
     await axios.post(
