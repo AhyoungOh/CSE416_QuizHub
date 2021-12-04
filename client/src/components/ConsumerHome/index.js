@@ -76,7 +76,7 @@ function ConsumerHome() {
           </Grid>
         </Grid>
         { searchWord ?
-          <Grid item sx={{ marginTop: '60px' }}>
+          <Grid item sx={{ marginTop: '20px' }}>
             <QuizzesResult searchWord={searchWord} searchType={searchType} />
             <PlatformsResult searchWord={searchWord} searchType={searchType} />
             <UsersResult searchWord={searchWord} searchType={searchType} />

@@ -1,6 +1,6 @@
 import useApiCall from '../../../hooks/useApiCall';
 import BrowsePlatformCard from '../../Card/BrowsePlatformCard';
-import { Grid } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 
 export default function PlatformsResult({ searchWord, searchType }) {
   const [loading, payload, error] = useApiCall(
@@ -33,13 +33,40 @@ export default function PlatformsResult({ searchWord, searchType }) {
           <BrowsePlatformCard platformData={data} />{' '}
         </Grid>
       );
-    });
+    }
+  );
+
+  const countResult = platformData.filter((data) => {
+    if (searchWord === null) return true;
+    if (searchType !== 'Platform') return false;
+
+    return data.platformName.toUpperCase().includes(searchWord.toUpperCase());
+  });
+
   return (
     <div>
-      {/* TODO: add total __ result */}
-      <Grid container spacing={3} justifyContent='center'>
-        {PlatformCardList}
-      </Grid>
+      { countResult.length !== 0 ?
+        <div>
+          <Grid container justifyContent='center' sx={{ paddingBottom: '20px' }}>
+            { countResult.length == 1 ?
+            <Typography>{countResult.length} platform</Typography>
+            :
+            <Typography>{countResult.length} platforms</Typography>
+            }
+          </Grid>
+          <Grid container spacing={3} justifyContent='center'>
+            {PlatformCardList}
+          </Grid>
+        </div>
+      :
+        <Grid container justifyContent='center'>
+          { searchType == 'Platform' ? 
+            <Typography>No result found</Typography>
+            :
+            <div></div>
+          }
+        </Grid>
+      }
     </div>
   );
 }

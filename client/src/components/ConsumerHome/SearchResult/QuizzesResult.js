@@ -1,6 +1,6 @@
 import useApiCall from '../../../hooks/useApiCall';
 import BrowseQuizCard from '../../Card/BrowseQuizCard';
-import { Grid } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 
 export default function QuizzesResult({ searchWord, searchType }) {
   const [loading, payload, error] = useApiCall(
@@ -33,13 +33,46 @@ export default function QuizzesResult({ searchWord, searchType }) {
           <BrowseQuizCard quizData={data} />{' '}
         </Grid>
       );
-    });
+    }
+  );
+
+  const countResult = quizData.filter((data) => {
+    if (searchWord === null) return true;
+
+    if (searchType !== 'Quiz') {
+      console.log('return false')
+      return false;
+    }
+
+    return data.quizName.toUpperCase().includes(searchWord.toUpperCase());
+  })
+
+  console.log('quizzes countResult', countResult == true);
+  console.log('searchType', searchType);
   return (
     <div>
-      {/* TODO: add total __ result */}
-      <Grid container spacing={3} justifyContent='center'>
-        {QuizCardList}
-      </Grid>
+      { countResult.length !== 0 ?
+        <div>
+          <Grid container justifyContent='center' sx={{ paddingBottom: '20px' }}>
+            { countResult.length == 1 ?
+            <Typography>{countResult.length} quiz</Typography>
+            :
+            <Typography>{countResult.length} quizzes</Typography>
+            }
+          </Grid>
+          <Grid container spacing={3} justifyContent='center'>
+            {QuizCardList}
+          </Grid>
+        </div>
+      :
+        <Grid container justifyContent='center'>
+          { searchType == 'Quiz' ? 
+            <Typography>No result found</Typography>
+            :
+            <div></div>
+          }
+        </Grid>
+      }
     </div>
   );
 }
