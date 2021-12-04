@@ -17,10 +17,28 @@ export default function Quizzes() {
   if (error) {
     return <div>error...</div>;
   }
+
+  const compareObjects = (a, b) => {
+    const a_mod = a.toUpperCase();
+    const b_mod = b.toUpperCase();
+  
+    if (a_mod < b_mod) {
+      return -1;
+    }
+    if (a_mod > b_mod) {
+      return 1;
+    }
+    return 0;
+  }
+
   const quizData = payload.createQuiz;
+  quizData.sort((a, b) => {
+    return compareObjects(a.quizName, b.quizName);
+  });
+  // console.log(quizData);
+
   const QuizCardList = quizData
     .map((data) => {
-      // TODO: alphabetical order
       return (
         <Grid item key={data.quizName}>
           {' '}
@@ -30,7 +48,6 @@ export default function Quizzes() {
     });
   return (
     <div>
-      {/* TODO: add total __ result */}
       <Grid container spacing={3} justifyContent='center'>
         {QuizCardList}
       </Grid>

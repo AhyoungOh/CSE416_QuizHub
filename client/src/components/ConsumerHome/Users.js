@@ -18,8 +18,25 @@ export default function Users() {
   if (error) {
     return <div>error...</div>;
   }
+
+  const compareObjects = (a, b) => {
+    const a_mod = a.toUpperCase();
+    const b_mod = b.toUpperCase();
+  
+    if (a_mod < b_mod) {
+      return -1;
+    }
+    if (a_mod > b_mod) {
+      return 1;
+    }
+    return 0;
+  }
+
   const consumerData = payload.createConsumer;
-  // console.log(consumerData);
+  consumerData.sort((a, b) => {
+    return compareObjects(a.consumerUsername, b.consumerUsername);
+  });
+  console.log(consumerData);
   const ConsumerList = consumerData
     .map((data) => {
       return (
@@ -31,7 +48,6 @@ export default function Users() {
     });
   return (
     <div>
-      {/* TODO: add total __ result */}
       <Grid container spacing={3} justifyContent='center'>
         {ConsumerList}
       </Grid>

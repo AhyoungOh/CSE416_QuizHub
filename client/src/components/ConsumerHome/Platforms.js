@@ -18,10 +18,26 @@ export default function Platforms() {
   if (error) {
     return <div>error...</div>;
   }
+
+  const compareObjects = (a, b) => {
+    const a_mod = a.toUpperCase();
+    const b_mod = b.toUpperCase();
+  
+    if (a_mod < b_mod) {
+      return -1;
+    }
+    if (a_mod > b_mod) {
+      return 1;
+    }
+    return 0;
+  }
+
   const platformData = payload.createPlatform;
+  platformData.sort((a, b) => {
+    return compareObjects(a.platformName, b.platformName);
+  });
   const PlatformCardList = platformData
     .map((data) => {
-        // TODO: alphabetical order
         return (
         <Grid item>
             {' '}

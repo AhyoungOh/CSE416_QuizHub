@@ -97,11 +97,9 @@ function ConsumerHome() {
                 </Tabs>
               </Box>
               <TabPanel value={value} index={0}>
-                {/* return all quizzes */}
                 <Quizzes />
               </TabPanel>
               <TabPanel value={value} index={1}>
-                {/* return all platforms */}
                 <Platforms />
               </TabPanel>
               <TabPanel value={value} index={2}>
