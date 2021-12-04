@@ -23,6 +23,15 @@ const useStyles = makeStyles({
     borderRadius: '10px',
     maxWidth: '1000px',
   },
+  consumerPaper: {
+    borderRadius: '10px',
+    maxWidth: '1000px',
+    // borderStyle: 'solid',
+    // borderColor: '#007fff',
+    // color: '#007fff',
+    backgroundColor: '#007fff',
+    color: 'white',
+  },
   titlePaper: {
     borderRadius: '10px',
     minWidth: '1000px',
@@ -110,7 +119,15 @@ function Leaderboard() {
     if (rowData.length !== 0) {
       return(
         <Grid item lg={8}>
-          <Paper elevation={0} className={classes.paper}>
+          <Paper 
+            elevation={0} 
+            className={ 
+              ((!user.isCreator) && (user.id == rowData.id)) ?
+              classes.consumerPaper
+              :
+              classes.paper
+            }
+          >
             <Grid container justifyContent='space-evenly'>
               <Grid item>
                 <Typography className={classes.rowText}>
@@ -134,8 +151,21 @@ function Leaderboard() {
                     <Typography 
                       sx={{ paddingLeft: '10px', paddingTop: '20px', paddingBottom: '20px'}}
                     >
+                    { 
+                      ((!user.isCreator) && (user.id == rowData.id)) ?
+                      <Link
+                        underline='none'
+                        color='inherit'
+                        onClick={()=> {
+                          history.push(`/consumer-page`);
+                        }}
+                        sx={{ cursor: 'pointer' }}
+                      >
+                        {rowData.username}
+                      </Link>
+                      :
                       <Link 
-                        underline="hover"
+                        underline='hover'
                         onClick={()=> {
                           if (rowData.isPrivate) {
                             setOpen(true);
@@ -144,9 +174,11 @@ function Leaderboard() {
                             history.push(`/playerprofile/${rowData.id}`);
                           }
                         }}
+                        sx={{ cursor: 'pointer' }}
                       >
                         {rowData.username}
                       </Link>
+                    }
                     </Typography>
                   </Grid>
                 </Grid>
@@ -183,8 +215,9 @@ function Leaderboard() {
               <Typography variant='h5' className={classes.titleText} sx={{ fontWeight: 'bold' }}>
                 {/* Quiz Name */}
                 <Link 
-                  underline="hover"
+                  underline="none"
                   onClick={goToQuiz}
+                  sx={{ cursor: 'pointer' }}
                 >
                   {/* TODO: pass quiz name */}
                   {quizName ? quizName : 'Empty'} Leaderboard
