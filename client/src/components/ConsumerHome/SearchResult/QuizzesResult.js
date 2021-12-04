@@ -60,7 +60,7 @@ export default function QuizzesResult({ searchWord, searchType }) {
             <Typography>{countResult.length} quizzes</Typography>
             }
           </Grid>
-          <Grid container spacing={3} justifyContent='center'>
+          <Grid container spacing={3} justifyContent='center' sx={{ paddingLeft: '20px', paddingRight: '20px' }}>
             {QuizCardList}
           </Grid>
         </div>

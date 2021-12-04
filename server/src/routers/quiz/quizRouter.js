@@ -31,6 +31,11 @@ quizRouter.get(
 quizRouter.get('/leaderboard/:id', async (req, res) => {
   const quizId = req.params.id;
   const allConsumers = await Consumer.find();
+  const quiz = await Quiz.findById(req.params.id).populate({
+    path: 'quizQuestions',
+    model: Question,
+  });
+  const quizName = quiz.quizName;
 
   const consumerQuizResultList = allConsumers
     .filter((consumer) => {
@@ -50,6 +55,7 @@ quizRouter.get('/leaderboard/:id', async (req, res) => {
       return {
         data,
         quizIndex,
+        quizName,
       };
     });
   const sortedConsumerList = consumerQuizResultList.sort((a, b) => {

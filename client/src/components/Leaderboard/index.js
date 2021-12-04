@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { UserContext } from '../../App';
 import axios from 'axios';
@@ -14,9 +14,18 @@ const useStyles = makeStyles({
     maxWidth: '200px',
     textAlign: 'center',
   },
+  titleText: {
+    paddingTop: '20px',
+    paddingBottom: '20px',
+    textAlign: 'center',
+  },
   paper: {
     borderRadius: '10px',
     maxWidth: '1000px',
+  },
+  titlePaper: {
+    borderRadius: '10px',
+    minWidth: '1000px',
   },
 });
 
@@ -32,6 +41,8 @@ function Leaderboard() {
   const history = useHistory();
   // console.log(quizid);
   const [open, setOpen] = useState(false);
+  const { user, dispatch } = useContext(UserContext);
+  console.log(user);
 
   const [loading, leaderboard, error] = useApiCall(
     process.env.NODE_ENV === 'production'
@@ -62,7 +73,12 @@ function Leaderboard() {
     row['isPrivate'] = data.data.consumerIsPrivate;
     players.push(row);
   }
-  console.log(players);
+  console.log(leaderboard);
+  let quizName = '';
+  if (leaderboard.length) {
+    quizName = leaderboard[0].quizName;
+  }
+  // console.log(quizName);
 
   players.sort(function(a, b){
     if (a.correct - b.correct !== 0) {
@@ -72,7 +88,6 @@ function Leaderboard() {
         return a.min - b.min;
       } else {
         if (a.sec - b.sec !== 0) {
-          console.log("here");
           return a.sec - b.sec;
         } else {
           return compare(a.username, b.username);
@@ -81,7 +96,15 @@ function Leaderboard() {
     }
   });
 
-  console.log(players);
+  // console.log(players);
+
+  const goToQuiz = () => {
+    if (user.isCreator) {
+      history.push(`/quiz/detail/${quizId}`);
+    } else {
+      history.push(`/consumerquizpreview/${quizId}`);
+    }
+  }
 
   const rows = players.map((rowData, index) => {
     if (rowData.length !== 0) {
@@ -155,10 +178,19 @@ function Leaderboard() {
     <div>
       <Grid container direction='column' spacing={2} sx={{ padding:'20px' }}>
         <Grid item container direction='column' alignContent='center' spacing={1}>
-          <Grid item alignSelf='center'>
-            <Typography variant='h5' sx={{ fontWeight: 'bold' }}>
-              Quiz Name
-            </Typography>
+          <Grid item alignSelf='center' justifyContent='center'>
+            <Paper elevation={0} className={classes.titlePaper} sx={{ backgroundColor: '#E6F2FF' }}>
+              <Typography variant='h5' className={classes.titleText} sx={{ fontWeight: 'bold' }}>
+                {/* Quiz Name */}
+                <Link 
+                  underline="hover"
+                  onClick={goToQuiz}
+                >
+                  {/* TODO: pass quiz name */}
+                  {quizName ? quizName : 'Empty'} Leaderboard
+                </Link>
+              </Typography>
+            </Paper>
           </Grid>
           <Grid item>
             <Paper elevation={0} className={classes.paper} sx={{ backgroundColor: '#E6F2FF' }}>
