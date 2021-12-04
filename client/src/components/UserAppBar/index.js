@@ -85,7 +85,7 @@ function UserAppBar() {
                 </IconButton> */}
 
         {/* TODO: adjust our logo */}
-        <Box style={{ flex: 1 }}>
+        <Box style={{ flex: 1, cursor: 'pointer' }}>
           <img
             className='headerName'
             src='/logo.png'
