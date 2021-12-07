@@ -12,10 +12,19 @@ import authRouter from './src/routers/auth/index.js';
 import quizRouter from './src/routers/quiz/quizRouter.js';
 import questionRouter from './src/routers/question/questionRouter.js';
 import badgeRouter from './src/routers/badgeRouter.js';
+import imageUploadRouter from './src/routers/imageUploadRouter.js';
 
 import ejs from 'ejs';
 import path from 'path';
 const __dirname = path.resolve();
+
+// defining mongoose options
+const options = {
+  useNewUrlParser: true,
+  useFindAndModify: false,
+  useCreateIndex: true,
+  useUnifiedTopology: true,
+};
 
 // middleware
 const app = express();
@@ -26,6 +35,7 @@ app.set('views', __dirname + '/public');
 app.engine('html', ejs.renderFile);
 app.use(express.static('public'));
 // console.log(process.env.MONGODB_URI);
+
 mongoose
   // .connect(String(process.env.MONGODB_URI))   //for deploy
   // for local development
@@ -67,7 +77,8 @@ app.use('/api/creatorHome', platformRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/quiz', quizRouter);
 app.use('/api/question', questionRouter);
-app.use('/api/badge',badgeRouter)
+app.use('/api/badge', badgeRouter);
+app.use('/api/image', imageUploadRouter)
 
 app.get('*', (req, res) => {
   res.render('index.html');

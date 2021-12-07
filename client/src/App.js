@@ -17,10 +17,11 @@ import CreateCertificate from './pages/CreateCertificate';
 import CreateBadge from './pages/CreateBadge';
 import ResultsPage from './pages/ResultPage';
 import PlayerProfilePage from './pages/PlayerProfilePage';
+import LeaderboardPage from './pages/LeaderboardPage';
 // import components
 import UserAppBar from './components/UserAppBar';
 import ConsumerSignUp from './components/Form/ConsumerSignUp';
-import LeaderboardPage from './pages/LeaderboardPage';
+import ImageUpload from './components/ImageUpload';
 // mui theme setup
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
@@ -170,6 +171,9 @@ function App() {
             </Route>
             <Route path='/playerprofile/:id'>
               <PlayerProfilePage />
+            </Route>
+            <Route path='/imageupload'>
+              <ImageUpload />
             </Route>
           </Switch>
         </Router>
