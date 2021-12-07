@@ -10,7 +10,7 @@ export default function Users() {
       : `http://localhost:4000/api/consumer`
   );
   if (!payload) {
-    return <div>No Data</div>;
+    return <div>loading...</div>;
   }
   if (loading) {
     return <div>loading...</div>;
@@ -22,7 +22,7 @@ export default function Users() {
   const compareObjects = (a, b) => {
     const a_mod = a.toUpperCase();
     const b_mod = b.toUpperCase();
-  
+
     if (a_mod < b_mod) {
       return -1;
     }
@@ -30,22 +30,21 @@ export default function Users() {
       return 1;
     }
     return 0;
-  }
+  };
 
   const consumerData = payload.createConsumer;
   consumerData.sort((a, b) => {
     return compareObjects(a.consumerUsername, b.consumerUsername);
   });
   console.log(consumerData);
-  const ConsumerList = consumerData
-    .map((data) => {
-      return (
-        <Grid item>
-          {' '}
-          <BrowseUserCard consumerData={data} />{' '}
-        </Grid>
-      );
-    });
+  const ConsumerList = consumerData.map((data) => {
+    return (
+      <Grid item>
+        {' '}
+        <BrowseUserCard consumerData={data} />{' '}
+      </Grid>
+    );
+  });
   return (
     <div>
       <Grid container spacing={3} justifyContent='center'>
