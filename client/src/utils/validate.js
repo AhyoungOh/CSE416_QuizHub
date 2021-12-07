@@ -10,3 +10,17 @@ export const isNumber = (num) => {
   }
   return true;
 };
+
+export const isEmail = (email) => {
+  const splittedEmail = email.split('@');
+  if (splittedEmail.length !== 2) {
+    return false;
+  }
+  if (splittedEmail[0].length === 0) {
+    return false;
+  }
+  if (splittedEmail[1].length === 0) {
+    return false;
+  }
+  return true;
+};
