@@ -86,6 +86,15 @@ function ConsumerSignUp() {
       alert('please put the valid email');
       return;
     }
+
+    if (
+      !usernameRef.current.value ||
+      !passwordRef.current.value ||
+      !emailRef.current.value
+    ) {
+      alert('please fill out all sections');
+      return;
+    }
     try {
       const consumerInfo = await axios.post(
         process.env.NODE_ENV == 'production'
