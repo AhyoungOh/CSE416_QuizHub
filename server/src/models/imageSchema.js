@@ -2,10 +2,11 @@ import mongoose from 'mongoose';
 
 const imageSchema = new mongoose.Schema(
     {
-        name: { type: String },
+        quizId: { type: mongoose.Schema.Types.ObjectID, ref: 'Quiz' },
         url: { type: String },
-        cloudinary_id: { type: String },
-        folder: { type: String },
+        cloudinaryId: { type: String },
+        fileName: { type: String },
+        // kind: { type: String },
     },
     {
         timestamps: true

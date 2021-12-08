@@ -15,10 +15,11 @@ imageUploadRouter.post(
           console.log(result);
            // Create new user
           let image = new Image({
-            name: req.body.name,
+            quizId: req.body.quiz_id,
             url: result.secure_url,
-            cloudinary_id: result.public_id,
-            folder: result.folder,
+            cloudinaryId: result.public_id,
+            fileName: req.body.file_name,
+            // kind: req.body.kind,
           });
           // Save user
           await image.save();
