@@ -14,6 +14,7 @@ import {
   getNativeSelectUtilityClasses,
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+import ImageUpload from '../ImageUpload';
 
 const useStyles = makeStyles({
   buttonsContainer: {
@@ -283,6 +284,9 @@ function DetailQuiz({ quizData, setQuizVisible }) {
                       </Button>
                     ) : null}
                   </Grid>
+                </Grid>
+                <Grid item>
+                  <ImageUpload quizId={quizData._id} />
                 </Grid>
               </CardContent>
             </Card>

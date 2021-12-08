@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Grid, IconButton, } from '@mui/material';
+import { Grid, IconButton, Button } from '@mui/material';
 import CustomInput from './CustomInput';
 import AddPhotoAlternateRoundedIcon from '@mui/icons-material/AddPhotoAlternateRounded';
 
-export default function ImageUpload( { quizId='618f4696f23e2502ccc985b3' }) {
+export default function ImageUpload( { quizId }) {
     const [fileData, setFileData] = useState();
     const [images, setFile] = useState("");
     const [fileName, setFileName] = useState();

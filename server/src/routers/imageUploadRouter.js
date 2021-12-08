@@ -8,6 +8,7 @@ const imageUploadRouter = express.Router();
 
 imageUploadRouter.post(
     "/", imageParser.single("image"), 
+    expressAsyncHandler(
     async (req, res) => {
         try {
           // Upload image to cloudinary
@@ -27,7 +28,7 @@ imageUploadRouter.post(
         } catch (err) {
           console.log(err);
         }
-    }
+    })
 );
 
 imageUploadRouter.get("/", async (req, res) => {
