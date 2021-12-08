@@ -52,14 +52,34 @@ function ConsumerProfileForm() {
   const [consumerPassword, setConsumerPassword] = useState(
     user.consumerPassword ? user.consumerPassword : ''
   );
+  function uploadFile(inputFile) {
+    // const preview = document.querySelector('img');
+    // const file = document.querySelector('input[type=file]').files[0];
+    if (!inputFile) {
+      return;
+    }
+    const reader = new FileReader();
 
+    reader.addEventListener(
+      'load',
+      function () {
+        // convert image file to base64 string
+        setConsumerImg(reader.result);
+      },
+      false
+    );
+
+    if (inputFile) {
+      reader.readAsDataURL(inputFile);
+    }
+  }
   // saveButtonHandler: handle saving on changes and setEdit(false)
   const saveButtonHandler = async () => {
     try {
       await axios.put(
         process.env.NODE_ENV == 'production'
           ? `/api/consumer/${user?.id}`
-          : `http://localhost:4000/api/consumer/${user?.id}`,
+          : `/api/consumer/${user?.id}`,
         {
           consumerEmail: email,
           consumerDescription: description,
@@ -241,15 +261,16 @@ function ConsumerProfileForm() {
             multiline
             onChange={(e) => setDescription(e.target.value)}
           />
-          <TextField
-            autoFocus
-            margin='dense'
-            label='profile-image'
-            defaultValue={consumerImg ? consumerImg : 'Enter your image'}
-            rows={3}
-            fullWidth
-            multiline
-            onChange={(e) => setConsumerImg(e.target.value)}
+          <input
+            type='file'
+            // alt='selected image'
+            // defaultValue={consumerImg ? consumerImg : 'Enter your image'}
+            // rows={3}
+            // fullWidth
+            // multiline
+            onChange={(e) => {
+              uploadFile(e.target?.files[0]);
+            }}
           />
           <TextField
             autoFocus

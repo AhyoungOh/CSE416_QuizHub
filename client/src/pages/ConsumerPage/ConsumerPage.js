@@ -64,7 +64,6 @@ export default function ConsumerPage() {
   const handleChangeTab = (event, newValue) => {
     setValue(newValue);
   };
-
   return (
     <div>
       <Grid

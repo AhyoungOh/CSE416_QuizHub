@@ -5,9 +5,7 @@ import { Grid } from '@mui/material';
 
 export default function Users() {
   const [loading, payload, error] = useApiCall(
-    process.env.NODE_ENV === 'production'
-      ? `/api/consumer`
-      : `http://localhost:4000/api/consumer`
+    process.env.NODE_ENV === 'production' ? `/api/consumer` : `/api/consumer`
   );
   if (!payload) {
     return <div>loading...</div>;
