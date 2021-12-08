@@ -18,14 +18,6 @@ import ejs from 'ejs';
 import path from 'path';
 const __dirname = path.resolve();
 
-// defining mongoose options
-const options = {
-  useNewUrlParser: true,
-  useFindAndModify: false,
-  useCreateIndex: true,
-  useUnifiedTopology: true,
-};
-
 // middleware
 const app = express();
 app.use(express.json());
