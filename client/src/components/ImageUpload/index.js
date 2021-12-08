@@ -20,6 +20,7 @@ export default function ImageUpload() {
         const formdata = new FormData();
     
         formdata.append("image", fileData);
+        // formData.append('upload_preset', preset);
         console.log("fileData", fileData);
     
         await axios.post(
