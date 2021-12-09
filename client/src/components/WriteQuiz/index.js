@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Input from './Input';
 import './style.scss';
 import { useHistory } from 'react-router-dom';
+import ImageUpload from '../ImageUpload';
 import {
   Grid,
   TextField,
@@ -173,6 +174,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             onChange={(e) => setQuizImage(e.target.value)}
             // sx={{ m: 1 }}
           />
+          <ImageUpload quizId={quizData._id} />
           <TextField
             required
             autoFocus
@@ -387,6 +389,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             onChange={(e) => setQuizImage(e.target.value)}
             // sx={{ m: 3 }}
           />
+          <ImageUpload quizId={quizData._id} />
           <TextField
             required
             autoFocus
