@@ -149,9 +149,10 @@ function ConsumerQuizPage() {
       time_min.current = Number(response.data.quiz.quizTimeLimit.minutes);
       time_sec.current = Number(response.data.quiz.quizTimeLimit.seconds);
       setQuizQuestions(response.data.quiz.quizQuestions);
-      const usedTrialNumber = user.consumerQuizHistoryList.find((e) => {
-        return e.quizId === id;
-      }).usedTrialNumber;
+      const usedTrialNumber =
+        user.consumerQuizHistoryList.find((e) => {
+          return e.quizId === id;
+        })?.usedTrialNumber || 0;
 
       quizInfo.current = {
         ...quizInfo.current,

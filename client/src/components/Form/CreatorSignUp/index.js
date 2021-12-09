@@ -2,17 +2,27 @@ import { useRef, useContext, useState } from 'react';
 import axios from 'axios';
 import { UserContext } from '../../../App';
 import { useHistory } from 'react-router-dom';
-import { Paper, InputBase, Typography, Button, TextField, Grid, Tabs, Tab } from '@mui/material';
+import {
+  Paper,
+  InputBase,
+  Typography,
+  Button,
+  TextField,
+  Grid,
+  Tabs,
+  Tab,
+} from '@mui/material';
 import { InputAdornment, IconButton } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { isEmail } from '../../../utils/validate';
 import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles({
   title: {
     paddingLeft: '13px',
     fontSize: '32px',
-    fontWeight: 'bold',  
+    fontWeight: 'bold',
   },
   subtitle: {
     paddingLeft: '33px',
@@ -30,7 +40,7 @@ const useStyles = makeStyles({
   inputField: {
     marginLeft: '16px',
     marginTop: '18px',
-    height: '24px', 
+    height: '24px',
     fontSize: '18px',
     width: '90%',
   },
@@ -38,7 +48,8 @@ const useStyles = makeStyles({
     paddingLeft: '',
     borderRadius: '8px',
     height: '58px',
-    boxShadow: '0px 4px 4px rgba(51, 51, 51, 0.04), 0px 4px 16px rgba(51, 51, 51, 0.08)',
+    boxShadow:
+      '0px 4px 4px rgba(51, 51, 51, 0.04), 0px 4px 16px rgba(51, 51, 51, 0.08)',
   },
   button: {
     height: '50px',
@@ -46,12 +57,12 @@ const useStyles = makeStyles({
     borderRadius: '9px',
   },
   buttonGrid: {
-    marginTop: '10px', 
-    marginLeft: '10px', 
+    marginTop: '10px',
+    marginLeft: '10px',
     marginRight: '10px',
   },
   contentWrapper: {
-    padding: "20px",
+    padding: '20px',
   },
 });
 
@@ -71,6 +82,20 @@ function CreatorSignUp() {
   };
 
   const clickBtnHandler = async () => {
+    if (!isEmail(emailRef.current.value)) {
+      alert('please put the valid email');
+      return;
+    }
+
+    if (
+      !usernameRef.current.value ||
+      !passwordRef.current.value ||
+      !emailRef.current.value
+    ) {
+      alert('please fill out all sections');
+      return;
+    }
+
     try {
       const creatorInfo = await axios.post(
         process.env.NODE_ENV == 'production'
@@ -94,37 +119,40 @@ function CreatorSignUp() {
 
   return (
     <div>
-      <Grid container justifyContent="center" className={classes.container}>
+      <Grid container justifyContent='center' className={classes.container}>
         <Grid item xs={10} s={8} md={6} lg={4}>
           <Paper className={classes.paper}>
-            <Grid container direction="column" spacing={2} className={classes.contentWrapper}>
+            <Grid
+              container
+              direction='column'
+              spacing={2}
+              className={classes.contentWrapper}
+            >
               <Grid item>
                 <Typography className={classes.title}>
                   Create account
                 </Typography>
               </Grid>
               <Grid item>
-                <Tabs
-                  value={value}
-                >
+                <Tabs value={value}>
                   <Tab
-                    value="creator"
-                    label="Creator"
+                    value='creator'
+                    label='Creator'
                     wrapped
-                    sx={{fontSize: '15px'}}
+                    sx={{ fontSize: '15px' }}
                     // href='/auth/creator_signup'
                   />
                   <Tab
-                    value="consumer"
-                    label="Consumer"
+                    value='consumer'
+                    label='Consumer'
                     wrapped
-                    sx={{fontSize: '15px'}}
+                    sx={{ fontSize: '15px' }}
                     href='/auth/consumer_signup'
                   />
                 </Tabs>
               </Grid>
               <Grid item>
-                <Typography variant="subtitle2" className={classes.subtitle}>
+                <Typography variant='subtitle2' className={classes.subtitle}>
                   You will be making platforms and quizzes
                 </Typography>
               </Grid>
@@ -132,9 +160,9 @@ function CreatorSignUp() {
                 <Paper className={classes.inputBox}>
                   <InputBase
                     fullWidth
-                    placeholder="Username"
+                    placeholder='Username'
                     inputRef={usernameRef}
-                    type="text"
+                    type='text'
                     // inputProps={{ 'aria-label': 'search google maps' }}
                     className={classes.inputField}
                   />
@@ -152,9 +180,9 @@ function CreatorSignUp() {
                 <Paper className={classes.inputBox}>
                   <InputBase
                     fullWidth
-                    placeholder="Email"
+                    placeholder='Email'
                     inputRef={emailRef}
-                    type="text"
+                    type='text'
                     // inputProps={{ 'aria-label': 'search google maps' }}
                     className={classes.inputField}
                   />
@@ -172,20 +200,20 @@ function CreatorSignUp() {
                 <Paper className={classes.inputBox}>
                   <InputBase
                     // fullWidth
-                    placeholder="Password"
+                    placeholder='Password'
                     inputRef={passwordRef}
                     type={showPassword ? 'text' : 'password'}
                     // inputProps={{ 'aria-label': 'search google maps' }}
                     className={classes.inputField}
                     endAdornment={
-                      <InputAdornment position="end">
+                      <InputAdornment position='end'>
                         <IconButton
-                          aria-label="toggle password visibility"
+                          aria-label='toggle password visibility'
                           onClick={handleClickShowPassword}
                           // onMouseDown={handleMouseDownPassword}
-                          edge="end"
+                          edge='end'
                         >
-                          {showPassword ? <Visibility /> : <VisibilityOff /> }
+                          {showPassword ? <Visibility /> : <VisibilityOff />}
                         </IconButton>
                       </InputAdornment>
                     }
@@ -203,7 +231,7 @@ function CreatorSignUp() {
               <Grid item className={classes.buttonGrid}>
                 <Button
                   fullWidth
-                  variant="contained"
+                  variant='contained'
                   onClick={clickBtnHandler}
                   className={classes.button}
                 >
@@ -211,7 +239,10 @@ function CreatorSignUp() {
                 </Button>
               </Grid>
               <Grid item sx={{ alignSelf: 'center' }}>
-                <Typography>Already have an account? <Button href='/auth/signin'>Sign in</Button></Typography>
+                <Typography>
+                  Already have an account?{' '}
+                  <Button href='/auth/signin'>Sign in</Button>
+                </Typography>
               </Grid>
             </Grid>
           </Paper>

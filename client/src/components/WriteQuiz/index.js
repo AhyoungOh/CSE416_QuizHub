@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import Input from './Input';
 import './style.scss';
+import { isNumber } from '../../utils/validate';
 import { useHistory } from 'react-router-dom';
 import ImageUpload from '../ImageUpload';
 import {
@@ -43,13 +44,13 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
     quizData?.quizDescription || ''
   );
   const [quizNumberOfTrials, setQuizNumberOfTrials] = useState(
-    quizData?.quizNumberOfTrials || ''
+    quizData?.quizNumberOfTrials ?? ''
   );
   const [quizTimeLimitMinutes, setQuizTimeLimitMinutes] = useState(
-    quizData?.quizTimeLimit?.minutes || ''
+    quizData?.quizTimeLimit?.minutes ?? ''
   );
   const [quizTimeLimitSeconds, setQuizTimeLimitSeconds] = useState(
-    quizData?.quizTimeLimit?.seconds || ''
+    quizData?.quizTimeLimit?.seconds ?? ''
   );
   const [quizRewardType, setQuizRewardType] = useState(
     quizData?.quizRewardType || ''
@@ -59,9 +60,9 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
   // );
   // const [quizBadge, setQuizBadge] = useState(quizData?.quizBadge || '');
   const [quizCertificateQualification, setQuizCertificateQualification] =
-    useState(quizData?.quizCertificateQualification || '');
+    useState(quizData?.quizCertificateQualification ?? '');
   const [quizBadgeQualification, setQuizBadgeQualification] = useState(
-    quizData?.quizBadgeQualification || ''
+    quizData?.quizBadgeQualification ?? ''
   );
   const [quizEnableLeaderboard, setQuizEnableLeaderboard] = useState(
     quizData?.quizEnableLeaderboard || ''
@@ -72,6 +73,18 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
   const [certificatevisible, setCertificatevisible] = useState(false);
   const history = useHistory();
   const createquizData = async () => {
+    if (!isNumber(quizNumberOfTrials)) {
+      alert('please fill out the quiz number of trials');
+      return;
+    }
+    if (!isNumber(quizTimeLimitMinutes)) {
+      alert('please fill out the quiz time minutes');
+      return;
+    }
+    if (!isNumber(quizTimeLimitSeconds)) {
+      alert('please fill out the quiz time seconds');
+      return;
+    }
     await axios.post(
       process.env.NODE_ENV === 'production'
         ? `/api/quiz/${platformId}`
@@ -98,6 +111,19 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
     history.push(`/creatorHome/${platformId}`);
   };
   const updatequizData = async () => {
+    if (!isNumber(quizNumberOfTrials)) {
+      alert('please fill out the quiz number of trials');
+      return;
+    }
+    if (!isNumber(quizTimeLimitMinutes)) {
+      alert('please fill out the quiz time minutes');
+      return;
+    }
+    if (!isNumber(quizTimeLimitSeconds)) {
+      alert('please fill out the quiz time seconds');
+      return;
+    }
+
     await axios.put(
       process.env.NODE_ENV === 'production'
         ? `/api/quiz/detail/${quizData._id}`

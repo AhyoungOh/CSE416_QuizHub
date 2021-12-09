@@ -38,9 +38,9 @@ const useStyles = makeStyles({
   },
 });
 
-function compare(a, b){
-  if(a < b) return -1; 
-  if(a > b) return 1;
+function compare(a, b) {
+  if (a < b) return -1;
+  if (a > b) return 1;
   return 0;
 }
 
@@ -60,7 +60,7 @@ function Leaderboard() {
     { withCredentials: true }
   );
   if (!leaderboard) {
-    return <div>No Data</div>;
+    return <div>loading...</div>;
   }
   if (loading) {
     return <div>loading...</div>;
@@ -75,9 +75,12 @@ function Leaderboard() {
     const row = {};
     row['id'] = data.data._id;
     row['username'] = data.data.consumerUsername;
-    row['correct'] = data.data.consumerQuizHistoryList[data.quizIndex].correctedAnswerNum;
-    row['min'] = data.data.consumerQuizHistoryList[data.quizIndex].quizTimeTaken.minutes;
-    row['sec'] = data.data.consumerQuizHistoryList[data.quizIndex].quizTimeTaken.seconds;
+    row['correct'] =
+      data.data.consumerQuizHistoryList[data.quizIndex].correctedAnswerNum;
+    row['min'] =
+      data.data.consumerQuizHistoryList[data.quizIndex].quizTimeTaken.minutes;
+    row['sec'] =
+      data.data.consumerQuizHistoryList[data.quizIndex].quizTimeTaken.seconds;
     row['img'] = data.data.consumerImage;
     row['isPrivate'] = data.data.consumerIsPrivate;
     players.push(row);
@@ -89,9 +92,9 @@ function Leaderboard() {
   }
   // console.log(quizName);
 
-  players.sort(function(a, b){
+  players.sort(function (a, b) {
     if (a.correct - b.correct !== 0) {
-      return - (a.correct - b.correct);
+      return -(a.correct - b.correct);
     } else {
       if (a.min - b.min !== 0) {
         return a.min - b.min;
@@ -113,72 +116,76 @@ function Leaderboard() {
     } else {
       history.push(`/consumerquizpreview/${quizId}`);
     }
-  }
+  };
 
   const rows = players.map((rowData, index) => {
     if (rowData.length !== 0) {
-      return(
+      return (
         <Grid item lg={8}>
-          <Paper 
-            elevation={0} 
-            className={ 
-              ((!user.isCreator) && (user.id == rowData.id)) ?
-              classes.consumerPaper
-              :
-              classes.paper
+          <Paper
+            elevation={0}
+            className={
+              !user.isCreator && user.id == rowData.id
+                ? classes.consumerPaper
+                : classes.paper
             }
           >
             <Grid container justifyContent='space-evenly'>
               <Grid item>
-                <Typography className={classes.rowText}>
-                  {index+1}
-                </Typography>
+                <Typography className={classes.rowText}>{index + 1}</Typography>
               </Grid>
               <Grid item alignSelf='center'>
-                <Grid container alignItems='center' sx={{ minWidth: '200px', maxWidth: '200px' }}>
+                <Grid
+                  container
+                  alignItems='center'
+                  sx={{ minWidth: '200px', maxWidth: '200px' }}
+                >
                   <Grid item sx={{ paddingLeft: '20px' }}>
-                    <Avatar 
+                    <Avatar
                       src={rowData.img}
                       alt={rowData.username}
                       style={{
                         width: '40px',
                         height: '40px',
-                      }} 
+                      }}
                       // sx={{ bgcolor: '#007fff' }}
                     />
                   </Grid>
                   <Grid item>
-                    <Typography 
-                      sx={{ paddingLeft: '10px', paddingTop: '20px', paddingBottom: '20px'}}
+                    <Typography
+                      sx={{
+                        paddingLeft: '10px',
+                        paddingTop: '20px',
+                        paddingBottom: '20px',
+                      }}
                     >
-                    { 
-                      ((!user.isCreator) && (user.id == rowData.id)) ?
-                      <Link
-                        underline='none'
-                        color='inherit'
-                        onClick={()=> {
-                          history.push(`/consumer-page`);
-                        }}
-                        sx={{ cursor: 'pointer' }}
-                      >
-                        {rowData.username}
-                      </Link>
-                      :
-                      <Link 
-                        underline='hover'
-                        onClick={()=> {
-                          if (rowData.isPrivate) {
-                            setOpen(true);
-                            return ;
-                          } else {
-                            history.push(`/playerprofile/${rowData.id}`);
-                          }
-                        }}
-                        sx={{ cursor: 'pointer' }}
-                      >
-                        {rowData.username}
-                      </Link>
-                    }
+                      {!user.isCreator && user.id == rowData.id ? (
+                        <Link
+                          underline='none'
+                          color='inherit'
+                          onClick={() => {
+                            history.push(`/consumer-page`);
+                          }}
+                          sx={{ cursor: 'pointer' }}
+                        >
+                          {rowData.username}
+                        </Link>
+                      ) : (
+                        <Link
+                          underline='hover'
+                          onClick={() => {
+                            if (rowData.isPrivate) {
+                              setOpen(true);
+                              return;
+                            } else {
+                              history.push(`/playerprofile/${rowData.id}`);
+                            }
+                          }}
+                          sx={{ cursor: 'pointer' }}
+                        >
+                          {rowData.username}
+                        </Link>
+                      )}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -198,24 +205,36 @@ function Leaderboard() {
         </Grid>
       );
     } else {
-      return(
-        <Typography>No entries yet!</Typography>
-      );
+      return <Typography>No entries yet!</Typography>;
     }
   });
 
   // leaderboard is returning all the consumers that have taken the quiz before
   // return <div className='Leaderboard'>{JSON.stringify(leaderboard, null, 2)}</div>;
-  return(
+  return (
     <div>
-      <Grid container direction='column' spacing={2} sx={{ padding:'20px' }}>
-        <Grid item container direction='column' alignContent='center' spacing={1}>
+      <Grid container direction='column' spacing={2} sx={{ padding: '20px' }}>
+        <Grid
+          item
+          container
+          direction='column'
+          alignContent='center'
+          spacing={1}
+        >
           <Grid item alignSelf='center' justifyContent='center'>
-            <Paper elevation={0} className={classes.titlePaper} sx={{ backgroundColor: '#E6F2FF' }}>
-              <Typography variant='h5' className={classes.titleText} sx={{ fontWeight: 'bold' }}>
+            <Paper
+              elevation={0}
+              className={classes.titlePaper}
+              sx={{ backgroundColor: '#E6F2FF' }}
+            >
+              <Typography
+                variant='h5'
+                className={classes.titleText}
+                sx={{ fontWeight: 'bold' }}
+              >
                 {/* Quiz Name */}
-                <Link 
-                  underline="none"
+                <Link
+                  underline='none'
                   onClick={goToQuiz}
                   sx={{ cursor: 'pointer' }}
                 >
@@ -226,7 +245,11 @@ function Leaderboard() {
             </Paper>
           </Grid>
           <Grid item>
-            <Paper elevation={0} className={classes.paper} sx={{ backgroundColor: '#E6F2FF' }}>
+            <Paper
+              elevation={0}
+              className={classes.paper}
+              sx={{ backgroundColor: '#E6F2FF' }}
+            >
               <Grid container justifyContent='space-evenly'>
                 <Grid item>
                   <Typography justifySelf='center' className={classes.rowText}>
@@ -234,42 +257,38 @@ function Leaderboard() {
                   </Typography>
                 </Grid>
                 <Grid item>
-                  <Typography className={classes.rowText}>
-                    Username
-                  </Typography>
+                  <Typography className={classes.rowText}>Username</Typography>
                 </Grid>
                 <Grid item>
-                  <Typography className={classes.rowText}>
-                    Score
-                  </Typography>
+                  <Typography className={classes.rowText}>Score</Typography>
                 </Grid>
                 <Grid item>
-                  <Typography className={classes.rowText}>
-                    Time
-                  </Typography>
+                  <Typography className={classes.rowText}>Time</Typography>
                 </Grid>
               </Grid>
             </Paper>
           </Grid>
-          {rows.length !== 0 ? 
-            rows 
-            : 
+          {rows.length !== 0 ? (
+            rows
+          ) : (
             <Grid item alignSelf='center'>
               <Typography sx={{ paddingTop: '20px' }}>
                 No entries yet!
               </Typography>
             </Grid>
-          }
+          )}
         </Grid>
       </Grid>
       <Snackbar
         open={open}
         autoHideDuration={3000}
-        onClose={()=>{setOpen(false)}}
-        message="Private user!"
+        onClose={() => {
+          setOpen(false);
+        }}
+        message='Private user!'
       />
     </div>
-  )
+  );
 }
 
 export default Leaderboard;
