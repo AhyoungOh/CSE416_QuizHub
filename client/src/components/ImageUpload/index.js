@@ -31,7 +31,10 @@ export default function ImageUpload( { quizId }) {
             process.env.NODE_ENV == 'production'
               ? `/api/image`
               : `http://localhost:4000/api/image`, formdata)
-        .then((res) => console.log("res", res.data))
+        .then((res) => {
+            console.log("res", res.data);
+            window.location.reload(false);
+        })
         .catch((error) => console.error(error));
     };
 

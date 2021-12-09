@@ -150,6 +150,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
     setQuizVisible(false);
     fetchData();
     history.push(`/quiz/detail/${quizData._id}`);
+    window.location.reload(false);
   };
 
   const deletequizData = async () => {
@@ -202,7 +203,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             onChange={(e) => setQuizImage(e.target.value)}
             // sx={{ m: 1 }}
           />
-          <ImageUpload quizId={quizData._id} />
+          {/* <ImageUpload quizId={quizData._id} /> */}
           <TextField
             required
             autoFocus
