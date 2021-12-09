@@ -18,6 +18,7 @@ import {
   InputLabel,
   MenuItem,
   Slider,
+  Card
 } from '@mui/material';
 
 // modal style
@@ -176,6 +177,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             minWidth: '500px',
           }}
         >
+          <Grid container sx={{ margin: '10px' }}>
           <TextField
             required
             autoFocus
@@ -371,6 +373,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
               </Button>
             </Grid>
           </Grid>
+          </Grid>
         </Paper>
       </div>
     );
@@ -383,172 +386,193 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
           if ([...e.target?.classList].includes('write')) setQuizVisible(false);
         }}
       >
-        <Paper
+        {/* <Paper
           sx={{
             display: 'flex',
             flexWrapped: 'wrap',
             flexDirection: 'column',
             minWidth: '500px',
           }}
-        >
-          <TextField
-            required
-            autoFocus
-            // fullWidth
-            margin='dense'
-            label='Title'
-            type='text'
-            placeholder='Enter quiz title..'
-            value={quizName}
-            onChange={(e) => setQuizName(e.target.value)}
-            // sx={{ m: 3 }}
-          />
-          <TextField
-            required
-            autoFocus
-            // fullWidth
-            margin='dense'
-            label='Image'
-            type='text'
-            placeholder='Paster image url...'
-            value={quizImage}
-            onChange={(e) => setQuizImage(e.target.value)}
-            // sx={{ m: 3 }}
-          />
-          <ImageUpload quizId={quizData._id} />
-          <TextField
-            required
-            autoFocus
-            // fullWidth
-            margin='dense'
-            label='Desciprion'
-            type='text'
-            placeholder='Enter quiz description...'
-            value={quizDescription}
-            onChange={(e) => setQuizDescription(e.target.value)}
-            // sx={{ m: 3 }}
-          />
-          <TextField
-            required
-            autoFocus
-            // fullWidth
-            margin='dense'
-            label='Number Of Trials'
-            type='number'
-            placeholder='Enter the number of trials...'
-            value={quizNumberOfTrials}
-            onChange={(e) => setQuizNumberOfTrials(e.target.value)}
-            // sx={{ m: 3 }}
-          />
-          <Box
-            component='form'
-            sx={{
-              '& .MuiTextField-root': { m: 1, width: '30ch' },
-            }}
-            noValidate
-            autoComplete='off'
-          >
-            <TextField
-              required
-              autoFocus
-              // fullWidth
-              margin='dense'
-              label='Time limit in minutes'
-              type='number'
-              placeholder='Enter time limit in minutes...'
-              value={quizTimeLimitMinutes}
-              onChange={(e) => setQuizTimeLimitMinutes(e.target.value)}
-              // sx={{ m: 3 }}
-            />
-            <TextField
-              required
-              autoFocus
-              // fullWidth
-              margin='dense'
-              label='Time limit in seconds...'
-              type='number'
-              placeholder='Enter time limit in seconds...'
-              value={quizTimeLimitSeconds}
-              onChange={(e) => setQuizTimeLimitSeconds(e.target.value)}
-              // sx={{ m: 3 }}
-            />
-          </Box>
-          {/* I commented because of the UI design all the below code is needed */}
-          <FormControl fullWidth>
-            <InputLabel id='demo-simple-select-label'>Reward Type </InputLabel>
-            <Select
-              required
-              autoFocus
-              value={quizRewardType}
-              label='Leaderboard Enable'
-              onChange={(e) => setQuizRewardType(e.target.value)}
-            >
-              <MenuItem value={'none'}>No Reward</MenuItem>
-              <MenuItem value={'certificate'}>Certificate</MenuItem>
-              <MenuItem value={'badge'}>Badge</MenuItem>
-              {/* <MenuItem value={'both'}>Both</MenuItem> */}
-            </Select>
-          </FormControl>
-
-          <TextField
-            required
-            autoFocus
-            margin='dense'
-            label='Quiz Reward Qualification'
-            type='number'
-            placeholder='Enter the number for reward qualification'
-            value={quizCertificateQualification}
-            onChange={(e) => setQuizCertificateQualification(e.target.value)}
-          />
-          <TextField
-            // required
-            autoFocus
-            margin='dense'
-            label='Quiz Badge Reward Qualification'
-            type='number'
-            placeholder='Enter the number for badge reward qualification'
-            value={quizBadgeQualification}
-            onChange={(e) => setQuizBadgeQualification(e.target.value)}
-          />
-          <FormControl fullWidth>
-            <InputLabel id='demo-simple-select-label'>
-              Leaderboard Enable
-            </InputLabel>
-            <Select
-              required
-              autoFocus
-              value={quizEnableLeaderboard}
-              label='Leaderboard Enable'
-              onChange={(e) => setQuizEnableLeaderboard(e.target.value)}
-            >
-              <MenuItem value={true}>Yes Leaderboard</MenuItem>
-              <MenuItem value={false}>No Leaderboard</MenuItem>
-            </Select>
-          </FormControl>
-          <Grid
-            container
-            justifyContent='flex-end'
-            spacing={2}
-            sx={{ padding: '25px' }}
-          >
+        > */}
+        <Card sx={{ borderRadius: '18px', maxWidth: '1000px'}}>
+          <Grid container spacing={1} sx={{ margin: '20px' }} direction='column'>
             <Grid item>
-              <Button
-                variant='contained'
-                color='error'
-                onClick={() => {
-                  setShow(true);
-                }}
-              >
-                Delete
-              </Button>
+              <TextField
+                required
+                autoFocus
+                // fullWidth
+                margin='dense'
+                label='Title'
+                type='text'
+                placeholder='Enter quiz title..'
+                value={quizName}
+                onChange={(e) => setQuizName(e.target.value)}
+                // sx={{ m: 3 }}
+              />
+            </Grid>
+            <Grid item container direction='row' alignItems='center' spacing={1}>
+              <Grid item>
+                <TextField
+                  required
+                  autoFocus
+                  // fullWidth
+                  margin='dense'
+                  label='Image'
+                  type='text'
+                  placeholder='Paster image url...'
+                  value={quizImage}
+                  onChange={(e) => setQuizImage(e.target.value)}
+                  // sx={{ m: 3 }}
+                />
+              </Grid>
+              <Grid item>
+                <ImageUpload quizId={quizData._id} />
+              </Grid>
             </Grid>
             <Grid item>
-              <Button variant='contained' onClick={updatequizData}>
-                Update
-              </Button>
+              <TextField
+                required
+                autoFocus
+                // fullWidth
+                margin='dense'
+                label='Desciprion'
+                type='text'
+                placeholder='Enter quiz description...'
+                value={quizDescription}
+                onChange={(e) => setQuizDescription(e.target.value)}
+                // sx={{ m: 3 }}
+              />
+            </Grid>
+            <Grid item>
+              <TextField
+                required
+                autoFocus
+                // fullWidth
+                margin='dense'
+                label='Number Of Trials'
+                type='number'
+                placeholder='Enter the number of trials...'
+                value={quizNumberOfTrials}
+                onChange={(e) => setQuizNumberOfTrials(e.target.value)}
+                // sx={{ m: 3 }}
+              />
+            </Grid>
+            <Grid item container direction='row' spacing={1}>
+              <Grid item sx={{ maxWidth: '40%'}}>
+                <TextField
+                  required
+                  autoFocus
+                  // fullWidth
+                  margin='dense'
+                  label='Time limit in minutes'
+                  type='number'
+                  placeholder='Enter time limit in minutes...'
+                  value={quizTimeLimitMinutes}
+                  onChange={(e) => setQuizTimeLimitMinutes(e.target.value)}
+                  // sx={{ m: 3 }}
+                />
+              </Grid>
+              <Grid item sx={{ maxWidth: '40%'}}>
+                <TextField
+                  required
+                  autoFocus
+                  // fullWidth
+                  margin='dense'
+                  label='Time limit in seconds...'
+                  type='number'
+                  placeholder='Enter time limit in seconds...'
+                  value={quizTimeLimitSeconds}
+                  onChange={(e) => setQuizTimeLimitSeconds(e.target.value)}
+                  // sx={{ m: 3 }}
+                />
+              </Grid>
+            </Grid>
+            {/* </Box> */}
+            <Grid item>
+              <FormControl sx={{ width: '80%' }}>
+                <InputLabel id='demo-simple-select-label'>Reward Type </InputLabel>
+                <Select
+                  required
+                  autoFocus
+                  value={quizRewardType}
+                  label='Leaderboard Enable'
+                  onChange={(e) => setQuizRewardType(e.target.value)}
+                >
+                  <MenuItem value={'none'}>No Reward</MenuItem>
+                  <MenuItem value={'certificate'}>Certificate</MenuItem>
+                  <MenuItem value={'badge'}>Badge</MenuItem>
+                  {/* <MenuItem value={'both'}>Both</MenuItem> */}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item container direction='row' spacing={1}>
+              <Grid item sx={{ maxWidth: '40%'}}>
+                <TextField
+                  required
+                  autoFocus
+                  margin='dense'
+                  label='Quiz Reward Qualification'
+                  type='number'
+                  placeholder='Enter the number for reward qualification'
+                  value={quizCertificateQualification}
+                  onChange={(e) => setQuizCertificateQualification(e.target.value)}
+                />
+              </Grid>
+              <Grid item sx={{ maxWidth: '40%'}}>
+                <TextField
+                  // required
+                  autoFocus
+                  margin='dense'
+                  label='Quiz Badge Reward Qualification'
+                  type='number'
+                  placeholder='Enter the number for badge reward qualification'
+                  value={quizBadgeQualification}
+                  onChange={(e) => setQuizBadgeQualification(e.target.value)}
+                />
+              </Grid>
+            </Grid>
+            <Grid item>
+              <FormControl sx={{ width: '80%' }}>
+                <InputLabel id='demo-simple-select-label'>
+                  Leaderboard Enable
+                </InputLabel>
+                <Select
+                  required
+                  autoFocus
+                  value={quizEnableLeaderboard}
+                  label='Leaderboard Enable'
+                  onChange={(e) => setQuizEnableLeaderboard(e.target.value)}
+                >
+                  <MenuItem value={true}>Yes Leaderboard</MenuItem>
+                  <MenuItem value={false}>No Leaderboard</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid
+              item
+              container
+              spacing={2}
+              sx={{ paddingTop: '10px' }}
+            >
+              <Grid item>
+                <Button
+                  variant='contained'
+                  color='error'
+                  onClick={() => {
+                    setShow(true);
+                  }}
+                >
+                  Delete
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button variant='contained' onClick={updatequizData}>
+                  Update
+                </Button>
+              </Grid>
             </Grid>
           </Grid>
-        </Paper>
+        </Card>
         <Modal open={show} onClose={() => setShow(false)}>
           <Box sx={style}>
             <Grid container direction='column' spacing={2}>
