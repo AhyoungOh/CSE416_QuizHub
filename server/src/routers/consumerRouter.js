@@ -121,7 +121,7 @@ consumerRouter.post('/quiz', validUser, async (req, res) => {
     return;
   }
   const matchedQuiz = consumer.consumerQuizHistoryList[matchedQuizIndex];
-  const originAnswers = matchedQuiz.answerchoices;
+  const originAnswers = matchedQuiz?.answerchoices;
   const answers = quiz.quizQuestions.map((quiz) => quiz.questionAnswer);
   let submittedCorrectedAnswerNum = 0;
   let originCorrectedAnswerNum = 0;
