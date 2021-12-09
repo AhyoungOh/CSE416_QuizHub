@@ -4,7 +4,7 @@ import './style.scss';
 import { isNumber } from '../../utils/validate';
 import { useHistory } from 'react-router-dom';
 import ImageUpload from '../ImageUpload';
-import { Grid, TextField, Paper, Button, Typography, Modal, Box, Select, FormControl, InputLabel, InputBase, MenuItem, Card, CardMedia } from '@mui/material';
+import { Grid, TextField, Paper, Button, Typography, Modal, Box, Select, Switch, FormControl, FormGroup, FormControlLabel, RadioGroup, Radio, InputLabel, MenuItem, Card, CardMedia } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import BootstrapInput from './BootstrapInput.js';
 
@@ -31,9 +31,11 @@ const useStyles = makeStyles({
 function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
   // for delete confirm modal
   const [show, setShow] = useState(false);
-  // const [platformId, setPlatformId] = useState(quizData?.platformId || '');
+
+  const default_img = 'https://res.cloudinary.com/quizhub/image/upload/v1639090185/Default/primary_default_qdcn0l.png';
+  
   const [quizName, setQuizName] = useState(quizData?.quizName || '');
-  const [quizImage, setQuizImage] = useState(quizData?.quizImage || '');
+  const [quizImage, setQuizImage] = useState(quizData?.quizImage || default_img);
   const [] = useState(quizData?.createdDate || '');
   const [quizDescription, setQuizDescription] = useState(
     quizData?.quizDescription || ''
@@ -64,8 +66,8 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
   );
   // console.log('quizData.quizEnableleaderboard', quizData.quizEnableLeaderboard);
   // console.log('quizEnableLeaderboard', quizEnableLeaderboard);
-  const [badgevisible, setBadgevisible] = useState(false);
-  const [certificatevisible, setCertificatevisible] = useState(false);
+  const [badgevisible, setBadgevisible] = useState(quizRewardType == 'badge');
+  const [certificatevisible, setCertificatevisible] = useState(quizRewardType == 'certificate');
   const history = useHistory();
 
   const createquizData = async () => {
@@ -106,6 +108,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
     fetchData();
     history.push(`/creatorHome/${platformId}`);
   };
+
   const updatequizData = async () => {
     if (!isNumber(quizNumberOfTrials)) {
       alert('please fill out the quiz number of trials');
@@ -165,145 +168,162 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
     return (
       // create a new quiz
       <div className='write'>
-        <Paper
-          sx={{
-            display: 'flex',
-            flexWrapped: 'wrap',
-            flexDirection: 'column',
-            minWidth: '500px',
-          }}
-        >
-          <Grid container sx={{ margin: '10px' }}>
-          <TextField
-            required
-            autoFocus
-            // fullWidth
-            margin='dense'
-            label='Title'
-            type='text'
-            placeholder='Enter quiz title..'
-            value={quizName}
-            onChange={(e) => setQuizName(e.target.value)}
-            // sx={{ m: 1 }}
+        <Card sx={{ borderRadius: '18px', maxWidth: '1100px', display: 'flex'}}>
+          <CardMedia
+            component='img'
+            sx={{ heigt: '800px', maxWidth: '40%', display: { xs: 'none', sm: 'block' } }}
+            image={quizImage}
+            alt={quizName}
           />
-          <TextField
-            required
-            autoFocus
-            // fullWidth
-            margin='dense'
-            label='Image'
-            type='text'
-            placeholder='Paster image url...'
-            value={quizImage}
-            onChange={(e) => setQuizImage(e.target.value)}
-            // sx={{ m: 1 }}
-          />
-          {/* <ImageUpload quizId={quizData._id} /> */}
-          <TextField
-            required
-            autoFocus
-            // fullWidth
-            margin='dense'
-            label='Desciprion'
-            type='text'
-            placeholder='Enter quiz description...'
-            value={quizDescription}
-            onChange={(e) => setQuizDescription(e.target.value)}
-            // sx={{ m: 1 }}
-          />
-          <TextField
-            required
-            autoFocus
-            // fullWidth
-            margin='dense'
-            label='Number Of Trials'
-            type='number'
-            placeholder='Enter the number of trials...'
-            value={quizNumberOfTrials}
-            onChange={(e) => setQuizNumberOfTrials(e.target.value)}
-            // sx={{ m: 1 }}
-          />
-          <Box
-            component='form'
-            sx={{
-              '& .MuiTextField-root': { m: 1, width: '30ch' },
-            }}
-            noValidate
-            autoComplete='off'
-          >
-            <TextField
-              required
-              autoFocus
-              // fullWidth
-              margin='dense'
-              label='Time limit in minutes'
-              type='number'
-              placeholder='Enter the time limit in minutes...'
-              value={quizTimeLimitMinutes}
-              onChange={(e) => setQuizTimeLimitMinutes(e.target.value)}
-              // sx={{ m: 1 }}
-            />
-            <TextField
-              required
-              autoFocus
-              // fullWidth
-              margin='dense'
-              label='Time limit in seconds...'
-              type='number'
-              placeholder='Enter the time limit in seconds...'
-              value={quizTimeLimitSeconds}
-              onChange={(e) => setQuizTimeLimitSeconds(e.target.value)}
-              // sx={{ m: 1 }}
-            />
-          </Box>
-          <FormControl fullWidth>
-            <InputLabel id='demo-simple-select-label'>Reward Type </InputLabel>
-            <Select
-              required
-              autoFocus
-              value={quizRewardType}
-              label='Leaderboard Enable'
-              onChange={(e) => setQuizRewardType(e.target.value)}
+          <Grid container direction='row' sx={{ marginTop: '20px', marginBottom: '20px', marginLeft: '30px', marginRight: '10px' }}>
+            <Grid item container spacing={1} direction='column' sx={{ width: '70%'}}>
+              <Grid item>
+                <FormControl variant='standard'>
+                  <InputLabel required shrink htmlFor="bootstrap-input">
+                    Title
+                  </InputLabel>
+                  <BootstrapInput value={quizName} type='text' onChange={(e) => setQuizName(e.target.value)} placeholder='Enter quiz title...' />
+                </FormControl>
+              </Grid>
+              <Grid item>
+                <FormControl variant='standard'>
+                  <InputLabel required shrink htmlFor="bootstrap-input">
+                    Image
+                  </InputLabel>
+                  <BootstrapInput type='text' onChange={(e) => setQuizImage(e.target.value)} placeholder='Paster image url...' />
+                </FormControl>
+              </Grid>
+              <Grid item>
+                <FormControl variant='standard'>
+                  <InputLabel required shrink htmlFor="bootstrap-input">
+                    Description
+                  </InputLabel>
+                  <BootstrapInput value={quizDescription} type='text' multiline maxRows={3} onChange={(e) => setQuizDescription(e.target.value)} placeholder='Enter quiz description...' />
+                </FormControl>
+              </Grid>
+              <Grid item>
+                <FormControl variant='standard'>
+                  <InputLabel required shrink htmlFor="bootstrap-input">
+                    Number Of trials
+                  </InputLabel>
+                  <BootstrapInput value={quizNumberOfTrials} type='number' onChange={(e) => setQuizNumberOfTrials(e.target.value)} placeholder='Enter the number of trials...' />
+                </FormControl>
+              </Grid>
+              <Grid item container direction='row' alignItems='flex-end'>
+                <Grid item sx={{ width: '40%' }}> 
+                  <FormControl variant='standard' sx={{ maxWidth: '95%' }}>
+                    <InputLabel required shrink htmlFor="bootstrap-input">
+                      Time limit
+                    </InputLabel>
+                    <BootstrapInput value={quizTimeLimitMinutes} type='number' onChange={(e) => setQuizTimeLimitMinutes(e.target.value)} placeholder='minutes' />
+                  </FormControl>
+                  </Grid>
+                <Grid item sx={{ width: '40%' }}>
+                  <FormControl variant='standard' sx={{ maxWidth: '95%' }}>
+                    <BootstrapInput value={quizTimeLimitSeconds} type='number' onChange={(e) => setQuizTimeLimitSeconds(e.target.value)} placeholder='seconds' />
+                  </FormControl>
+                </Grid>
+              </Grid>
+              <Grid item>
+                <FormControl variant='standard' component='fieldset'>
+                  <InputLabel required shrink htmlFor="bootstrap-input">
+                    Reward type
+                  </InputLabel>
+                  <RadioGroup 
+                    value={quizRewardType} 
+                    onChange={
+                      (e) => {
+                        setQuizRewardType(e.target.value);
+                        if (e.target.value == 'certificate') {
+                          setCertificatevisible(true);
+                          setBadgevisible(false);
+                        } else if (e.target.value == 'badge') {
+                          setCertificatevisible(false);
+                          setBadgevisible(true);
+                        } else {
+                          // 'none'
+                          setCertificatevisible(false);
+                          setBadgevisible(false);
+                        }
+                      }
+                    } 
+                    row 
+                    aria-label="reward-type" 
+                    sx={{ paddingTop: '15px' }}
+                  >
+                    <FormControlLabel value={'none'} control={<Radio size='small' />} label={<Typography sx={{ fontSize: 16 }}>None</Typography>} />
+                    <FormControlLabel value={'certificate'} control={<Radio size='small' />} label={<Typography sx={{ fontSize: 16 }}>Certificate</Typography>} />
+                    <FormControlLabel value={'badge'} control={<Radio size='small' />} label={<Typography sx={{ fontSize: 16 }}>Badge</Typography>} />
+                    {/* <FormControlLabel disabled value={'both'} control={<Radio size='small' />} label={<Typography sx={{ fontSize: 16 }}>Both</Typography>}/> */}
+                  </RadioGroup>
+                </FormControl>
+              </Grid>
+              {/* TODO: Slider on Modal for qualification */}
+              <Grid item container direction='row' alignItems='flex-end'>
+                {certificatevisible ?
+                  (<Grid item sx={{ width: '40%' }}> 
+                    <FormControl variant='standard' sx={{ maxWidth: '95%' }}>
+                      <InputLabel shrink htmlFor="bootstrap-input">
+                        Certificate Qualification
+                      </InputLabel>
+                      <BootstrapInput value={quizCertificateQualification} type='number' onChange={(e) => setQuizCertificateQualification(e.target.value)} placeholder='questions' />
+                    </FormControl>
+                  </Grid>) : null
+                }
+                {badgevisible ? 
+                  (<Grid item sx={{ width: '40%' }}>
+                    <FormControl variant='standard' sx={{ maxWidth: '95%' }}>
+                      <InputLabel shrink htmlFor="bootstrap-input">
+                        Badge Qualification
+                      </InputLabel>
+                      <BootstrapInput value={quizBadgeQualification} type='number' onChange={(e) => setQuizBadgeQualification(e.target.value)} placeholder='questions' />
+                    </FormControl>
+                  </Grid>) : null
+                }
+              </Grid>
+              <Grid item>
+                <FormControl variant='standard'>
+                  <InputLabel required shrink htmlFor="bootstrap-input">
+                    Leaderboard
+                  </InputLabel>
+                  <FormGroup sx={{ paddingTop: '15px' }}>
+                  <FormControlLabel onChange={() => setQuizEnableLeaderboard(!quizEnableLeaderboard)} checked={quizEnableLeaderboard} value='end' control={<Switch />} label={quizEnableLeaderboard ? <Typography sx={{ fontSzie: 16 }}>enabled</Typography> : <Typography sx={{ fontSzie: 16 }}>disabled</Typography>} />
+                  </FormGroup>
+                </FormControl>
+              </Grid>
+            </Grid>
+            <Grid
+              item
+              container
+              spacing={1}
+              direction='column'
+              justifyContent='flex-end'
+              alignItems='flex-end'
+              sx={{ maxWidth: '30%' }}
             >
-              <MenuItem
-                value={'none'}
-                onClick={() => {
-                  setCertificatevisible(false);
-                  setBadgevisible(false);
-                }}
-              >
-                No Reward
-              </MenuItem>
-              <MenuItem
-                value={'certificate'}
-                onClick={() => {
-                  setCertificatevisible(true);
-                  setBadgevisible(false);
-                }}
-              >
-                Certificate
-              </MenuItem>
-              <MenuItem
-                value={'badge'}
-                onClick={() => {
-                  setBadgevisible(true);
-                  setCertificatevisible(false);
-                }}
-              >
-                Badge
-              </MenuItem>
-              {/* <MenuItem
-                value={'both'}
-                onClick={() => {
-                  setCertificatevisible(true);
-                  setBadgevisible(true);
-                }}
-              >
-                Both */}
-              {/* </MenuItem> */}
-            </Select>
-          </FormControl>
-          {certificatevisible ? (
+              <Grid item>
+                <Button variant='contained' onClick={createquizData}>
+                  Create quiz
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button
+                  variant='outlined'
+                  color='inherit'
+                  onClick={() => {
+                    history.push(`/creatorHome/${platformId}`);
+                  }}
+                  // onClick={() => {
+                  //   setQuizVisible(false);
+                  // }}
+                >
+                  Cancel
+                </Button>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Card>
+          {/* {certificatevisible ? (
             <TextField
               // required
               autoFocus
@@ -314,63 +334,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
               value={quizCertificateQualification}
               onChange={(e) => setQuizCertificateQualification(e.target.value)}
             />
-          ) : null}
-          {badgevisible ? (
-            <TextField
-              // required
-              autoFocus
-              margin='dense'
-              label='Quiz Badge Reward Qualification'
-              type='number'
-              placeholder='Enter the number for badge reward qualification'
-              value={quizBadgeQualification}
-              onChange={(e) => setQuizBadgeQualification(e.target.value)}
-            />
-          ) : null}
-
-          <FormControl fullWidth>
-            <InputLabel id='demo-simple-select-label'>
-              Leaderboard Enable
-            </InputLabel>
-            <Select
-              required
-              autoFocus
-              value={quizEnableLeaderboard}
-              label='Leaderboard Enable'
-              onChange={(e) => setQuizEnableLeaderboard(e.target.value)}
-            >
-              <MenuItem value={true}>Yes Leaderboard</MenuItem>
-              <MenuItem value={false}>No Leaderboard</MenuItem>
-            </Select>
-          </FormControl>
-          <Grid
-            container
-            justifyContent='flex-end'
-            spacing={2}
-            sx={{ padding: '25px' }}
-          >
-            <Grid item>
-              <Button variant='contained' onClick={createquizData}>
-                Create quiz
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button
-                variant='outlined'
-                color='inherit'
-                onClick={() => {
-                  history.push(`/creatorHome/${platformId}`);
-                }}
-                // onClick={() => {
-                //   setQuizVisible(false);
-                // }}
-              >
-                Cancel
-              </Button>
-            </Grid>
-          </Grid>
-          </Grid>
-        </Paper>
+          ) : null} */}
       </div>
     );
   } else {
@@ -382,148 +346,157 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
           if ([...e.target?.classList].includes('write')) setQuizVisible(false);
         }}
       >
-        <Card sx={{ borderRadius: '18px', maxWidth: '1000px', display: 'flex'}}>
+        <Card sx={{ borderRadius: '18px', maxWidth: '1100px', display: 'flex'}}>
           <CardMedia
             component='img'
-            sx={{ heigt: '800px', display: { xs: 'none', sm: 'block' } }}
+            sx={{ heigt: '800px', maxWidth: '40%', display: { xs: 'none', sm: 'block' } }}
             image={quizImage}
             alt={quizName}
           />
-          <Grid container spacing={1} sx={{ margin: '20px' }} direction='column'>
-            <Grid item>
-              <FormControl variant='standard'>
-                <InputLabel required shrink htmlFor="bootstrap-input">
-                  Title
-                </InputLabel>
-                <BootstrapInput value={quizName} type='text' onChange={(e) => setQuizName(e.target.value)} placeholder='Enter quiz title...' />
-              </FormControl>
-            </Grid>
-            <Grid item container direction='row' alignItems='flex-end' spacing={1}>
+          <Grid container direction='row' sx={{ marginTop: '20px', marginBottom: '20px', marginLeft: '30px', marginRight: '10px' }}>
+            <Grid item container spacing={1} direction='column' sx={{ width: '70%'}}>
               <Grid item>
                 <FormControl variant='standard'>
                   <InputLabel required shrink htmlFor="bootstrap-input">
-                    Image
+                    Title
                   </InputLabel>
-                  <BootstrapInput value={quizImage} type='text' onChange={(e) => setQuizImage(e.target.value)} placeholder='Paster image url...' />
+                  <BootstrapInput value={quizName} type='text' onChange={(e) => setQuizName(e.target.value)} placeholder='Enter quiz title...' />
+                </FormControl>
+              </Grid>
+              <Grid item container direction='row' alignItems='flex-end' spacing={1}>
+                <Grid item>
+                  <FormControl variant='standard'>
+                    <InputLabel required shrink htmlFor="bootstrap-input">
+                      Image
+                    </InputLabel>
+                    <BootstrapInput value={quizImage} type='text' onChange={(e) => setQuizImage(e.target.value)} placeholder='Paster image url...' />
+                  </FormControl>
+                </Grid>
+                <Grid item>
+                  <ImageUpload quizId={quizData._id} />
+                </Grid>
+              </Grid>
+              <Grid item>
+                <FormControl variant='standard'>
+                  <InputLabel required shrink htmlFor="bootstrap-input">
+                    Description
+                  </InputLabel>
+                  <BootstrapInput value={quizDescription} type='text' multiline maxRows={3} onChange={(e) => setQuizDescription(e.target.value)} placeholder='Enter quiz description...' />
                 </FormControl>
               </Grid>
               <Grid item>
-                <ImageUpload quizId={quizData._id} />
-              </Grid>
-            </Grid>
-            <Grid item>
-              <FormControl variant='standard'>
-                <InputLabel required shrink htmlFor="bootstrap-input">
-                  Description
-                </InputLabel>
-                <BootstrapInput value={quizDescription} type='text' multiline maxRows={3} onChange={(e) => setQuizDescription(e.target.value)} placeholder='Enter quiz description...' />
-              </FormControl>
-            </Grid>
-            <Grid item>
-              <FormControl variant='standard'>
-                <InputLabel required shrink htmlFor="bootstrap-input">
-                  Number Of trials
-                </InputLabel>
-                <BootstrapInput value={quizNumberOfTrials} type='number' onChange={(e) => setQuizNumberOfTrials(e.target.value)} placeholder='Enter the number of trials...' />
-              </FormControl>
-            </Grid>
-            <Grid item container direction='row' alignItems='flex-end'>
-              {/* <FormControl variant='standard'> */}
-                <Grid item sx={{ width: '40%' }}> 
-                  <FormControl variant='standard'>
+                <FormControl variant='standard'>
                   <InputLabel required shrink htmlFor="bootstrap-input">
-                    Time limit
+                    Number Of trials
                   </InputLabel>
-                  <BootstrapInput value={quizTimeLimitMinutes} type='number' onChange={(e) => setQuizTimeLimitMinutes(e.target.value)} placeholder='minutes' sx={{ width: '75%' }}/>
+                  <BootstrapInput value={quizNumberOfTrials} type='number' onChange={(e) => setQuizNumberOfTrials(e.target.value)} placeholder='Enter the number of trials...' />
+                </FormControl>
+              </Grid>
+              <Grid item container direction='row' alignItems='flex-end'>
+                <Grid item sx={{ width: '40%' }}> 
+                  <FormControl variant='standard' sx={{ maxWidth: '95%' }}>
+                    <InputLabel required shrink htmlFor="bootstrap-input">
+                      Time limit
+                    </InputLabel>
+                    <BootstrapInput value={quizTimeLimitMinutes} type='number' onChange={(e) => setQuizTimeLimitMinutes(e.target.value)} placeholder='minutes' />
                   </FormControl>
                   </Grid>
                 <Grid item sx={{ width: '40%' }}>
-                  <FormControl variant='standard'>
-                  <BootstrapInput value={quizTimeLimitSeconds} type='number' onChange={(e) => setQuizTimeLimitSeconds(e.target.value)} placeholder='seconds' sx={{ width: '75%' }}/>
+                  <FormControl variant='standard' sx={{ maxWidth: '95%' }}>
+                    <BootstrapInput value={quizTimeLimitSeconds} type='number' onChange={(e) => setQuizTimeLimitSeconds(e.target.value)} placeholder='seconds' />
                   </FormControl>
                 </Grid>
-            </Grid>
-            {/* </Box> */}
-            <Grid item>
-              <FormControl sx={{ width: '80%' }}>
-                <InputLabel id='demo-simple-select-label'>Reward Type </InputLabel>
-                <Select
-                  required
-                  autoFocus
-                  value={quizRewardType}
-                  label='Leaderboard Enable'
-                  onChange={(e) => setQuizRewardType(e.target.value)}
-                >
-                  <MenuItem value={'none'}>No Reward</MenuItem>
-                  <MenuItem value={'certificate'}>Certificate</MenuItem>
-                  <MenuItem value={'badge'}>Badge</MenuItem>
-                  {/* <MenuItem value={'both'}>Both</MenuItem> */}
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item container direction='row' spacing={1}>
-              <Grid item sx={{ maxWidth: '40%'}}>
-                <TextField
-                  required
-                  autoFocus
-                  margin='dense'
-                  label='Quiz Reward Qualification'
-                  type='number'
-                  placeholder='Enter the number for reward qualification'
-                  value={quizCertificateQualification}
-                  onChange={(e) => setQuizCertificateQualification(e.target.value)}
-                />
               </Grid>
-              <Grid item sx={{ maxWidth: '40%'}}>
-                <TextField
-                  // required
-                  autoFocus
-                  margin='dense'
-                  label='Quiz Badge Reward Qualification'
-                  type='number'
-                  placeholder='Enter the number for badge reward qualification'
-                  value={quizBadgeQualification}
-                  onChange={(e) => setQuizBadgeQualification(e.target.value)}
-                />
+              <Grid item>
+                <FormControl variant='standard' component='fieldset'>
+                  <InputLabel required shrink htmlFor="bootstrap-input">
+                    Reward type
+                  </InputLabel>
+                  <RadioGroup 
+                    value={quizRewardType}
+                    onChange={
+                      (e) => {
+                        setQuizRewardType(e.target.value);
+                        if (e.target.value == 'certificate') {
+                          setCertificatevisible(true);
+                          setBadgevisible(false);
+                        } else if (e.target.value == 'badge') {
+                          setCertificatevisible(false);
+                          setBadgevisible(true);
+                        } else {
+                          // 'none'
+                          setCertificatevisible(false);
+                          setBadgevisible(false);
+                        }
+                      }
+                    }
+                    row 
+                    aria-label="reward-type" 
+                    sx={{ paddingTop: '15px' }}
+                  >
+                    <FormControlLabel value={'none'} control={<Radio size='small' />} label={<Typography sx={{ fontSize: 16 }}>None</Typography>} />
+                    <FormControlLabel value={'certificate'} control={<Radio size='small' />} label={<Typography sx={{ fontSize: 16 }}>Certificate</Typography>} />
+                    <FormControlLabel value={'badge'} control={<Radio size='small' />} label={<Typography sx={{ fontSize: 16 }}>Badge</Typography>} />
+                    {/* <FormControlLabel disabled value={'both'} control={<Radio size='small' />} label={<Typography sx={{ fontSize: 16 }}>Both</Typography>}/> */}
+                  </RadioGroup>
+                </FormControl>
               </Grid>
-            </Grid>
-            <Grid item>
-              <FormControl sx={{ width: '80%' }}>
-                <InputLabel id='demo-simple-select-label'>
-                  Leaderboard Enable
-                </InputLabel>
-                <Select
-                  required
-                  autoFocus
-                  value={quizEnableLeaderboard}
-                  label='Leaderboard Enable'
-                  onChange={(e) => setQuizEnableLeaderboard(e.target.value)}
-                >
-                  <MenuItem value={true}>Yes Leaderboard</MenuItem>
-                  <MenuItem value={false}>No Leaderboard</MenuItem>
-                </Select>
-              </FormControl>
+              {/* TODO: Slider on Modal for qualification */}
+              <Grid item container direction='row' alignItems='flex-end'>
+                {certificatevisible ? 
+                  <Grid item sx={{ width: '40%' }}> 
+                    <FormControl variant='standard' sx={{ maxWidth: '95%' }}>
+                      <InputLabel shrink htmlFor="bootstrap-input">
+                        Certificate Qualification
+                      </InputLabel>
+                      <BootstrapInput value={quizCertificateQualification} type='number' onChange={(e) => setQuizCertificateQualification(e.target.value)} placeholder='questions' />
+                    </FormControl>
+                  </Grid> : null
+                }
+                {badgevisible ? 
+                  <Grid item sx={{ width: '40%' }}>
+                    <FormControl variant='standard' sx={{ maxWidth: '95%' }}>
+                      <InputLabel shrink htmlFor="bootstrap-input">
+                        Badge Qualification
+                      </InputLabel>
+                      <BootstrapInput value={quizBadgeQualification} type='number' onChange={(e) => setQuizBadgeQualification(e.target.value)} placeholder='questions' />
+                    </FormControl>
+                  </Grid> : null
+                }
+              </Grid>
+              <Grid item>
+                <FormControl variant='standard'>
+                  <InputLabel required shrink htmlFor="bootstrap-input">
+                    Leaderboard
+                  </InputLabel>
+                  <FormGroup sx={{ paddingTop: '15px' }}>
+                  <FormControlLabel onChange={() => setQuizEnableLeaderboard(!quizEnableLeaderboard)} checked={quizEnableLeaderboard} value='end' control={<Switch />} label={quizEnableLeaderboard ? <Typography sx={{ fontSzie: 16 }}>enabled</Typography> : <Typography sx={{ fontSzie: 16 }}>disabled</Typography>} />
+                  </FormGroup>
+                </FormControl>
+              </Grid>
             </Grid>
             <Grid
               item
               container
-              spacing={2}
-              sx={{ paddingTop: '10px' }}
+              spacing={1}
+              direction='column'
+              justifyContent='flex-end'
+              alignItems='flex-end'
+              sx={{ maxWidth: '30%' }}
             >
               <Grid item>
                 <Button
-                  variant='contained'
                   color='error'
                   onClick={() => {
                     setShow(true);
                   }}
                 >
-                  Delete
+                  Delete Quiz
                 </Button>
               </Grid>
               <Grid item>
                 <Button variant='contained' onClick={updatequizData}>
-                  Update
+                  Save
                 </Button>
               </Grid>
             </Grid>

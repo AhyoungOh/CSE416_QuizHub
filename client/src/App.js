@@ -40,6 +40,9 @@ const theme = createTheme({
       dark: '#c99052',
       contrastText: '#fff',
     },
+    // disabled: {
+    //   main: '#f0f0f0',
+    // },
   },
   typography: {
     fontFamily: [
