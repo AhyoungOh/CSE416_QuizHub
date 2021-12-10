@@ -242,7 +242,8 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
                   </CustomWidthTooltip>
                   <BootstrapInput
                     type='text'
-                    onChange={(e) => setQuizImage(e.target.value)}
+                    value={quizImage === default_img ? '' : quizImage}
+                    onChange={(e) => setQuizImage(e.target.value !== '' ? e.target.value : default_img)}
                     placeholder='Paster image url...'
                   />
                 </FormControl>
@@ -365,7 +366,6 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
                   </RadioGroup>
                 </FormControl>
               </Grid>
-              {/* TODO: Slider on Modal for qualification */}
               <Grid item container direction='row' alignItems='flex-end'>
                 {certificatevisible ?
                   (<Grid item sx={{ width: '50%' }}> 
@@ -544,9 +544,9 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
                       </InputLabel>
                     </CustomWidthTooltip>
                     <BootstrapInput
-                      value={quizImage}
+                      value={quizImage === default_img ? '' : quizImage}
                       type='text'
-                      onChange={(e) => setQuizImage(e.target.value)}
+                      onChange={(e) => setQuizImage(e.target.value !== '' ? e.target.value : default_img)}
                       placeholder='Paster image url...'
                     />
                   </FormControl>
@@ -677,7 +677,6 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
                   </RadioGroup>
                 </FormControl>
               </Grid>
-              {/* TODO: Slider on Modal for qualification */}
               <Grid item container direction='row' alignItems='flex-end'>
                 {certificatevisible ? 
                   (<Grid item sx={{ width: '50%' }}> 
