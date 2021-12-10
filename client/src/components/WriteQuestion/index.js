@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import Input from './Input';
 import { useHistory } from 'react-router-dom';
-import { Grid, TextField, Paper, Button } from '@mui/material';
+import { Grid, Box, TextField, Paper, Button, Card, Typography } from '@mui/material';
 
 function WriteQuestion({
   questionData,
@@ -107,26 +107,30 @@ function WriteQuestion({
     // add new question
     return (
       <div className='write'>
-        <Paper
+        {/* <Paper
           sx={{
             display: 'flex',
             flexWrapped: 'wrap',
             flexDirection: 'column',
             minWidth: '500px',
           }}
-        >
-          <div>Question Number {questionNumber}</div>
-          <TextField
-            required
-            autoFocus
-            // fullWidth
-            margin='dense'
-            label='Question'
-            type='text'
-            placeholder='Enter the question...'
-            onChange={(e) => setQuestionQuestion(e.target.value)}
-            // sx={{ m: 3 }}
-          />
+        > */}
+        <Card sx={{ borderRadius: '18px', minWidth: '1000px', display: 'flex', flexDirection: 'column' }}>
+          <Grid container direction='column' sx={{ padding: '20px' }} >
+            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '20px' }}>
+              <Typography variant='h5'>{questionNumber}</Typography>    
+              <TextField
+                required
+                autoFocus
+                fullWidth
+                variant='standard'
+                margin='dense'
+                label='Question'
+                type='text'
+                placeholder='Enter the question...'
+                onChange={(e) => setQuestionQuestion(e.target.value)}
+              />
+            </Box>
           <TextField
             required
             autoFocus
@@ -207,7 +211,8 @@ function WriteQuestion({
               </Button>
             </Grid>
           </Grid>
-        </Paper>
+          </Grid>
+        </Card>
       </div>
     );
   } else {

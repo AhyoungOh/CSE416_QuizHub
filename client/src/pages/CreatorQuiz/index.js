@@ -45,12 +45,6 @@ function CreatorQuiz() {
     <div>
       <Switch>
         <Route exact path={`/quiz/${id}`}>
-          <Grid
-            container
-            spacing={4}
-            justify='center'
-            className={classes.gridContainer}
-          ></Grid>
           <WriteQuiz
             quizData={selectedquizData}
             // setData={() => {}}
