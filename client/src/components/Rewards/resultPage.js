@@ -184,8 +184,7 @@ function ResultsPage() {
           </Col>
         </Form.Group>
         <h1>
-          {result >= certificate_qualifier.current ||
-          result >= badge_qualifier.current
+          {result >= certificate_qualifier || result >= badge_qualifier
             ? 'Congratulations'
             : 'Sorry please try again'}
         </h1>
@@ -193,12 +192,12 @@ function ResultsPage() {
       {/* {console.log(file_download)}
       {console.log(badge_qualifier.current)}
       {console.log(certificate_qualifier.current)} */}
-      {result >= badge_qualifier.current ? (
+      {result >= badge_qualifier ? (
         <img src={img} width='200' height='200'></img>
       ) : (
         ''
       )}
-      {result >= certificate_qualifier.current ? (
+      {result >= certificate_qualifier ? (
         <a href={file_download} download>
           {' '}
           Click to download certificate{' '}
