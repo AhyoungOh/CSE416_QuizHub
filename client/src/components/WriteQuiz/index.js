@@ -326,18 +326,6 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             </Grid>
           </Grid>
         </Card>
-          {/* {certificatevisible ? (
-            <TextField
-              // required
-              autoFocus
-              margin='dense'
-              label='Quiz Certificate Reward Qualification'
-              type='number'
-              placeholder='Enter the number for certificate reward qualification'
-              value={quizCertificateQualification}
-              onChange={(e) => setQuizCertificateQualification(e.target.value)}
-            />
-          ) : null} */}
       </div>
     );
   } else {
@@ -426,6 +414,9 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
                         } else if (e.target.value == 'badge') {
                           setCertificatevisible(false);
                           setBadgevisible(true);
+                        } else if (e.target.value == 'both') {
+                          setCertificatevisible(true);
+                          setBadgevisible(true);
                         } else {
                           // 'none'
                           setCertificatevisible(false);
@@ -440,7 +431,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
                     <FormControlLabel value={'none'} control={<Radio size='small' />} label={<Typography sx={{ fontSize: 16 }}>None</Typography>} />
                     <FormControlLabel value={'certificate'} control={<Radio size='small' />} label={<Typography sx={{ fontSize: 16 }}>Certificate</Typography>} />
                     <FormControlLabel value={'badge'} control={<Radio size='small' />} label={<Typography sx={{ fontSize: 16 }}>Badge</Typography>} />
-                    {/* <FormControlLabel disabled value={'both'} control={<Radio size='small' />} label={<Typography sx={{ fontSize: 16 }}>Both</Typography>}/> */}
+                    <FormControlLabel disabled value={'both'} control={<Radio size='small' />} label={<Typography sx={{ fontSize: 16 }}>Both</Typography>}/>
                   </RadioGroup>
                 </FormControl>
               </Grid>
