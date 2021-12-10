@@ -16,11 +16,12 @@ function ResultsPage() {
   );
 
   // console.log('consumer quiz history', payload);
-  const [result,setResult] = useState(''); // need to change this based on takes quiz
+  const [result, setResult] = useState(''); // need to change this based on takes quiz
   const [leaderboardVisible, setLeaderboardVisible] = useState('');
-  const certificate_qualifier = useRef(0);
-  const badge_qualifier=useRef(0)
-
+  const [certificate_qualifier, setCertificateQualifer] = useState(0);
+  const [badge_qualifier, setBadgeQualifer] = useState(0);
+  const [correct, setCorrect] = useState(0);
+  const [ques, setQues] = useState(0);
   //const quizName=useRef("")
   const [quizName, setQuizName] = useState('');
   const certificate_id = useRef('');
@@ -30,9 +31,9 @@ function ResultsPage() {
   const credential_id = useRef('');
   //const file_download=useRef("")
   const [file_download, setFile] = useState('');
-  const [img,setImage] = useState('')
+  const [img, setImage] = useState('');
 
-  const image =useRef("")
+  const image = useRef('');
 
   // if (!quizResult) {
   //   return <div>No Data</div>;
@@ -53,37 +54,34 @@ function ResultsPage() {
             : `http://localhost:4000/api/quiz/detail/${quizId}`
         )
         .then((response) => {
-          // console.log(response.data.quiz.quizEnableLeaderboard);
+          // console.log(response.data.quiz.quizBadgeQualification);
           //quizName.current=response.data.quiz.quizName
-          console.log(quizResult)
+          // console.log('quiz result: ', quizResult);
           setLeaderboardVisible(response.data.quiz.quizEnableLeaderboard);
           // console.log('leaderobard visible', leaderboardVisible);
           setQuizName(response.data.quiz.quizName);
-          certificate_qualifier.current =response.data.quiz.quizCertificateQualification;
-          badge_qualifier.current=response.data.quiz.quizBadgeQualification;
+          setCertificateQualifer(
+            response.data.quiz.quizCertificateQualification
+          );
+          setBadgeQualifer(response.data.quiz.quizBadgeQualification);
           certificate_id.current = response.data.quiz.quizCertificate;
-          let correct = Number(quizResult[0].correctedAnswerNum)
-          console.log(correct)
-          let ques = Number(response.data.quiz.quizTotalNumberOfQuestions) > 0 ? Number(response.data.quiz.quizTotalNumberOfQuestions) : response.data.quiz.quizQuestions.length
-          console.log(ques)
-          let res=(correct/ques)*100
-          console.log(res)
-          setResult(res.toFixed(2)+"")
-          console.log(result)
-          
+          // console.log('quizResult : ', quizResult[0]);
+
+          const correctAnswerNum = user?.consumerQuizHistoryList?.find((e) => {
+            return e.quizId === id;
+          })?.correctedAnswerNum;
+          setCorrect(correctAnswerNum);
+          // setCorrect(Number(quizResult[0].correctedAnswerNum));
+          let questionLength =
+            Number(response.data.quiz.quizTotalNumberOfQuestions) > 0
+              ? Number(response.data.quiz.quizTotalNumberOfQuestions)
+              : response.data.quiz.quizQuestions.length;
+          setQues(questionLength);
         });
     } catch (e) {
       console.error(e);
     }
   };
-
-  useEffect(() => {
-    getQuizInfo();
-  }, []);
-  
-  useEffect(() => {
-    createCredential();
-  }, [quizName]);
 
   const apicall = {
     headers: {
@@ -93,13 +91,16 @@ function ResultsPage() {
   };
 
   const createCredential = async () => {
-    if (result >= certificate_qualifier.current || result >= badge_qualifier.current) {
+    if (
+      result >= certificate_qualifier.current ||
+      result >= badge_qualifier.current
+    ) {
       console.log('inside create credential');
       const apidata = {
         credential: {
           recipient: {
-            name: user.username, 
-            email: user.email, 
+            name: user.username,
+            email: user.email,
             id: user.id,
           },
           group_name: quizName, //quizName.current
@@ -113,27 +114,29 @@ function ResultsPage() {
           .then((response) => {
             console.log(response);
             credential_id.current = response.data.credential.id;
-            setImage(response.data.credential.badge.image.preview)
-            console.log(response.data.credential.badge.image.preview)
-            image.current=response.data.credential.badge.image.preview
-            console.log(img)
-            console.log(img.current)
+            setImage(response.data.credential.badge.image.preview);
+            console.log(response.data.credential.badge.image.preview);
+            image.current = response.data.credential.badge.image.preview;
+            console.log(img);
+            console.log(img.current);
           });
         //pdfCredential()
-        if(result >= badge_qualifier.current){
+        if (result >= badge_qualifier.current) {
           //createBadge()
-          await axios.post(
-            process.env.NODE_ENV == 'production'
-              ? `/api/badge`
-              : `http://localhost:4000/api/badge`,
-            {
-              badgeUploadFile: image.current,
-              consumerId: user.id,
-              badgeVisibility: true,
-            }
-          ).then((response)=>{
-            console.log(response)
-          });
+          await axios
+            .post(
+              process.env.NODE_ENV == 'production'
+                ? `/api/badge`
+                : `http://localhost:4000/api/badge`,
+              {
+                badgeUploadFile: image.current,
+                consumerId: user.id,
+                badgeVisibility: true,
+              }
+            )
+            .then((response) => {
+              console.log(response);
+            });
         }
         await axios
           .post(
@@ -153,6 +156,22 @@ function ResultsPage() {
     }
   };
 
+  useEffect(() => {
+    getQuizInfo();
+  }, []);
+
+  useEffect(() => {
+    console.log('ques', ques);
+    let res = (correct / ques) * 100;
+    console.log('res', res);
+    setResult(res.toFixed(2) + '');
+    console.log('', result);
+  });
+
+  useEffect(() => {
+    createCredential();
+  }, [quizName]);
+
   return (
     <div>
       <Form>
@@ -165,7 +184,8 @@ function ResultsPage() {
           </Col>
         </Form.Group>
         <h1>
-          {result >= certificate_qualifier.current || result >= badge_qualifier.current
+          {result >= certificate_qualifier.current ||
+          result >= badge_qualifier.current
             ? 'Congratulations'
             : 'Sorry please try again'}
         </h1>
@@ -173,7 +193,11 @@ function ResultsPage() {
       {/* {console.log(file_download)}
       {console.log(badge_qualifier.current)}
       {console.log(certificate_qualifier.current)} */}
-      {result >= badge_qualifier.current ? (<img src={img} width="200" height="200"></img>) : ("")}
+      {result >= badge_qualifier.current ? (
+        <img src={img} width='200' height='200'></img>
+      ) : (
+        ''
+      )}
       {result >= certificate_qualifier.current ? (
         <a href={file_download} download>
           {' '}

@@ -112,7 +112,6 @@ function ConsumerQuizPreview() {
             user?.consumerQuizHistoryList?.find((e) => {
               return e.quizId === id;
             })?.usedTrialNumber || 0;
-          console.log('res ', response);
           setName(response.data.quiz.quizName);
           setImage(response.data.quiz.quizImage);
           setDescription(response.data.quiz.quizDescription);
