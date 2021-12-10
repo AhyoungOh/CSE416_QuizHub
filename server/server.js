@@ -71,7 +71,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/quiz', quizRouter);
 app.use('/api/question', questionRouter);
 app.use('/api/badge', badgeRouter);
-app.use('/api/image', imageUploadRouter)
+app.use('/api/image', imageUploadRouter);
 
 app.get('*', (req, res) => {
   res.render('index.html');
