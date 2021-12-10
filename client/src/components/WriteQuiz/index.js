@@ -99,6 +99,10 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
       alert('please fill out the quiz name');
       return;
     }
+    if (quizDescription === '') {
+      alert('please fill out the quiz description');
+      return;
+    }
     if (!isNumber(quizNumberOfTrials)) {
       alert('please fill out the quiz number of trials');
       return;
