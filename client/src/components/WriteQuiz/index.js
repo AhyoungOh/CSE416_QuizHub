@@ -193,8 +193,8 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
     fetchData();
     history.push(`/creatorHome/${platformId}`);
   };
-  console.log('certificate', certificatevisible);
-  console.log('badge', badgevisible);
+  // console.log('certificate', certificatevisible);
+  // console.log('badge', badgevisible);
 
   if (quizData === undefined) {
     return (
