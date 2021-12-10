@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { UserContext } from '../../../App';
 import useApiCall from '../../../hooks/useApiCall';
@@ -39,7 +39,8 @@ function ConsumerProfileForm() {
   // states
   const [edit, setEdit] = useState(false); // for edit dialogue
   const [show, setShow] = useState(false); // for delete account modal
-  const [email, setEmail] = useState(user.email ? user.email : '');
+
+  const [email, setEmail] = useState(user.email ? user.email : null);
   const [description, setDescription] = useState(
     user.description ? user.description : ''
   );
@@ -77,7 +78,7 @@ function ConsumerProfileForm() {
   const saveButtonHandler = async () => {
     try {
       await axios.put(
-        process.env.NODE_ENV == 'production'
+        process.env.NODE_ENV === 'production'
           ? `/api/consumer/${user?.id}`
           : `/api/consumer/${user?.id}`,
         {
@@ -88,17 +89,24 @@ function ConsumerProfileForm() {
           consumerImage: consumerImg,
         }
       );
-      dispatch({
-        type: 'edit',
-        payload: {
-          consumer: {
-            email: email,
-            description: description,
-            isPrivate: isPrivate,
-            img: consumerImg,
-          },
-        },
-      });
+      const userInfo = await axios.get(
+        process.env.NODE_ENV === 'production'
+          ? `/api/auth`
+          : `http://localhost:4000/api/auth`,
+        { withCredentials: true }
+      );
+      dispatch({ type: 'signin', payload: userInfo.data });
+      // dispatch({
+      //   type: 'edit',
+      //   payload: {
+      //     consumer: {
+      //       email: email,
+      //       description: description,
+      //       isPrivate: isPrivate,
+      //       img: consumerImg,
+      //     },
+      //   },
+      // });
       setEdit(false);
     } catch (e) {
       console.error(e);
@@ -115,7 +123,7 @@ function ConsumerProfileForm() {
     try {
       // remove user data from the database
       await axios.delete(
-        process.env.NODE_ENV == 'production'
+        process.env.NODE_ENV === 'production'
           ? `/api/consumer/${user?.id}`
           : `http://localhost:4000/api/consumer/${user?.id}`
       );
@@ -139,12 +147,34 @@ function ConsumerProfileForm() {
   };
 
   const cancelEdit = () => {
-    setEmail(user.email ? user.email : '');
+    setEmail(user.email ? user.email : null);
     setDescription(user.description ? user.description : '');
     setIsPrivate(user.isPrivate ? user.isPrivate : false);
     setConsumerPassword(user.consumerPassword ? user.consumerPassword : '');
     setEdit(false);
   };
+  const getUserInfo = async () => {
+    const userInfo = await axios.get(
+      process.env.NODE_ENV === 'production'
+        ? `/api/auth`
+        : `http://localhost:4000/api/auth`,
+      { withCredentials: true }
+    );
+    dispatch({ type: 'signin', payload: userInfo.data });
+  };
+
+  useEffect(() => {
+    getUserInfo();
+  }, []);
+
+  useEffect(() => {
+    setEmail(user.email ? user.email : null);
+    setDescription(user.description ? user.description : '');
+  }, [user]);
+
+  if (!email) {
+    return <></>;
+  }
   return (
     // email, private account toggle, description
     // save button, edit button, cancel button, delete account button
