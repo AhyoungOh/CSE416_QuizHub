@@ -89,7 +89,7 @@ function CreateCertificate() {
           history.push(`/quiz/detail/${quizid}`);
         }
       }
-    });
+    },{once:true});
   }, []);
 
   return (
