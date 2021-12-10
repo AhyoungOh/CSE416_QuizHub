@@ -52,7 +52,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
     quizData?.quizTimeLimit?.minutes ?? ''
   );
   const [quizTimeLimitSeconds, setQuizTimeLimitSeconds] = useState(
-    quizData?.quizTimeLimit?.seconds ?? ''
+    quizData?.quizTimeLimit?.seconds ?? 0
   );
   const [quizRewardType, setQuizRewardType] = useState(
     quizData?.quizRewardType || 'none'
@@ -77,27 +77,28 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
   const [certificatevisible, setCertificatevisible] = useState(
     quizRewardType == 'certificate' || quizRewardType == 'both'
   );
+  
   const history = useHistory();
 
   const createquizData = async () => {
     if (quizName === '') {
-      alert('please fill out the quiz name');
+      alert('Please fill out the title.');
       return;
     }
     if (quizDescription === '') {
-      alert('please fill out the quiz description');
+      alert('Please fill out the description.');
       return;
     }
-    if (!isNumber(quizNumberOfTrials)) {
-      alert('please fill out the quiz number of trials');
+    if (!isNumber(quizNumberOfTrials) || !Number.isInteger(+quizNumberOfTrials) || quizNumberOfTrials <= 0) {
+      alert('Please enter a valid number for the number of trials.');
       return;
     }
-    if (!isNumber(quizTimeLimitMinutes)) {
-      alert('please fill out the quiz time minutes');
+    if (!isNumber(quizTimeLimitMinutes) || !Number.isInteger(+quizTimeLimitMinutes) || quizTimeLimitMinutes <= 0) {
+      alert('Please enter a valid number of minutes.');
       return;
     }
-    if (!isNumber(quizTimeLimitSeconds)) {
-      alert('please fill out the quiz time seconds');
+    if (!isNumber(quizTimeLimitSeconds) || !Number.isInteger(+quizTimeLimitSeconds) || quizTimeLimitSeconds < 0 || quizTimeLimitSeconds >= 60) {
+      alert('Please enter a valid number of seconds in the range of 0 - 59.');
       return;
     }
     await axios.post(
@@ -126,23 +127,23 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
 
   const updatequizData = async () => {
     if (quizName === '') {
-      alert('please fill out the quiz name');
+      alert('Please fill out the title.');
       return;
     }
     if (quizDescription === '') {
-      alert('please fill out the quiz description');
+      alert('Please fill out the description.');
       return;
     }
-    if (!isNumber(quizNumberOfTrials)) {
-      alert('please fill out the quiz number of trials');
+    if (!isNumber(quizNumberOfTrials) || !Number.isInteger(+quizNumberOfTrials) || quizNumberOfTrials <= 0) {
+      alert('Please enter a valid number for the number of trials.');
       return;
     }
-    if (!isNumber(quizTimeLimitMinutes)) {
-      alert('please fill out the quiz time minutes');
+    if (!isNumber(quizTimeLimitMinutes) || !Number.isInteger(+quizTimeLimitMinutes) || quizTimeLimitMinutes <= 0) {
+      alert('Please enter a valid number of minutes.');
       return;
     }
-    if (!isNumber(quizTimeLimitSeconds)) {
-      alert('please fill out the quiz time seconds');
+    if (!isNumber(quizTimeLimitSeconds) || !Number.isInteger(+quizTimeLimitSeconds) || quizTimeLimitSeconds < 0 || quizTimeLimitSeconds >= 60) {
+      alert('Please enter a valid number of seconds in the range of 0 - 59.');
       return;
     }
     await axios.put(
