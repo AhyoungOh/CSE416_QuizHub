@@ -18,8 +18,10 @@ function ResultsPage() {
   // console.log('consumer quiz history', payload);
   const [result, setResult] = useState(''); // need to change this based on takes quiz
   const [leaderboardVisible, setLeaderboardVisible] = useState('');
-  const [certificate_qualifier, setCertificateQualifer] = useState(0);
-  const [badge_qualifier, setBadgeQualifer] = useState(0);
+ 
+  const certificate_qualifier = useRef(0);
+  const badge_qualifier=useRef(0)
+
   const [correct, setCorrect] = useState(0);
   const [ques, setQues] = useState(0);
   //const quizName=useRef("")
@@ -60,10 +62,7 @@ function ResultsPage() {
           setLeaderboardVisible(response.data.quiz.quizEnableLeaderboard);
           // console.log('leaderobard visible', leaderboardVisible);
           setQuizName(response.data.quiz.quizName);
-          setCertificateQualifer(
-            response.data.quiz.quizCertificateQualification
-          );
-          setBadgeQualifer(response.data.quiz.quizBadgeQualification);
+          badge_qualifier.current=response.data.quiz.quizBadgeQualification;
           certificate_id.current = response.data.quiz.quizCertificate;
           // console.log('quizResult : ', quizResult[0]);
 
@@ -92,8 +91,8 @@ function ResultsPage() {
 
   const createCredential = async () => {
     if (
-      result >= certificate_qualifier.current ||
-      result >= badge_qualifier.current
+      Number(result) >= certificate_qualifier.current ||
+      Number(result) >= badge_qualifier.current
     ) {
       console.log('inside create credential');
       const apidata = {
@@ -121,7 +120,7 @@ function ResultsPage() {
             console.log(img.current);
           });
         //pdfCredential()
-        if (result >= badge_qualifier.current) {
+        if (Number(result)>= badge_qualifier.current) {
           //createBadge()
           await axios
             .post(
@@ -184,7 +183,7 @@ function ResultsPage() {
           </Col>
         </Form.Group>
         <h1>
-          {result >= certificate_qualifier || result >= badge_qualifier
+          {Number(result) >= certificate_qualifier.current || Number(result) >= badge_qualifier.current
             ? 'Congratulations'
             : 'Sorry please try again'}
         </h1>
@@ -192,12 +191,12 @@ function ResultsPage() {
       {/* {console.log(file_download)}
       {console.log(badge_qualifier.current)}
       {console.log(certificate_qualifier.current)} */}
-      {result >= badge_qualifier ? (
+      {Number(result) >= badge_qualifier.current ? (
         <img src={img} width='200' height='200'></img>
       ) : (
         ''
       )}
-      {result >= certificate_qualifier ? (
+      {Number(result) >= certificate_qualifier.current ? (
         <a href={file_download} download>
           {' '}
           Click to download certificate{' '}
