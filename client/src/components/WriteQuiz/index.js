@@ -4,24 +4,7 @@ import './style.scss';
 import { isNumber } from '../../utils/validate';
 import { useHistory } from 'react-router-dom';
 import ImageUpload from '../ImageUpload';
-import {
-  Grid,
-  Link,
-  Button,
-  Typography,
-  Modal,
-  Box,
-  Select,
-  Switch,
-  FormControl,
-  FormGroup,
-  FormControlLabel,
-  RadioGroup,
-  Radio,
-  InputLabel,
-  Card,
-  CardMedia,
-} from '@mui/material';
+import { Grid, Link, Button, Typography, Modal, Box, Slider, Switch, FormControl, FormGroup, FormControlLabel, RadioGroup, Radio, InputLabel, Card, CardMedia, } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import BootstrapInput from './BootstrapInput.js';
 
@@ -374,37 +357,47 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
               </Grid>
               {/* TODO: Slider on Modal for qualification */}
               <Grid item container direction='row' alignItems='flex-end'>
-                {certificatevisible ? (
-                  <Grid item sx={{ width: '50%' }}>
+                {certificatevisible ?
+                  (<Grid item sx={{ width: '50%' }}> 
                     <FormControl variant='standard' sx={{ maxWidth: '95%' }}>
                       <InputLabel shrink htmlFor='bootstrap-input'>
                         Certificate Qualification
                       </InputLabel>
-                      <BootstrapInput
-                        value={quizCertificateQualification}
-                        type='number'
-                        onChange={(e) =>
-                          setQuizCertificateQualification(e.target.value)
-                        }
-                        placeholder='percentage for reward'
-                      />
+                      {/* <BootstrapInput value={quizCertificateQualification} type='number' onChange={(e) => setQuizCertificateQualification(e.target.value)} placeholder='questions' /> */}
+                      <Box sx={{ width: 180, paddingTop: '20px' }}>
+                        <Slider 
+                          aria-label='certificate-qualification'
+                          defaultValue={quizCertificateQualification}
+                          valueLabelDisplay='auto'
+                          step={10}
+                          marks
+                          min={0}
+                          max={100}
+                          onChange={(e) => setQuizCertificateQualification(e.target.value)}
+                        />
+                      </Box>
                     </FormControl>
-                  </Grid>
-                ) : null}
-                {badgevisible ? (
-                  <Grid item sx={{ width: '50%' }}>
+                  </Grid>) : null
+                }
+                {badgevisible ? 
+                  (<Grid item sx={{ width: '50%' }}>
                     <FormControl variant='standard' sx={{ maxWidth: '95%' }}>
                       <InputLabel shrink htmlFor='bootstrap-input'>
                         Badge Qualification
                       </InputLabel>
-                      <BootstrapInput
-                        value={quizBadgeQualification}
-                        type='number'
-                        onChange={(e) =>
-                          setQuizBadgeQualification(e.target.value)
-                        }
-                        placeholder='percentage for reward'
-                      />
+                      {/* <BootstrapInput value={quizBadgeQualification} type='number' onChange={(e) => setQuizBadgeQualification(e.target.value)} placeholder='questions' /> */}
+                      <Box sx={{ width: 180, paddingTop: '20px' }}>
+                        <Slider 
+                          aria-label='badge-qualification'
+                          defaultValue={quizBadgeQualification}
+                          valueLabelDisplay='auto'
+                          step={10}
+                          marks
+                          min={0}
+                          max={100}
+                          onChange={(e) => setQuizBadgeQualification(e.target.value)}
+                        />
+                      </Box>
                     </FormControl>
                   </Grid>
                 ) : null}
@@ -665,37 +658,47 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
               </Grid>
               {/* TODO: Slider on Modal for qualification */}
               <Grid item container direction='row' alignItems='flex-end'>
-                {certificatevisible ? (
-                  <Grid item sx={{ width: '40%' }}>
+                {certificatevisible ? 
+                  (<Grid item sx={{ width: '50%' }}> 
                     <FormControl variant='standard' sx={{ maxWidth: '95%' }}>
                       <InputLabel shrink htmlFor='bootstrap-input'>
                         Certificate Qualification
                       </InputLabel>
-                      <BootstrapInput
-                        value={quizCertificateQualification}
-                        type='number'
-                        onChange={(e) =>
-                          setQuizCertificateQualification(e.target.value)
-                        }
-                        placeholder='questions'
-                      />
+                      {/* <BootstrapInput value={quizCertificateQualification} type='number' onChange={(e) => setQuizCertificateQualification(e.target.value)} placeholder='questions' /> */}
+                      <Box sx={{ width: 180, paddingTop: '20px' }}>
+                        <Slider 
+                          aria-label='certificate-qualification'
+                          defaultValue={quizCertificateQualification}
+                          valueLabelDisplay='auto'
+                          step={10}
+                          marks
+                          min={0}
+                          max={100}
+                          onChange={(e) => setQuizCertificateQualification(e.target.value)}
+                        />
+                      </Box>
                     </FormControl>
-                  </Grid>
-                ) : null}
-                {badgevisible ? (
-                  <Grid item sx={{ width: '40%' }}>
+                  </Grid>) : null
+                }
+                {badgevisible ? 
+                  (<Grid item sx={{ width: '50%' }}>
                     <FormControl variant='standard' sx={{ maxWidth: '95%' }}>
                       <InputLabel shrink htmlFor='bootstrap-input'>
                         Badge Qualification
                       </InputLabel>
-                      <BootstrapInput
-                        value={quizBadgeQualification}
-                        type='number'
-                        onChange={(e) =>
-                          setQuizBadgeQualification(e.target.value)
-                        }
-                        placeholder='questions'
-                      />
+                      {/* <BootstrapInput value={quizBadgeQualification} type='number' onChange={(e) => setQuizBadgeQualification(e.target.value)} placeholder='questions' /> */}
+                      <Box sx={{ width: 180, paddingTop: '20px' }}>
+                        <Slider 
+                          aria-label='badge-qualification'
+                          defaultValue={quizBadgeQualification}
+                          valueLabelDisplay='auto'
+                          step={10}
+                          marks
+                          min={0}
+                          max={100}
+                          onChange={(e) => setQuizBadgeQualification(e.target.value)}
+                        />
+                      </Box>
                     </FormControl>
                   </Grid>
                 ) : null}
