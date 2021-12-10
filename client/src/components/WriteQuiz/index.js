@@ -128,8 +128,6 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
         quizTimeLimitMinutes,
         quizTimeLimitSeconds,
         quizRewardType,
-        // quizCertificate,
-        // quizBadge,
         quizCertificateQualification,
         quizBadgeQualification,
         quizEnableLeaderboard,
@@ -176,8 +174,6 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
         quizTimeLimitMinutes,
         quizTimeLimitSeconds,
         quizRewardType,
-        // quizCertificate,
-        // quizBadge,
         quizCertificateQualification,
         quizBadgeQualification,
         quizEnableLeaderboard,
@@ -318,19 +314,19 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
               <Grid item>
                 <FormControl variant='standard' component='fieldset'>
                   <InputLabel required shrink htmlFor='bootstrap-input'>
-                    Reward type
+                    Reward type (It will not be changed anymore)
                   </InputLabel>
                   <RadioGroup
                     value={quizRewardType}
                     onChange={(e) => {
                       setQuizRewardType(e.target.value);
-                      if (e.target.value == 'certificate') {
+                      if (e.target.value === 'certificate') {
                         setCertificatevisible(true);
                         setBadgevisible(false);
-                      } else if (e.target.value == 'badge') {
+                      } else if (e.target.value === 'badge') {
                         setCertificatevisible(false);
                         setBadgevisible(true);
-                      } else if (e.target.value == 'both') {
+                      } else if (e.target.value === 'both') {
                         setCertificatevisible(true);
                         setBadgevisible(true);
                       } else {
@@ -379,7 +375,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
               {/* TODO: Slider on Modal for qualification */}
               <Grid item container direction='row' alignItems='flex-end'>
                 {certificatevisible ? (
-                  <Grid item sx={{ width: '40%' }}>
+                  <Grid item sx={{ width: '50%' }}>
                     <FormControl variant='standard' sx={{ maxWidth: '95%' }}>
                       <InputLabel shrink htmlFor='bootstrap-input'>
                         Certificate Qualification
@@ -390,13 +386,13 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
                         onChange={(e) =>
                           setQuizCertificateQualification(e.target.value)
                         }
-                        placeholder='questions'
+                        placeholder='percentage for reward'
                       />
                     </FormControl>
                   </Grid>
                 ) : null}
                 {badgevisible ? (
-                  <Grid item sx={{ width: '40%' }}>
+                  <Grid item sx={{ width: '50%' }}>
                     <FormControl variant='standard' sx={{ maxWidth: '95%' }}>
                       <InputLabel shrink htmlFor='bootstrap-input'>
                         Badge Qualification
@@ -407,7 +403,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
                         onChange={(e) =>
                           setQuizBadgeQualification(e.target.value)
                         }
-                        placeholder='questions'
+                        placeholder='percentage for reward'
                       />
                     </FormControl>
                   </Grid>
