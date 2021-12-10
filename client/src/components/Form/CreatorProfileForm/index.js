@@ -68,11 +68,7 @@ function CreatorProfileForm() {
   const deleteButtonHandler = async () => {
     try {
       // remove user data from the database
-      await axios.delete(
-        process.env.NODE_ENV == 'production'
-          ? `/api/consumer/${user?.id}`
-          : `http://localhost:4000/api/consumer/${user?.id}`
-      );
+      await axios.delete(`http://localhost:4000/api/creator/${user?.id}`);
       // try {
       //   await axios.delete(
       //     process.env.NODE_ENV == 'production'
@@ -101,10 +97,10 @@ function CreatorProfileForm() {
     <div>
       <Grid container direction='column' spacing={3}>
         <Grid item alignSelf='center'>
-          <Button 
+          <Button
             onClick={() => history.replace('/creatorHome')}
             // startIcon={<KeyboardBackspaceRoundedIcon />}
-            sx={{ color: "gray" }}
+            sx={{ color: 'gray' }}
           >
             Back to my home
           </Button>
