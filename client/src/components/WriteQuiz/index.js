@@ -4,7 +4,7 @@ import './style.scss';
 import { isNumber } from '../../utils/validate';
 import { useHistory } from 'react-router-dom';
 import ImageUpload from '../ImageUpload';
-import { Grid, TextField, Paper, Button, Typography, Modal, Box, Select, Switch, FormControl, FormGroup, FormControlLabel, RadioGroup, Radio, InputLabel, MenuItem, Card, CardMedia } from '@mui/material';
+import { Grid, Link, Button, Typography, Modal, Box, Select, Switch, FormControl, FormGroup, FormControlLabel, RadioGroup, Radio, InputLabel, Card, CardMedia, } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import BootstrapInput from './BootstrapInput.js';
 
@@ -50,7 +50,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
     quizData?.quizTimeLimit?.seconds ?? ''
   );
   const [quizRewardType, setQuizRewardType] = useState(
-    quizData?.quizRewardType || ''
+    quizData?.quizRewardType || 'none'
   );
   // const [quizCertificate, setQuizCertificate] = useState(
   //   quizData?.quizCertificate || ''
@@ -62,7 +62,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
     quizData?.quizBadgeQualification ?? ''
   );
   const [quizEnableLeaderboard, setQuizEnableLeaderboard] = useState(
-    quizData?.quizEnableLeaderboard || ''
+    quizData?.quizEnableLeaderboard || true
   );
   // console.log('quizData.quizEnableleaderboard', quizData.quizEnableLeaderboard);
   // console.log('quizEnableLeaderboard', quizEnableLeaderboard);
@@ -254,10 +254,42 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
                     aria-label="reward-type" 
                     sx={{ paddingTop: '15px' }}
                   >
-                    <FormControlLabel value={'none'} control={<Radio size='small' />} label={<Typography sx={{ fontSize: 16 }}>None</Typography>} />
-                    <FormControlLabel value={'certificate'} control={<Radio size='small' />} label={<Typography sx={{ fontSize: 16 }}>Certificate</Typography>} />
-                    <FormControlLabel value={'badge'} control={<Radio size='small' />} label={<Typography sx={{ fontSize: 16 }}>Badge</Typography>} />
-                    <FormControlLabel value={'both'} control={<Radio size='small' />} label={<Typography sx={{ fontSize: 16 }}>Both</Typography>}/> 
+                    <FormControlLabel 
+                      value={'none'} 
+                      control={<Radio size='small' />} 
+                      label={
+                        <Typography sx={{ fontSize: 16 }}>
+                          None
+                        </Typography>
+                      } 
+                    />
+                    <FormControlLabel 
+                      value={'certificate'} 
+                      control={<Radio size='small' />} 
+                      label={
+                        <Typography sx={{ fontSize: 16 }}>
+                          Certificate
+                        </Typography>
+                      } 
+                    />
+                    <FormControlLabel 
+                      value={'badge'} 
+                      control={<Radio size='small' />} 
+                      label={
+                        <Typography sx={{ fontSize: 16 }}>
+                          Badge
+                        </Typography>
+                      } 
+                    />
+                    <FormControlLabel 
+                      value={'both'} 
+                      control={<Radio size='small' />} 
+                      label={
+                        <Typography sx={{ fontSize: 16 }}>
+                          Both
+                        </Typography>
+                      }
+                    /> 
                   </RadioGroup>
                 </FormControl>
               </Grid>
