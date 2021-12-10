@@ -4,9 +4,10 @@ import './style.scss';
 import { isNumber } from '../../utils/validate';
 import { useHistory } from 'react-router-dom';
 import ImageUpload from '../ImageUpload';
-import { Grid, Link, Button, Typography, Modal, Box, Slider, Switch, FormControl, FormGroup, FormControlLabel, RadioGroup, Radio, InputLabel, Card, CardMedia, } from '@mui/material';
-import { makeStyles } from '@mui/styles';
+import { Grid, Button, Typography, Modal, Box, Slider, Switch, FormControl, FormGroup, FormControlLabel, RadioGroup, Radio, InputLabel, Card, CardMedia, } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import BootstrapInput from './BootstrapInput.js';
+import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 
 // modal style
 const style = {
@@ -21,10 +22,11 @@ const style = {
   borderRadius: 2,
 };
 
-const useStyles = makeStyles({
-  textInput: {
-    // height: '15px',
-    fontSize: '12px',
+const CustomWidthTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))({
+  [`& .${tooltipClasses.tooltip}`]: {
+    maxWidth: 400,
   },
 });
 
@@ -194,6 +196,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             sx={{
               heigt: '800px',
               maxWidth: '40%',
+              minWidth: '400px',
               display: { xs: 'none', sm: 'block' },
             }}
             image={quizImage}
@@ -231,9 +234,11 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
               </Grid>
               <Grid item>
                 <FormControl variant='standard'>
-                  <InputLabel required shrink htmlFor='bootstrap-input'>
-                    Image
-                  </InputLabel>
+                  <CustomWidthTooltip arrow placement='right' title='You can either paste the URL for the image or later upload image from your device by editing the quiz.'>
+                    <InputLabel required shrink htmlFor='bootstrap-input'>
+                      Image
+                    </InputLabel>
+                  </CustomWidthTooltip>
                   <BootstrapInput
                     type='text'
                     onChange={(e) => setQuizImage(e.target.value)}
@@ -243,9 +248,11 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
               </Grid>
               <Grid item>
                 <FormControl variant='standard'>
-                  <InputLabel required shrink htmlFor='bootstrap-input'>
-                    Description
-                  </InputLabel>
+                  <Tooltip arrow title='Maximum 100 words' placement='right'>
+                    <InputLabel required shrink htmlFor='bootstrap-input'>
+                      Description
+                    </InputLabel>
+                  </Tooltip>
                   <BootstrapInput
                     value={quizDescription}
                     type='text'
@@ -296,9 +303,11 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
               </Grid>
               <Grid item>
                 <FormControl variant='standard' component='fieldset'>
-                  <InputLabel required shrink htmlFor='bootstrap-input'>
-                    Reward type (It will not be changed anymore)
-                  </InputLabel>
+                  <CustomWidthTooltip arrow placement='right' title="Reward type cannot be changed once the quiz is created!">
+                    <InputLabel required shrink htmlFor='bootstrap-input'>
+                      Reward type
+                    </InputLabel>
+                  </CustomWidthTooltip>
                   <RadioGroup
                     value={quizRewardType}
                     onChange={(e) => {
@@ -360,9 +369,11 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
                 {certificatevisible ?
                   (<Grid item sx={{ width: '50%' }}> 
                     <FormControl variant='standard' sx={{ maxWidth: '95%' }}>
-                      <InputLabel shrink htmlFor='bootstrap-input'>
-                        Certificate Qualification
-                      </InputLabel>
+                      <CustomWidthTooltip title='Percentage of correctness to get the Certificate.' placement='right'>
+                        <InputLabel shrink htmlFor='bootstrap-input'>
+                          Certificate Qualification
+                        </InputLabel>
+                      </CustomWidthTooltip>
                       {/* <BootstrapInput value={quizCertificateQualification} type='number' onChange={(e) => setQuizCertificateQualification(e.target.value)} placeholder='questions' /> */}
                       <Box sx={{ width: 180, paddingTop: '20px' }}>
                         <Slider 
@@ -404,9 +415,11 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
               </Grid>
               <Grid item>
                 <FormControl variant='standard'>
-                  <InputLabel required shrink htmlFor='bootstrap-input'>
-                    Leaderboard
-                  </InputLabel>
+                  <CustomWidthTooltip arrow placement='right' title='Enabling leaderboard will make it visible to the public!'>
+                    <InputLabel required shrink htmlFor='bootstrap-input'>
+                      Leaderboard
+                    </InputLabel>
+                  </CustomWidthTooltip>
                   <FormGroup sx={{ paddingTop: '15px' }}>
                     <FormControlLabel
                       onChange={() =>
@@ -478,6 +491,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
             component='img'
             sx={{
               heigt: '800px',
+              minWidth: '400px',
               maxWidth: '40%',
               display: { xs: 'none', sm: 'block' },
             }}
@@ -523,9 +537,11 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
               >
                 <Grid item>
                   <FormControl variant='standard'>
-                    <InputLabel required shrink htmlFor='bootstrap-input'>
-                      Image
-                    </InputLabel>
+                    <CustomWidthTooltip arrow placement='right' title='You can either paste the URL for the image or upload an image from your device.'>
+                      <InputLabel required shrink htmlFor='bootstrap-input'>
+                        Image
+                      </InputLabel>
+                    </CustomWidthTooltip>
                     <BootstrapInput
                       value={quizImage}
                       type='text'
@@ -540,9 +556,11 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
               </Grid>
               <Grid item>
                 <FormControl variant='standard'>
-                  <InputLabel required shrink htmlFor='bootstrap-input'>
-                    Description
-                  </InputLabel>
+                  <Tooltip arrow title='Maximum 100 words' placement='right'>
+                    <InputLabel required shrink htmlFor='bootstrap-input'>
+                      Description
+                    </InputLabel>
+                  </Tooltip>
                   <BootstrapInput
                     value={quizDescription}
                     type='text'
@@ -593,9 +611,11 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
               </Grid>
               <Grid item>
                 <FormControl variant='standard' component='fieldset'>
-                  <InputLabel required shrink htmlFor='bootstrap-input'>
-                    Reward type
-                  </InputLabel>
+                  <CustomWidthTooltip arrow placement='right' title="Reward type cannot be changed once the quiz is created.">
+                    <InputLabel required shrink htmlFor='bootstrap-input'>
+                      Reward type
+                    </InputLabel>
+                  </CustomWidthTooltip>
                   <RadioGroup
                     value={quizRewardType}
                     onChange={(e) => {
@@ -705,9 +725,11 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
               </Grid>
               <Grid item>
                 <FormControl variant='standard'>
-                  <InputLabel required shrink htmlFor='bootstrap-input'>
-                    Leaderboard
-                  </InputLabel>
+                  <CustomWidthTooltip arrow placement='right' title='Enabling leaderboard will make it visible to the public!'>
+                    <InputLabel required shrink htmlFor='bootstrap-input'>
+                      Leaderboard
+                    </InputLabel>
+                  </CustomWidthTooltip>
                   <FormGroup sx={{ paddingTop: '15px' }}>
                     <FormControlLabel
                       onChange={() =>
