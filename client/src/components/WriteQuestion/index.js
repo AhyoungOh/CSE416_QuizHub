@@ -65,11 +65,11 @@ function WriteQuestion({
       return;
     }
     if (questionOption1 === '') {
-      alert('please fill out the at least two question options');
+      alert('please fill out the option 1');
       return;
     }
     if (questionOption2 === '') {
-      alert('please fill out the at least two question options');
+      alert('please fill out the option 2');
       return;
     }
     if (!isNumber(questionAnswer)) {
@@ -102,11 +102,11 @@ function WriteQuestion({
       return;
     }
     if (questionOption1 === '') {
-      alert('please fill out the at least two question options');
+      alert('please fill out the option 1');
       return;
     }
     if (questionOption2 === '') {
-      alert('please fill out the at least two question options');
+      alert('please fill out the option 2');
       return;
     }
     if (!isNumber(questionAnswer)) {
