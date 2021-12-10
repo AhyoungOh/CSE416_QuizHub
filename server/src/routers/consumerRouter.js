@@ -129,7 +129,7 @@ consumerRouter.post('/quiz', validUser, async (req, res) => {
     if (submittedAnswers[i] === answers[i]) submittedCorrectedAnswerNum++;
     if (originAnswers[i] === answers[i]) originCorrectedAnswerNum++;
   }
-  console.log(req.body.quizzes);
+
   if (submittedCorrectedAnswerNum >= originCorrectedAnswerNum) {
     consumer.consumerQuizHistoryList[matchedQuizIndex] = {
       ...req.body.quizzes,
@@ -142,9 +142,60 @@ consumerRouter.post('/quiz', validUser, async (req, res) => {
     message: 'Consumer Updated',
     consumer: updatedConsumer,
   });
-  // } else {
-  //   res.status(404).send({ message: 'Consumer Not Found' });
-  // }
+});
+
+consumerRouter.put('/quiz/:id', validUser, async (req, res) => {
+  const id = req.params.id;
+  const consumer = req.consumer;
+  const quiz = await Quiz.findById(req.body.quizzes.quizId).populate({
+    path: 'quizQuestions',
+    model: Question,
+  });
+  console.log('consumer put: ', consumer);
+  const quizHistoryIdx = consumer.consumerQuizHistoryList.findIndex((e) => {
+    return e.quizId === id;
+  });
+  const submittedAnswers = req.body.quizzes.answerchoices;
+
+  const answers = quiz.quizQuestions.map((quiz) => quiz.questionAnswer);
+  let correctedAnswerNum = 0;
+  for (let i = 0; i < answers.length; i++) {
+    if (submittedAnswers[i] === answers[i]) correctedAnswerNum++;
+  }
+
+  consumer.consumerQuizHistoryList[quizHistoryIdx] = {
+    ...consumer.consumerQuizHistoryList[quizHistoryIdx],
+    answerchoices: req.body.quizzes.answerchoices,
+    quizTimeTaken: req.body.quizzes.quizTimeTaken,
+    accomplishedDate: req.body.quizzes.accomplishedDate,
+    correctedAnswerNum,
+  };
+
+  const updatedConsumer = await consumer.save();
+  res.send({
+    message: 'Consumer Updated',
+    consumer: updatedConsumer,
+  });
+});
+
+consumerRouter.put('/quiz/trial/:id', validUser, async (req, res) => {
+  const id = req.params.id;
+  const consumer = req.consumer;
+  const quizHistoryIdx = consumer.consumerQuizHistoryList.findIndex((e) => {
+    return e.quizId === id;
+  });
+
+  consumer.consumerQuizHistoryList[quizHistoryIdx] = {
+    ...consumer.consumerQuizHistoryList[quizHistoryIdx],
+    usedTrialNumber:
+      consumer.consumerQuizHistoryList[quizHistoryIdx].usedTrialNumber + 1,
+  };
+
+  const updatedConsumer = await consumer.save();
+  res.send({
+    message: 'Consumer Updated',
+    consumer: updatedConsumer,
+  });
 });
 
 consumerRouter.delete(
