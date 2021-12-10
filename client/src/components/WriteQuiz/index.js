@@ -240,6 +240,9 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
                         } else if (e.target.value == 'badge') {
                           setCertificatevisible(false);
                           setBadgevisible(true);
+                        } else if (e.target.value == 'both') {
+                          setCertificatevisible(true);
+                          setBadgevisible(true);
                         } else {
                           // 'none'
                           setCertificatevisible(false);
@@ -254,7 +257,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
                     <FormControlLabel value={'none'} control={<Radio size='small' />} label={<Typography sx={{ fontSize: 16 }}>None</Typography>} />
                     <FormControlLabel value={'certificate'} control={<Radio size='small' />} label={<Typography sx={{ fontSize: 16 }}>Certificate</Typography>} />
                     <FormControlLabel value={'badge'} control={<Radio size='small' />} label={<Typography sx={{ fontSize: 16 }}>Badge</Typography>} />
-                    {/* <FormControlLabel disabled value={'both'} control={<Radio size='small' />} label={<Typography sx={{ fontSize: 16 }}>Both</Typography>}/> */}
+                    <FormControlLabel value={'both'} control={<Radio size='small' />} label={<Typography sx={{ fontSize: 16 }}>Both</Typography>}/> 
                   </RadioGroup>
                 </FormControl>
               </Grid>

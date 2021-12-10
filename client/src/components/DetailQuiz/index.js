@@ -284,6 +284,13 @@ function DetailQuiz({ quizData, setQuizVisible }) {
                       </Button>
                     ) : null}
                   </Grid>
+                  <Grid item>
+                    {quizData.quizRewardType === 'both' ? (
+                      <Button variant='contained' onClick={createCertificateandBadge}>
+                        Add Badge and Certificate
+                      </Button>
+                    ) : null}
+                  </Grid>
                 </Grid>
               </CardContent>
             </Card>
