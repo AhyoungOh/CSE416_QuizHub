@@ -253,11 +253,8 @@ function ConsumerQuizPage() {
       const seconds = Number(takenSeconds % 60);
       return { minutes, seconds };
     };
-    console.log(calculateTakenTime());
-    await axios.post(
-      process.env.NODE_ENV === 'production'
-        ? `/api/consumer/quiz`
-        : `http://localhost:4000/api/consumer/quiz`,
+    await axios.put(
+      `/api/consumer/quiz/${id}`,
       {
         quizzes: {
           ...quizInfo.current,
@@ -339,9 +336,15 @@ function ConsumerQuizPage() {
                   <Button
                     variant='text'
                     color='error'
-                    onClick={() => {
+                    onClick={async () => {
                       history.push(`/consumerquizpreview/${id}`);
-                      //history.push('/consumerquizpreview',quizid);
+                      const userInfo = await axios.get(
+                        process.env.NODE_ENV === 'production'
+                          ? `/api/auth`
+                          : `http://localhost:4000/api/auth`,
+                        { withCredentials: true }
+                      );
+                      dispatch({ type: 'signin', payload: userInfo.data });
                     }}
                   >
                     Quit
