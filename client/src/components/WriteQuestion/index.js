@@ -1,8 +1,16 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import Input from './Input';
+import { isNumber } from '../../utils/validate';
 import { useHistory } from 'react-router-dom';
-import { Grid, Box, TextField, Paper, Button, Card, Typography } from '@mui/material';
+import {
+  Grid,
+  Box,
+  TextField,
+  Paper,
+  Button,
+  Card,
+  Typography,
+} from '@mui/material';
 
 function WriteQuestion({
   questionData,
@@ -52,6 +60,22 @@ function WriteQuestion({
   };
   getQuestionNumber();
   const createquestionData = async () => {
+    if (questionQuestion === '') {
+      alert('please fill out the question');
+      return;
+    }
+    if (questionOption1 === '') {
+      alert('please fill out the at least two question options');
+      return;
+    }
+    if (questionOption2 === '') {
+      alert('please fill out the at least two question options');
+      return;
+    }
+    if (!isNumber(questionAnswer)) {
+      alert('please fill out the question answer number');
+      return;
+    }
     await axios.post(
       process.env.NODE_ENV === 'production'
         ? `/api/question/${quizId}`
@@ -73,6 +97,22 @@ function WriteQuestion({
   };
 
   const updatequestionData = async () => {
+    if (questionQuestion === '') {
+      alert('please fill out the question');
+      return;
+    }
+    if (questionOption1 === '') {
+      alert('please fill out the at least two question options');
+      return;
+    }
+    if (questionOption2 === '') {
+      alert('please fill out the at least two question options');
+      return;
+    }
+    if (!isNumber(questionAnswer)) {
+      alert('please fill out the question answer number');
+      return;
+    }
     await axios.put(
       process.env.NODE_ENV === 'production'
         ? `/api/question/detail/${questionData._id}`
@@ -115,10 +155,24 @@ function WriteQuestion({
             minWidth: '500px',
           }}
         > */}
-        <Card sx={{ borderRadius: '18px', minWidth: '1000px', display: 'flex', flexDirection: 'column' }}>
-          <Grid container direction='column' sx={{ padding: '20px' }} >
-            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '20px' }}>
-              <Typography variant='h5'>{questionNumber}</Typography>    
+        <Card
+          sx={{
+            borderRadius: '18px',
+            minWidth: '1000px',
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+        >
+          <Grid container direction='column' sx={{ padding: '20px' }}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: '20px',
+              }}
+            >
+              <Typography variant='h5'>{questionNumber}</Typography>
               <TextField
                 required
                 autoFocus
@@ -131,86 +185,86 @@ function WriteQuestion({
                 onChange={(e) => setQuestionQuestion(e.target.value)}
               />
             </Box>
-          <TextField
-            required
-            autoFocus
-            // fullWidth
-            margin='dense'
-            label='Options 1'
-            type='text'
-            placeholder='Enter the option 1...'
-            value={questionOption1}
-            onChange={(e) => setQuestionOption1(e.target.value)}
-            // sx={{ m: 3 }}
-          />
-          <TextField
-            required
-            autoFocus
-            // fullWidth
-            margin='dense'
-            label='Options 2'
-            type='text'
-            placeholder='Enter the option 2...'
-            value={questionOption2}
-            onChange={(e) => setQuestionOption2(e.target.value)}
-            // sx={{ m: 3 }}
-          />
-          <TextField
-            autoFocus
-            // fullWidth
-            margin='dense'
-            label='Options 3'
-            type='text'
-            placeholder='Enter the option 3...'
-            value={questionOption3}
-            onChange={(e) => setQuestionOption3(e.target.value)}
-            // sx={{ m: 3 }}
-          />
-          <TextField
-            autoFocus
-            // fullWidth
-            margin='dense'
-            label='Options 4'
-            type='text'
-            placeholder='Enter the option 4...'
-            value={questionOption4}
-            onChange={(e) => setQuestionOption4(e.target.value)}
-            // sx={{ m: 3 }}
-          />
-          <TextField
-            required
-            autoFocus
-            // fullWidth
-            margin='dense'
-            label='Answer'
-            type='number'
-            placeholder='Enter the answer number...'
-            onChange={(e) => setQuetsionAnswer(e.target.value)}
-            // sx={{ m: 3 }}
-          />
-          <Grid
-            container
-            justifyContent='flex-end'
-            spacing={2}
-            sx={{ padding: '25px' }}
-          >
-            <Grid item>
-              <Button variant='contained' onClick={createquestionData}>
-                Create
-              </Button>
+            <TextField
+              required
+              autoFocus
+              // fullWidth
+              margin='dense'
+              label='Options 1'
+              type='text'
+              placeholder='Enter the option 1...'
+              value={questionOption1}
+              onChange={(e) => setQuestionOption1(e.target.value)}
+              // sx={{ m: 3 }}
+            />
+            <TextField
+              required
+              autoFocus
+              // fullWidth
+              margin='dense'
+              label='Options 2'
+              type='text'
+              placeholder='Enter the option 2...'
+              value={questionOption2}
+              onChange={(e) => setQuestionOption2(e.target.value)}
+              // sx={{ m: 3 }}
+            />
+            <TextField
+              autoFocus
+              // fullWidth
+              margin='dense'
+              label='Options 3'
+              type='text'
+              placeholder='Enter the option 3...'
+              value={questionOption3}
+              onChange={(e) => setQuestionOption3(e.target.value)}
+              // sx={{ m: 3 }}
+            />
+            <TextField
+              autoFocus
+              // fullWidth
+              margin='dense'
+              label='Options 4'
+              type='text'
+              placeholder='Enter the option 4...'
+              value={questionOption4}
+              onChange={(e) => setQuestionOption4(e.target.value)}
+              // sx={{ m: 3 }}
+            />
+            <TextField
+              required
+              autoFocus
+              // fullWidth
+              margin='dense'
+              label='Answer'
+              type='number'
+              placeholder='Enter the answer number...'
+              onChange={(e) => setQuetsionAnswer(e.target.value)}
+              // sx={{ m: 3 }}
+            />
+            <Grid
+              container
+              justifyContent='flex-end'
+              spacing={2}
+              sx={{ padding: '25px' }}
+            >
+              <Grid item>
+                <Button variant='contained' onClick={createquestionData}>
+                  Create
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button
+                  variant='outlined'
+                  color='inherit'
+                  onClick={() => {
+                    history.push(`/quiz/detail/${quizId}`);
+                  }}
+                >
+                  Cancel
+                </Button>
+              </Grid>
             </Grid>
-            <Grid item>
-              <Button
-                variant='outlined'
-                color='inherit'
-                onClick={() => {
-                  history.push(`/quiz/detail/${quizId}`);
-                }}
-              >
-                Cancel
-              </Button>
-            </Grid>
-          </Grid>
           </Grid>
         </Card>
       </div>
