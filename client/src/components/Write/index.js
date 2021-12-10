@@ -74,6 +74,14 @@ function Write({ platformData, setVisible, fetchData }) {
   };
 
   const updateplatformData = async () => {
+    if (platformName === '') {
+      alert('please fill out the platform name');
+      return;
+    }
+    if (platformDescription === '') {
+      alert('please fill out the platform description');
+      return;
+    }
     await axios.put(
       process.env.NODE_ENV === 'production'
         ? `/api/creatorHome/${platformData._id}`
