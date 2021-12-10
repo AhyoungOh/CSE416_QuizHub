@@ -66,8 +66,8 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
   );
   // console.log('quizData.quizEnableleaderboard', quizData.quizEnableLeaderboard);
   // console.log('quizEnableLeaderboard', quizEnableLeaderboard);
-  const [badgevisible, setBadgevisible] = useState(quizRewardType == 'badge');
-  const [certificatevisible, setCertificatevisible] = useState(quizRewardType == 'certificate');
+  const [badgevisible, setBadgevisible] = useState(quizRewardType == 'badge' || quizRewardType == 'both');
+  const [certificatevisible, setCertificatevisible] = useState(quizRewardType == 'certificate' || quizRewardType == 'both');
   const history = useHistory();
 
   const createquizData = async () => {
@@ -428,9 +428,9 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
                     aria-label="reward-type" 
                     sx={{ paddingTop: '15px' }}
                   >
-                    <FormControlLabel value={'none'} control={<Radio size='small' />} label={<Typography sx={{ fontSize: 16 }}>None</Typography>} />
-                    <FormControlLabel value={'certificate'} control={<Radio size='small' />} label={<Typography sx={{ fontSize: 16 }}>Certificate</Typography>} />
-                    <FormControlLabel value={'badge'} control={<Radio size='small' />} label={<Typography sx={{ fontSize: 16 }}>Badge</Typography>} />
+                    <FormControlLabel disabled value={'none'} control={<Radio size='small' />} label={<Typography sx={{ fontSize: 16 }}>None</Typography>} />
+                    <FormControlLabel disabled value={'certificate'} control={<Radio size='small' />} label={<Typography sx={{ fontSize: 16 }}>Certificate</Typography>} />
+                    <FormControlLabel disabled value={'badge'} control={<Radio size='small' />} label={<Typography sx={{ fontSize: 16 }}>Badge</Typography>} />
                     <FormControlLabel disabled value={'both'} control={<Radio size='small' />} label={<Typography sx={{ fontSize: 16 }}>Both</Typography>}/>
                   </RadioGroup>
                 </FormControl>
