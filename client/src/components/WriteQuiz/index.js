@@ -142,6 +142,14 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
   };
 
   const updatequizData = async () => {
+    if (quizName === '') {
+      alert('please fill out the quiz name');
+      return;
+    }
+    if (quizDescription === '') {
+      alert('please fill out the quiz description');
+      return;
+    }
     if (!isNumber(quizNumberOfTrials)) {
       alert('please fill out the quiz number of trials');
       return;
@@ -154,7 +162,6 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
       alert('please fill out the quiz time seconds');
       return;
     }
-
     await axios.put(
       process.env.NODE_ENV === 'production'
         ? `/api/quiz/detail/${quizData._id}`
