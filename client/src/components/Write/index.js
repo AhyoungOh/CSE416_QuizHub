@@ -53,6 +53,10 @@ function Write({ platformData, setVisible, fetchData }) {
       alert('please fill out the platform name');
       return;
     }
+    if (platformDescription === '') {
+      alert('please fill out the platform description');
+      return;
+    }
     await axios.post(
       process.env.NODE_ENV === 'production'
         ? `/api/creatorHome`
