@@ -1,6 +1,5 @@
 import axios from 'axios';
 import React, { useState, useContext } from 'react';
-import Input from './Input';
 import { UserContext } from '../../App';
 import { useHistory } from 'react-router-dom';
 import {
@@ -49,7 +48,15 @@ function Write({ platformData, setVisible, fetchData }) {
   const history = useHistory();
 
   const createplatformData = async () => {
-    console.log('user', user.id);
+    // console.log('user', user.id);
+    if (platformName === '') {
+      alert('please fill out the platform name');
+      return;
+    }
+    if (platformDescription === '') {
+      alert('please fill out the platform description');
+      return;
+    }
     await axios.post(
       process.env.NODE_ENV === 'production'
         ? `/api/creatorHome`
@@ -67,6 +74,14 @@ function Write({ platformData, setVisible, fetchData }) {
   };
 
   const updateplatformData = async () => {
+    if (platformName === '') {
+      alert('please fill out the platform name');
+      return;
+    }
+    if (platformDescription === '') {
+      alert('please fill out the platform description');
+      return;
+    }
     await axios.put(
       process.env.NODE_ENV === 'production'
         ? `/api/creatorHome/${platformData._id}`
@@ -126,6 +141,7 @@ function Write({ platformData, setVisible, fetchData }) {
             autoFocus
             fullWidth
             margin='dense'
+            required
             label='Descirption'
             type='text'
             placeholder='Enter platform description...'
