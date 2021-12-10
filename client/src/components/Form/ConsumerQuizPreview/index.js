@@ -72,13 +72,30 @@ function ConsumerQuizPreview() {
   const [reward, setReward] = useState(0);
   const [num_questions, setNumQuestions] = useState(0);
   const [leaderboardVisible, setLeaderboardVisible] = useState('');
-
+  // const [usedTrialNum, setUsedTrialNum] = useState(0);
   const { user, dispatch } = useContext(UserContext);
-  const clickStartBtn = () => {
+  const clickStartBtn = async () => {
     if (trials <= 0) {
       alert('there is no more trials on this quiz');
       return;
     }
+
+    const quiz = user.consumerQuizHistoryList.find((e) => e.quizId === id);
+
+    if (quiz) {
+      await axios.put(`/api/consumer/quiz/trial/${id}`);
+    } else {
+      await axios.post(`/api/consumer/quiz`, {
+        quizzes: {
+          quizId: id,
+          answerchoices: [],
+          quizTimeTaken: { minutes: 0, seconds: 0 },
+          accomplishedDate: new Date(),
+          usedTrialNumber: 1,
+        },
+      });
+    }
+
     history.push(`/consumerquizpage/${id}`);
   };
   const fetchData = async () => {
@@ -89,16 +106,17 @@ function ConsumerQuizPreview() {
             ? `/api/quiz/detail/${id}`
             : `http://localhost:4000/api/quiz/detail/${id}`
         )
+
         .then((response) => {
-          const usedTrialNum =
-            user.consumerQuizHistoryList.find((e) => {
+          const trialNum =
+            user?.consumerQuizHistoryList?.find((e) => {
               return e.quizId === id;
             })?.usedTrialNumber || 0;
-
+          console.log('res ', response);
           setName(response.data.quiz.quizName);
           setImage(response.data.quiz.quizImage);
           setDescription(response.data.quiz.quizDescription);
-          setTrials(response.data.quiz.quizNumberOfTrials - usedTrialNum);
+          setTrials(response.data.quiz.quizNumberOfTrials - trialNum);
           setTimeMin(response.data.quiz.quizTimeLimit.minutes);
           setTimeSec(response.data.quiz.quizTimeLimit.seconds);
           setReward(response.data.quiz.quizRewardType);
@@ -110,10 +128,9 @@ function ConsumerQuizPreview() {
     }
   };
 
-  // clickBtnHandler();
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [user]);
 
   return (
     <div>
