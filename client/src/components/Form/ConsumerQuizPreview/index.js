@@ -37,7 +37,7 @@ const useStyles = makeStyles({
     // maxWidth: '1200px',
   },
   cardMedia: {
-    maxWidth: '50%',
+    maxWidth: '40%',
     // minHeight: '400px',
     display: { xs: 'none', sm: 'block' },
   },
@@ -133,7 +133,7 @@ function ConsumerQuizPreview() {
 
   return (
     <div>
-      <Grid container direction='column' spacing={1} alignItems='center'>
+      <Grid container direction='column' alignItems='center' spacing={1} sx={{ paddingTop: '80px', paddingLeft: '20px', paddingRight: '20px' }}>
         <Grid item>
           <Button
             color='inherit'
@@ -145,9 +145,8 @@ function ConsumerQuizPreview() {
             Back to quizzes
           </Button>
         </Grid>
-        <Grid item xs={12} m={10}>
+        <Grid item alignSelf='center'>
           <Card sx={{ borderRadius: '18px' }}>
-            {/* TODO: adjust the the layout of the picture */}
             <Card sx={{ display: 'flex' }}>
               <CardMedia
                 component='img'
