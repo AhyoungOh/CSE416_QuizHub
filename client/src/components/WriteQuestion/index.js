@@ -259,7 +259,7 @@ function WriteQuestion({
 
   // update question and go to the next question
   const nextQuestion = async () => {
-    if (changed) {
+    // if (changed) {
       // console.log('edited');
       if (questionQuestion === '') {
         alert('Please enter the question.');
@@ -300,7 +300,7 @@ function WriteQuestion({
           questionAnswer,
         }
       );
-    }
+    // }
     // setQuestionVisible(false);
     fetchData();
     const next_id = questionArray[questionNumber];
@@ -310,7 +310,7 @@ function WriteQuestion({
 
   // update question and go to the previous question
   const previousQuestion = async () => {
-    if (changed){
+    // if (changed){
       // console.log('edited');
       if (questionQuestion === '') {
         alert('Please enter the question.');
@@ -351,7 +351,7 @@ function WriteQuestion({
           questionAnswer,
         }
       );
-    }
+    // }
     // setQuestionVisible(false);
     fetchData();
     const prev_id = questionArray[questionNumber-2];
@@ -368,9 +368,15 @@ function WriteQuestion({
         : `http://localhost:4000/api/question/detail/${questionData._id}`
     );
     // moveIndex();
-    setQuestionVisible(false);
     fetchData();
-    history.push(`/quiz/detail/${quizId}`);
+    if (lastQuestion || (firstQuestion && questionArray.length === 1)) {
+      setQuestionVisible(false);
+      history.push(`/quiz/detail/${quizId}`);
+    } else {
+      const next_id = questionArray[questionNumber];
+      // console.log('next_id', next_id);
+      history.push(`/question/detail/${next_id}`);
+    }
   };
 
   // const moveIndex = async () => {
