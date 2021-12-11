@@ -6,16 +6,22 @@ import {
   Grid,
   Box,
   TextField,
-  Paper,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
   Button,
   Card,
   Typography,
   Fab,
   Tooltip,
+  IconButton,
 } from '@mui/material';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
+import ExpandMoreRoundedIcon from '@mui/icons-material/ExpandMoreRounded';
+import ExpandLessRoundedIcon from '@mui/icons-material/ExpandLessRounded';
 
 function WriteQuestion({
   questionData,
@@ -51,6 +57,8 @@ function WriteQuestion({
   const [lastQuestion, setLastQuestion] = useState(false);
   const [firstQuestion, setFirstQuestion] = useState(questionNumber === 1);
   const [changed, setChanged] = useState(false);
+  // const [three, setThree] = useState(false);
+  const [four, setFour] = useState(questionData?.questionOption3 ? true : false);
 
   const history = useHistory();
 
@@ -108,19 +116,27 @@ function WriteQuestion({
   
   const createquestionData = async () => {
     if (questionQuestion === '') {
-      alert('please fill out the question');
+      alert('Please enter the question.');
       return;
     }
     if (questionOption1 === '') {
-      alert('please fill out the option 1');
+      alert('Please enter answer A.');
       return;
     }
     if (questionOption2 === '') {
-      alert('please fill out the option 2');
+      alert('Please enter answer B.');
+      return;
+    }
+    if (four && questionOption3 === '') {
+      alert('Please enter answer C for the four-option question.');
+      return;
+    }
+    if (four && questionOption4 === '') {
+      alert('Please enter answer D for the four-option question.');
       return;
     }
     if (!isNumber(questionAnswer)) {
-      alert('please fill out the question answer number');
+      alert('Please select the answer for the question.');
       return;
     }
     await axios.post(
@@ -146,19 +162,27 @@ function WriteQuestion({
   // save question data and go to the next question by adding question
   const AddQuestion = async () => {
     if (questionQuestion === '') {
-      alert('please fill out the question');
+      alert('Please enter the question.');
       return;
     }
     if (questionOption1 === '') {
-      alert('please fill out the option 1');
+      alert('Please enter answer A.');
       return;
     }
     if (questionOption2 === '') {
-      alert('please fill out the option 2');
+      alert('Please enter answer B.');
+      return;
+    }
+    if (four && questionOption3 === '') {
+      alert('Please enter answer C for the four-option question.');
+      return;
+    }
+    if (four && questionOption4 === '') {
+      alert('Please enter answer D for the four-option question.');
       return;
     }
     if (!isNumber(questionAnswer)) {
-      alert('please fill out the question answer number');
+      alert('Please select the answer for the question.');
       return;
     }
     await axios.post(
@@ -184,19 +208,27 @@ function WriteQuestion({
   // update question and save all the updated question
   const updatequestionData = async () => {
     if (questionQuestion === '') {
-      alert('please fill out the question');
+      alert('Please enter the question.');
       return;
     }
     if (questionOption1 === '') {
-      alert('please fill out the option 1');
+      alert('Please enter answer A.');
       return;
     }
     if (questionOption2 === '') {
-      alert('please fill out the option 2');
+      alert('Please enter answer B.');
+      return;
+    }
+    if (four && questionOption3 === '') {
+      alert('Please enter answer C for the four-option question.');
+      return;
+    }
+    if (four && questionOption4 === '') {
+      alert('Please enter answer D for the four-option question.');
       return;
     }
     if (!isNumber(questionAnswer)) {
-      alert('please fill out the question answer number');
+      alert('Please select the answer for the question.');
       return;
     }
     await axios.put(
@@ -225,19 +257,27 @@ function WriteQuestion({
     if (changed) {
       // console.log('edited');
       if (questionQuestion === '') {
-        alert('please fill out the question');
+        alert('Please enter the question.');
         return;
       }
       if (questionOption1 === '') {
-        alert('please fill out the option 1');
+        alert('Please enter answer A.');
         return;
       }
       if (questionOption2 === '') {
-        alert('please fill out the option 2');
+        alert('Please enter answer B.');
+        return;
+      }
+      if (four && questionOption3 === '') {
+        alert('Please enter answer C for the four-option question.');
+        return;
+      }
+      if (four && questionOption4 === '') {
+        alert('Please enter answer D for the four-option question.');
         return;
       }
       if (!isNumber(questionAnswer)) {
-        alert('please fill out the question answer number');
+        alert('Please select the answer for the question.');
         return;
       }
       await axios.put(
@@ -268,19 +308,27 @@ function WriteQuestion({
     if (changed){
       // console.log('edited');
       if (questionQuestion === '') {
-        alert('please fill out the question');
+        alert('Please enter the question.');
         return;
       }
       if (questionOption1 === '') {
-        alert('please fill out the option 1');
+        alert('Please enter answer A.');
         return;
       }
       if (questionOption2 === '') {
-        alert('please fill out the option 2');
+        alert('Please enter answer B.');
+        return;
+      }
+      if (four && questionOption3 === '') {
+        alert('Please enter answer C for the four-option question.');
+        return;
+      }
+      if (four && questionOption4 === '') {
+        alert('Please enter answer D for the four-option question.');
         return;
       }
       if (!isNumber(questionAnswer)) {
-        alert('please fill out the question answer number');
+        alert('Please select the answer for the question.');
         return;
       }
       await axios.put(
@@ -316,6 +364,21 @@ function WriteQuestion({
     fetchData();
     history.push(`/quiz/detail/${quizId}`);
   };
+
+  const optionNumberSetting = () => {
+    if (four) {
+      // four -> two
+      setFour(false);
+      setQuestionOption3('');
+      setQuestionOption4('');
+      if (questionAnswer == 3 || questionAnswer == 4) {
+        setQuetsionAnswer('');
+      }
+    } else {
+      // two -> four
+      setFour(true);
+    }
+  }
 
   if (questionData === undefined) {
     // add new question
@@ -356,9 +419,9 @@ function WriteQuestion({
               autoFocus
               // fullWidth
               margin='dense'
-              label='Options 1'
+              label='A'
               type='text'
-              placeholder='Enter the option 1...'
+              placeholder='Add answer A'
               value={questionOption1}
               onChange={(e) => setQuestionOption1(e.target.value)}
               // sx={{ m: 3 }}
@@ -368,46 +431,59 @@ function WriteQuestion({
               autoFocus
               // fullWidth
               margin='dense'
-              label='Options 2'
+              label='B'
               type='text'
-              placeholder='Enter the option 2...'
+              placeholder='Add answer B'
               value={questionOption2}
               onChange={(e) => setQuestionOption2(e.target.value)}
               // sx={{ m: 3 }}
             />
-            <TextField
-              autoFocus
-              // fullWidth
-              margin='dense'
-              label='Options 3'
-              type='text'
-              placeholder='Enter the option 3...'
-              value={questionOption3}
-              onChange={(e) => setQuestionOption3(e.target.value)}
-              // sx={{ m: 3 }}
-            />
-            <TextField
-              autoFocus
-              // fullWidth
-              margin='dense'
-              label='Options 4'
-              type='text'
-              placeholder='Enter the option 4...'
-              value={questionOption4}
-              onChange={(e) => setQuestionOption4(e.target.value)}
-              // sx={{ m: 3 }}
-            />
-            <TextField
-              required
-              autoFocus
-              // fullWidth
-              margin='dense'
-              label='Answer'
-              type='number'
-              placeholder='Enter the answer number...'
-              onChange={(e) => setQuetsionAnswer(e.target.value)}
-              // sx={{ m: 3 }}
-            />
+            <Grid item alignSelf='center'>
+              <Tooltip placement='right' title={ four ? 'Two-option question' : 'Four-option question'}>
+                <IconButton onClick={optionNumberSetting}>
+                  { four ? <ExpandLessRoundedIcon /> : <ExpandMoreRoundedIcon />}
+                </IconButton>
+              </Tooltip>
+            </Grid>
+            { four ?
+              <TextField
+                required
+                autoFocus
+                // fullWidth
+                margin='dense'
+                label='C'
+                type='text'
+                placeholder='Add answer C'
+                value={questionOption3}
+                onChange={(e) => setQuestionOption3(e.target.value)}
+                // sx={{ m: 3 }}
+              /> : null }
+            { four ? 
+              <TextField
+                required
+                autoFocus
+                // fullWidth
+                margin='dense'
+                label='D'
+                type='text'
+                placeholder='Add answer D'
+                value={questionOption4}
+                onChange={(e) => setQuestionOption4(e.target.value)}
+                // sx={{ m: 3 }}
+              /> : null }
+            <FormControl fullWidth sx={{ marginTop: '10px' }}>
+              <InputLabel>Answer *</InputLabel>
+              <Select
+                value={questionAnswer}
+                label='Answer *'
+                onChange={(e) => setQuetsionAnswer(e.target.value)}
+              >
+                <MenuItem value={1}>A</MenuItem>
+                <MenuItem value={2}>B</MenuItem>
+                { four ? <MenuItem value={3}>C</MenuItem> : null}
+                { four ? <MenuItem value={4}>D</MenuItem> : null}
+              </Select>
+            </FormControl>
             <Grid
               container
               justifyContent='flex-end'
@@ -491,9 +567,9 @@ function WriteQuestion({
               autoFocus
               // fullWidth
               margin='dense'
-              label='Options 1'
+              label='A'
               type='text'
-              placeholder='Enter the option 1...'
+              placeholder='Add answer A'
               value={questionOption1}
               onChange={(e) => {
                 setChanged(true);
@@ -506,9 +582,9 @@ function WriteQuestion({
               autoFocus
               // fullWidth
               margin='dense'
-              label='Options 2'
+              label='B'
               type='text'
-              placeholder='Enter the option 2...'
+              placeholder='Add answer B'
               value={questionOption2}
               onChange={(e) => {
                 setChanged(true);
@@ -516,49 +592,61 @@ function WriteQuestion({
               }}
               // sx={{ m: 3 }}
             />
-            <TextField
-              autoFocus
-              // fullWidth
-              margin='dense'
-              label='Options 3'
-              type='text'
-              placeholder='Enter the option 3...'
-              value={questionOption3}
-              onChange={(e) => {
-                setChanged(true);
-                setQuestionOption3(e.target.value);
-              }}
-              // sx={{ m: 3 }}
-            />
-            <TextField
-              autoFocus
-              // fullWidth
-              margin='dense'
-              label='Options 4'
-              type='text'
-              placeholder='Enter the option 4...'
-              value={questionOption4}
-              onChange={(e) => {
-                setChanged(true);
-                setQuestionOption4(e.target.value);
-              }}
-              // sx={{ m: 3 }}
-            />
-            <TextField
-              required
-              autoFocus
-              // fullWidth
-              margin='dense'
-              label='Answer'
-              type='number'
-              value={questionAnswer}
-              placeholder='Enter the answer number...'
-              onChange={(e) => {
-                setChanged(true);
-                setQuetsionAnswer(e.target.value);
-              }}
-              // sx={{ m: 3 }}
-            />
+            <Grid item alignSelf='center'>
+              <Tooltip placement='right' title={ four ? 'Two-option question' : 'Four-option question'}>
+                <IconButton onClick={optionNumberSetting}>
+                  { four ? <ExpandLessRoundedIcon /> : <ExpandMoreRoundedIcon />}
+                </IconButton>
+              </Tooltip>
+            </Grid>
+            {four ?
+              <TextField
+                autoFocus
+                required
+                // fullWidth
+                margin='dense'
+                label='C'
+                type='text'
+                placeholder='Add answer C'
+                value={questionOption3}
+                onChange={(e) => {
+                  setChanged(true);
+                  setQuestionOption3(e.target.value);
+                }}
+                // sx={{ m: 3 }}
+              /> : null }
+            {four ? 
+              <TextField
+                autoFocus
+                // fullWidth
+                required
+                margin='dense'
+                label='D'
+                type='text'
+                placeholder='Add answer D'
+                value={questionOption4}
+                onChange={(e) => {
+                  setChanged(true);
+                  setQuestionOption4(e.target.value);
+                }}
+                // sx={{ m: 3 }}
+              /> : null }
+            <FormControl fullWidth sx={{ marginTop: '10px' }}>
+              <InputLabel>Answer *</InputLabel>
+              <Select
+                value={questionAnswer}
+                label='Answer *'
+                onChange={(e) => {
+                  setChanged(true);
+                  setQuetsionAnswer(e.target.value);
+                }}
+              >
+                <MenuItem value={1}>A</MenuItem>
+                <MenuItem value={2}>B</MenuItem>
+                { four ? <MenuItem value={3}>C</MenuItem> : null }
+                { four ? <MenuItem value={4}>D</MenuItem> : null }
+              </Select>
+            </FormControl>
           <Grid
             container
             justifyContent='flex-end'
