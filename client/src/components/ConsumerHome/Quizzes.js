@@ -9,7 +9,7 @@ export default function Quizzes() {
       : `http://localhost:4000/api/quiz`
   );
   if (!payload) {
-    return <div>No Data</div>;
+    return <div>loading...</div>;
   }
   if (loading) {
     return <div>loading...</div>;
@@ -21,7 +21,7 @@ export default function Quizzes() {
   const compareObjects = (a, b) => {
     const a_mod = a.toUpperCase();
     const b_mod = b.toUpperCase();
-  
+
     if (a_mod < b_mod) {
       return -1;
     }
@@ -29,15 +29,17 @@ export default function Quizzes() {
       return 1;
     }
     return 0;
-  }
+  };
 
   const quizData = payload.createQuiz;
   quizData.sort((a, b) => {
     return compareObjects(a.quizName, b.quizName);
   });
-  // console.log(quizData);
 
   const QuizCardList = quizData
+    .filter((data) => {
+      return data.quizQuestions.length >= 10;
+    })
     .map((data) => {
       return (
         <Grid item key={data.quizName}>
