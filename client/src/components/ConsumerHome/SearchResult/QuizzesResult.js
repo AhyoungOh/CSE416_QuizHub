@@ -24,7 +24,11 @@ export default function QuizzesResult({ searchWord, searchType }) {
 
       if (searchType !== 'Quiz') return false;
 
-      return data.quizName.toUpperCase().includes(searchWord.toUpperCase());
+      var quiz =
+        data.quizQuestions.length >= 10 &&
+        data.quizName.toUpperCase().includes(searchWord.toUpperCase());
+      // return data.quizName.toUpperCase().includes(searchWord.toUpperCase());
+      return quiz;
     })
     .map((data) => {
       return (
@@ -42,12 +46,15 @@ export default function QuizzesResult({ searchWord, searchType }) {
       console.log('return false');
       return false;
     }
-
-    return data.quizName.toUpperCase().includes(searchWord.toUpperCase());
+    var quiz =
+      data.quizQuestions.length >= 10 &&
+      data.quizName.toUpperCase().includes(searchWord.toUpperCase());
+    // return data.quizName.toUpperCase().includes(searchWord.toUpperCase());
+    return quiz;
   });
 
-  console.log('quizzes countResult', countResult == true);
-  console.log('searchType', searchType);
+  // console.log('quizzes countResult', countResult == true);
+  // console.log('searchType', searchType);
   return (
     <div>
       {countResult.length !== 0 ? (
