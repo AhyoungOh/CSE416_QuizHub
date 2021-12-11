@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { isNumber } from '../../utils/validate';
 import { useHistory } from 'react-router-dom';
 import {
@@ -10,7 +10,12 @@ import {
   Button,
   Card,
   Typography,
+  Fab,
+  Tooltip,
 } from '@mui/material';
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
+import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
+import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
 
 function WriteQuestion({
   questionData,
@@ -42,24 +47,62 @@ function WriteQuestion({
   const [questionAnswer, setQuetsionAnswer] = useState(
     questionData?.questionAnswer || ''
   );
+  const [questionArray, setQuestionArray] = useState([]);
+
   const history = useHistory();
-  const getQuestionNumber = async () => {
+
+  // const getQuestionNumber = async () => {
+  //   try {
+  //     await axios
+  //       .get(
+  //         process.env.NODE_ENV === 'production'
+  //           ? `/api/quiz/detail/${quizId}`
+  //           : `http://localhost:4000/api/quiz/detail/${quizId}`
+  //       )
+  //       .then((Response) => {
+  //         setQuestionNumber(Response.data.quiz.quizQuestions.length + 1);
+  //       });
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
+  // };
+  // getQuestionNumber();
+
+  const exist = (x) =>{
+    // console.log('x: ', x, 'questionData._id: ', questionData._id, 'result:', x === questionData._id);
+    return x === questionData._id;
+  }
+
+  const getQuestionArray = async () => {
     try {
       await axios
-        .get(
-          process.env.NODE_ENV === 'production'
-            ? `/api/quiz/detail/${quizId}`
-            : `http://localhost:4000/api/quiz/detail/${quizId}`
-        )
-        .then((Response) => {
-          setQuestionNumber(Response.data.quiz.quizQuestions.length + 1);
-        });
+      .get(
+        process.env.NODE_ENV === 'production'
+          ? `/api/quiz/detail/${quizId}`
+          : `http://localhost:4000/api/quiz/detail/${quizId}`
+      )
+      .then((res) => {
+        const tem = [];
+        for (const q of res.data.quiz.quizQuestions) {
+          tem.push(q._id);
+        }
+        setQuestionArray(tem);
+        { questionData ? setQuestionNumber(tem.findIndex(exist)+1) : setQuestionNumber(res.data.quiz.quizQuestions.length + 1) };
+      });
     } catch (e) {
       console.error(e);
     }
-  };
-  getQuestionNumber();
+  }
+  useEffect(
+    getQuestionArray,
+    []
+  );
+  console.log('after');
+  console.log(questionArray);
+  console.log(questionNumber);
+  
   const createquestionData = async () => {
+    console.log('create question', questionNumber);
     if (questionQuestion === '') {
       alert('please fill out the question');
       return;
@@ -96,7 +139,47 @@ function WriteQuestion({
     history.push(`/quiz/detail/${quizId}`);
   };
 
+  // save question data and go to the next question by adding question
+  const AddQuestion = async () => {
+    console.log('create question', questionNumber);
+    if (questionQuestion === '') {
+      alert('please fill out the question');
+      return;
+    }
+    if (questionOption1 === '') {
+      alert('please fill out the option 1');
+      return;
+    }
+    if (questionOption2 === '') {
+      alert('please fill out the option 2');
+      return;
+    }
+    if (!isNumber(questionAnswer)) {
+      alert('please fill out the question answer number');
+      return;
+    }
+    await axios.post(
+      process.env.NODE_ENV === 'production'
+        ? `/api/question/${quizId}`
+        : `http://localhost:4000/api/question/${quizId}`,
+      {
+        quizId,
+        questionNumber,
+        questionQuestion,
+        questionOption1,
+        questionOption2,
+        questionOption3,
+        questionOption4,
+        questionAnswer,
+      }
+    );
+    setQuestionVisible(false);
+    fetchData();
+    history.push(`/question/${quizId}`);
+  };
+  
   const updatequestionData = async () => {
+    console.log('edit question', questionNumber);
     if (questionQuestion === '') {
       alert('please fill out the question');
       return;
@@ -119,6 +202,7 @@ function WriteQuestion({
         : `http://localhost:4000/api/question/detail/${questionData._id}`,
       {
         _id: questionData._id,
+        questionNumber,
         questionQuestion,
         questionOption1,
         questionOption2,
@@ -147,14 +231,6 @@ function WriteQuestion({
     // add new question
     return (
       <div className='write'>
-        {/* <Paper
-          sx={{
-            display: 'flex',
-            flexWrapped: 'wrap',
-            flexDirection: 'column',
-            minWidth: '500px',
-          }}
-        > */}
         <Card
           sx={{
             borderRadius: '18px',
@@ -267,6 +343,11 @@ function WriteQuestion({
             </Grid>
           </Grid>
         </Card>
+        <Tooltip title='Add more questions'>
+          <Fab onClick={AddQuestion} sx={{ position: 'absolute', right: '5%' }}>
+            <AddRoundedIcon />
+          </Fab>
+        </Tooltip>
       </div>
     );
   } else {

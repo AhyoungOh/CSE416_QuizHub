@@ -64,6 +64,7 @@ questionRouter.put(
     if (question) {
       // question.questionNumber = req.body.questionNumber;
       question.questionQuestion = req.body.questionQuestion;
+      question.questionNumber = req.body.questionNumber;
       question.questionOption1 = req.body.questionOption1;
       question.questionOption2 = req.body.questionOption2;
       question.questionOption3 = req.body.questionOption3;
