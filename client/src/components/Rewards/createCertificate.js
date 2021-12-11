@@ -49,6 +49,34 @@ function CreateCertificate() {
           e.data.design.rasterized_content_url
         );
         console.log('Encoded Content:', e.data.design.encoded_content);
+        console.log(groupid)
+        
+        if(e.data.design.id ==null || e.data.design.rasterized_content_url==null){
+          //delete group
+          console.log("inside delete group")
+          async function deleteGroup(){
+            const apicall = {
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Token token=38040def040af70134a08e39a3db35d3',
+              },
+            };
+            try {
+              await axios
+                .delete(
+                  `https://api.accredible.com/v1/issuer/groups/${groupid}`,
+                  apicall
+                )
+                .then((response) => {
+                  console.log(response);
+                });
+            } catch (e) {
+              console.error(e);
+            }
+          }
+          deleteGroup()
+          history.push(`/quiz/detail/${quizid}`);
+        }
 
         async function updateGroup() {
           const apicall = {
