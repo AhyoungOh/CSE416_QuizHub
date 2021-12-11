@@ -177,11 +177,16 @@ function SignIn() {
                   onClick={clickBtnHandler}
                   className={classes.button}
                 >
-                  Log in
+                  Log In
                 </Button>
               </Grid>
-              <Grid item sx={{ alignSelf: 'center' }}>
-                <Typography>Don't have an account yet? <Button href='/auth/creator_signup'>Sign up</Button></Typography>
+              <Grid item container direction='row' alignItems='center' justifyContent='center'>
+                <Grid item>
+                  <Typography>Don't have an account yet?</Typography>
+                </Grid>
+                <Grid item>
+                  <Button href='/auth/creator_signup'>Register</Button>
+                </Grid>
               </Grid>
             </Grid>
           </Paper>

@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { UserContext } from '../../App';
 import axios from 'axios';
 import {
@@ -18,6 +18,9 @@ function UserAppBar() {
   const { user, dispatch } = useContext(UserContext);
   const [anchorEl, setAnchorEl] = useState(null);
   const history = useHistory();
+  const location = useLocation();
+
+  const currPath = location.pathname;
 
   const setUserInfo = async () => {
     const userInfo = await axios.get(
@@ -70,6 +73,14 @@ function UserAppBar() {
       ? 'Creator'
       : 'Consumer';
 
+  const handleAccountButton = () => {
+    if (currPath === '/auth/signin') {
+      history.push('/auth/consumer_signup');
+    } else {
+      history.push('/auth/signin');
+    }
+  }
+
   return (
     <AppBar position='fixed' color='common'>
       <Toolbar color='white'>
@@ -82,11 +93,24 @@ function UserAppBar() {
             width='130'
             onClick={() => {
               if (user.isCreator === false) {
-                history.push('/consumerHome');
+                if (currPath === '/consumerHome') {
+                  window.location.reload(false);
+                } else {
+                  history.push('/consumerHome');
+                }
               } else if (user.isCreator === true) {
-                history.push('/creatorHome');
+                if (currPath === '/creatorHome') {
+                  window.location.reload(false);
+                } else {
+                  history.push('/creatorHome');
+                }
               } else {
-                history.push('/');
+                // history.push('/');
+                if (currPath === '/') {
+                  window.location.reload(false);
+                } else {
+                  history.push('/');
+                }
               }
             }}
           />
@@ -94,17 +118,15 @@ function UserAppBar() {
         {id === '' ? (
           <Button
             variant='contained'
-            onClick={() => {
-              history.push('/auth/signin');
-            }}
+            onClick={handleAccountButton}
           >
-            Login
+            { currPath === '/auth/signin' ? 'Register' : 'Login' }
           </Button>
         ) : (
           <div>
             {/* <Typography>
-                            {user.username}
-                        </Typography> */}
+                {user.username}
+            </Typography> */}
             <IconButton
               size='large'
               aria-label='account of current user'
