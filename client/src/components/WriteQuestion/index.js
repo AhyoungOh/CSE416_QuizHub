@@ -16,6 +16,8 @@ import {
   Fab,
   Tooltip,
   IconButton,
+  FormControlLabel,
+  Checkbox,
 } from '@mui/material';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
@@ -59,6 +61,9 @@ function WriteQuestion({
   const [changed, setChanged] = useState(false);
   // const [three, setThree] = useState(false);
   const [four, setFour] = useState(questionData?.questionOption3 ? true : false);
+  const [tf, setTf] = useState(questionData?.questionOption1 == 'True' ? true : false);
+  const [tem1, setTem1] = useState('');
+  const [tem2, setTem2] = useState('');
 
   const history = useHistory();
 
@@ -366,6 +371,7 @@ function WriteQuestion({
   };
 
   const optionNumberSetting = () => {
+    setChanged(true);
     if (four) {
       // four -> two
       setFour(false);
@@ -377,6 +383,31 @@ function WriteQuestion({
     } else {
       // two -> four
       setFour(true);
+    }
+  }
+
+  const setTrueFalse = () => {
+    setChanged(true);
+    if (tf) {
+      // unselect
+      setTf(false);
+      setQuestionOption1(tem1);
+      setQuestionOption2(tem2);
+      // setTem1('');
+      // setTem2('');
+    } else {
+      // set it to true-false question
+      setTf(true);
+      setFour(false);
+      setQuestionOption3('');
+      setQuestionOption4('');
+      if (questionAnswer == 3 || questionAnswer == 4) {
+        setQuetsionAnswer('');
+      }
+      setTem1(questionOption1);
+      setTem2(questionOption2);
+      setQuestionOption1('True');
+      setQuestionOption2('False');
     }
   }
 
@@ -414,6 +445,11 @@ function WriteQuestion({
                 onChange={(e) => setQuestionQuestion(e.target.value)}
               />
             </Box>
+            <FormControl sx={{ paddingLeft: '40px' }}>
+              <Tooltip placement='right' title={ four ? 'Two-option question' : 'Four-option question'}>
+                <FormControlLabel control={<Checkbox size='small' checked={tf} onChange={setTrueFalse}/>} label={<Typography sx={{ fontSize: '18px' }}>This is a True or False question.</Typography>} />
+              </Tooltip>
+            </FormControl>
             <TextField
               required
               autoFocus
@@ -422,7 +458,7 @@ function WriteQuestion({
               label='A'
               type='text'
               placeholder='Add answer A'
-              value={questionOption1}
+              value={tf ? 'True' : questionOption1}
               onChange={(e) => setQuestionOption1(e.target.value)}
               // sx={{ m: 3 }}
             />
@@ -434,7 +470,7 @@ function WriteQuestion({
               label='B'
               type='text'
               placeholder='Add answer B'
-              value={questionOption2}
+              value={tf ? 'False' : questionOption2}
               onChange={(e) => setQuestionOption2(e.target.value)}
               // sx={{ m: 3 }}
             />
@@ -562,6 +598,11 @@ function WriteQuestion({
                 }}
               />
             </Box>
+            <FormControl sx={{ paddingLeft: '40px' }}>
+              <Tooltip placement='right' title={ four ? 'Two-option question' : 'Four-option question'}>
+                <FormControlLabel control={<Checkbox size='small' checked={tf} onChange={setTrueFalse}/>} label={<Typography sx={{ fontSize: '18px' }}>This is a True or False question.</Typography>} />
+              </Tooltip>
+            </FormControl>
             <TextField
               required
               autoFocus
@@ -570,7 +611,7 @@ function WriteQuestion({
               label='A'
               type='text'
               placeholder='Add answer A'
-              value={questionOption1}
+              value={tf ? 'True' : questionOption1}
               onChange={(e) => {
                 setChanged(true);
                 setQuestionOption1(e.target.value);
@@ -585,7 +626,7 @@ function WriteQuestion({
               label='B'
               type='text'
               placeholder='Add answer B'
-              value={questionOption2}
+              value={tf ? 'False' : questionOption2}
               onChange={(e) => {
                 setChanged(true);
                 setQuestionOption2(e.target.value);
