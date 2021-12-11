@@ -25,7 +25,7 @@ export default function QuizzesResult({ searchWord, searchType }) {
       if (searchType !== 'Quiz') return false;
 
       var quiz =
-        data.quizQuestions.length > 10 &&
+        data.quizQuestions.length >= 10 &&
         data.quizName.toUpperCase().includes(searchWord.toUpperCase());
       // return data.quizName.toUpperCase().includes(searchWord.toUpperCase());
       return quiz;
@@ -47,7 +47,7 @@ export default function QuizzesResult({ searchWord, searchType }) {
       return false;
     }
     var quiz =
-      data.quizQuestions.length > 10 &&
+      data.quizQuestions.length >= 10 &&
       data.quizName.toUpperCase().includes(searchWord.toUpperCase());
     // return data.quizName.toUpperCase().includes(searchWord.toUpperCase());
     return quiz;
