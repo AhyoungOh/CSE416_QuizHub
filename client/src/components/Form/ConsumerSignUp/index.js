@@ -230,14 +230,18 @@ function ConsumerSignUp() {
                   onClick={clickBtnHandler}
                   className={classes.button}
                 >
-                  Sign up
+                  Sign Up
                 </Button>
               </Grid>
-              <Grid item sx={{ alignSelf: 'center' }}>
-                <Typography>
-                  Already have an account?{' '}
-                  <Button href='/auth/signin'>Sign in</Button>
-                </Typography>
+              <Grid item container direction='row' alignItems='center' justifyContent='center'>
+                <Grid item>
+                  <Typography>
+                    Already have an account?{' '}
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <Button href='/auth/signin'>Log In</Button> 
+                </Grid>
               </Grid>
             </Grid>
           </Paper>
