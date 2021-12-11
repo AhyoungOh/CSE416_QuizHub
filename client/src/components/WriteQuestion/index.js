@@ -360,15 +360,32 @@ function WriteQuestion({
   };
 
   const deletequestionData = async () => {
+    // TODO: after deleting question, update the index for the question after current question
+    // question number: x, index in array: x - 1, shifting from: x (x -> x-1)
     await axios.delete(
       process.env.NODE_ENV === 'production'
         ? `/api/question/detail/${questionData._id}`
         : `http://localhost:4000/api/question/detail/${questionData._id}`
     );
+    // moveIndex();
     setQuestionVisible(false);
     fetchData();
     history.push(`/quiz/detail/${quizId}`);
   };
+
+  // const moveIndex = async () => {
+  //   for (let i = questionNumber; i < questionArray.length; i ++) {
+  //     await axios.put(
+  //       process.env.NODE_ENV === 'production'
+  //         ? `/api/question/detail_num/${questionArray[i]}`
+  //         : `http://localhost:4000/api/question/detail_num/${questionArray[i]}`,
+  //       {
+  //         _id: questionArray[i],
+  //         questionNumber: i-1,
+  //       }
+  //     );
+  //   }
+  // }
 
   const optionNumberSetting = () => {
     setChanged(true);
@@ -527,9 +544,11 @@ function WriteQuestion({
               sx={{ padding: '25px' }}
             >
               <Grid item>
-                <Button variant='contained' onClick={createquestionData}>
-                  Create
-                </Button>
+                <Tooltip title='Create one question'>
+                  <Button variant='contained' onClick={createquestionData}>
+                    Create
+                  </Button>
+                </Tooltip>
               </Grid>
               <Grid item>
                 <Button

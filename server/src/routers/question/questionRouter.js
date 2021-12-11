@@ -86,6 +86,29 @@ questionRouter.put(
   })
 );
 
+// update question number only
+questionRouter.put(
+  '/detail_num/:id',
+  expressAsyncHandler(async (req, res) => {
+    const questionId = req.params.id;
+    const question = await Question.findById(questionId);
+
+    console.log('detail_num');
+    console.log('req.body', req.body);
+    console.log('question', question);
+    if (question) {
+      question.questionNumber = req.body.questionNumber;
+      const updatedQuestion = await question.save();
+      res.send({
+        message: 'Question Updated',
+        question: updatedQuestion,
+      });
+    } else {
+      res.status(404).send({ message: 'Question (Number) Not Found' });
+    }
+  })
+);
+
 //remove
 questionRouter.delete('/detail/:id', (req, res) => {
   try {
