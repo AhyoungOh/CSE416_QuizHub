@@ -71,7 +71,7 @@ function UserAppBar() {
       : 'Consumer';
 
   return (
-    <AppBar position='static' color='common'>
+    <AppBar position='fixed' color='common'>
       <Toolbar color='white'>
         {/* consumer profile page */}
         {/* TODO: adjust our logo */}

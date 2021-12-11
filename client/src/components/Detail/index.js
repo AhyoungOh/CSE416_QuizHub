@@ -54,7 +54,7 @@ function Detail({ platformData, setVisible }) {
   return (
     <div>
       {/* change it to only image, name, description */}
-      <Grid containter sx={{ paddingLeft: "10px", paddingTop: "10px" }}>
+      <Grid containter sx={{ paddingLeft: "10px", paddingTop: "70px" }}>
         <Button
           onClick={() => {
             history.push('/creatorHome');

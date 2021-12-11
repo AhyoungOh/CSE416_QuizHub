@@ -32,7 +32,7 @@ function HomePage(){
     return(
         <div className={classes.root}>
             <CssBaseline />
-            <Grid container alignItems='center' sx={{ paddingTop: '50px', paddingBottom: '30px' }}>
+            <Grid container alignItems='center' sx={{ paddingTop: '100px', paddingBottom: '30px' }}>
                 <Grid item sm={6} xl={0}>
                 </Grid>
                 <Grid item sm={6} xl={12} container justifyContent='center'>

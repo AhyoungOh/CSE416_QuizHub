@@ -38,7 +38,7 @@ const style = {
 
 const useStyles = makeStyles({
   container: {
-    paddingTop: '20px',
+    paddingTop: '70px',
     paddingBottom: '20px',
     paddingLeft: '70px',
     paddingRight: '70px',

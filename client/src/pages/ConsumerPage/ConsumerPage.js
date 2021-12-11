@@ -13,7 +13,7 @@ import ConsumerMyQuizzes from '../../components/Form/ConsumerMyQuizzes';
 const useStyles = makeStyles({
   container: {
     // padding: '20px',
-    paddingTop: '30px',
+    paddingTop: '90px',
     paddingBottom: '20px',
   },
   name: {

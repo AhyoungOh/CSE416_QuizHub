@@ -30,7 +30,7 @@ const useStyles = makeStyles({
     padding: '10px',
   },
   container: {
-    paddingTop: '30px',
+    paddingTop: '90px',
   },
   name: {
     fontWeight: 'bold',

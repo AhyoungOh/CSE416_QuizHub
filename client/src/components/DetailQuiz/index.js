@@ -248,7 +248,7 @@ function DetailQuiz({ quizData, setQuizVisible }) {
 
   return (
     <div>
-      <Grid containter sx={{ paddingLeft: '10px', paddingTop: '10px' }}>
+      <Grid containter sx={{ paddingLeft: '10px', paddingTop: '70px' }}>
         <Button
           onClick={() => {
             history.push(`/creatorHome/${quizData.platformId}`);

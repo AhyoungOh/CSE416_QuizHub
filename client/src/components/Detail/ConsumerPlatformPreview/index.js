@@ -70,7 +70,7 @@ function ConsumerPlatformPreview() {
 
     return(
         <div>
-            <Grid containter sx={{ paddingLeft: "10px", paddingTop: "10px" }}>
+            <Grid containter sx={{ paddingLeft: "10px", paddingTop: "80px" }}>
                 <Button
                 onClick={() => {
                     history.push('/consumerhome');

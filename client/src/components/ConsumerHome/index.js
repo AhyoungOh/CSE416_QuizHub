@@ -58,7 +58,7 @@ function ConsumerHome() {
 
   return (
     <div>
-      <Grid container direction='column' spacing={2} sx={{ paddingTop: '40px' }}>
+      <Grid container direction='column' spacing={2} sx={{ paddingTop: '100px' }}>
         <Grid item>
           <Grid container spacing={2} justifyContent='center'>
             <Button 

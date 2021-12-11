@@ -10,7 +10,7 @@ import CreatorProfileForm from '../../components/Form/CreatorProfileForm';
 const useStyles = makeStyles({
     container: {
         // padding: '20px',
-        paddingTop: '30px',
+        paddingTop: '90px',
         paddingBottom: '30px',
     },
     name: {

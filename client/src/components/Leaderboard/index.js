@@ -213,7 +213,7 @@ function Leaderboard() {
   // return <div className='Leaderboard'>{JSON.stringify(leaderboard, null, 2)}</div>;
   return (
     <div>
-      <Grid container direction='column' spacing={2} sx={{ padding: '20px' }}>
+      <Grid container direction='column' spacing={2} sx={{ paddingTop: '90px', paddingBottom: '20px' }}>
         <Grid
           item
           container
