@@ -1,6 +1,6 @@
 import Quiz from '../Quiz';
 import Question from '../Question';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef ,useEffect} from 'react';
 import axios from 'axios';
 import { Link, useHistory } from 'react-router-dom';
 import {
@@ -37,6 +37,8 @@ function DetailQuiz({ quizData, setQuizVisible }) {
 
   const classes = useStyles();
 
+  const [groupExists, setGroupExists]= useState(false)
+
   for (let i = 0; i < Object.keys(quizData.quizQuestions).length; i++) {
     owned.push(quizData.quizQuestions[i].questionQuestion + ', ');
   }
@@ -49,6 +51,40 @@ function DetailQuiz({ quizData, setQuizVisible }) {
   };
 
   const apidata = {};
+
+  function findGroup(group){
+    if(group.course_description==quizData.quizDescription){
+      return true
+    }
+    else{
+      return false
+    }
+  }
+
+  const checkGroup = async () =>{
+    try {
+      await axios
+        .get(
+          `https://api.accredible.com/v1/issuer/all_groups?name=${quizData.quizName}`,
+          apicall
+        )
+        .then((response) => {
+          console.log(response);
+          const allgroups=response.data.groups.filter(findGroup)
+          console.log(allgroups)
+          if(allgroups.length!=0){
+            setGroupExists(true)
+          }
+        });
+    } catch (e) {
+      console.error(e);
+    }  
+  }
+
+  useEffect(() => {
+    checkGroup()
+  }, []);
+
 
   const creategroupdata = {
     group: {
@@ -272,21 +308,21 @@ function DetailQuiz({ quizData, setQuizVisible }) {
                   </Grid>
                   <Grid item>
                     {quizData.quizRewardType === 'certificate' ? (
-                      <Button variant='contained' onClick={createCertificate}>
+                      <Button variant='contained' disabled={groupExists} onClick={createCertificate}>
                         Add Certificate
                       </Button>
                     ) : null}
                   </Grid>
                   <Grid item>
                     {quizData.quizRewardType === 'badge' ? (
-                      <Button variant='contained' onClick={createBadge}>
+                      <Button variant='contained' disabled={groupExists} onClick={createBadge}>
                         Add Badge
                       </Button>
                     ) : null}
                   </Grid>
                   <Grid item>
                     {quizData.quizRewardType === 'both' ? (
-                      <Button variant='contained' onClick={createCertificateandBadge}>
+                      <Button variant='contained' disabled={groupExists} onClick={createCertificateandBadge}>
                         Add Badge and Certificate
                       </Button>
                     ) : null}
