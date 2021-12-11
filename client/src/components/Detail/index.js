@@ -1,6 +1,8 @@
-import Platform from '../Platform';
-import PlatformSpecificQuizCard from '../Card/PlatformSpecificQuizCard';
+import { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+import PlatformSpecificQuizCard from '../Card/PlatformSpecificQuizCard';
+import Platform from '../Platform';
+import { QuizContext } from '../../App';
 import { Grid, Button, Fab, Paper } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import AddIcon from '@mui/icons-material/Add';
@@ -28,6 +30,7 @@ function Detail({ platformData, setVisible }) {
   const owned = [];
   const history = useHistory();
   const classes = useStyles();
+  const { quiz, dispatch2 } = useContext(QuizContext);
   for (let i = 0; i < Object.keys(platformData.ownedQuizzes).length; i++) {
     owned.push(platformData.ownedQuizzes[i].quizName + ', ');
   }
@@ -40,17 +43,21 @@ function Detail({ platformData, setVisible }) {
         quizImage={quizData.quizImage}
         quizCreatedDate={quizData.createdDate}
         clickAction={() => {
+          dispatch2({ type: 'load', payload: quizData });
           history.push(`/quiz/detail/${quizData._id}`);
         }}
       />
     );
   });
+
   const updatePlatformData = () => {
     setVisible(true);
   };
+
   const updateQuizData = () => {
     history.push(`/quiz/${platformData._id}`);
   };
+
   return (
     <div>
       {/* change it to only image, name, description */}

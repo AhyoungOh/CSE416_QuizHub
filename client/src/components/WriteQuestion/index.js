@@ -43,6 +43,7 @@ function WriteQuestion({
     questionData?.questionAnswer || ''
   );
   const history = useHistory();
+
   const getQuestionNumber = async () => {
     try {
       await axios
@@ -59,6 +60,7 @@ function WriteQuestion({
     }
   };
   getQuestionNumber();
+
   const createquestionData = async () => {
     if (questionQuestion === '') {
       alert('please fill out the question');

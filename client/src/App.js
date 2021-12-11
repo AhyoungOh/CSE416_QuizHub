@@ -70,6 +70,23 @@ const theme = createTheme({
 
 dotenv.config();
 
+const quizReducer = (state, action) => {
+  switch (action.type) {
+    case 'load': {
+      // console.log('action:', action);
+      return {
+        quizid: action.payload._id,
+      };
+    }
+    case 'unload':
+      return {
+        quizid: '',
+      };
+    default:
+      throw new Error();
+  }
+}
+
 const userReducer = (state, action) => {
   switch (action.type) {
     case 'signin':
@@ -115,11 +132,16 @@ const userReducer = (state, action) => {
 };
 
 export const UserContext = createContext(null);
+export const QuizContext = createContext(null);
 
 function App() {
   const [user, dispatch] = useReducer(userReducer, {
     id: '',
     password: '',
+  });
+
+  const [quiz, dispatch2] = useReducer(quizReducer, {
+    quizid: '',
   });
 
   return (
@@ -132,15 +154,6 @@ function App() {
           <Switch>
             <Route path='/auth'>
               <AuthPage />
-            </Route>
-            <Route path='/creatorHome'>
-              <CreatorFunctionPage />
-            </Route>
-            <Route path='/quiz'>
-              <CreatorQuiz />
-            </Route>
-            <Route path='/question'>
-              <CreatorQuestion />
             </Route>
             <Route path='/consumerHome'>
               <ConsumerHomePage />
@@ -175,9 +188,17 @@ function App() {
             <Route path='/playerprofile/:id'>
               <PlayerProfilePage />
             </Route>
-            <Route path='/imageupload'>
-              <ImageUpload />
-            </Route>
+            <QuizContext.Provider value={{ quiz, dispatch2 }}>
+              <Route path='/creatorHome'>
+                <CreatorFunctionPage />
+              </Route>
+              <Route path='/quiz'>
+                <CreatorQuiz />
+              </Route>
+              <Route path='/question'>
+                <CreatorQuestion />
+              </Route>
+            </QuizContext.Provider>
           </Switch>
         </Router>
       </UserContext.Provider>

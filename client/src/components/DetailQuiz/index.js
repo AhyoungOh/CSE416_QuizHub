@@ -1,6 +1,7 @@
 import Quiz from '../Quiz';
 import Question from '../Question';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
+import { QuizContext } from '../../App';
 import axios from 'axios';
 import { Link, useHistory } from 'react-router-dom';
 import {
@@ -36,6 +37,9 @@ function DetailQuiz({ quizData, setQuizVisible }) {
   const isGroup = useRef(0);
 
   const classes = useStyles();
+
+  const { quiz, dispatch2 } = useContext(QuizContext);
+  console.log('load quiz: ', quiz);
 
   for (let i = 0; i < Object.keys(quizData.quizQuestions).length; i++) {
     owned.push(quizData.quizQuestions[i].questionQuestion + ', ');
@@ -215,6 +219,7 @@ function DetailQuiz({ quizData, setQuizVisible }) {
       <Grid containter sx={{ paddingLeft: '10px', paddingTop: '10px' }}>
         <Button
           onClick={() => {
+            dispatch2({ type: 'unload' });
             history.push(`/creatorHome/${quizData.platformId}`);
           }}
           // startIcon={<KeyboardBackspaceRoundedIcon />}
@@ -309,7 +314,6 @@ function DetailQuiz({ quizData, setQuizVisible }) {
         </Grid>
       </Grid>
 
-      {/* TODO: move them to another section or modal */}
       {/* <Grid item>
         {quizData.quizCertificateQualification == null ||
         quizData.quizBadgeQualification != null ? null : (
