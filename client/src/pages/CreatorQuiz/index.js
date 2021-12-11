@@ -1,12 +1,10 @@
+import './style.scss';
+import { useState, useContext } from 'react';
+import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import WriteQuiz from '../../components/WriteQuiz';
 import DetailQuiz from '../../components/DetailQuiz';
-import Quiz from '../../components/Quiz';
-import PlatformSpecificQuizCard from '../../components/Card/PlatformSpecificQuizCard';
-import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
-import './style.scss';
-import { useState } from 'react';
 import useApiCall from '../../hooks/useApiCall';
-import { Grid } from '@mui/material';
+import { QuizContext } from '../../App';
 import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles({
