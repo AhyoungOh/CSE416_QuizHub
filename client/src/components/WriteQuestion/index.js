@@ -48,6 +48,9 @@ function WriteQuestion({
     questionData?.questionAnswer || ''
   );
   const [questionArray, setQuestionArray] = useState([]);
+  const [lastQuestion, setLastQuestion] = useState(false);
+  const [firstQuestion, setFirstQuestion] = useState(questionNumber === 1);
+  const [changed, setChanged] = useState(false);
 
   const history = useHistory();
 
@@ -88,21 +91,22 @@ function WriteQuestion({
         }
         setQuestionArray(tem);
         { questionData ? setQuestionNumber(tem.findIndex(exist)+1) : setQuestionNumber(res.data.quiz.quizQuestions.length + 1) };
+        { tem.length === tem.findIndex(exist)+1 ? setLastQuestion(true) : setLastQuestion(false)};
+        { tem.length === 1 || tem.findIndex(exist) === 0 ? setFirstQuestion(true) : setFirstQuestion(false) };
       });
     } catch (e) {
       console.error(e);
     }
   }
+
   useEffect(
     getQuestionArray,
     []
   );
-  console.log('after');
-  console.log(questionArray);
-  console.log(questionNumber);
+  // console.log(questionArray);
+  // console.log(questionNumber);
   
   const createquestionData = async () => {
-    console.log('create question', questionNumber);
     if (questionQuestion === '') {
       alert('please fill out the question');
       return;
@@ -141,7 +145,6 @@ function WriteQuestion({
 
   // save question data and go to the next question by adding question
   const AddQuestion = async () => {
-    console.log('create question', questionNumber);
     if (questionQuestion === '') {
       alert('please fill out the question');
       return;
@@ -178,8 +181,8 @@ function WriteQuestion({
     history.push(`/question/${quizId}`);
   };
   
+  // update question and save all the updated question
   const updatequestionData = async () => {
-    console.log('edit question', questionNumber);
     if (questionQuestion === '') {
       alert('please fill out the question');
       return;
@@ -213,7 +216,94 @@ function WriteQuestion({
     );
     setQuestionVisible(false);
     fetchData();
-    history.push(`/question/detail/${questionData._id}`);
+    // history.push(`/question/detail/${questionData._id}`);
+    history.push(`/quiz/detail/${quizId}`);
+  };
+
+  // update question and go to the next question
+  const nextQuestion = async () => {
+    if (changed) {
+      // console.log('edited');
+      if (questionQuestion === '') {
+        alert('please fill out the question');
+        return;
+      }
+      if (questionOption1 === '') {
+        alert('please fill out the option 1');
+        return;
+      }
+      if (questionOption2 === '') {
+        alert('please fill out the option 2');
+        return;
+      }
+      if (!isNumber(questionAnswer)) {
+        alert('please fill out the question answer number');
+        return;
+      }
+      await axios.put(
+        process.env.NODE_ENV === 'production'
+          ? `/api/question/detail/${questionData._id}`
+          : `http://localhost:4000/api/question/detail/${questionData._id}`,
+        {
+          _id: questionData._id,
+          questionNumber,
+          questionQuestion,
+          questionOption1,
+          questionOption2,
+          questionOption3,
+          questionOption4,
+          questionAnswer,
+        }
+      );
+    }
+    // setQuestionVisible(false);
+    fetchData();
+    const next_id = questionArray[questionNumber];
+    // console.log('next_id', next_id);
+    history.push(`/question/detail/${next_id}`);
+  };
+
+  // update question and go to the previous question
+  const previousQuestion = async () => {
+    if (changed){
+      // console.log('edited');
+      if (questionQuestion === '') {
+        alert('please fill out the question');
+        return;
+      }
+      if (questionOption1 === '') {
+        alert('please fill out the option 1');
+        return;
+      }
+      if (questionOption2 === '') {
+        alert('please fill out the option 2');
+        return;
+      }
+      if (!isNumber(questionAnswer)) {
+        alert('please fill out the question answer number');
+        return;
+      }
+      await axios.put(
+        process.env.NODE_ENV === 'production'
+          ? `/api/question/detail/${questionData._id}`
+          : `http://localhost:4000/api/question/detail/${questionData._id}`,
+        {
+          _id: questionData._id,
+          questionNumber,
+          questionQuestion,
+          questionOption1,
+          questionOption2,
+          questionOption3,
+          questionOption4,
+          questionAnswer,
+        }
+      );
+    }
+    // setQuestionVisible(false);
+    fetchData();
+    const prev_id = questionArray[questionNumber-2];
+    // console.log('prev_id', prev_id);
+    history.push(`/question/detail/${prev_id}`);
   };
 
   const deletequestionData = async () => {
@@ -234,7 +324,7 @@ function WriteQuestion({
         <Card
           sx={{
             borderRadius: '18px',
-            minWidth: '1000px',
+            minWidth: '900px',
             display: 'flex',
             flexDirection: 'column',
           }}
@@ -362,84 +452,113 @@ function WriteQuestion({
             setQuestionVisible(false);
         }}
       >
-        <Paper
+        <Card
           sx={{
+            borderRadius: '18px',
+            minWidth: '900px',
             display: 'flex',
-            flexWrapped: 'wrap',
             flexDirection: 'column',
-            minWidth: '500px',
           }}
         >
-          <TextField
-            required
-            autoFocus
-            // fullWidth
-            margin='dense'
-            label='Question'
-            type='text'
-            placeholder='Enter the question...'
-            value={questionQuestion}
-            onChange={(e) => setQuestionQuestion(e.target.value)}
-            // sx={{ m: 3 }}
-          />
-          <TextField
-            required
-            autoFocus
-            // fullWidth
-            margin='dense'
-            label='Options 1'
-            type='text'
-            placeholder='Enter the option 1...'
-            value={questionOption1}
-            onChange={(e) => setQuestionOption1(e.target.value)}
-            // sx={{ m: 3 }}
-          />
-          <TextField
-            required
-            autoFocus
-            // fullWidth
-            margin='dense'
-            label='Options 2'
-            type='text'
-            placeholder='Enter the option 2...'
-            value={questionOption2}
-            onChange={(e) => setQuestionOption2(e.target.value)}
-            // sx={{ m: 3 }}
-          />
-          <TextField
-            autoFocus
-            // fullWidth
-            margin='dense'
-            label='Options 3'
-            type='text'
-            placeholder='Enter the option 3...'
-            value={questionOption3}
-            onChange={(e) => setQuestionOption3(e.target.value)}
-            // sx={{ m: 3 }}
-          />
-          <TextField
-            autoFocus
-            // fullWidth
-            margin='dense'
-            label='Options 4'
-            type='text'
-            placeholder='Enter the option 4...'
-            value={questionOption4}
-            onChange={(e) => setQuestionOption4(e.target.value)}
-            // sx={{ m: 3 }}
-          />
-          <TextField
-            required
-            autoFocus
-            // fullWidth
-            margin='dense'
-            label='Answer'
-            type='number'
-            placeholder='Enter the answer...'
-            value={questionAnswer}
-            onChange={(e) => setQuetsionAnswer(e.target.value)}
-            // sx={{ m: 3 }}
-          />
+          <Grid container direction='column' sx={{ padding: '20px' }}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: '20px',
+              }}
+            >
+              <Typography variant='h5'>{questionNumber}</Typography>
+              <TextField
+                required
+                autoFocus
+                fullWidth
+                variant='standard'
+                margin='dense'
+                label='Question'
+                type='text'
+                value={questionQuestion}
+                placeholder='Enter the question...'
+                onChange={(e) => { 
+                  setChanged(true);
+                  setQuestionQuestion(e.target.value);
+                }}
+              />
+            </Box>
+            <TextField
+              required
+              autoFocus
+              // fullWidth
+              margin='dense'
+              label='Options 1'
+              type='text'
+              placeholder='Enter the option 1...'
+              value={questionOption1}
+              onChange={(e) => {
+                setChanged(true);
+                setQuestionOption1(e.target.value);
+              }}
+              // sx={{ m: 3 }}
+            />
+            <TextField
+              required
+              autoFocus
+              // fullWidth
+              margin='dense'
+              label='Options 2'
+              type='text'
+              placeholder='Enter the option 2...'
+              value={questionOption2}
+              onChange={(e) => {
+                setChanged(true);
+                setQuestionOption2(e.target.value);
+              }}
+              // sx={{ m: 3 }}
+            />
+            <TextField
+              autoFocus
+              // fullWidth
+              margin='dense'
+              label='Options 3'
+              type='text'
+              placeholder='Enter the option 3...'
+              value={questionOption3}
+              onChange={(e) => {
+                setChanged(true);
+                setQuestionOption3(e.target.value);
+              }}
+              // sx={{ m: 3 }}
+            />
+            <TextField
+              autoFocus
+              // fullWidth
+              margin='dense'
+              label='Options 4'
+              type='text'
+              placeholder='Enter the option 4...'
+              value={questionOption4}
+              onChange={(e) => {
+                setChanged(true);
+                setQuestionOption4(e.target.value);
+              }}
+              // sx={{ m: 3 }}
+            />
+            <TextField
+              required
+              autoFocus
+              // fullWidth
+              margin='dense'
+              label='Answer'
+              type='number'
+              value={questionAnswer}
+              placeholder='Enter the answer number...'
+              onChange={(e) => {
+                setChanged(true);
+                setQuetsionAnswer(e.target.value);
+              }}
+              // sx={{ m: 3 }}
+            />
           <Grid
             container
             justifyContent='flex-end'
@@ -457,11 +576,26 @@ function WriteQuestion({
             </Grid>
             <Grid item>
               <Button variant='contained' onClick={updatequestionData}>
-                Update
+                Save
               </Button>
             </Grid>
           </Grid>
-        </Paper>
+          </Grid>
+        </Card>
+        { firstQuestion ?
+          null
+          :
+          <Fab onClick={previousQuestion} sx={{ position: 'absolute', left: '5%' }}>
+            <ArrowBackIosRoundedIcon />
+          </Fab>
+        }
+        { lastQuestion ? 
+          null
+          :
+          <Fab onClick={nextQuestion} sx={{ position: 'absolute', right: '5%' }}>
+            <ArrowForwardIosRoundedIcon />
+          </Fab>
+        }
       </div>
     );
   }
