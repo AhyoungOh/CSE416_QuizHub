@@ -1,14 +1,16 @@
+import './style.scss';
+import { useState, useContext } from 'react';
+import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import WriteQuestion from '../../components/WriteQuestion';
 import DetailQuestion from '../../components/DetailQuestion';
 import Question from '../../components/Question';
-import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
-import './style.scss';
-import { useState } from 'react';
 import useApiCall from '../../hooks/useApiCall';
+import { QuizContext } from '../../App';
 
 function CreatorQuestion() {
   const history = useHistory();
   const location = useLocation();
+  const { quiz, dispatch2 } = useContext(QuizContext);
   const [loading, testData, error, fetchData] = useApiCall(
     process.env.NODE_ENV === 'production'
       ? `/api/question`
@@ -29,6 +31,8 @@ function CreatorQuestion() {
   const selectedquestionData = testData.createQuestion.find((el) => {
     return el._id === location.pathname.split('/')[3];
   });
+  console.log('selectedquestionData.quizId', selectedquestionData.quizId);
+  console.log('creator question: ', quiz);
   return (
     <div>
       <Switch>
@@ -42,12 +46,12 @@ function CreatorQuestion() {
           />
         </Route>
         <Route path={`/question/detail/:id`}>
-          <DetailQuestion
+          {/* <DetailQuestion
             questiondata={selectedquestionData}
             setTestData={() => {}}
             setQuestionVisible={setQuestionVisible}
           />
-          {visible ? (
+          {visible ? ( */}
             <WriteQuestion
               questionData={selectedquestionData}
               setData={() => {}}
@@ -55,7 +59,7 @@ function CreatorQuestion() {
               quizId={selectedquestionData.quizId}
               fetchData={fetchData}
             />
-          ) : null}
+          {/* ) : null} */}
         </Route>
       </Switch>
     </div>
