@@ -1,8 +1,19 @@
 import useApiCall from '../../../hooks/useApiCall';
 import BrowsePlatformCard from '../../Card/BrowsePlatformCard';
-import { Grid, Typography } from '@mui/material';
+import { Grid, Typography, CircularProgress } from '@mui/material';
+import { makeStyles } from '@mui/styles';
+
+const useStyles = makeStyles({
+  loading: {
+    display: 'flex',
+    position: 'absolute',
+    left: '50%',
+    top: '50%',
+  }
+});
 
 export default function PlatformsResult({ searchWord, searchType }) {
+  const classes = useStyles();
   const [loading, payload, error] = useApiCall(
     process.env.NODE_ENV === 'production'
       ? `/api/creatorHome`
@@ -10,10 +21,18 @@ export default function PlatformsResult({ searchWord, searchType }) {
     { withCredentials: true }
   );
   if (!payload) {
-    return <div>No Data</div>;
+    return (
+      <div>
+        <CircularProgress color='inherit' className={classes.loading} />
+      </div>
+    );
   }
   if (loading) {
-    return <div>loading...</div>;
+    return (
+      <div>
+        <CircularProgress color='inherit' className={classes.loading} />
+      </div>
+    );
   }
   if (error) {
     return <div>error...</div>;

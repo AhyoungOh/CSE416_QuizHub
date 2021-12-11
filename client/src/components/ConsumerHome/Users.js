@@ -1,17 +1,36 @@
 // TODO: decide if we allow consumers to browse other consumers
 import useApiCall from '../../hooks/useApiCall';
 import BrowseUserCard from '../Card/BrowseUserCard';
-import { Grid } from '@mui/material';
+import { Grid, CircularProgress } from '@mui/material';
+import { makeStyles } from '@mui/styles';
+
+const useStyles = makeStyles({
+  loading: {
+    display: 'flex',
+    position: 'absolute',
+    left: '50%',
+    top: '50%',
+  }
+});
 
 export default function Users() {
+  const classes = useStyles();
   const [loading, payload, error] = useApiCall(
     process.env.NODE_ENV === 'production' ? `/api/consumer` : `/api/consumer`
   );
   if (!payload) {
-    return <div>loading...</div>;
+    return (
+      <div>
+        <CircularProgress color='inherit' className={classes.loading} />
+      </div>
+    );
   }
   if (loading) {
-    return <div>loading...</div>;
+    return(
+      <div>
+        <CircularProgress color='inherit' className={classes.loading} />
+      </div>
+    );
   }
   if (error) {
     return <div>error...</div>;
