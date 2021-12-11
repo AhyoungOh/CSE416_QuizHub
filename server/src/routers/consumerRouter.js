@@ -106,7 +106,7 @@ consumerRouter.post('/quiz', validUser, async (req, res) => {
     const answers = quiz.quizQuestions.map((quiz) => quiz.questionAnswer);
     let correctedAnswerNum = 0;
     for (let i = 0; i < answers.length; i++) {
-      if (submittedAnswers[i] === answers[i]) correctedAnswerNum++;
+      if (submittedAnswers[i] === answers[i] - 1) correctedAnswerNum++;
     }
 
     consumer.consumerQuizHistoryList.push({
@@ -151,7 +151,6 @@ consumerRouter.put('/quiz/:id', validUser, async (req, res) => {
     path: 'quizQuestions',
     model: Question,
   });
-  console.log('consumer put: ', consumer);
   const quizHistoryIdx = consumer.consumerQuizHistoryList.findIndex((e) => {
     return e.quizId === id;
   });
@@ -160,7 +159,9 @@ consumerRouter.put('/quiz/:id', validUser, async (req, res) => {
   const answers = quiz.quizQuestions.map((quiz) => quiz.questionAnswer);
   let correctedAnswerNum = 0;
   for (let i = 0; i < answers.length; i++) {
-    if (submittedAnswers[i] === answers[i]) correctedAnswerNum++;
+    console.log('submitted answer: ', submittedAnswers[i] + 1);
+    console.log('answers: ', answers[i]);
+    if (submittedAnswers[i] + 1 === answers[i]) correctedAnswerNum++;
   }
 
   consumer.consumerQuizHistoryList[quizHistoryIdx] = {

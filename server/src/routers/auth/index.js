@@ -143,7 +143,6 @@ router.post('/login', async (req, res) => {
 });
 
 router.get('/', validUser, async (req, res) => {
-  console.log('req.consumer : ', req.consumer);
   try {
     if (req.consumer) {
       res.send({
