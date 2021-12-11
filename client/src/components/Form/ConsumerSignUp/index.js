@@ -7,7 +7,6 @@ import {
   InputBase,
   Typography,
   Button,
-  TextField,
   Grid,
   Tabs,
   Tab,
@@ -32,20 +31,16 @@ const useStyles = makeStyles({
   paper: {
     borderRadius: '19px',
     minHeight: '500px',
-  },
-  container: {
-    position: 'fixed',
-    top: '15%',
+    minWidth: '400px',
   },
   inputField: {
-    marginLeft: '16px',
+    paddingLeft: '16px',
     marginTop: '18px',
     height: '24px',
     fontSize: '18px',
     width: '90%',
   },
   inputBox: {
-    paddingLeft: '',
     borderRadius: '8px',
     height: '58px',
     boxShadow:
@@ -58,8 +53,8 @@ const useStyles = makeStyles({
   },
   buttonGrid: {
     marginTop: '10px',
-    marginLeft: '10px',
-    marginRight: '10px',
+    paddingLeft: '10px',
+    paddingRight: '10px',
   },
   contentWrapper: {
     padding: '20px',
@@ -119,7 +114,7 @@ function ConsumerSignUp() {
 
   return (
     <div>
-      <Grid container justifyContent='center' className={classes.container}>
+      {/* <Grid container> */}
         <Grid item xs={10} s={8} md={6} lg={4}>
           <Paper className={classes.paper}>
             <Grid
@@ -247,7 +242,7 @@ function ConsumerSignUp() {
             </Grid>
           </Paper>
         </Grid>
-      </Grid>
+      {/* </Grid> */}
     </div>
   );
 }

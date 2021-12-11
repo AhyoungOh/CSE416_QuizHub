@@ -18,6 +18,7 @@ import {
   IconButton,
   FormControlLabel,
   Checkbox,
+  Pagination,
 } from '@mui/material';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
@@ -750,6 +751,7 @@ function WriteQuestion({
             <ArrowForwardIosRoundedIcon />
           </Fab>
         }
+        {/* <Pagination sx={{ position: 'absolute', bottom: '5%' }} count={questionArray.length} onChange={handlePageChange} /> */}
       </div>
     );
   }

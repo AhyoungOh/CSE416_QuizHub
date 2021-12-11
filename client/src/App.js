@@ -18,6 +18,7 @@ import CreateBadge from './pages/CreateBadge';
 import ResultsPage from './pages/ResultPage';
 import PlayerProfilePage from './pages/PlayerProfilePage';
 import LeaderboardPage from './pages/LeaderboardPage';
+import HomePage from './pages/HomePage';
 // import components
 import UserAppBar from './components/UserAppBar';
 import ConsumerSignUp from './components/Form/ConsumerSignUp';
@@ -128,7 +129,7 @@ function App() {
         <Router>
           {/* <Header /> */}
           <UserAppBar />
-          <Route exact path='/' component={ConsumerSignUp} />
+          <Route exact path='/' component={HomePage} />
           <Switch>
             <Route path='/auth'>
               <AuthPage />

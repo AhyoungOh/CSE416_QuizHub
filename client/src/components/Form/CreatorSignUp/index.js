@@ -32,10 +32,7 @@ const useStyles = makeStyles({
   paper: {
     borderRadius: '19px',
     minHeight: '500px',
-  },
-  container: {
-    position: 'fixed',
-    top: '15%',
+    minWidth: '400px',
   },
   inputField: {
     marginLeft: '16px',
@@ -119,7 +116,7 @@ function CreatorSignUp() {
 
   return (
     <div>
-      <Grid container justifyContent='center' className={classes.container}>
+      {/* <Grid container justifyContent='center' className={classes.container}> */}
         <Grid item xs={10} s={8} md={6} lg={4}>
           <Paper className={classes.paper}>
             <Grid
@@ -247,7 +244,7 @@ function CreatorSignUp() {
             </Grid>
           </Paper>
         </Grid>
-      </Grid>
+      {/* </Grid> */}
     </div>
   );
 }

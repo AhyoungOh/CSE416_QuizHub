@@ -74,16 +74,6 @@ function UserAppBar() {
     <AppBar position='static' color='common'>
       <Toolbar color='white'>
         {/* consumer profile page */}
-        {/* <IconButton
-                    size="large"
-                    edge="start"
-                    color="inherit"
-                    aria-label="menu"
-                    sx={{ mr: 2 }}
-                >
-                    <MenuIcon />
-                </IconButton> */}
-
         {/* TODO: adjust our logo */}
         <Box style={{ flex: 1, cursor: 'pointer' }}>
           <img
