@@ -155,7 +155,8 @@ consumerRouter.put('/quiz/:id', validUser, async (req, res) => {
     return e.quizId === id;
   });
   const submittedAnswers = req.body.quizzes.answerchoices;
-
+  const originalAnswersNum =
+    consumer.consumerQuizHistoryList[quizHistoryIdx].correctedAnswerNum;
   const answers = quiz.quizQuestions.map((quiz) => quiz.questionAnswer);
   let correctedAnswerNum = 0;
   for (let i = 0; i < answers.length; i++) {
@@ -164,6 +165,15 @@ consumerRouter.put('/quiz/:id', validUser, async (req, res) => {
     if (submittedAnswers[i] + 1 === answers[i]) correctedAnswerNum++;
   }
 
+  if (correctedAnswerNum < originalAnswersNum) {
+    res.send({
+      message: 'previous record is better',
+      correctedAnswerNum,
+      usedTrialNumber:
+        consumer.consumerQuizHistoryList[quizHistoryIdx].usedTrialNumber,
+    });
+    return;
+  }
   consumer.consumerQuizHistoryList[quizHistoryIdx] = {
     ...consumer.consumerQuizHistoryList[quizHistoryIdx],
     answerchoices: req.body.quizzes.answerchoices,
@@ -176,6 +186,9 @@ consumerRouter.put('/quiz/:id', validUser, async (req, res) => {
   res.send({
     message: 'Consumer Updated',
     consumer: updatedConsumer,
+    correctedAnswerNum,
+    usedTrialNumber:
+      consumer.consumerQuizHistoryList[quizHistoryIdx].usedTrialNumber,
   });
 });
 
