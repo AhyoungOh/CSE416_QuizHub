@@ -106,7 +106,7 @@ consumerRouter.post('/quiz', validUser, async (req, res) => {
     const answers = quiz.quizQuestions.map((quiz) => quiz.questionAnswer);
     let correctedAnswerNum = 0;
     for (let i = 0; i < answers.length; i++) {
-      if (submittedAnswers[i] === answers[i] - 1) correctedAnswerNum++;
+      if (submittedAnswers[i] + 1 === answers[i]) correctedAnswerNum++;
     }
 
     consumer.consumerQuizHistoryList.push({
@@ -157,20 +157,35 @@ consumerRouter.put('/quiz/:id', validUser, async (req, res) => {
   const submittedAnswers = req.body.quizzes.answerchoices;
 
   const answers = quiz.quizQuestions.map((quiz) => quiz.questionAnswer);
-  let correctedAnswerNum = 0;
+  // let correctedAnswerNum = 0;
+  // for (let i = 0; i < answers.length; i++) {
+  //   if (submittedAnswers[i] + 1 === answers[i]) correctedAnswerNum++;
+  // }
+
+  const matchedQuiz = consumer.consumerQuizHistoryList[quizHistoryIdx];
+  const originAnswers = matchedQuiz?.answerchoices;
+  let submittedCorrectedAnswerNum = 0;
+  let originCorrectedAnswerNum = 0;
   for (let i = 0; i < answers.length; i++) {
-    console.log('submitted answer: ', submittedAnswers[i] + 1);
-    console.log('answers: ', answers[i]);
-    if (submittedAnswers[i] + 1 === answers[i]) correctedAnswerNum++;
+    if (submittedAnswers[i] + 1 === answers[i]) submittedCorrectedAnswerNum++;
+    if (originAnswers[i] + 1 === answers[i]) originCorrectedAnswerNum++;
   }
 
-  consumer.consumerQuizHistoryList[quizHistoryIdx] = {
-    ...consumer.consumerQuizHistoryList[quizHistoryIdx],
-    answerchoices: req.body.quizzes.answerchoices,
-    quizTimeTaken: req.body.quizzes.quizTimeTaken,
-    accomplishedDate: req.body.quizzes.accomplishedDate,
-    correctedAnswerNum,
-  };
+  if (submittedAnswers >= originCorrectedAnswerNum) {
+    consumer.consumerQuizHistoryList[quizHistoryIdx] = {
+      ...req.body.quizzes,
+      correctedAnswerNum: submittedAnswers,
+    };
+  }
+  // } else {
+  //   consumer.consumerQuizHistoryList[quizHistoryIdx] = {
+  //     ...consumer.consumerQuizHistoryList[quizHistoryIdx],
+  //     answerchoices: req.body.quizzes.answerchoices,
+  //     quizTimeTaken: req.body.quizzes.quizTimeTaken,
+  //     accomplishedDate: req.body.quizzes.accomplishedDate,
+  //     correctedAnswerNum: originCorrectedAnswerNum,
+  //   };
+  // }
 
   const updatedConsumer = await consumer.save();
   res.send({

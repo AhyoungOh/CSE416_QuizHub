@@ -18,9 +18,9 @@ function ResultsPage() {
   // console.log('consumer quiz history', payload);
   const [result, setResult] = useState(''); // need to change this based on takes quiz
   const [leaderboardVisible, setLeaderboardVisible] = useState('');
- 
+
   const certificate_qualifier = useRef(0);
-  const badge_qualifier=useRef(0)
+  const badge_qualifier = useRef(0);
 
   const [correct, setCorrect] = useState(0);
   const [ques, setQues] = useState(0);
@@ -62,7 +62,7 @@ function ResultsPage() {
           setLeaderboardVisible(response.data.quiz.quizEnableLeaderboard);
           // console.log('leaderobard visible', leaderboardVisible);
           setQuizName(response.data.quiz.quizName);
-          badge_qualifier.current=response.data.quiz.quizBadgeQualification;
+          badge_qualifier.current = response.data.quiz.quizBadgeQualification;
           certificate_id.current = response.data.quiz.quizCertificate;
           // console.log('quizResult : ', quizResult[0]);
 
@@ -107,7 +107,6 @@ function ResultsPage() {
       };
       try {
         // console.log(apidata);
-        console.log(quizName);
         await axios
           .post(`https://api.accredible.com/v1/credentials`, apidata, apicall)
           .then((response) => {
@@ -120,7 +119,7 @@ function ResultsPage() {
             console.log(img.current);
           });
         //pdfCredential()
-        if (Number(result)>= badge_qualifier.current) {
+        if (Number(result) >= badge_qualifier.current) {
           //createBadge()
           await axios
             .post(
@@ -183,7 +182,8 @@ function ResultsPage() {
           </Col>
         </Form.Group>
         <h1>
-          {Number(result) >= certificate_qualifier.current || Number(result) >= badge_qualifier.current
+          {Number(result) >= certificate_qualifier.current ||
+          Number(result) >= badge_qualifier.current
             ? 'Congratulations'
             : 'Sorry please try again'}
         </h1>
