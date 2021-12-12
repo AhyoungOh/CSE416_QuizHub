@@ -158,10 +158,6 @@ consumerRouter.put('/quiz/:id', validUser, async (req, res) => {
   const originalAnswersNum =
     consumer.consumerQuizHistoryList[quizHistoryIdx].correctedAnswerNum;
   const answers = quiz.quizQuestions.map((quiz) => quiz.questionAnswer);
-  // let correctedAnswerNum = 0;
-  // for (let i = 0; i < answers.length; i++) {
-  //   if (submittedAnswers[i] + 1 === answers[i]) correctedAnswerNum++;
-  // }
 
   const matchedQuiz = consumer.consumerQuizHistoryList[quizHistoryIdx];
   const originAnswers = matchedQuiz?.answerchoices;
@@ -172,10 +168,10 @@ consumerRouter.put('/quiz/:id', validUser, async (req, res) => {
     if (originAnswers[i] + 1 === answers[i]) originCorrectedAnswerNum++;
   }
 
-  if (correctedAnswerNum < originalAnswersNum) {
+  if (submittedCorrectedAnswerNum < originalAnswersNum) {
     res.send({
       message: 'previous record is better',
-      correctedAnswerNum,
+      correctedAnswerNum: submittedCorrectedAnswerNum,
       usedTrialNumber:
         consumer.consumerQuizHistoryList[quizHistoryIdx].usedTrialNumber,
     });
