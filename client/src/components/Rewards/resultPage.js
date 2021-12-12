@@ -1,10 +1,9 @@
 import axios from 'axios';
-import { Form, Row, Col, Button } from 'react-bootstrap';
 import React, { useState, useRef, useEffect, useContext } from 'react';
 import { UserContext, accountSettingsContext } from '../../App';
 import { useHistory, useParams, useLocation } from 'react-router-dom';
 import useApiCall from '../../hooks/useApiCall';
-import { Grid, Link, Tooltip, Box, Modal, Paper, Typography } from '@mui/material';
+import { Grid, Button, Tooltip, Box, Modal, Paper, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles({
@@ -272,37 +271,37 @@ function ResultsPage() {
                 {reward == 'none' ?
                   <Tooltip placement='top' title='This quiz does not have rewards'>
                     <span>
-                      <Button disabled className={classes.button} onClick={() => setOpen(true)}>Rewards</Button>
+                      <Button color='error' variant='contained' disabled className={classes.button} onClick={() => setOpen(true)}>Rewards</Button>
                     </span>
                   </Tooltip>
                 : reward == 'certificate' && Number(result) < certificate_qualifier.current ?
                    <Tooltip placement='top' title='Your score does not meet the requirement.'>
                       <span>
-                        <Button disabled className={classes.button} onClick={() => setOpen(true)}>Rewards</Button>
+                        <Button color='error' variant='contained' disabled className={classes.button} onClick={() => setOpen(true)}>Rewards</Button>
                       </span>
                     </Tooltip>
                     : reward == 'badge' && Number(result) < badge_qualifier.current ?
                       <Tooltip placement='top' title='Your score does not meet the requirement.'>
                         <span>
-                          <Button disabled className={classes.button} onClick={() => setOpen(true)}>Rewards</Button>
+                          <Button color='error' variant='contained' disabled className={classes.button} onClick={() => setOpen(true)}>Rewards</Button>
                         </span>
                       </Tooltip>
                       : 
-                      <Button className={classes.button} color='secondary' onClick={() => setOpen(true)}>Rewards</Button>
+                      <Button color='error' variant='contained' className={classes.button} onClick={() => setOpen(true)}>Rewards</Button>
                 }
               </Grid>
               <Grid item>
                 {leaderboardVisible ? 
-                  <Button onClick={goToLeaderboard} className={classes.button}>Leaderboard</Button>
+                  <Button onClick={goToLeaderboard} variant='contained' className={classes.button}>Leaderboard</Button>
                   :
-                  <Button disabled className={classes.button}>Leaderboard</Button>
+                  <Button disabled variant='contained' className={classes.button}>Leaderboard</Button>
                 }
               </Grid>
               <Grid item>
                 {trialLimit - currentQuizResult.usedTrialNumber == 0 ?
-                  <Button variant='success' onClick={quizHistory} className={classes.button}>Quiz History</Button>
+                  <Button variant='contained' color='success' onClick={quizHistory} className={classes.button}>Quiz History</Button>
                   :
-                  <Button variant='success' onClick={retakeQuiz} className={classes.button}>Try again</Button>
+                  <Button variant='contained' color='success' onClick={retakeQuiz} className={classes.button}>Try again</Button>
                 }
               </Grid>
             </Grid>
