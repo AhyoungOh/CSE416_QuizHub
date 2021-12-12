@@ -179,15 +179,17 @@ function ResultsPage() {
     }
   }, [result]);
 
+  console.log('result', result);
   return (
-    <div style={{ paddingTop: '60px' }}>
+    <div style={{ paddingTop: '80px' }}>
       <Form>
         <Form.Group as={Row} className='mb-3' controlId='formPlaintextEmail'>
           <Form.Label column sm='2'>
             Result
           </Form.Label>
           <Col sm='10'>
-            <Form.Control plaintext readOnly value={result} />
+            {/* <Form.Control plaintext readOnly defaultValue={result} /> */}
+            {result}
           </Col>
         </Form.Group>
         <h1>

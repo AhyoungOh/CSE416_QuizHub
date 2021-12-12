@@ -1,5 +1,6 @@
 // TODO: make it responsive
 import axios from 'axios';
+import PropTypes from 'prop-types';
 import { useRef, useEffect, useContext, useState } from 'react';
 import { useHistory, Link, useParams } from 'react-router-dom';
 import useApiCall from '../../../hooks/useApiCall';
@@ -14,6 +15,7 @@ import {
   IconButton,
   Alert,
   Collapse,
+  CircularProgress,
 } from '@mui/material';
 import LinearProgress, {
   linearProgressClasses,
@@ -38,13 +40,14 @@ const style = {
 
 const useStyles = makeStyles({
   container: {
-    paddingTop: '50px',
+    paddingTop: '20px',
     paddingBottom: '20px',
     paddingLeft: '70px',
     paddingRight: '70px',
   },
   question: {
-    fontWeight: '700',
+    fontFamily: 'Nunito',
+    fontSize: '25px',
   },
   options: {
     fontWeight: '600',
@@ -82,6 +85,45 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
     backgroundColor: '#007fff',
   },
 }));
+
+function CircularProgressWithLabel(props) {
+  return (
+    <Box sx={{ position: 'absolute', display: 'inline-flex' }}>
+      <CircularProgress size={70} variant="determinate" {...props} />
+      <Box
+        sx={{
+          top: 0,
+          left: 0,
+          bottom: 0,
+          right: 0,
+          position: 'absolute',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Typography variant="caption" component="div" color="text.secondary" sx={{ fontSize: '15px', lineHeight: '1' }}>
+          {`${props.min}:${props.sec}`}
+        </Typography>
+        <Typography variant="caption" component="div" color="text.secondary" sx={{ fontSize: '15px', lineHeight: '1' }}>
+          left
+        </Typography>
+      </Box>
+    </Box>
+  );
+}
+
+CircularProgressWithLabel.propTypes = {
+  /**
+   * The value of the progress indicator for the determinate variant.
+   * Value between 0 and 100.
+   * @default 0
+   */
+  value: PropTypes.number.isRequired,
+  min: PropTypes.number.isRequired,
+  sec: PropTypes.number.isRequired,
+};
 
 function ConsumerQuizPage() {
   const { user, dispatch } = useContext(UserContext);
@@ -129,6 +171,9 @@ function ConsumerQuizPage() {
   const leftTime = useRef(0);
   const leftTimeTimer = useRef(null);
 
+  const [totalSec, setTotalSec] = useState(0);
+  const [percentage, setPercentage] = useState(0);
+
   const runTimer = () => {
     leftTimeTimer.current = setInterval(() => {
       leftTime.current = leftTime.current - 1;
@@ -159,6 +204,8 @@ function ConsumerQuizPage() {
       };
       leftTime.current =
         60 * Number(time_min.current) + Number(time_sec.current);
+      console.log(leftTime.current);
+      setTotalSec(leftTime.current);
       setTimer(Number(leftTime.current));
       runTimer();
     } catch (e) {
@@ -275,6 +322,7 @@ function ConsumerQuizPage() {
 
   return (
     <div>
+      {/* submit alert: when user submit yet haven't completed all the questions */}
       <Grid container justifyContent='center'>
         <Collapse in={showAlert} className={classes.alert}>
           <Alert
@@ -302,6 +350,57 @@ function ConsumerQuizPage() {
           </Alert>
         </Collapse>
       </Grid>
+      
+      {/* Quit confirm modal */}
+      <Grid container justifyContent='center'>
+        <Modal open={show} onClose={handleClose}>
+          <Box sx={style}>
+            <Grid container direction='column' spacing={2}>
+              <Grid item>
+                <Typography
+                  id='modal-modal-title'
+                  variant='h6'
+                  component='h2'
+                >
+                  Quit the quiz
+                </Typography>
+                <Typography id='modal-modal-description' sx={{ mt: 2 }}>
+                  Are you sure you would like to quit? You will lose all your
+                  answers.
+                </Typography>
+              </Grid>
+              <Grid item />
+            </Grid>
+            <Grid container spacing={2} justifyContent='flex-end'>
+              <Grid item>
+                <Button
+                  variant='text'
+                  color='error'
+                  onClick={async () => {
+                    history.push(`/consumerquizpreview/${id}`);
+                    const userInfo = await axios.get(
+                      process.env.NODE_ENV === 'production'
+                        ? `/api/auth`
+                        : `http://localhost:4000/api/auth`,
+                      { withCredentials: true }
+                    );
+                    dispatch({ type: 'signin', payload: userInfo.data });
+                  }}
+                >
+                  Quit
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button variant='contained' onClick={handleClose}>
+                  Cancel
+                </Button>
+              </Grid>
+            </Grid>
+          </Box>
+        </Modal>
+      </Grid>
+      
+      {/* content */}
       <Grid
         container
         direction='column'
@@ -310,60 +409,23 @@ function ConsumerQuizPage() {
       >
         <Grid item>
           {/* Quiz button */}
-          <Button
-            color='inherit'
-            onClick={handleShow}
-            startIcon={<CloseRoundedIcon />}
-          >
-            Quit
-          </Button>
-          <div>Seconds : {timer}</div>
-          {/* Quit confirm modal */}
-          <Modal open={show} onClose={handleClose}>
-            <Box sx={style}>
-              <Grid container direction='column' spacing={2}>
-                <Grid item>
-                  <Typography
-                    id='modal-modal-title'
-                    variant='h6'
-                    component='h2'
-                  >
-                    Quit the quiz
-                  </Typography>
-                  <Typography id='modal-modal-description' sx={{ mt: 2 }}>
-                    Are you sure you would like to quit? You will lose all your
-                    answers.
-                  </Typography>
-                </Grid>
-                <Grid item />
-              </Grid>
-              <Grid container spacing={2} justifyContent='flex-end'>
-                <Grid item>
-                  <Button
-                    variant='text'
-                    color='error'
-                    onClick={async () => {
-                      history.push(`/consumerquizpreview/${id}`);
-                      const userInfo = await axios.get(
-                        process.env.NODE_ENV === 'production'
-                          ? `/api/auth`
-                          : `http://localhost:4000/api/auth`,
-                        { withCredentials: true }
-                      );
-                      dispatch({ type: 'signin', payload: userInfo.data });
-                    }}
-                  >
-                    Quit
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button variant='contained' onClick={handleClose}>
-                    Cancel
-                  </Button>
-                </Grid>
-              </Grid>
-            </Box>
-          </Modal>
+          <Grid container direction='row' justifyContent='space-between' sx={{ paddingLeft: '30px', paddingRight: '40px' }}>
+            <Grid item>
+              <Button
+                color='inherit'
+                onClick={handleShow}
+                startIcon={<CloseRoundedIcon />}
+              >
+                Quit
+              </Button>
+            </Grid>
+            <Grid item sx={{ paddingRight: '20px'}}>
+              {/* timer */}
+              <CircularProgressWithLabel value={timer/totalSec*100} min={Math.floor(timer / 60)} sec={timer - Math.floor(timer / 60) * 60} />
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item>
           {/* question */}
           <Typography className={classes.question}>
             {qnum}. {quiz_questions[qnum - 1]?.questionQuestion}

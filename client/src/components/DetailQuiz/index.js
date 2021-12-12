@@ -456,11 +456,6 @@ function DetailQuiz({ quizData, setQuizVisible }) {
                 <Button variant='contained' onClick={updateQuestionData} sx={{ marginLeft: '20px' }}>
                   Add Quesiton
                 </Button>
-                {quizData.quizRewardType === 'both' ? (
-                  <Button variant='contained' disabled={groupExists} onClick={createCertificateandBadge}>
-                    Add Badge and Certificate
-                  </Button>
-                ) : null}
               </Box>
             </Card>
           </Card>
