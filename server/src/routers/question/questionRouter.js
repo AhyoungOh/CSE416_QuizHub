@@ -130,19 +130,32 @@ questionRouter.delete(
         }
       );
 
-      console.log('qqqq', quiz.quizQuestions)
-      console.log('questionId', questionId)
+      // quiz.quizQuestions.updateMany(
+      //   -{
+      //     _id: quiz.quizQuestions.valueOf(),
+      //     questionNumber: { $gt: deletedNumber },
+      //   },
+      //   { $inc: { questionNumber: -1 } },
+      //   async (err, doc) => {
+      //     if (err) throw err;
+      //     if (doc) {
+      //       res.send('Quiz Updated');
+      //     }
+      //   }
+      // );
+
       quiz.quizQuestions.map(async (el) => {
-        if (el.valueOf() !== questionId){
+        // console.log('el.valueOf()', el.valueOf());
+        if (el.valueOf() != questionId) {
           const getquestioninfo = await Question.findById(el.valueOf());
-          console.log('getinfo', getquestioninfo)
-          if (getquestioninfo.questionNumber != null && getquestioninfo.questionNumber > deletedNumber) {
-            console.log(
-              'getquestioninfo.questionNumber',
-              getquestioninfo.questionNumber
+          // console.log('getinfo', getquestioninfo);
+          if (getquestioninfo.questionNumber > deletedNumber) {
+            const result = await Question.updateOne(
+              { _id: getquestioninfo.id },
+              { $inc: { questionNumber: -1 } }
             );
-            getquestioninfo.questionNumber.updateOne({ _id: getquestioninfo.id }, { $set: {questionNumber : questionNumber -1}}) = getquestioninfo.questionNumber - 1;
-          }}
+          }
+        }
       });
       // quiz.quizQuestions.findById().updateMany(
       //   { questionNumber: { $gt: deletedNumber } },
