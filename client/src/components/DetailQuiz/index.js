@@ -313,7 +313,7 @@ function DetailQuiz({ quizData, setQuizVisible }) {
                   <Typography variant='h4' className={classes.title}>
                     {quizData.quizName}
                   </Typography>
-                  <Typography variant='subtitle1'>{quizData.quizDescription}}</Typography>
+                  <Typography variant='subtitle1'>{quizData.quizDescription}</Typography>
                 </CardContent>
                 <Box sx={{ display: 'flex', flexDirection: 'column', paddingBottom: '20px' }}>
                   <ListItem>
