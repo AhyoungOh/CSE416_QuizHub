@@ -73,15 +73,15 @@ const useStyles = makeStyles({
     paddingTop: '80px',
   },
   nextButton: {
-    position: 'fixed', 
-    right: '3%', 
+    position: 'fixed',
+    right: '3%',
     bottom: '5%',
-  }, 
+  },
   prevButton: {
-    position: 'fixed', 
-    left: '3%', 
+    position: 'fixed',
+    left: '3%',
     bottom: '5%',
-  }
+  },
 });
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
@@ -101,7 +101,7 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 function CircularProgressWithLabel(props) {
   return (
     <Box sx={{ position: 'absolute', display: 'inline-flex' }}>
-      <CircularProgress size={70} variant="determinate" {...props} />
+      <CircularProgress size={70} variant='determinate' {...props} />
       <Box
         sx={{
           top: 0,
@@ -115,10 +115,20 @@ function CircularProgressWithLabel(props) {
           justifyContent: 'center',
         }}
       >
-        <Typography variant="caption" component="div" color="text.secondary" sx={{ fontSize: '15px', lineHeight: '1' }}>
+        <Typography
+          variant='caption'
+          component='div'
+          color='text.secondary'
+          sx={{ fontSize: '15px', lineHeight: '1' }}
+        >
           {`${props.min}:${props.sec}`}
         </Typography>
-        <Typography variant="caption" component="div" color="text.secondary" sx={{ fontSize: '15px', lineHeight: '1' }}>
+        <Typography
+          variant='caption'
+          component='div'
+          color='text.secondary'
+          sx={{ fontSize: '15px', lineHeight: '1' }}
+        >
           left
         </Typography>
       </Box>
@@ -186,6 +196,16 @@ function ConsumerQuizPage() {
   const [totalSec, setTotalSec] = useState(0);
   const [percentage, setPercentage] = useState(0);
 
+  const quitQuiz = async () => {
+    history.push(`/consumerquizpreview/${id}`);
+    const userInfo = await axios.get(
+      process.env.NODE_ENV === 'production'
+        ? `/api/auth`
+        : `http://localhost:4000/api/auth`,
+      { withCredentials: true }
+    );
+    dispatch({ type: 'signin', payload: userInfo.data });
+  };
   const runTimer = () => {
     leftTimeTimer.current = setInterval(() => {
       leftTime.current = leftTime.current - 1;
@@ -193,6 +213,8 @@ function ConsumerQuizPage() {
       if (leftTime.current === 0) {
         clearInterval(leftTimeTimer.current);
         leftTimeTimer.current = null;
+        alert('Time out!');
+        quitQuiz();
       }
     }, 1000);
   };
@@ -362,18 +384,14 @@ function ConsumerQuizPage() {
           </Alert>
         </Collapse>
       </Grid>
-      
+
       {/* Quit confirm modal */}
       <Grid container justifyContent='center'>
         <Modal open={show} onClose={handleClose}>
           <Box sx={style}>
             <Grid container direction='column' spacing={2}>
               <Grid item>
-                <Typography
-                  id='modal-modal-title'
-                  variant='h6'
-                  component='h2'
-                >
+                <Typography id='modal-modal-title' variant='h6' component='h2'>
                   Quit the quiz
                 </Typography>
                 <Typography id='modal-modal-description' sx={{ mt: 2 }}>
@@ -385,20 +403,7 @@ function ConsumerQuizPage() {
             </Grid>
             <Grid container spacing={2} justifyContent='flex-end'>
               <Grid item>
-                <Button
-                  variant='text'
-                  color='error'
-                  onClick={async () => {
-                    history.push(`/consumerquizpreview/${id}`);
-                    const userInfo = await axios.get(
-                      process.env.NODE_ENV === 'production'
-                        ? `/api/auth`
-                        : `http://localhost:4000/api/auth`,
-                      { withCredentials: true }
-                    );
-                    dispatch({ type: 'signin', payload: userInfo.data });
-                  }}
-                >
+                <Button variant='text' color='error' onClick={quitQuiz}>
                   Quit
                 </Button>
               </Grid>
@@ -411,9 +416,18 @@ function ConsumerQuizPage() {
           </Box>
         </Modal>
       </Grid>
-      
+
       {/* Quiz button and timer*/}
-      <Grid container direction='row' justifyContent='space-between' sx={{ paddingLeft: '40px', paddingRight: '70px', paddingBottom: '40px' }}>
+      <Grid
+        container
+        direction='row'
+        justifyContent='space-between'
+        sx={{
+          paddingLeft: '40px',
+          paddingRight: '70px',
+          paddingBottom: '40px',
+        }}
+      >
         <Grid item sx={{ marginTop: '20px' }}>
           <Button
             color='inherit'
@@ -431,8 +445,12 @@ function ConsumerQuizPage() {
             />
           </Box>
         </Grid> */}
-        <Grid item sx={{ marginTop: '10px', paddingRight: '60px'}}>
-          <CircularProgressWithLabel value={timer/totalSec*100} min={Math.floor(timer / 60)} sec={timer - Math.floor(timer / 60) * 60} />
+        <Grid item sx={{ marginTop: '10px', paddingRight: '60px' }}>
+          <CircularProgressWithLabel
+            value={(timer / totalSec) * 100}
+            min={Math.floor(timer / 60)}
+            sec={timer - Math.floor(timer / 60) * 60}
+          />
         </Grid>
       </Grid>
 
@@ -444,48 +462,68 @@ function ConsumerQuizPage() {
       </Grid>
 
       {/* Options */}
-      <Grid container spacing={2} justifyContent='center' sx={{ paddingLeft: '40px', paddingRight: '40px', paddingBottom: '20px' }}>
-        {quiz_questions[qnum - 1]?.questionOptions.map((e, i) => (
-          e !== '' ? 
-          <Grid item lg={3} md={3} sm={6} xs={6}>
-            <Card id={i} className={classes.card}>
-              <Button
-                className={classes.button}
-                onClick={() => selectAnswer(i)}
-                // color= {select === i ? "primary" : "inherit"}
-                variant={select === i ? 'contained' : 'text'}
-              >
-                <Typography className={classes.options}>
-                  {/* {i+1}. {e} */}
-                  {e}
-                </Typography>
-              </Button>
-            </Card>
-          </Grid>
-          : null
-        ))}
+      <Grid
+        container
+        spacing={2}
+        justifyContent='center'
+        sx={{
+          paddingLeft: '40px',
+          paddingRight: '40px',
+          paddingBottom: '20px',
+        }}
+      >
+        {quiz_questions[qnum - 1]?.questionOptions.map((e, i) =>
+          e !== '' ? (
+            <Grid item lg={3} md={3} sm={6} xs={6}>
+              <Card id={i} className={classes.card}>
+                <Button
+                  className={classes.button}
+                  onClick={() => selectAnswer(i)}
+                  // color= {select === i ? "primary" : "inherit"}
+                  variant={select === i ? 'contained' : 'text'}
+                >
+                  <Typography className={classes.options}>
+                    {/* {i+1}. {e} */}
+                    {e}
+                  </Typography>
+                </Button>
+              </Card>
+            </Grid>
+          ) : null
+        )}
       </Grid>
 
       {/* prev, next, save buttons */}
       {start ? null : (
-        <Fab color='primary' className={classes.prevButton} onClick={prevQuestionNum}>
+        <Fab
+          color='primary'
+          className={classes.prevButton}
+          onClick={prevQuestionNum}
+        >
           <ArrowBackRoundedIcon color='inherit' />
         </Fab>
       )}
       {end ? null : (
-        <Fab color='primary' className={classes.nextButton} onClick={nextQuestionNum}>
+        <Fab
+          color='primary'
+          className={classes.nextButton}
+          onClick={nextQuestionNum}
+        >
           <ArrowForwardRoundedIcon color='inherit' />
         </Fab>
       )}
       {end ? (
-        <Fab color='primary' onClick={checkSubmit} variant='extended' className={classes.nextButton}>
+        <Fab
+          color='primary'
+          onClick={checkSubmit}
+          variant='extended'
+          className={classes.nextButton}
+        >
           Submit
         </Fab>
-      ) : null
-      }
+      ) : null}
 
       {/* Progress bar */}
-
     </div>
   );
 }
