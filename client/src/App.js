@@ -16,6 +16,7 @@ import CreatorQuestion from './pages/CreatorQuestion';
 import CreateCertificate from './pages/CreateCertificate';
 import CreateBadge from './pages/CreateBadge';
 import ResultsPage from './pages/ResultPage';
+import QuizResultRecordPage from './pages/QuizResultRecordPage';
 import PlayerProfilePage from './pages/PlayerProfilePage';
 import LeaderboardPage from './pages/LeaderboardPage';
 import HomePage from './pages/HomePage';
@@ -195,6 +196,9 @@ function App() {
             </Route>
             <Route path='/result/:id'>
               <ResultsPage />
+            </Route>
+            <Route path='/record/:id'>
+              <QuizResultRecordPage />
             </Route>
             <Route path='/leaderboard/:quizId'>
               <LeaderboardPage />

@@ -2,11 +2,53 @@ import axios from 'axios';
 import { Form, Row, Col, Button } from 'react-bootstrap';
 import React, { useState, useRef, useEffect, useContext } from 'react';
 import { UserContext, accountSettingsContext } from '../../App';
-import { useHistory, useParams, Link, useLocation } from 'react-router-dom';
+import { useHistory, useParams, useLocation } from 'react-router-dom';
 import useApiCall from '../../hooks/useApiCall';
+import { Grid, Link, Tooltip, Box, Card, Paper, Typography } from '@mui/material';
+import { makeStyles } from '@mui/styles';
+
+const useStyles = makeStyles({
+  emphasized: {
+    fontFamily: 'Nunito',
+    color: '#374A59',
+    fontSize: '90px',
+    lineHeight: '1',
+  },
+  secondary: {
+    fontFamily: 'Nunito',
+    color: '#8992A2',
+    fontSize: '30px',
+    lineHeight: '1',
+  },
+  feedback: {
+    fontFamily: 'Nunito',
+    fontSize: '60px',
+    lineHeight: '1',
+    textAlign: 'center',
+  }, 
+  result: {
+    fontFamily: 'Nunito',
+    fontSize: '80px',
+    lineHeight: '1',
+    // color: '#374A59',
+  },
+  upper: {
+    fontFamily: 'Nunito',
+    color: '#374A59',
+    fontSize: '30px',
+    lineHeight: '1',
+  },
+  button: {
+    minWidth: '150px',
+    minHeight: '60px',
+    borderRadius: '18px',
+  }
+});
 
 function ResultsPage() {
+  const classes = useStyles();
   const { id } = useParams();
+  const history = useHistory();
   const location = useLocation();
   const quizId = id;
   const [loading, quizResult, error] = useApiCall(
@@ -15,6 +57,7 @@ function ResultsPage() {
       : `http://localhost:4000/api/consumer/quizHistory/${quizId}`,
     { withCredentials: true }
   );
+  console.log('all quizResult', quizResult);
 
   const currentQuizResult = location.state?.quizzes;
   console.log('current his : ', currentQuizResult);
@@ -29,6 +72,8 @@ function ResultsPage() {
   const [ques, setQues] = useState(0);
   //const quizName=useRef("")
   const [quizName, setQuizName] = useState('');
+  const [trialLimit, setTrialLimit] = useState(0);
+  const [reward, setReward] = useState('');
   const certificate_id = useRef('');
 
   const { user, dispatch } = useContext(UserContext);
@@ -63,6 +108,9 @@ function ResultsPage() {
           : `http://localhost:4000/api/auth`,
         { withCredentials: true }
       );
+      // console.log('response.data.quiz', response.data.quiz);
+      setTrialLimit(response.data.quiz.quizNumberOfTrials);
+      setReward(response.data.quiz.quizRewardType);
       setLeaderboardVisible(response.data.quiz.quizEnableLeaderboard);
       // console.log('leaderobard visible', leaderboardVisible);
       setQuizName(response.data.quiz.quizName);
@@ -85,7 +133,7 @@ function ResultsPage() {
   console.log('correct number : ', correct);
   let res = (correct / ques) * 100;
   console.log('res', res);
-  const result = res.toFixed(2) + '';
+  const result = res.toFixed(0) + '';
   console.log('', result);
 
   const apicall = {
@@ -160,6 +208,14 @@ function ResultsPage() {
     }
   };
 
+  const goToLeaderboard = () => {
+    history.push(`/leaderboard/${quizId}`);
+  }
+
+  const retakeQuiz = () =>{
+    history.push(`/consumerquizpreview/${quizId}`);
+  }
+
   useEffect(() => {
     getQuizInfo();
   }, []);
@@ -181,33 +237,67 @@ function ResultsPage() {
 
   console.log('result', result);
   return (
-    <div style={{ paddingTop: '80px' }}>
-      <Form>
-        <Form.Group as={Row} className='mb-3' controlId='formPlaintextEmail'>
-          <Form.Label column sm='2'>
-            Result
-          </Form.Label>
-          <Col sm='10'>
-            {/* <Form.Control plaintext readOnly defaultValue={result} /> */}
-            {result}
-          </Col>
-        </Form.Group>
-        <h1>
-          {Number(result) >= certificate_qualifier.current ||
-          Number(result) >= badge_qualifier.current
-            ? 'Congratulations'
-            : 'Sorry please try again'}
-        </h1>
-      </Form>
-      {/* {console.log(file_download)}
+    <div>
+      <Box sx={{ display: 'flex', paddingTop: '80px', paddingLeft: '20px', paddingRight: '20px', justifyContent: 'center' }}>
+        <Paper sx={{ borderRadius: '18px', display: 'flex' }}>
+          <Grid container direction='row'>
+            <Grid item container direction='column' alignItems='center' sx={{ margin: 5 }}>
+              <Grid item justifySelf='center'>
+                {
+                  reward == 'none' ?
+                  <Typography color='primary' className={classes.feedback}>Good job!</Typography>
+                  : Number(result) >= certificate_qualifier.current || Number(result) >= badge_qualifier.current
+                    ? <Typography color='primary' className={classes.result}>Congrats!</Typography>
+                    : <Typography color='inherit' className={classes.result}>Sorry</Typography>
+                }
+              </Grid>
+              <Grid item sx={{ paddingTop: '10px' }}>
+                <Typography className={classes.secondary}>Your score:</Typography>
+              </Grid>
+              <Grid item>
+                <Typography className={classes.emphasized}>{result}%</Typography>
+              </Grid>
+              <Grid item>
+                <Typography className={classes.secondary}>{correct}/{ques} in {currentQuizResult.quizTimeTaken.minutes}:{currentQuizResult.quizTimeTaken.seconds} min</Typography>
+              </Grid>
+            </Grid>
+            <Grid item container direction='row' alignItems='center' justifyContent='center' spacing={2} sx={{ margin: 3 }}>
+              <Grid item>
+                <Button className={classes.button}>Rewards</Button>
+              </Grid>
+              <Grid item>
+                {leaderboardVisible ? 
+                  <Button onClick={goToLeaderboard} className={classes.button}>Leaderboard</Button>
+                  :
+                  <Button disabled className={classes.button}>Leaderboard</Button>
+                }
+              </Grid>
+              <Grid item>
+                {trialLimit - currentQuizResult.usedTrialNumber == 0 ?
+                  <Button disabled variant='success' className={classes.button}>Try again</Button>
+                  :
+                  <Button variant='success' onClick={retakeQuiz} className={classes.button}>Try again</Button>
+                }
+              </Grid>
+            </Grid>
+          </Grid>
+        </Paper>
+      </Box>
+
+      {console.log('trialLimit - currentQuizResult.usedTrialNumber', trialLimit - currentQuizResult.usedTrialNumber)}
+      {console.log('file_download', file_download)}
       {console.log(badge_qualifier.current)}
-      {console.log(certificate_qualifier.current)} */}
-      {Number(result) >= badge_qualifier.current ? (
+      {console.log(certificate_qualifier.current)}
+
+      {/* badge image */}
+      {badge_qualifier.current !== null && Number(result) >= badge_qualifier.current ? (
         <img src={img} width='200' height='200'></img>
       ) : (
         ''
       )}
-      {Number(result) >= certificate_qualifier.current ? (
+
+      {/* certificate link */}
+      {certificate_qualifier.current !== null && Number(result) >= certificate_qualifier.current ? (
         <a href={file_download} download>
           {' '}
           Click to download certificate{' '}
@@ -215,13 +305,9 @@ function ResultsPage() {
       ) : (
         ''
       )}
-      <div>Quiz Result</div>
-      <div>Percentage of the score: {result}</div>
-      <div>Current result : {JSON.stringify(currentQuizResult)}</div>
-      <div>Best result : {JSON.stringify(quizResult)}</div>
-      {leaderboardVisible ? (
-        <Link to={`/leaderboard/${quizId}`}>See Leaderboard</Link>
-      ) : null}
+
+      {/* <div>Current result : {JSON.stringify(currentQuizResult)}</div> */}
+
     </div>
   );
 }
