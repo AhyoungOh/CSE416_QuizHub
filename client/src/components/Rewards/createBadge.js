@@ -93,7 +93,7 @@ function CreateBadge() {
   }, []);
 
   return (
-    <div style={{ height: '100vh' }}>
+    <div style={{ height: '100vh', paddingTop: '60px' }}>
       <iframe src={source.concat(token)} width='100%' height='100%' />;
     </div>
   );

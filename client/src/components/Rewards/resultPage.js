@@ -178,7 +178,7 @@ function ResultsPage() {
   }, [quizName]);
 
   return (
-    <div>
+    <div style={{ paddingTop: '60px' }}>
       <Form>
         <Form.Group as={Row} className='mb-3' controlId='formPlaintextEmail'>
           <Form.Label column sm='2'>
