@@ -61,12 +61,14 @@ function QuizResultRecord(){
         : `http://localhost:4000/api/consumer/quizHistory/${quizId}`,
         { withCredentials: true }
     );
+    console.log(loading);
     console.log('quizResult', quizResult);
 
     const [leaderboardVisible, setLeaderboardVisible] = useState('');
     const [quizName, setQuizName] = useState('');
     const [ques, setQues] = useState(0);
     const [trialLimit, setTrialLimit] = useState(0);
+    const [badge_arr, setBadgeArr] = useState([]);
 
     const getQuizInfo = async () => {
         try {
@@ -83,7 +85,7 @@ function QuizResultRecord(){
             );
             setTrialLimit(response.data.quiz.quizNumberOfTrials);
             setLeaderboardVisible(response.data.quiz.quizEnableLeaderboard);
-            console.log('leaderobard visible', leaderboardVisible);
+            // console.log('leaderobard visible', leaderboardVisible);
             setQuizName(response.data.quiz.quizName);
             let questionLength =
                 Number(response.data.quiz.quizTotalNumberOfQuestions) > 0
@@ -96,9 +98,7 @@ function QuizResultRecord(){
     };
 
     let res = (quizResult[0].correctedAnswerNum / ques) * 100;
-    console.log('res', res);
     const result = res.toFixed(0) + '';
-    console.log('', result);
 
     const goToLeaderboard = () => {
         history.push(`/leaderboard/${quizId}`);
@@ -108,13 +108,26 @@ function QuizResultRecord(){
         history.push(`/consumerquizpreview/${quizId}`);
     }
 
+    const myQuizzes = () => {
+        history.push(`/consumer-page`);
+    }
+
+    const moreQuizzes = () => {
+        history.push(`/consumerhome`);
+    }
+
     useEffect(() => {
         getQuizInfo();
     }, []);
 
     return (
         <div>
-            <Box sx={{ display: 'flex', paddingTop: '100px', paddingLeft: '20px', paddingRight: '20px', justifyContent: 'center' }}>
+            <Grid container justifyContent='center' onClick={myQuizzes} sx={{ paddingTop: '80px'}}>
+                <Grid item>
+                    <Button color='inherit'>Back to my quizzes</Button>
+                </Grid>
+            </Grid>
+            <Box sx={{ display: 'flex', paddingTop: '20px', paddingLeft: '20px', paddingRight: '20px', paddingBottom: '20px', justifyContent: 'center' }}>
                 <Paper sx={{ borderRadius: '18px', display: 'flex' }}>
                     <Grid container direction='row'>
                         <Grid item container direction='column' alignItems='center' sx={{ margin: 5 }}>
@@ -147,8 +160,8 @@ function QuizResultRecord(){
                         </Grid>
                         <Grid item>
                             {trialLimit - quizResult[0].usedTrialNumber == 0 ?
-                                <Button variant='contained' color='success' className={classes.button}>Quiz History</Button>
-                                :
+                                <Button variant='contained' color='success' className={classes.button} onClick={moreQuizzes}>More quizzes</Button>
+                                 :
                                 <Button variant='contained' color='success' onClick={retakeQuiz} className={classes.button}>Try again</Button>
                             }
                         </Grid>
@@ -156,11 +169,7 @@ function QuizResultRecord(){
                     </Grid>
                 </Paper>
             </Box>
-            {quizResult ? JSON.stringify(quizResult[0]) : <div>notfound</div>}
-            {/* leaderboard link */}
-            {leaderboardVisible ? (
-                <Link href={`/leaderboard/${quizId}`}>See Leaderboard</Link>
-            ) : null}
+            {/* {quizResult ? JSON.stringify(quizResult[0]) : null} */}
         </div>
     );
 }

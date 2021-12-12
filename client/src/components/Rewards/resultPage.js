@@ -243,7 +243,7 @@ function ResultsPage() {
   console.log('result', result);
   return (
     <div>
-      <Box sx={{ display: 'flex', paddingTop: '100px', paddingLeft: '20px', paddingRight: '20px', justifyContent: 'center' }}>
+      <Box sx={{ display: 'flex', paddingTop: '100px', paddingLeft: '20px', paddingRight: '20px', paddingBottom: '20px', justifyContent: 'center' }}>
         <Paper sx={{ borderRadius: '18px', display: 'flex' }}>
           <Grid container direction='row'>
             <Grid item container direction='column' alignItems='center' sx={{ margin: 5 }}>
