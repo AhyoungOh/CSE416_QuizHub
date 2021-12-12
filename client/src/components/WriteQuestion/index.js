@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { isNumber } from '../../utils/validate';
 import { useHistory } from 'react-router-dom';
+import useApiCall from '../../hooks/useApiCall';
 import {
   Grid,
   Box,
@@ -61,8 +62,12 @@ function WriteQuestion({
   const [firstQuestion, setFirstQuestion] = useState(questionNumber === 1);
   const [changed, setChanged] = useState(false);
   // const [three, setThree] = useState(false);
-  const [four, setFour] = useState(questionData?.questionOption3 ? true : false);
-  const [tf, setTf] = useState(questionData?.questionOption1 == 'True' ? true : false);
+  const [four, setFour] = useState(
+    questionData?.questionOption3 ? true : false
+  );
+  const [tf, setTf] = useState(
+    questionData?.questionOption1 == 'True' ? true : false
+  );
   const [tem1, setTem1] = useState('');
   const [tem2, setTem2] = useState('');
 
@@ -85,41 +90,50 @@ function WriteQuestion({
   // };
   // getQuestionNumber();
 
-  const exist = (x) =>{
+  const exist = (x) => {
     // console.log('x: ', x, 'questionData._id: ', questionData._id, 'result:', x === questionData._id);
     return x === questionData._id;
-  }
+  };
 
   const getQuestionArray = async () => {
     try {
       await axios
-      .get(
-        process.env.NODE_ENV === 'production'
-          ? `/api/quiz/detail/${quizId}`
-          : `http://localhost:4000/api/quiz/detail/${quizId}`
-      )
-      .then((res) => {
-        const tem = [];
-        for (const q of res.data.quiz.quizQuestions) {
-          tem.push(q._id);
-        }
-        setQuestionArray(tem);
-        { questionData ? setQuestionNumber(tem.findIndex(exist)+1) : setQuestionNumber(res.data.quiz.quizQuestions.length + 1) };
-        { tem.length === tem.findIndex(exist)+1 ? setLastQuestion(true) : setLastQuestion(false)};
-        { tem.length === 1 || tem.findIndex(exist) === 0 ? setFirstQuestion(true) : setFirstQuestion(false) };
-      });
+        .get(
+          process.env.NODE_ENV === 'production'
+            ? `/api/quiz/detail/${quizId}`
+            : `http://localhost:4000/api/quiz/detail/${quizId}`
+        )
+        .then((res) => {
+          const tem = [];
+          for (const q of res.data.quiz.quizQuestions) {
+            tem.push(q._id);
+          }
+          setQuestionArray(tem);
+          {
+            questionData
+              ? setQuestionNumber(tem.findIndex(exist) + 1)
+              : setQuestionNumber(res.data.quiz.quizQuestions.length + 1);
+          }
+          {
+            tem.length === tem.findIndex(exist) + 1
+              ? setLastQuestion(true)
+              : setLastQuestion(false);
+          }
+          {
+            tem.length === 1 || tem.findIndex(exist) === 0
+              ? setFirstQuestion(true)
+              : setFirstQuestion(false);
+          }
+        });
     } catch (e) {
       console.error(e);
     }
-  }
+  };
 
-  useEffect(
-    getQuestionArray,
-    []
-  );
+  useEffect(getQuestionArray, []);
   // console.log(questionArray);
   // console.log(questionNumber);
-  
+
   const createquestionData = async () => {
     if (questionQuestion === '') {
       alert('Please enter the question.');
@@ -210,7 +224,7 @@ function WriteQuestion({
     fetchData();
     history.push(`/question/${quizId}`);
   };
-  
+
   // update question and save all the updated question
   const updatequestionData = async () => {
     if (questionQuestion === '') {
@@ -261,46 +275,46 @@ function WriteQuestion({
   // update question and go to the next question
   const nextQuestion = async () => {
     // if (changed) {
-      // console.log('edited');
-      if (questionQuestion === '') {
-        alert('Please enter the question.');
-        return;
+    // console.log('edited');
+    if (questionQuestion === '') {
+      alert('Please enter the question.');
+      return;
+    }
+    if (questionOption1 === '') {
+      alert('Please enter answer A.');
+      return;
+    }
+    if (questionOption2 === '') {
+      alert('Please enter answer B.');
+      return;
+    }
+    if (four && questionOption3 === '') {
+      alert('Please enter answer C for the four-option question.');
+      return;
+    }
+    if (four && questionOption4 === '') {
+      alert('Please enter answer D for the four-option question.');
+      return;
+    }
+    if (!isNumber(questionAnswer)) {
+      alert('Please select the answer for the question.');
+      return;
+    }
+    await axios.put(
+      process.env.NODE_ENV === 'production'
+        ? `/api/question/detail/${questionData._id}`
+        : `http://localhost:4000/api/question/detail/${questionData._id}`,
+      {
+        _id: questionData._id,
+        questionNumber,
+        questionQuestion,
+        questionOption1,
+        questionOption2,
+        questionOption3,
+        questionOption4,
+        questionAnswer,
       }
-      if (questionOption1 === '') {
-        alert('Please enter answer A.');
-        return;
-      }
-      if (questionOption2 === '') {
-        alert('Please enter answer B.');
-        return;
-      }
-      if (four && questionOption3 === '') {
-        alert('Please enter answer C for the four-option question.');
-        return;
-      }
-      if (four && questionOption4 === '') {
-        alert('Please enter answer D for the four-option question.');
-        return;
-      }
-      if (!isNumber(questionAnswer)) {
-        alert('Please select the answer for the question.');
-        return;
-      }
-      await axios.put(
-        process.env.NODE_ENV === 'production'
-          ? `/api/question/detail/${questionData._id}`
-          : `http://localhost:4000/api/question/detail/${questionData._id}`,
-        {
-          _id: questionData._id,
-          questionNumber,
-          questionQuestion,
-          questionOption1,
-          questionOption2,
-          questionOption3,
-          questionOption4,
-          questionAnswer,
-        }
-      );
+    );
     // }
     // setQuestionVisible(false);
     fetchData();
@@ -312,53 +326,60 @@ function WriteQuestion({
   // update question and go to the previous question
   const previousQuestion = async () => {
     // if (changed){
-      // console.log('edited');
-      if (questionQuestion === '') {
-        alert('Please enter the question.');
-        return;
+    // console.log('edited');
+    if (questionQuestion === '') {
+      alert('Please enter the question.');
+      return;
+    }
+    if (questionOption1 === '') {
+      alert('Please enter answer A.');
+      return;
+    }
+    if (questionOption2 === '') {
+      alert('Please enter answer B.');
+      return;
+    }
+    if (four && questionOption3 === '') {
+      alert('Please enter answer C for the four-option question.');
+      return;
+    }
+    if (four && questionOption4 === '') {
+      alert('Please enter answer D for the four-option question.');
+      return;
+    }
+    if (!isNumber(questionAnswer)) {
+      alert('Please select the answer for the question.');
+      return;
+    }
+    await axios.put(
+      process.env.NODE_ENV === 'production'
+        ? `/api/question/detail/${questionData._id}`
+        : `http://localhost:4000/api/question/detail/${questionData._id}`,
+      {
+        _id: questionData._id,
+        questionNumber,
+        questionQuestion,
+        questionOption1,
+        questionOption2,
+        questionOption3,
+        questionOption4,
+        questionAnswer,
       }
-      if (questionOption1 === '') {
-        alert('Please enter answer A.');
-        return;
-      }
-      if (questionOption2 === '') {
-        alert('Please enter answer B.');
-        return;
-      }
-      if (four && questionOption3 === '') {
-        alert('Please enter answer C for the four-option question.');
-        return;
-      }
-      if (four && questionOption4 === '') {
-        alert('Please enter answer D for the four-option question.');
-        return;
-      }
-      if (!isNumber(questionAnswer)) {
-        alert('Please select the answer for the question.');
-        return;
-      }
-      await axios.put(
-        process.env.NODE_ENV === 'production'
-          ? `/api/question/detail/${questionData._id}`
-          : `http://localhost:4000/api/question/detail/${questionData._id}`,
-        {
-          _id: questionData._id,
-          questionNumber,
-          questionQuestion,
-          questionOption1,
-          questionOption2,
-          questionOption3,
-          questionOption4,
-          questionAnswer,
-        }
-      );
+    );
     // }
     // setQuestionVisible(false);
     fetchData();
-    const prev_id = questionArray[questionNumber-2];
+    const prev_id = questionArray[questionNumber - 2];
     // console.log('prev_id', prev_id);
     history.push(`/question/detail/${prev_id}`);
   };
+
+  const [loading, quiz, error, fetchData1] = useApiCall(
+    process.env.NODE_ENV === 'production'
+      ? `/api/quiz`
+      : `http://localhost:4000/api/quiz`
+  );
+  console.log('get quiz data', quiz);
 
   const deletequestionData = async () => {
     // TODO: after deleting question, update the index for the question after current question
@@ -368,31 +389,18 @@ function WriteQuestion({
         ? `/api/question/detail/${questionData._id}`
         : `http://localhost:4000/api/question/detail/${questionData._id}`
     );
-    // moveIndex();
-    fetchData();
-    if (lastQuestion || (firstQuestion && questionArray.length === 1)) {
-      setQuestionVisible(false);
-      history.push(`/quiz/detail/${quizId}`);
-    } else {
-      const next_id = questionArray[questionNumber];
-      // console.log('next_id', next_id);
-      history.push(`/question/detail/${next_id}`);
-    }
-  };
 
-  // const moveIndex = async () => {
-  //   for (let i = questionNumber; i < questionArray.length; i ++) {
-  //     await axios.put(
-  //       process.env.NODE_ENV === 'production'
-  //         ? `/api/question/detail_num/${questionArray[i]}`
-  //         : `http://localhost:4000/api/question/detail_num/${questionArray[i]}`,
-  //       {
-  //         _id: questionArray[i],
-  //         questionNumber: i-1,
-  //       }
-  //     );
-  //   }
-  // }
+    fetchData();
+    setQuestionVisible(false);
+    history.push(`/quiz/detail/${quizId}`);
+    // if (lastQuestion || (firstQuestion && questionArray.length === 1)) {
+    //   setQuestionVisible(false);
+    //   history.push(`/quiz/detail/${quizId}`);
+    // } else {
+    //   const next_id = questionArray[questionNumber];
+    //   history.push(`/question/detail/${next_id}`);
+    // }
+  };
 
   const optionNumberSetting = () => {
     setChanged(true);
@@ -408,7 +416,7 @@ function WriteQuestion({
       // two -> four
       setFour(true);
     }
-  }
+  };
 
   const setTrueFalse = () => {
     setChanged(true);
@@ -433,7 +441,7 @@ function WriteQuestion({
       setQuestionOption1('True');
       setQuestionOption2('False');
     }
-  }
+  };
 
   if (questionData === undefined) {
     // add new question
@@ -470,8 +478,24 @@ function WriteQuestion({
               />
             </Box>
             <FormControl sx={{ paddingLeft: '40px' }}>
-              <Tooltip placement='right' title={ four ? 'Two-option question' : 'Four-option question'}>
-                <FormControlLabel control={<Checkbox size='small' checked={tf} onChange={setTrueFalse}/>} label={<Typography sx={{ fontSize: '18px' }}>This is a True or False question.</Typography>} />
+              <Tooltip
+                placement='right'
+                title={four ? 'Two-option question' : 'Four-option question'}
+              >
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      size='small'
+                      checked={tf}
+                      onChange={setTrueFalse}
+                    />
+                  }
+                  label={
+                    <Typography sx={{ fontSize: '18px' }}>
+                      This is a True or False question.
+                    </Typography>
+                  }
+                />
               </Tooltip>
             </FormControl>
             <TextField
@@ -499,13 +523,16 @@ function WriteQuestion({
               // sx={{ m: 3 }}
             />
             <Grid item alignSelf='center'>
-              <Tooltip placement='right' title={ four ? 'Two-option question' : 'Four-option question'}>
+              <Tooltip
+                placement='right'
+                title={four ? 'Two-option question' : 'Four-option question'}
+              >
                 <IconButton onClick={optionNumberSetting}>
-                  { four ? <ExpandLessRoundedIcon /> : <ExpandMoreRoundedIcon />}
+                  {four ? <ExpandLessRoundedIcon /> : <ExpandMoreRoundedIcon />}
                 </IconButton>
               </Tooltip>
             </Grid>
-            { four ?
+            {four ? (
               <TextField
                 required
                 autoFocus
@@ -517,8 +544,9 @@ function WriteQuestion({
                 value={questionOption3}
                 onChange={(e) => setQuestionOption3(e.target.value)}
                 // sx={{ m: 3 }}
-              /> : null }
-            { four ? 
+              />
+            ) : null}
+            {four ? (
               <TextField
                 required
                 autoFocus
@@ -530,7 +558,8 @@ function WriteQuestion({
                 value={questionOption4}
                 onChange={(e) => setQuestionOption4(e.target.value)}
                 // sx={{ m: 3 }}
-              /> : null }
+              />
+            ) : null}
             <FormControl fullWidth sx={{ marginTop: '10px' }}>
               <InputLabel>Answer *</InputLabel>
               <Select
@@ -540,8 +569,8 @@ function WriteQuestion({
               >
                 <MenuItem value={1}>A</MenuItem>
                 <MenuItem value={2}>B</MenuItem>
-                { four ? <MenuItem value={3}>C</MenuItem> : null}
-                { four ? <MenuItem value={4}>D</MenuItem> : null}
+                {four ? <MenuItem value={3}>C</MenuItem> : null}
+                {four ? <MenuItem value={4}>D</MenuItem> : null}
               </Select>
             </FormControl>
             <Grid
@@ -571,17 +600,15 @@ function WriteQuestion({
             </Grid>
           </Grid>
         </Card>
-        <Tooltip title='Add more questions'>
+        {/* <Tooltip title='Add more questions'>
           <Fab onClick={AddQuestion} sx={{ position: 'absolute', right: '5%' }}>
             <AddRoundedIcon />
           </Fab>
-        </Tooltip>
+        </Tooltip> */}
       </div>
     );
   } else {
     // edit question
-    // console.log('questionOptions', questionOptions);
-    // console.log('questionOption1', questionOption1);
     return (
       <div
         className='write'
@@ -618,15 +645,31 @@ function WriteQuestion({
                 type='text'
                 value={questionQuestion}
                 placeholder='Enter the question...'
-                onChange={(e) => { 
+                onChange={(e) => {
                   setChanged(true);
                   setQuestionQuestion(e.target.value);
                 }}
               />
             </Box>
             <FormControl sx={{ paddingLeft: '40px' }}>
-              <Tooltip placement='right' title={ four ? 'Two-option question' : 'Four-option question'}>
-                <FormControlLabel control={<Checkbox size='small' checked={tf} onChange={setTrueFalse}/>} label={<Typography sx={{ fontSize: '18px' }}>This is a True or False question.</Typography>} />
+              <Tooltip
+                placement='right'
+                title={four ? 'Two-option question' : 'Four-option question'}
+              >
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      size='small'
+                      checked={tf}
+                      onChange={setTrueFalse}
+                    />
+                  }
+                  label={
+                    <Typography sx={{ fontSize: '18px' }}>
+                      This is a True or False question.
+                    </Typography>
+                  }
+                />
               </Tooltip>
             </FormControl>
             <TextField
@@ -660,13 +703,16 @@ function WriteQuestion({
               // sx={{ m: 3 }}
             />
             <Grid item alignSelf='center'>
-              <Tooltip placement='right' title={ four ? 'Two-option question' : 'Four-option question'}>
+              <Tooltip
+                placement='right'
+                title={four ? 'Two-option question' : 'Four-option question'}
+              >
                 <IconButton onClick={optionNumberSetting}>
-                  { four ? <ExpandLessRoundedIcon /> : <ExpandMoreRoundedIcon />}
+                  {four ? <ExpandLessRoundedIcon /> : <ExpandMoreRoundedIcon />}
                 </IconButton>
               </Tooltip>
             </Grid>
-            {four ?
+            {four ? (
               <TextField
                 autoFocus
                 required
@@ -681,8 +727,9 @@ function WriteQuestion({
                   setQuestionOption3(e.target.value);
                 }}
                 // sx={{ m: 3 }}
-              /> : null }
-            {four ? 
+              />
+            ) : null}
+            {four ? (
               <TextField
                 autoFocus
                 // fullWidth
@@ -697,7 +744,8 @@ function WriteQuestion({
                   setQuestionOption4(e.target.value);
                 }}
                 // sx={{ m: 3 }}
-              /> : null }
+              />
+            ) : null}
             <FormControl fullWidth sx={{ marginTop: '10px' }}>
               <InputLabel>Answer *</InputLabel>
               <Select
@@ -710,47 +758,49 @@ function WriteQuestion({
               >
                 <MenuItem value={1}>A</MenuItem>
                 <MenuItem value={2}>B</MenuItem>
-                { four ? <MenuItem value={3}>C</MenuItem> : null }
-                { four ? <MenuItem value={4}>D</MenuItem> : null }
+                {four ? <MenuItem value={3}>C</MenuItem> : null}
+                {four ? <MenuItem value={4}>D</MenuItem> : null}
               </Select>
             </FormControl>
-          <Grid
-            container
-            justifyContent='flex-end'
-            spacing={2}
-            sx={{ padding: '25px' }}
-          >
-            <Grid item>
-              <Button
-                variant='contained'
-                color='error'
-                onClick={deletequestionData}
-              >
-                Delete
-              </Button>
+            <Grid
+              container
+              justifyContent='flex-end'
+              spacing={2}
+              sx={{ padding: '25px' }}
+            >
+              <Grid item>
+                <Button
+                  variant='contained'
+                  color='error'
+                  onClick={deletequestionData}
+                >
+                  Delete
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button variant='contained' onClick={updatequestionData}>
+                  Save
+                </Button>
+              </Grid>
             </Grid>
-            <Grid item>
-              <Button variant='contained' onClick={updatequestionData}>
-                Save
-              </Button>
-            </Grid>
-          </Grid>
           </Grid>
         </Card>
-        { firstQuestion ?
-          null
-          :
-          <Fab onClick={previousQuestion} sx={{ position: 'absolute', left: '5%' }}>
+        {firstQuestion ? null : (
+          <Fab
+            onClick={previousQuestion}
+            sx={{ position: 'absolute', left: '5%' }}
+          >
             <ArrowBackIosRoundedIcon />
           </Fab>
-        }
-        { lastQuestion ? 
-          null
-          :
-          <Fab onClick={nextQuestion} sx={{ position: 'absolute', right: '5%' }}>
+        )}
+        {lastQuestion ? null : (
+          <Fab
+            onClick={nextQuestion}
+            sx={{ position: 'absolute', right: '5%' }}
+          >
             <ArrowForwardIosRoundedIcon />
           </Fab>
-        }
+        )}
         {/* <Pagination sx={{ position: 'absolute', bottom: '5%' }} count={questionArray.length} onChange={handlePageChange} /> */}
       </div>
     );
