@@ -47,7 +47,8 @@ const useStyles = makeStyles({
     padding: '20px',
   },
   title: {
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
+    fontFamily: 'Nunito',
   },
   startButton: {
     padding: '10px',

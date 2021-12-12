@@ -23,6 +23,7 @@ const useStyles = makeStyles({
     paddingLeft: '13px',
     fontSize: '32px',
     fontWeight: 'bold',
+    fontFamily: 'Nunito',
   },
   subtitle: {
     paddingLeft: '33px',
@@ -80,7 +81,7 @@ function CreatorSignUp() {
 
   const clickBtnHandler = async () => {
     if (!isEmail(emailRef.current.value)) {
-      alert('please put the valid email');
+      alert('Please enter a valid email.');
       return;
     }
 
@@ -89,7 +90,7 @@ function CreatorSignUp() {
       !passwordRef.current.value ||
       !emailRef.current.value
     ) {
-      alert('please fill out all sections');
+      alert('Please fill out all required fields.');
       return;
     }
 
@@ -157,7 +158,7 @@ function CreatorSignUp() {
                 <Paper className={classes.inputBox}>
                   <InputBase
                     fullWidth
-                    placeholder='Username'
+                    placeholder='Username *'
                     inputRef={usernameRef}
                     type='text'
                     // inputProps={{ 'aria-label': 'search google maps' }}
@@ -177,7 +178,7 @@ function CreatorSignUp() {
                 <Paper className={classes.inputBox}>
                   <InputBase
                     fullWidth
-                    placeholder='Email'
+                    placeholder='Email *'
                     inputRef={emailRef}
                     type='text'
                     // inputProps={{ 'aria-label': 'search google maps' }}
@@ -197,7 +198,7 @@ function CreatorSignUp() {
                 <Paper className={classes.inputBox}>
                   <InputBase
                     // fullWidth
-                    placeholder='Password'
+                    placeholder='Password *'
                     inputRef={passwordRef}
                     type={showPassword ? 'text' : 'password'}
                     // inputProps={{ 'aria-label': 'search google maps' }}

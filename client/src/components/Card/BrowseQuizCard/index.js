@@ -12,9 +12,7 @@ import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles({
   title: {
-    // fontFamily: 'Roboto',
-    // fontFamily: 'Varela Round',
-    fontWeight: 'bold',
+    fontFamily: 'Nunito',
   },
   card: {
     width: '300px',

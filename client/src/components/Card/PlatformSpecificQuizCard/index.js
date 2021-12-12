@@ -28,7 +28,7 @@ function PlatformSpecificQuizCard({
                 alt={quizName}
               />
             <CardContent sx={{ flex: 1 }}>
-              <Typography variant='h5' sx={{ fontWeight: 'bold' }}>
+              <Typography variant='h5'>
                 {quizName}
               </Typography>
               <Typography sx={{ mb: 1.5 }} color='text.secondary'>
