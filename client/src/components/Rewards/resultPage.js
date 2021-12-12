@@ -174,8 +174,10 @@ function ResultsPage() {
   // });
 
   useEffect(() => {
-    createCredential();
-  }, [quizName]);
+    if(result>=0 && result<=100){
+      createCredential();
+    }
+  }, [result]);
 
   return (
     <div style={{ paddingTop: '60px' }}>
@@ -185,7 +187,7 @@ function ResultsPage() {
             Result
           </Form.Label>
           <Col sm='10'>
-            <Form.Control plaintext readOnly defaultValue={result} />
+            <Form.Control plaintext readOnly value={result} />
           </Col>
         </Form.Group>
         <h1>

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './style.scss';
 import { isNumber } from '../../utils/validate';
 import { useHistory } from 'react-router-dom';
@@ -33,6 +33,8 @@ const CustomWidthTooltip = styled(({ className, ...props }) => (
 function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
   // for delete confirm modal
   const [show, setShow] = useState(false);
+
+  const groupid=useRef("")
 
   const default_img =
     'https://res.cloudinary.com/quizhub/image/upload/v1639090185/Default/primary_default_qdcn0l.png';
@@ -126,6 +128,91 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
     // history.push(`/quiz/detail/${quizData._id}`);
   };
 
+  const apicall = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Token token=38040def040af70134a08e39a3db35d3',
+    },
+  };
+
+  function findGroup(group){
+    if(group.course_description==quizData.quizDescription){
+      return true
+    }
+    else{
+      return false
+    }
+  }
+  const getGroupId = async () => {
+    // find the group an get groupid
+    console.log(quizName)
+    try {
+      await axios
+        .get(
+          `https://api.accredible.com/v1/issuer/all_groups?name=${quizName}`,
+          apicall
+        )
+        .then((response) => {
+          console.log(response);
+          const allgroups=response.data.groups.filter(findGroup)
+          console.log(allgroups)
+          if(allgroups.length!=0){
+            console.log(allgroups[0].id)
+            return allgroups[0].id
+          }
+        });
+    } catch (e) {
+      console.error(e);
+    }  
+  }
+  const updateGroup = async (groupid) => {
+    // update the group with groupid
+    console.log("inside update group")
+    const creategroupdata = {
+      group: {
+        name: quizName,
+        course_name: quizName,
+        course_description: quizDescription,
+      },
+    };
+    try {
+      await axios
+        .put(
+          `https://api.accredible.com/v1/issuer/groups/${groupid}`,
+          creategroupdata,
+          apicall
+        )
+        .then((response) => {
+          console.log(response);
+        });
+    } catch (e) {
+      console.error(e);
+    }
+
+  }
+  const deleteGroup = async (groupid) => {
+    // delete the group with groupid
+    try {
+      await axios
+        .delete(
+          `https://api.accredible.com/v1/issuer/groups/${groupid}`,
+          apicall
+        )
+        .then((response) => {
+          console.log(response);
+        });
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  useEffect(() => {
+    console.log("inside use effect")
+    console.log(quizName)
+    groupid.current=getGroupId()
+  }, []);
+
+
   const updatequizData = async () => {
     if (quizName === '') {
       alert('Please fill out the title.');
@@ -147,6 +234,10 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
       alert('Please enter a valid number of seconds in the range of 0 - 59.');
       return;
     }
+    console.log("inside update quiz")
+    console.log(quizName)
+    updateGroup(groupid.current)
+
     await axios.put(
       process.env.NODE_ENV === 'production'
         ? `/api/quiz/detail/${quizData._id}`
@@ -174,6 +265,9 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
   };
 
   const deletequizData = async () => {
+    console.log(groupid.current)
+    deleteGroup(groupid.current)
+    
     await axios.delete(
       process.env.NODE_ENV === 'production'
         ? `/api/quiz/deatil/${quizData._id}`
