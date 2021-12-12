@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect, useContext } from 'react';
 import { UserContext, accountSettingsContext } from '../../App';
 import { useHistory, useParams, useLocation } from 'react-router-dom';
 import useApiCall from '../../hooks/useApiCall';
-import { Grid, Link, Tooltip, Box, Card, Paper, Typography } from '@mui/material';
+import { Grid, Link, Tooltip, Box, Modal, Paper, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles({
@@ -64,6 +64,8 @@ function ResultsPage() {
   // console.log('consumer quiz history', payload);
   // const [result, setResult] = useState(''); // need to change this based on takes quiz
   const [leaderboardVisible, setLeaderboardVisible] = useState('');
+
+  const [open, setOpen] = useState(false);
 
   const certificate_qualifier = useRef(0);
   const badge_qualifier = useRef(0);
@@ -212,8 +214,12 @@ function ResultsPage() {
     history.push(`/leaderboard/${quizId}`);
   }
 
-  const retakeQuiz = () =>{
+  const retakeQuiz = () => {
     history.push(`/consumerquizpreview/${quizId}`);
+  }
+
+  const quizHistory = () => {
+    history.push(`/record/${quizId}`);
   }
 
   useEffect(() => {
@@ -238,7 +244,7 @@ function ResultsPage() {
   console.log('result', result);
   return (
     <div>
-      <Box sx={{ display: 'flex', paddingTop: '80px', paddingLeft: '20px', paddingRight: '20px', justifyContent: 'center' }}>
+      <Box sx={{ display: 'flex', paddingTop: '100px', paddingLeft: '20px', paddingRight: '20px', justifyContent: 'center' }}>
         <Paper sx={{ borderRadius: '18px', display: 'flex' }}>
           <Grid container direction='row'>
             <Grid item container direction='column' alignItems='center' sx={{ margin: 5 }}>
@@ -263,7 +269,27 @@ function ResultsPage() {
             </Grid>
             <Grid item container direction='row' alignItems='center' justifyContent='center' spacing={2} sx={{ margin: 3 }}>
               <Grid item>
-                <Button className={classes.button}>Rewards</Button>
+                {reward == 'none' ?
+                  <Tooltip placement='top' title='This quiz does not have rewards'>
+                    <span>
+                      <Button disabled className={classes.button} onClick={() => setOpen(true)}>Rewards</Button>
+                    </span>
+                  </Tooltip>
+                : reward == 'certificate' && Number(result) < certificate_qualifier.current ?
+                   <Tooltip placement='top' title='Your score does not meet the requirement.'>
+                      <span>
+                        <Button disabled className={classes.button} onClick={() => setOpen(true)}>Rewards</Button>
+                      </span>
+                    </Tooltip>
+                    : reward == 'badge' && Number(result) < badge_qualifier.current ?
+                      <Tooltip placement='top' title='Your score does not meet the requirement.'>
+                        <span>
+                          <Button disabled className={classes.button} onClick={() => setOpen(true)}>Rewards</Button>
+                        </span>
+                      </Tooltip>
+                      : 
+                      <Button className={classes.button} color='secondary' onClick={() => setOpen(true)}>Rewards</Button>
+                }
               </Grid>
               <Grid item>
                 {leaderboardVisible ? 
@@ -274,7 +300,7 @@ function ResultsPage() {
               </Grid>
               <Grid item>
                 {trialLimit - currentQuizResult.usedTrialNumber == 0 ?
-                  <Button disabled variant='success' className={classes.button}>Try again</Button>
+                  <Button variant='success' onClick={quizHistory} className={classes.button}>Quiz History</Button>
                   :
                   <Button variant='success' onClick={retakeQuiz} className={classes.button}>Try again</Button>
                 }
@@ -283,31 +309,36 @@ function ResultsPage() {
           </Grid>
         </Paper>
       </Box>
+      <Modal open={open} onClose={() => setOpen(false)}>
+        <Box sx={{ backgroundColor: '#ffffff', display: 'flex', position: 'fixed', top: '50%', left: '50%', minWidth: '300px', marginTop: '-150px', marginLeft: '-150px', borderRadius: '10px', boxShadow: 24,}}>
+          <Grid container direction='column'  alignItems='center' justifyContent='center' sx={{ padding: '20px' }}>
+            <Grid item>
+              <Typography variant='h5'>Rewards</Typography>
+            </Grid>
+            { reward == 'certificate' ? 
+                <Grid item>
+                  <a href={file_download} download>
+                    {' '}
+                    Click to download certificate{' '}
+                  </a>
+                </Grid>
+              : reward == 'badge' ? 
+                <img src={img} width='200' height='200'></img>
+                : <div>
+                    <Grid item>
+                      <a href={file_download} download>{' '}Download certificate{' '}</a>
+                    </Grid>
+                    <Grid item>
+                      <img src={img} width='200' height='200' class='center'></img>
+                    </Grid>
+              </div> 
+            }
+          </Grid>
+        </Box>
+      </Modal>
 
-      {console.log('trialLimit - currentQuizResult.usedTrialNumber', trialLimit - currentQuizResult.usedTrialNumber)}
+      {/* {console.log('trialLimit - currentQuizResult.usedTrialNumber', trialLimit - currentQuizResult.usedTrialNumber)} */}
       {console.log('file_download', file_download)}
-      {console.log(badge_qualifier.current)}
-      {console.log(certificate_qualifier.current)}
-
-      {/* badge image */}
-      {badge_qualifier.current !== null && Number(result) >= badge_qualifier.current ? (
-        <img src={img} width='200' height='200'></img>
-      ) : (
-        ''
-      )}
-
-      {/* certificate link */}
-      {certificate_qualifier.current !== null && Number(result) >= certificate_qualifier.current ? (
-        <a href={file_download} download>
-          {' '}
-          Click to download certificate{' '}
-        </a>
-      ) : (
-        ''
-      )}
-
-      {/* <div>Current result : {JSON.stringify(currentQuizResult)}</div> */}
-
     </div>
   );
 }
