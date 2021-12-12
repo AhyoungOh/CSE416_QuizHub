@@ -171,7 +171,7 @@ consumerRouter.put('/quiz/:id', validUser, async (req, res) => {
   if (submittedCorrectedAnswerNum < originalAnswersNum) {
     res.send({
       message: 'previous record is better',
-      correctedAnswerNum: originalAnswersNum,
+      correctedAnswerNum: submittedCorrectedAnswerNum,
       usedTrialNumber:
         consumer.consumerQuizHistoryList[quizHistoryIdx].usedTrialNumber,
     });
