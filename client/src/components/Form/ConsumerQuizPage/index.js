@@ -16,6 +16,7 @@ import {
   Alert,
   Collapse,
   CircularProgress,
+  Fab,
 } from '@mui/material';
 import LinearProgress, {
   linearProgressClasses,
@@ -71,11 +72,22 @@ const useStyles = makeStyles({
     display: 'flex',
     paddingTop: '80px',
   },
+  nextButton: {
+    position: 'fixed', 
+    right: '3%', 
+    bottom: '5%',
+  }, 
+  prevButton: {
+    position: 'fixed', 
+    left: '3%', 
+    bottom: '5%',
+  }
 });
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   height: '8px',
-  width: '1000px',
+  width: '100%',
+  // width: 'calc(100%-200px)',
   borderRadius: '2px',
   [`&.${linearProgressClasses.colorPrimary}`]: {
     backgroundColor: theme.palette.grey[200],
@@ -400,133 +412,80 @@ function ConsumerQuizPage() {
         </Modal>
       </Grid>
       
-      {/* content */}
-      <Grid
-        container
-        direction='column'
-        spacing={3}
-        className={classes.container}
-      >
-        <Grid item>
-          {/* Quiz button */}
-          <Grid container direction='row' justifyContent='space-between' sx={{ paddingLeft: '30px', paddingRight: '40px' }}>
-            <Grid item>
-              <Button
-                color='inherit'
-                onClick={handleShow}
-                startIcon={<CloseRoundedIcon />}
-              >
-                Quit
-              </Button>
-            </Grid>
-            <Grid item sx={{ paddingRight: '20px'}}>
-              {/* timer */}
-              <CircularProgressWithLabel value={timer/totalSec*100} min={Math.floor(timer / 60)} sec={timer - Math.floor(timer / 60) * 60} />
-            </Grid>
-          </Grid>
-        </Grid>
-        <Grid item>
-          {/* question */}
-          <Typography className={classes.question}>
-            {qnum}. {quiz_questions[qnum - 1]?.questionQuestion}
-          </Typography>
-        </Grid>
-        <Grid item>
-          {/* Options */}
-          <Grid container spacing={2} justifyContent='center'>
-            {quiz_questions[qnum - 1]?.questionOptions.map((e, i) => (
-              <Grid item xs={12} s={6} md={3}>
-                <Card id={i} className={classes.card}>
-                  <Button
-                    className={classes.button}
-                    onClick={() => selectAnswer(i)}
-                    // color= {select === i ? "primary" : "inherit"}
-                    variant={select === i ? 'contained' : 'text'}
-                  >
-                    <Typography className={classes.options}>
-                      {/* {i+1}. {e} */}
-                      {e}
-                    </Typography>
-                  </Button>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        </Grid>
-        <Grid item>
-          {/* Progress bar and prev, next buttons */}
-          <Grid
-            container
-            spacing={2}
-            alignItems='center'
-            justifyContent='center'
+      {/* Quiz button and timer*/}
+      <Grid container direction='row' justifyContent='space-between' sx={{ paddingLeft: '40px', paddingRight: '70px', paddingBottom: '40px' }}>
+        <Grid item sx={{ marginTop: '20px' }}>
+          <Button
+            color='inherit'
+            onClick={handleShow}
+            startIcon={<CloseRoundedIcon />}
           >
-            <Grid item>
-              {start ? (
-                <IconButton
-                  sx={{ backgroundColor: '#ffffff' }}
-                  color='primary'
-                  component='span'
-                  disabled
-                >
-                  <ArrowBackRoundedIcon />
-                </IconButton>
-              ) : (
-                <IconButton
-                  sx={{ backgroundColor: '#ffffff' }}
-                  color='primary'
-                  component='span'
-                  onClick={prevQuestionNum}
-                >
-                  <ArrowBackRoundedIcon />
-                </IconButton>
-              )}
-            </Grid>
-            <Grid item>
-              <Box sx={{ flexGrow: 1 }}>
-                <BorderLinearProgress
-                  variant='determinate'
-                  value={(qnum / num_questions) * 100}
-                />
-              </Box>
-            </Grid>
-            <Grid item>
-              {end ? (
-                <IconButton
-                  sx={{ backgroundColor: '#ffffff' }}
-                  color='primary'
-                  component='span'
-                  disabled
-                >
-                  <ArrowForwardRoundedIcon />
-                </IconButton>
-              ) : (
-                <IconButton
-                  sx={{ backgroundColor: '#ffffff' }}
-                  color='primary'
-                  component='span'
-                  onClick={nextQuestionNum}
-                >
-                  <ArrowForwardRoundedIcon />
-                </IconButton>
-              )}
-            </Grid>
-          </Grid>
+            Quit
+          </Button>
         </Grid>
-        <Grid item alignSelf='flex-end'>
-          {end ? (
-            <Button
-              variant='contained'
-              onClick={checkSubmit}
-              className={classes.submitButton}
-            >
-              Submit
-            </Button>
-          ) : (
-            ''
-          )}
+        {/* <Grid item lg={8}>
+          <Box sx={{ display: 'flex', flexGrow: 1 }}>
+            <BorderLinearProgress
+              variant='determinate'
+              value={(qnum / num_questions) * 100}
+            />
+          </Box>
+        </Grid> */}
+        <Grid item sx={{ marginTop: '10px', paddingRight: '60px'}}>
+          <CircularProgressWithLabel value={timer/totalSec*100} min={Math.floor(timer / 60)} sec={timer - Math.floor(timer / 60) * 60} />
         </Grid>
       </Grid>
+
+      {/* question */}
+      <Grid container sx={{ paddingLeft: '40px', paddingBottom: '20px' }}>
+        <Typography className={classes.question}>
+          {qnum}. {quiz_questions[qnum - 1]?.questionQuestion}
+        </Typography>
+      </Grid>
+
+      {/* Options */}
+      <Grid container spacing={2} justifyContent='center' sx={{ paddingLeft: '40px', paddingRight: '40px', paddingBottom: '20px' }}>
+        {quiz_questions[qnum - 1]?.questionOptions.map((e, i) => (
+          e !== '' ? 
+          <Grid item lg={3} md={3} sm={6} xs={6}>
+            <Card id={i} className={classes.card}>
+              <Button
+                className={classes.button}
+                onClick={() => selectAnswer(i)}
+                // color= {select === i ? "primary" : "inherit"}
+                variant={select === i ? 'contained' : 'text'}
+              >
+                <Typography className={classes.options}>
+                  {/* {i+1}. {e} */}
+                  {e}
+                </Typography>
+              </Button>
+            </Card>
+          </Grid>
+          : null
+        ))}
+      </Grid>
+
+      {/* prev, next, save buttons */}
+      {start ? null : (
+        <Fab color='primary' className={classes.prevButton} onClick={prevQuestionNum}>
+          <ArrowBackRoundedIcon color='inherit' />
+        </Fab>
+      )}
+      {end ? null : (
+        <Fab color='primary' className={classes.nextButton} onClick={nextQuestionNum}>
+          <ArrowForwardRoundedIcon color='inherit' />
+        </Fab>
+      )}
+      {end ? (
+        <Fab color='primary' onClick={checkSubmit} variant='extended' className={classes.nextButton}>
+          Submit
+        </Fab>
+      ) : null
+      }
+
+      {/* Progress bar */}
+
     </div>
   );
 }
