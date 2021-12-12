@@ -160,13 +160,9 @@ quizRouter.delete(
       const quiz = await Quiz.findById(quizId);
       console.log('quiz', quiz);
       const platformId = quiz.platformId;
-      console.log('new platform Id', platformId);
-      Quiz.deleteOne({ _id: req.params.id }, async (err, doc) => {
-        if (err) throw err;
-        if (doc) {
-          res.send('Quiz Deleted');
-        }
-      });
+
+      Quiz.deleteOne({ _id: req.params.id });
+      const question = await Question.deleteMany({ quizId: quizId });
       Platform.updateOne(
         { _id: platformId },
         { $pull: { ownedQuizzes: quizId } },
