@@ -2,19 +2,29 @@ import Quiz from '../Quiz';
 import Question from '../Question';
 import React, { useState, useRef ,useEffect} from 'react';
 import axios from 'axios';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import {
+  Box,
   Grid,
   Button,
   Card,
   CardMedia,
-  CardActionArea,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
   CardContent,
   Typography,
-  getNativeSelectUtilityClasses,
+  Fab,
+  Tooltip,
+  Link,
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-// import ImageUpload from '../ImageUpload';
+import EditRoundedIcon from '@mui/icons-material/EditRounded';
+import AccessAlarmRoundedIcon from '@mui/icons-material/AccessAlarmRounded';
+import AssignmentRoundedIcon from '@mui/icons-material/AssignmentRounded';
+import MilitaryTechRoundedIcon from '@mui/icons-material/MilitaryTechRounded';
+import HistoryRoundedIcon from '@mui/icons-material/HistoryRounded';
+import EmojiEventsRoundedIcon from '@mui/icons-material/EmojiEventsRounded';
 
 const useStyles = makeStyles({
   buttonsContainer: {
@@ -25,6 +35,27 @@ const useStyles = makeStyles({
   cardContainer: {
     paddingTop: '10px',
     paddingBottom: '20px',
+  },
+  cardMedia: {
+    maxWidth: '50%',
+    maxHeight: '500px',
+    display: { xs: 'none', sm: 'block' },
+  },
+  infoWrapper: {
+    diplay: 'flex',
+    flexDirection: 'column',
+    padding: '20px',
+  },
+  title: {
+    fontWeight: 'bold',
+  },
+  emphasized: {
+    fontWeight: 'bold', 
+    fontFamily: 'Open Sans',
+  },
+  normal: {
+    color: '#6E798C',
+    fontFamily: 'Open Sans',
   },
 });
 
@@ -37,11 +68,14 @@ function DetailQuiz({ quizData, setQuizVisible }) {
 
   const classes = useStyles();
 
-  const [groupExists, setGroupExists]= useState(false)
+  // states
+  const [groupExists, setGroupExists]= useState(false);
 
   for (let i = 0; i < Object.keys(quizData.quizQuestions).length; i++) {
     owned.push(quizData.quizQuestions[i].questionQuestion + ', ');
   }
+
+  console.log('quizData', quizData);
 
   const apicall = {
     headers: {
@@ -246,9 +280,10 @@ function DetailQuiz({ quizData, setQuizVisible }) {
     history.push(`/leaderboard/${quizData._id}`);
   };
 
+  console.log('quizData.quizTimeLimit', quizData.quizTimeLimit);
   return (
     <div>
-      <Grid containter sx={{ paddingLeft: '10px', paddingTop: '70px' }}>
+      <Grid containter sx={{ paddingLeft: '50px', paddingTop: '70px' }}>
         <Button
           onClick={() => {
             history.push(`/creatorHome/${quizData.platformId}`);
@@ -260,75 +295,173 @@ function DetailQuiz({ quizData, setQuizVisible }) {
         </Button>
       </Grid>
       {/* TODO: change it to creator preview quiz card */}
-      <Grid container justifyContent='center' className={classes.cardContainer} spacing={2}>
-        <Grid item>
+      <Grid container justifyContent='center' className={classes.cardContainer} spacing={2} sx={{ paddingTop: '80px', paddingLeft: '40px', paddingRight: '40px' }}>
+        <Grid item alignSelf='center'>
           <Card sx={{ borderRadius: '18px' }}>
-            <Card sx={{ display: 'flex', minHeight: '400px', maxWidth: '1000px' }}>
+            <Card sx={{ display: 'flex' }}>
               <CardMedia
                 component='img'
-                sx={{ width: 400, display: { xs: 'none', sm: 'block' } }}
+                className={classes.cardMedia}
                 image={quizData.quizImage}
                 alt={quizData.quizName}
               />
-              <CardContent sx={{ flex: 1 }}>
-                <Typography variant='h5' sx={{ fontWeight: 'bold' }}>
-                  {quizData.quizName}
-                </Typography>
-                {/* <Typography sx={{ mb: 1.5 }} color='text.secondary'>
-                  {quizCreatedDate.slice(0, 10)}
-                </Typography> */}
-                <Typography variant='body1' paragraph>
-                  Question numbers: {quizData.quizQuestions.length}
-                </Typography>
-                <Typography variant='body1' paragraph>
-                  {quizData.quizDescription}
-                </Typography>
-                <Grid
-                  container
-                  spacing={1}
-                  // justifyContent="center"
-                  className={classes.buttonsContainer}
-                >
-                  <Grid item>
-                    <Button variant='contained' onClick={updateQuizData}>
-                      Edit Quiz
-                    </Button>
-                  </Grid>
-                  {quizData.quizEnableLeaderboard ? (
-                    <Grid item>
-                      <Button variant='contained' onClick={gotoLeaderboard}>
-                        Go to Leaderboard
-                      </Button>
-                    </Grid>
-                  ) : null}
-                  <Grid item>
-                    <Button variant='contained' onClick={updateQuestionData}>
-                      Add Quesiton
-                    </Button>
-                  </Grid>
-                  <Grid item>
-                    {quizData.quizRewardType === 'certificate' ? (
-                      <Button variant='contained' disabled={groupExists} onClick={createCertificate}>
-                        Add Certificate
-                      </Button>
-                    ) : null}
-                  </Grid>
-                  <Grid item>
-                    {quizData.quizRewardType === 'badge' ? (
-                      <Button variant='contained' disabled={groupExists} onClick={createBadge}>
-                        Add Badge
-                      </Button>
-                    ) : null}
-                  </Grid>
-                  <Grid item>
-                    {quizData.quizRewardType === 'both' ? (
-                      <Button variant='contained' disabled={groupExists} onClick={createCertificateandBadge}>
-                        Add Badge and Certificate
-                      </Button>
-                    ) : null}
-                  </Grid>
-                </Grid>
-              </CardContent>
+              <Box className={classes.infoWrapper}>
+                <CardContent sx={{ flex: 1 }}>
+                  {/* <Typography sx={{ mb: 1.5 }} color='text.secondary'>
+                    {quizCreatedDate.slice(0, 10)}
+                  </Typography> */}
+                  <Typography variant='h4' className={classes.title}>
+                    {quizData.quizName}
+                  </Typography>
+                  <Typography variant='subtitle1'>{quizData.quizDescription}}</Typography>
+                </CardContent>
+                <Box sx={{ display: 'flex', flexDirection: 'column', paddingBottom: '20px' }}>
+                  <ListItem>
+                    <ListItemIcon>
+                      <AccessAlarmRoundedIcon sx={{ color: '#004080' }} />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={
+                        <Grid container>
+                          {
+                          quizData.quizTimeLimit ? <Grid item>
+                            <Typography className={classes.emphasized}>{quizData.quizTimeLimit.minutes}{quizData.quizTimeLimit.seconds === 0 || quizData.quizTimeLimit.seconds == null ? '' : (quizData.quizTimeLimit.seconds/60).toFixed(2).toString().substring(1)}</Typography>
+                          </Grid> : null 
+                          }
+                          <Grid item>
+                            <Typography className={classes.normal}>&nbsp;minutes</Typography>
+                          </Grid>
+                        </Grid>
+                      }
+                    />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon>
+                      <AssignmentRoundedIcon sx={{ color: '#004080' }} />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={
+                        <Grid container>
+                          <Grid item>
+                            <Typography className={classes.emphasized}>{quizData.quizQuestions.length}</Typography>
+                          </Grid>
+                          <Grid item>
+                            <Typography className={classes.normal}>&nbsp;questions</Typography>
+                          </Grid>
+                        </Grid>
+                      }
+                    />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon>
+                      <MilitaryTechRoundedIcon sx={{ color: '#004080' }} />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={
+                        quizData.quizRewardType == 'both' && groupExists ? 
+                          <Grid container>
+                            <Grid item>
+                              <Typography className={classes.emphasized}>Badge</Typography>
+                            </Grid>
+                            <Grid item>
+                              <Typography className={classes.normal}>&nbsp;/&nbsp;</Typography>
+                            </Grid>
+                            <Grid item>
+                              <Typography className={classes.emphasized}>Certificate</Typography>
+                            </Grid>
+                          </Grid> 
+                          : quizData.quizRewardType == 'both' ?
+                            <Tooltip placement='top' title='Create badge and certificate'>
+                              <Link onClick={createCertificateandBadge} underline="none" color='common.black' className={classes.emphasized} sx={{ cursor: 'pointer' }}>
+                                <Grid container>
+                                  <Grid item>
+                                    <Typography className={classes.emphasized}>Badge</Typography>
+                                  </Grid>
+                                  <Grid item>
+                                    <Typography className={classes.normal}>&nbsp;/&nbsp;</Typography>
+                                  </Grid>
+                                  <Grid item>
+                                    <Typography className={classes.emphasized}>Certificate</Typography>
+                                  </Grid>
+                                </Grid>
+                              </Link>
+                            </Tooltip>
+                            : quizData.quizRewardType == 'none' ?
+                            <Typography className={classes.normal}>No reward</Typography>
+                              : quizData.quizRewardType == 'badge' && groupExists ?
+                                // badge
+                                <Typography className={classes.emphasized}>{quizData.quizRewardType}</Typography>
+                                : quizData.quizRewardType == 'badge' ?
+                                  <Tooltip title='Create badge'>
+                                    <Link onClick={createBadge} underline="none" color='common.black' className={classes.emphasized} sx={{ cursor: 'pointer' }}>{quizData.quizRewardType}</Link>
+                                  </Tooltip>
+                                    // certificate
+                                  : quizData.quizRewardType == 'certificate' && groupExists ?
+                                    <Typography className={classes.emphasized}>{quizData.quizRewardType}</Typography>
+                                    : 
+                                      <Tooltip title='Create certificate'>
+                                        <Link onClick={createCertificate}underline="none" color='common.black' className={classes.emphasized} sx={{ cursor: 'pointer' }}>{quizData.quizRewardType}</Link>
+                                      </Tooltip>
+                      }
+                    />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon>
+                      <HistoryRoundedIcon sx={{ color: '#004080' }} />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={
+                        <Grid container>
+                          <Grid item>
+                            <Typography className={classes.emphasized}>{quizData.quizNumberOfTrials}</Typography>
+                          </Grid>
+                          <Grid item>
+                            <Typography className={classes.normal}>&nbsp;trials</Typography>
+                          </Grid>
+                        </Grid>
+                      }
+                    />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon>
+                      <EmojiEventsRoundedIcon sx={{ color: '#004080' }} />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={
+                        // quizEnableLeaderboard
+                        <div>
+                          <Grid container direction='row'>
+                            <Grid item>
+                              <Tooltip title='Check out leaderboard'>
+                                <Link onClick={gotoLeaderboard} underline="none" color='common.black' className={classes.emphasized} sx={{ cursor: 'pointer' }}>
+                                  Leaderboard 
+                                </Link>
+                              </Tooltip>
+                            </Grid>
+                            <Grid item>
+                              { quizData.quizEnableLeaderboard ? 
+                                <Tooltip title='Leaderboard is visiable to the public'>
+                                  <Typography className={classes.normal}>&nbsp;enabled</Typography>
+                                </Tooltip>
+                                :
+                                <Typography className={classes.normal}>&nbsp;disabled</Typography>
+                              }
+                            </Grid>
+                          </Grid>
+                        </div>
+                      }
+                    />
+                  </ListItem>
+                </Box>
+                <Button variant='contained' onClick={updateQuestionData} sx={{ marginLeft: '20px' }}>
+                  Add Quesiton
+                </Button>
+                {quizData.quizRewardType === 'both' ? (
+                  <Button variant='contained' disabled={groupExists} onClick={createCertificateandBadge}>
+                    Add Badge and Certificate
+                  </Button>
+                ) : null}
+              </Box>
             </Card>
           </Card>
         </Grid>
@@ -344,32 +477,11 @@ function DetailQuiz({ quizData, setQuizVisible }) {
           {QuestionComponents}
         </Grid>
       </Grid>
-
-      {/* TODO: move them to another section or modal */}
-      {/* <Grid item>
-        {quizData.quizCertificateQualification == null ||
-        quizData.quizBadgeQualification != null ? null : (
-          <Button variant='contained' onClick={createCertificate}>
-            Add Certificate
-          </Button>
-        )}
-      </Grid>
-      <Grid item>
-        {quizData.quizCertificateQualification != null ||
-        quizData.quizBadgeQualification == null ? null : (
-          <Button variant='contained' onClick={createBadge}>
-            Add Badge
-          </Button>
-        )}
-      </Grid> */}
-      {/* {quizData.quizCertificateQualification == null ||
-          quizData.quizBadgeQualification == null ? (
-            ''
-          ) : (
-            <Button variant='contained' onClick={createCertificateandBadge}>
-              Add Certificate and Badge
-            </Button>
-          )} */}
+      <Tooltip placement='top' title='Edit quiz'>
+        <Fab color='primary' onClick={updateQuizData} sx={{ position: 'fixed', right: '3%', bottom: '3%' }}>
+          <EditRoundedIcon />
+        </Fab>
+      </Tooltip>
     </div>
   );
 }

@@ -123,6 +123,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
     setQuizVisible(false);
     fetchData();
     history.push(`/creatorHome/${platformId}`);
+    // history.push(`/quiz/detail/${quizData._id}`);
   };
 
   const updatequizData = async () => {

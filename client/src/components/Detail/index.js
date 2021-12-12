@@ -1,9 +1,10 @@
 import Platform from '../Platform';
 import PlatformSpecificQuizCard from '../Card/PlatformSpecificQuizCard';
 import { useHistory } from 'react-router-dom';
-import { Grid, Button, Fab, Paper } from '@mui/material';
+import { Grid, Button, Fab, Paper, Tooltip } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import AddIcon from '@mui/icons-material/Add';
+import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import KeyboardBackspaceRoundedIcon from '@mui/icons-material/KeyboardBackspaceRounded';
 
 const useStyles = makeStyles({
@@ -70,19 +71,26 @@ function Detail({ platformData, setVisible }) {
         platformImage={platformData.platformImage}
         platformDescription={platformData.platformDescription}
       />
-      <Grid container justifyContent='center' sx={{ paddingTop: '20px' }}>
+      {/* <Grid container justifyContent='center' sx={{ paddingTop: '20px' }}>
         <Button variant='contained' color='inherit' onClick={updatePlatformData}>Edit Platform</Button>
-      </Grid>
+      </Grid> */}
       <Grid container spacing={3} className={classes.gridContainer} alignItems="center">
         {QuizComponents}
         <Grid item>
           <Paper sx={{ borderRadius: '18px', minHeight: '250px', minWidth: '250px' }}>
-            <Fab color="primary" aria-label="add" onClick={updateQuizData} sx={{ m: '100px' }}>
-              <AddIcon />
-            </Fab>
+            <Tooltip placement='top' title='Add a new quiz'>
+              <Fab color="inherit" aria-label="add" onClick={updateQuizData} sx={{ m: '100px' }}>
+                <AddIcon />
+              </Fab>
+            </Tooltip>
           </Paper>
         </Grid>
       </Grid>
+      <Tooltip placement='top' title='Edit platform'>
+        <Fab color="primary" aria-label="add" onClick={updatePlatformData} sx={{ position: 'fixed', right: '3%', bottom: '3%' }}>
+          <EditRoundedIcon />
+        </Fab>
+      </Tooltip>
     </div>
   );
 }
