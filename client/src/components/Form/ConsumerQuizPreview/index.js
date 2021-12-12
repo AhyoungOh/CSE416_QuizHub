@@ -100,28 +100,32 @@ function ConsumerQuizPreview() {
   };
   const fetchData = async () => {
     try {
-      await axios
-        .get(
-          process.env.NODE_ENV == 'production'
-            ? `/api/quiz/detail/${id}`
-            : `http://localhost:4000/api/quiz/detail/${id}`
-        )
+      const response = await axios.get(
+        process.env.NODE_ENV == 'production'
+          ? `/api/quiz/detail/${id}`
+          : `http://localhost:4000/api/quiz/detail/${id}`
+      );
 
-        .then((response) => {
-          const trialNum =
-            user?.consumerQuizHistoryList?.find((e) => {
-              return e.quizId === id;
-            })?.usedTrialNumber || 0;
-          setName(response.data.quiz.quizName);
-          setImage(response.data.quiz.quizImage);
-          setDescription(response.data.quiz.quizDescription);
-          setTrials(response.data.quiz.quizNumberOfTrials - trialNum);
-          setTimeMin(response.data.quiz.quizTimeLimit.minutes);
-          setTimeSec(response.data.quiz.quizTimeLimit.seconds);
-          setReward(response.data.quiz.quizRewardType);
-          setNumQuestions(response.data.quiz.quizQuestions.length);
-          setLeaderboardVisible(response.data.quiz.quizEnableLeaderboard);
-        });
+      const userInfo = await axios.get(
+        process.env.NODE_ENV === 'production'
+          ? `/api/auth`
+          : `http://localhost:4000/api/auth`,
+        { withCredentials: true }
+      );
+
+      const trialNum =
+        userInfo.data.consumer?.consumerQuizHistoryList?.find((e) => {
+          return e.quizId === id;
+        })?.usedTrialNumber || 0;
+      setName(response.data.quiz.quizName);
+      setImage(response.data.quiz.quizImage);
+      setDescription(response.data.quiz.quizDescription);
+      setTrials(response.data.quiz.quizNumberOfTrials - trialNum);
+      setTimeMin(response.data.quiz.quizTimeLimit.minutes);
+      setTimeSec(response.data.quiz.quizTimeLimit.seconds);
+      setReward(response.data.quiz.quizRewardType);
+      setNumQuestions(response.data.quiz.quizQuestions.length);
+      setLeaderboardVisible(response.data.quiz.quizEnableLeaderboard);
     } catch (e) {
       console.error(e);
     }
@@ -133,7 +137,13 @@ function ConsumerQuizPreview() {
 
   return (
     <div>
-      <Grid container direction='column' alignItems='center' spacing={1} sx={{ paddingTop: '80px', paddingLeft: '20px', paddingRight: '20px' }}>
+      <Grid
+        container
+        direction='column'
+        alignItems='center'
+        spacing={1}
+        sx={{ paddingTop: '80px', paddingLeft: '20px', paddingRight: '20px' }}
+      >
         <Grid item>
           <Button
             color='inherit'
