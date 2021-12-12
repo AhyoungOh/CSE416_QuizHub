@@ -152,28 +152,35 @@ quizRouter.put(
   })
 );
 
-quizRouter.delete('/detail/:id', (req, res) => {
-  try {
-    const platformId = req.body.platformId;
-    Quiz.deleteOne({ _id: req.params.id }, async (err, doc) => {
-      if (err) throw err;
-      if (doc) {
-        res.send('Quiz Deleted');
-      }
-    });
-    Platform.updateOne(
-      { _id: platformId },
-      { $pull: { ownedQuizzes: req.params.id } },
-      async (err, doc) => {
+quizRouter.delete(
+  '/detail/:id',
+  expressAsyncHandler(async (req, res) => {
+    try {
+      const quizId = req.params.id;
+      const quiz = await Quiz.findById(quizId);
+      console.log('quiz', quiz);
+      const platformId = quiz.platformId;
+      console.log('new platform Id', platformId);
+      Quiz.deleteOne({ _id: req.params.id }, async (err, doc) => {
         if (err) throw err;
         if (doc) {
-          res.send('Platform Updated');
+          res.send('Quiz Deleted');
         }
-      }
-    );
-  } catch (error) {
-    res.send('err');
-  }
-});
+      });
+      Platform.updateOne(
+        { _id: platformId },
+        { $pull: { ownedQuizzes: quizId } },
+        async (err, doc) => {
+          if (err) throw err;
+          if (doc) {
+            res.send('Platform Updated');
+          }
+        }
+      );
+    } catch (error) {
+      res.send('err');
+    }
+  })
+);
 
 export default quizRouter;
