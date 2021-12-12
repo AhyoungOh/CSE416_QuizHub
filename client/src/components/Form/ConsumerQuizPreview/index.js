@@ -1,7 +1,7 @@
 // TODO: add ui for consumer quiz preview card
 import axios from 'axios';
 import { useEffect, useState, useContext } from 'react';
-import { useHistory, Link, useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import useApiCall from '../../../hooks/useApiCall';
 import { UserContext } from '../../../App';
 import {
@@ -9,7 +9,7 @@ import {
   InputBase,
   Typography,
   Button,
-  List,
+  Link,
   ListItem,
   ListItemIcon,
   ListItemText,
@@ -25,6 +25,7 @@ import AccessAlarmRoundedIcon from '@mui/icons-material/AccessAlarmRounded';
 import AssignmentRoundedIcon from '@mui/icons-material/AssignmentRounded';
 import MilitaryTechRoundedIcon from '@mui/icons-material/MilitaryTechRounded';
 import HistoryRoundedIcon from '@mui/icons-material/HistoryRounded';
+import EmojiEventsRoundedIcon from '@mui/icons-material/EmojiEventsRounded';
 
 const useStyles = makeStyles({
   returnButton: {
@@ -39,6 +40,7 @@ const useStyles = makeStyles({
   cardMedia: {
     maxWidth: '40%',
     minHeight: '400px',
+    maxHeight: '700px',
     display: { xs: 'none', sm: 'block' },
   },
   infoWrapper: {
@@ -153,7 +155,7 @@ function ConsumerQuizPreview() {
         direction='column'
         alignItems='center'
         spacing={1}
-        sx={{ paddingTop: '80px', paddingLeft: '20px', paddingRight: '20px' }}
+        sx={{ paddingTop: '70px', paddingLeft: '40px', paddingRight: '40px' }}
       >
         <Grid item>
           <Button
@@ -299,15 +301,26 @@ function ConsumerQuizPreview() {
                       }
                     />
                   </ListItem>
+                  <ListItem>
+                    <ListItemIcon>
+                      <EmojiEventsRoundedIcon sx={{ color: '#004080' }} />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={
+                        // quizEnableLeaderboard
+                        <div>
+                          { leaderboardVisible ? 
+                            <Link href={`/leaderboard/${quizId}`} underline="none" color='common.black' className={classes.emphasized} sx={{ cursor: 'pointer' }}>
+                              See Leaderboard 
+                            </Link>
+                            :
+                            null
+                          }
+                        </div>
+                      }
+                    />
+                  </ListItem>
                 </Box>
-                {leaderboardVisible ? (
-                  <Button
-                    href={`/leaderboard/${quizId}`}
-                    sx={{ marginLeft: '10px' }}
-                  >
-                    See Leaderboard
-                  </Button>
-                ) : null}
                 {num_questions >= 10 ? (
                   <Button
                     variant='contained'
