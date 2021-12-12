@@ -38,7 +38,7 @@ const style = {
 
 const useStyles = makeStyles({
   container: {
-    paddingTop: '70px',
+    paddingTop: '50px',
     paddingBottom: '20px',
     paddingLeft: '70px',
     paddingRight: '70px',
@@ -66,7 +66,7 @@ const useStyles = makeStyles({
   alert: {
     width: '50%',
     display: 'flex',
-    paddingTop: '20px',
+    paddingTop: '80px',
   },
 });
 
