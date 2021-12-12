@@ -34,7 +34,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
   // for delete confirm modal
   const [show, setShow] = useState(false);
 
-  const groupid=useRef("")
+  const [groupid,setGroupId]=useState("")
 
   const default_img =
     'https://res.cloudinary.com/quizhub/image/upload/v1639090185/Default/primary_default_qdcn0l.png';
@@ -158,7 +158,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
           console.log(allgroups)
           if(allgroups.length!=0){
             console.log(allgroups[0].id)
-            return allgroups[0].id
+            setGroupId(allgroups[0].id)
           }
         });
     } catch (e) {
@@ -209,7 +209,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
   useEffect(() => {
     console.log("inside use effect")
     console.log(quizName)
-    groupid.current=getGroupId()
+    getGroupId()
   }, []);
 
 
@@ -234,10 +234,6 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
       alert('Please enter a valid number of seconds in the range of 0 - 59.');
       return;
     }
-    console.log("inside update quiz")
-    console.log(quizName)
-    updateGroup(groupid.current)
-
     await axios.put(
       process.env.NODE_ENV === 'production'
         ? `/api/quiz/detail/${quizData._id}`
@@ -258,6 +254,11 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
         quizDescription,
       }
     );
+    console.log("inside update quiz")
+    console.log(quizName)
+    console.log(groupid)
+    updateGroup(groupid)
+
     setQuizVisible(false);
     fetchData();
     history.push(`/quiz/detail/${quizData._id}`);
@@ -265,8 +266,8 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
   };
 
   const deletequizData = async () => {
-    console.log(groupid.current)
-    deleteGroup(groupid.current)
+    console.log(groupid)
+    deleteGroup(groupid)
     
     await axios.delete(
       process.env.NODE_ENV === 'production'
