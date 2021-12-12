@@ -47,7 +47,7 @@ const theme = createTheme({
   },
   typography: {
     fontFamily: [
-      'Inter',
+      // 'Open Sans',
       'Roboto',
       'Arial',
       'sans-serif',
@@ -59,6 +59,32 @@ const theme = createTheme({
       fontWeight: '700',
       letterSpacing: '0.03em',
       fontStyle: 'normal',
+    },
+    h5: {
+      fontFamily: [
+        'Nunito',
+        'Roboto',
+        'Arial',
+        'sans-serif',
+        '"Apple Color Emoji"',
+      ].join(','),
+    },
+    h4: {
+      fontFamily: [
+        'Nunito',
+        'Roboto',
+        'Arial',
+        'sans-serif',
+        '"Apple Color Emoji"',
+      ].join(','),
+    },
+    subtitle1: {
+      fontFamily: [
+        'Roboto',
+        'Arial',
+        'sans-serif',
+        '"Apple Color Emoji"',
+      ].join(','),
     },
   },
   // MuiButton: {

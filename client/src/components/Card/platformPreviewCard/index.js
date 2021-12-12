@@ -20,7 +20,7 @@ function PlatformPreviewCard({
         <Card sx={{ borderRadius: '18px', maxWidth: '300px', minWidth: '300px' }}>
             <CardHeader
                 title={
-                    <Typography sx={{ fontWeight: 'bold', fontSize: '23px' }}>
+                    <Typography sx={{ fontSize: '23px', fontFamily: 'Nunito' }}>
                         {platformName}
                     </Typography>
                 }

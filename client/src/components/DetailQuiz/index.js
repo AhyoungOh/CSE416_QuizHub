@@ -47,7 +47,7 @@ const useStyles = makeStyles({
     padding: '20px',
   },
   title: {
-    fontWeight: 'bold',
+    fontFamily: 'Nunito',
   },
   emphasized: {
     fontWeight: 'bold', 

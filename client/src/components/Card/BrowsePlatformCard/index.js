@@ -4,9 +4,8 @@ import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles({
   title: {
-    //   fontFamily: "DM Serif Display",
-    fontSize: '20px',
-    fontWeight: 'bolder',
+    fontFamily: 'Nunito',
+    fontSize: '22px',
     marginRight: '17px',
   },
   card: {

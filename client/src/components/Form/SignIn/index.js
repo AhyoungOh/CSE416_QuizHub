@@ -13,7 +13,7 @@ const useStyles = makeStyles({
     paddingLeft: '10px',
     // paddingBottom: '10px', 
     fontSize: '32px',
-    fontWeight: 'bold',  
+    fontFamily: 'Nunito',
   },
   container: {
     // padding: '30px',
@@ -52,7 +52,8 @@ const useStyles = makeStyles({
   alert: {
     width: '50%',
     display: 'flex',
-    paddingTop: '20px',
+    position: 'fixed',
+    top: '20%',
   }
 });
 
@@ -94,7 +95,7 @@ function SignIn() {
       }
     } catch (e) {
       setErrorMsg(JSON.stringify(e));
-      setShowError(true);
+      alert('Incorrect username or password.');
       console.error(e);
     }
   };
@@ -109,6 +110,18 @@ function SignIn() {
 
   return (
     <div>
+      {/* <Grid container justifyContent="center">
+        <Collapse in={showError} className={classes.alert}>
+          <Alert
+            severity="error"
+            // variant="filled"
+            onClose={() => {setShowError(false);}}
+            sx={{ fontSize: '15px' }}
+          >
+            Incorrect username or password.
+          </Alert>
+        </Collapse>
+      </Grid> */}
       <Grid container justifyContent="center" className={classes.container}>
         <Grid item xs={10} s={8} md={6} lg={4}>
           <Paper className={classes.paper}>
@@ -191,18 +204,6 @@ function SignIn() {
             </Grid>
           </Paper>
         </Grid> 
-      </Grid>
-      <Grid container justifyContent="center">
-        <Collapse in={showError} className={classes.alert}>
-          <Alert
-            severity="error"
-            // variant="filled"
-            onClose={() => {setShowError(false);}}
-            sx={{ fontSize: '15px' }}
-          >
-            Incorrect username or password.
-          </Alert>
-        </Collapse>
       </Grid>
     </div>
   );
