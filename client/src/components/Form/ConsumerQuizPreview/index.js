@@ -17,7 +17,7 @@ import {
   Card,
   CardMedia,
   CardContent,
-  CardActionArea,
+  Tooltip,
   Box,
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
@@ -38,7 +38,7 @@ const useStyles = makeStyles({
   },
   cardMedia: {
     maxWidth: '40%',
-    // minHeight: '400px',
+    minHeight: '400px',
     display: { xs: 'none', sm: 'block' },
   },
   infoWrapper: {
@@ -55,6 +55,14 @@ const useStyles = makeStyles({
     borderRadius: '10px',
     marginLeft: '10px',
   },
+  emphasized: {
+    fontWeight: 'bold', 
+    fontFamily: 'Open Sans',
+  },
+  normal: {
+    color: '#6E798C',
+    fontFamily: 'Open Sans',
+  }
 });
 
 function ConsumerQuizPreview() {
@@ -74,6 +82,7 @@ function ConsumerQuizPreview() {
   const [leaderboardVisible, setLeaderboardVisible] = useState('');
   // const [usedTrialNum, setUsedTrialNum] = useState(0);
   const { user, dispatch } = useContext(UserContext);
+
   const clickStartBtn = async () => {
     if (trials <= 0) {
       alert('there is no more trials on this quiz');
@@ -98,6 +107,7 @@ function ConsumerQuizPreview() {
 
     history.push(`/consumerquizpage/${id}`);
   };
+
   const fetchData = async () => {
     try {
       await axios
@@ -133,7 +143,7 @@ function ConsumerQuizPreview() {
 
   return (
     <div>
-      <Grid container direction='column' alignItems='center' spacing={1} sx={{ paddingTop: '80px', paddingLeft: '20px', paddingRight: '20px' }}>
+      <Grid container direction='column' alignItems='center' spacing={1} sx={{ paddingTop: '80px', paddingLeft: '40px', paddingRight: '40px' }}>
         <Grid item>
           <Button
             color='inherit'
@@ -160,57 +170,85 @@ function ConsumerQuizPreview() {
                     {name}
                   </Typography>
                   <Typography variant='subtitle1'>{description}</Typography>
-                  {/* TODO: add platform name and platform avatar */}
                 </CardContent>
-                <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-                  <List>
-                    <ListItem>
-                      <ListItemIcon>
-                        <AccessAlarmRoundedIcon />
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={
-                          <Typography>
-                            {time_min}:{time_sec} minutes
-                          </Typography>
-                        }
-                      />
-                    </ListItem>
-                    <ListItem>
-                      <ListItemIcon>
-                        <AssignmentRoundedIcon />
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={
-                          <Typography>{num_questions} questions</Typography>
-                        }
-                      />
-                    </ListItem>
-                  </List>
-                  <List>
-                    <ListItem>
-                      <ListItemIcon>
-                        <MilitaryTechRoundedIcon />
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={
-                          reward ? (
-                            <Typography>{reward}</Typography>
-                          ) : (
-                            <Typography>No reward</Typography>
-                          )
-                        }
-                      />
-                    </ListItem>
-                    <ListItem>
-                      <ListItemIcon>
-                        <HistoryRoundedIcon />
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={<Typography>{trials} trials</Typography>}
-                      />
-                    </ListItem>
-                  </List>
+                <Box sx={{ display: 'flex', flexDirection: 'column', paddingBottom: '20px' }}>
+                  <ListItem>
+                    <ListItemIcon>
+                      <AccessAlarmRoundedIcon sx={{ color: '#004080' }}/>
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={
+                        <Grid container>
+                          <Grid item>
+                            <Typography className={classes.emphasized}>{time_min}{time_sec === 0 || time_sec == null ? '' : (time_sec/60).toFixed(1).toString().substring(1)}</Typography>
+                          </Grid>
+                          <Grid item>
+                            <Typography className={classes.normal}>&nbsp;minutes</Typography>
+                          </Grid>
+                        </Grid>
+                      }
+                    />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon>
+                      <AssignmentRoundedIcon sx={{ color: '#004080' }} />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={
+                        <Grid container>
+                          <Grid item>
+                            <Typography className={classes.emphasized}>{num_questions}</Typography>
+                          </Grid>
+                          <Grid item>
+                            <Typography className={classes.normal}>&nbsp;questions</Typography>
+                          </Grid>
+                        </Grid>
+                      }
+                    />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon>
+                      <MilitaryTechRoundedIcon sx={{ color: '#004080' }} />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={
+                        reward == 'both' ? 
+                        <Grid container>
+                          <Grid item>
+                            <Typography className={classes.emphasized}>Badge</Typography>
+                          </Grid>
+                          <Grid item>
+                            <Typography className={classes.normal}>&nbsp;/&nbsp;</Typography>
+                          </Grid>
+                          <Grid item>
+                            <Typography className={classes.emphasized}>Certificate</Typography>
+                          </Grid>
+                        </Grid> 
+                        : reward == 'none' ?
+                          <Tooltip placement='bottom' title='Your score will still be recorded.'>
+                            <Typography className={classes.normal}>No reward</Typography>
+                          </Tooltip>
+                          : <Typography className={classes.emphasized}>{reward}</Typography>
+                      }
+                    />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon>
+                      <HistoryRoundedIcon sx={{ color: '#004080' }} />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={
+                        <Grid container>
+                          <Grid item>
+                            <Typography className={classes.emphasized}>{trials}</Typography>
+                          </Grid>
+                          <Grid item>
+                            <Typography className={classes.normal}>&nbsp;trials</Typography>
+                          </Grid>
+                        </Grid>
+                    }
+                    />
+                  </ListItem>
                 </Box>
                 {leaderboardVisible ? (
                   <Button
@@ -220,14 +258,30 @@ function ConsumerQuizPreview() {
                     See Leaderboard
                   </Button>
                 ) : null}
-                <Button
-                  variant='contained'
-                  onClick={() => clickStartBtn()}
-                  className={classes.startButton}
-                  color='primary'
-                >
-                  Start the Quiz
-                </Button>
+                { num_questions >= 10 ?
+                  <Button
+                    variant='contained'
+                    onClick={() => clickStartBtn()}
+                    className={classes.startButton}
+                    color='primary'
+                  >
+                    Start the Quiz
+                  </Button>
+                  :
+                  <Tooltip placement='top' title='The quiz is currently unavailable!'>
+                    <span>
+                      <Button
+                        disabled
+                        variant='contained'
+                        onClick={() => clickStartBtn()}
+                        className={classes.startButton}
+                        color='primary'
+                      >
+                        Start the Quiz
+                      </Button>
+                    </span>
+                  </Tooltip>
+                }
               </Box>
             </Card>
           </Card>
