@@ -3,6 +3,7 @@ import expressAsyncHandler from 'express-async-handler';
 import PlatformModel from '../../models/platformSchema.js';
 import Creator from '../../models/creatorSchema.js';
 import Quiz from '../../models/quizSchema.js';
+import Question from '../../models/questionSchema.js';
 import validUser from '../../middleware/auth/index.js';
 import creatorSchema from '../../models/creatorSchema.js';
 import mongoose from 'mongoose';
@@ -172,6 +173,21 @@ router.delete(
           res.send('Platform Deleted');
         }
       });
+      const quiz1 = await Quiz.find({ platformId: req.params.id });
+
+      quiz1.forEach(async function (el) {
+        const question = await Question.deleteMany({ quizId: el.id });
+        console.log('question deleted');
+      });
+      const quiz2 = await Quiz.deleteMany({ platformId: req.params.id });
+      console.log('quiz deleted');
+      // const quiz = await Quiz.find({ platformId: req.params.id })
+      //   .forEach(async (el) => {
+      //     const question = await Question.deleteMany({ quizId: el.quizId });
+      //   })
+      //   .deleteMany({ platformId: req.params.id });
+      // console.log('quiz and question deleted');
+
       const creator = await Creator.findById(creatorId);
       if (creator) {
         creator.ownedPlatformId.remove(req.params.id);
