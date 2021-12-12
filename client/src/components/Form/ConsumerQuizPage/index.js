@@ -156,7 +156,6 @@ function ConsumerQuizPage() {
 
       quizInfo.current = {
         ...quizInfo.current,
-        usedTrialNumber: usedTrialNumber + 1,
       };
       leftTime.current =
         60 * Number(time_min.current) + Number(time_sec.current);
@@ -253,18 +252,25 @@ function ConsumerQuizPage() {
       const seconds = Number(takenSeconds % 60);
       return { minutes, seconds };
     };
-    await axios.put(
+    const response = await axios.put(
       `/api/consumer/quiz/${id}`,
       {
         quizzes: {
           ...quizInfo.current,
           quizTimeTaken: calculateTakenTime(),
-          usedTrialNumber: quizInfo.current.usedTrialNumber + 1,
         },
       },
       { withCredentials: true }
     );
-    history.push(`/result/${id}`);
+
+    history.push(`/result/${id}`, {
+      quizzes: {
+        ...quizInfo.current,
+        quizTimeTaken: calculateTakenTime(),
+        correctedAnswerNum: response.data.correctedAnswerNum,
+        usedTrialNumber: response.data.usedTrialNumber,
+      },
+    });
   };
 
   return (

@@ -56,13 +56,13 @@ const useStyles = makeStyles({
     marginLeft: '10px',
   },
   emphasized: {
-    fontWeight: 'bold', 
+    fontWeight: 'bold',
     fontFamily: 'Open Sans',
   },
   normal: {
     color: '#6E798C',
     fontFamily: 'Open Sans',
-  }
+  },
 });
 
 function ConsumerQuizPreview() {
@@ -110,28 +110,32 @@ function ConsumerQuizPreview() {
 
   const fetchData = async () => {
     try {
-      await axios
-        .get(
-          process.env.NODE_ENV == 'production'
-            ? `/api/quiz/detail/${id}`
-            : `http://localhost:4000/api/quiz/detail/${id}`
-        )
+      const response = await axios.get(
+        process.env.NODE_ENV == 'production'
+          ? `/api/quiz/detail/${id}`
+          : `http://localhost:4000/api/quiz/detail/${id}`
+      );
 
-        .then((response) => {
-          const trialNum =
-            user?.consumerQuizHistoryList?.find((e) => {
-              return e.quizId === id;
-            })?.usedTrialNumber || 0;
-          setName(response.data.quiz.quizName);
-          setImage(response.data.quiz.quizImage);
-          setDescription(response.data.quiz.quizDescription);
-          setTrials(response.data.quiz.quizNumberOfTrials - trialNum);
-          setTimeMin(response.data.quiz.quizTimeLimit.minutes);
-          setTimeSec(response.data.quiz.quizTimeLimit.seconds);
-          setReward(response.data.quiz.quizRewardType);
-          setNumQuestions(response.data.quiz.quizQuestions.length);
-          setLeaderboardVisible(response.data.quiz.quizEnableLeaderboard);
-        });
+      const userInfo = await axios.get(
+        process.env.NODE_ENV === 'production'
+          ? `/api/auth`
+          : `http://localhost:4000/api/auth`,
+        { withCredentials: true }
+      );
+
+      const trialNum =
+        userInfo.data.consumer?.consumerQuizHistoryList?.find((e) => {
+          return e.quizId === id;
+        })?.usedTrialNumber || 0;
+      setName(response.data.quiz.quizName);
+      setImage(response.data.quiz.quizImage);
+      setDescription(response.data.quiz.quizDescription);
+      setTrials(response.data.quiz.quizNumberOfTrials - trialNum);
+      setTimeMin(response.data.quiz.quizTimeLimit.minutes);
+      setTimeSec(response.data.quiz.quizTimeLimit.seconds);
+      setReward(response.data.quiz.quizRewardType);
+      setNumQuestions(response.data.quiz.quizQuestions.length);
+      setLeaderboardVisible(response.data.quiz.quizEnableLeaderboard);
     } catch (e) {
       console.error(e);
     }
@@ -143,7 +147,13 @@ function ConsumerQuizPreview() {
 
   return (
     <div>
-      <Grid container direction='column' alignItems='center' spacing={1} sx={{ paddingTop: '80px', paddingLeft: '40px', paddingRight: '40px' }}>
+      <Grid
+        container
+        direction='column'
+        alignItems='center'
+        spacing={1}
+        sx={{ paddingTop: '80px', paddingLeft: '20px', paddingRight: '20px' }}
+      >
         <Grid item>
           <Button
             color='inherit'
@@ -171,19 +181,35 @@ function ConsumerQuizPreview() {
                   </Typography>
                   <Typography variant='subtitle1'>{description}</Typography>
                 </CardContent>
-                <Box sx={{ display: 'flex', flexDirection: 'column', paddingBottom: '20px' }}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    paddingBottom: '20px',
+                  }}
+                >
                   <ListItem>
                     <ListItemIcon>
-                      <AccessAlarmRoundedIcon sx={{ color: '#004080' }}/>
+                      <AccessAlarmRoundedIcon sx={{ color: '#004080' }} />
                     </ListItemIcon>
                     <ListItemText
                       primary={
                         <Grid container>
                           <Grid item>
-                            <Typography className={classes.emphasized}>{time_min}{time_sec === 0 || time_sec == null ? '' : (time_sec/60).toFixed(1).toString().substring(1)}</Typography>
+                            <Typography className={classes.emphasized}>
+                              {time_min}
+                              {time_sec === 0 || time_sec == null
+                                ? ''
+                                : (time_sec / 60)
+                                    .toFixed(1)
+                                    .toString()
+                                    .substring(1)}
+                            </Typography>
                           </Grid>
                           <Grid item>
-                            <Typography className={classes.normal}>&nbsp;minutes</Typography>
+                            <Typography className={classes.normal}>
+                              &nbsp;minutes
+                            </Typography>
                           </Grid>
                         </Grid>
                       }
@@ -197,10 +223,14 @@ function ConsumerQuizPreview() {
                       primary={
                         <Grid container>
                           <Grid item>
-                            <Typography className={classes.emphasized}>{num_questions}</Typography>
+                            <Typography className={classes.emphasized}>
+                              {num_questions}
+                            </Typography>
                           </Grid>
                           <Grid item>
-                            <Typography className={classes.normal}>&nbsp;questions</Typography>
+                            <Typography className={classes.normal}>
+                              &nbsp;questions
+                            </Typography>
                           </Grid>
                         </Grid>
                       }
@@ -212,23 +242,38 @@ function ConsumerQuizPreview() {
                     </ListItemIcon>
                     <ListItemText
                       primary={
-                        reward == 'both' ? 
-                        <Grid container>
-                          <Grid item>
-                            <Typography className={classes.emphasized}>Badge</Typography>
+                        reward == 'both' ? (
+                          <Grid container>
+                            <Grid item>
+                              <Typography className={classes.emphasized}>
+                                Badge
+                              </Typography>
+                            </Grid>
+                            <Grid item>
+                              <Typography className={classes.normal}>
+                                &nbsp;/&nbsp;
+                              </Typography>
+                            </Grid>
+                            <Grid item>
+                              <Typography className={classes.emphasized}>
+                                Certificate
+                              </Typography>
+                            </Grid>
                           </Grid>
-                          <Grid item>
-                            <Typography className={classes.normal}>&nbsp;/&nbsp;</Typography>
-                          </Grid>
-                          <Grid item>
-                            <Typography className={classes.emphasized}>Certificate</Typography>
-                          </Grid>
-                        </Grid> 
-                        : reward == 'none' ?
-                          <Tooltip placement='bottom' title='Your score will still be recorded.'>
-                            <Typography className={classes.normal}>No reward</Typography>
+                        ) : reward == 'none' ? (
+                          <Tooltip
+                            placement='bottom'
+                            title='Your score will still be recorded.'
+                          >
+                            <Typography className={classes.normal}>
+                              No reward
+                            </Typography>
                           </Tooltip>
-                          : <Typography className={classes.emphasized}>{reward}</Typography>
+                        ) : (
+                          <Typography className={classes.emphasized}>
+                            {reward}
+                          </Typography>
+                        )
                       }
                     />
                   </ListItem>
@@ -240,13 +285,17 @@ function ConsumerQuizPreview() {
                       primary={
                         <Grid container>
                           <Grid item>
-                            <Typography className={classes.emphasized}>{trials}</Typography>
+                            <Typography className={classes.emphasized}>
+                              {trials}
+                            </Typography>
                           </Grid>
                           <Grid item>
-                            <Typography className={classes.normal}>&nbsp;trials</Typography>
+                            <Typography className={classes.normal}>
+                              &nbsp;trials
+                            </Typography>
                           </Grid>
                         </Grid>
-                    }
+                      }
                     />
                   </ListItem>
                 </Box>
@@ -258,7 +307,7 @@ function ConsumerQuizPreview() {
                     See Leaderboard
                   </Button>
                 ) : null}
-                { num_questions >= 10 ?
+                {num_questions >= 10 ? (
                   <Button
                     variant='contained'
                     onClick={() => clickStartBtn()}
@@ -267,8 +316,11 @@ function ConsumerQuizPreview() {
                   >
                     Start the Quiz
                   </Button>
-                  :
-                  <Tooltip placement='top' title='The quiz is currently unavailable!'>
+                ) : (
+                  <Tooltip
+                    placement='top'
+                    title='The quiz is currently unavailable!'
+                  >
                     <span>
                       <Button
                         disabled
@@ -281,7 +333,7 @@ function ConsumerQuizPreview() {
                       </Button>
                     </span>
                   </Tooltip>
-                }
+                )}
               </Box>
             </Card>
           </Card>

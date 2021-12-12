@@ -29,7 +29,6 @@ function UserAppBar() {
         : `http://localhost:4000/api/auth`,
       { withCredentials: true }
     );
-    console.log('userInfo', userInfo);
     dispatch({ type: 'signin', payload: userInfo.data });
   };
 
@@ -79,7 +78,7 @@ function UserAppBar() {
     } else {
       history.push('/auth/signin');
     }
-  }
+  };
 
   return (
     <AppBar position='fixed' color='common'>
@@ -90,6 +89,7 @@ function UserAppBar() {
           <img
             className='headerName'
             src='/logo.png'
+            alt='header'
             width='130'
             onClick={() => {
               if (user.isCreator === false) {
@@ -116,11 +116,8 @@ function UserAppBar() {
           />
         </Box>
         {id === '' ? (
-          <Button
-            variant='contained'
-            onClick={handleAccountButton}
-          >
-            { currPath === '/auth/signin' ? 'Register' : 'Login' }
+          <Button variant='contained' onClick={handleAccountButton}>
+            {currPath === '/auth/signin' ? 'Register' : 'Login'}
           </Button>
         ) : (
           <div>

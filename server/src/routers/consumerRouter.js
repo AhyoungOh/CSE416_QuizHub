@@ -155,7 +155,8 @@ consumerRouter.put('/quiz/:id', validUser, async (req, res) => {
     return e.quizId === id;
   });
   const submittedAnswers = req.body.quizzes.answerchoices;
-
+  const originalAnswersNum =
+    consumer.consumerQuizHistoryList[quizHistoryIdx].correctedAnswerNum;
   const answers = quiz.quizQuestions.map((quiz) => quiz.questionAnswer);
   // let correctedAnswerNum = 0;
   // for (let i = 0; i < answers.length; i++) {
@@ -171,26 +172,30 @@ consumerRouter.put('/quiz/:id', validUser, async (req, res) => {
     if (originAnswers[i] + 1 === answers[i]) originCorrectedAnswerNum++;
   }
 
-  if (submittedAnswers >= originCorrectedAnswerNum) {
-    consumer.consumerQuizHistoryList[quizHistoryIdx] = {
-      ...req.body.quizzes,
-      correctedAnswerNum: submittedAnswers,
-    };
+  if (correctedAnswerNum < originalAnswersNum) {
+    res.send({
+      message: 'previous record is better',
+      correctedAnswerNum,
+      usedTrialNumber:
+        consumer.consumerQuizHistoryList[quizHistoryIdx].usedTrialNumber,
+    });
+    return;
   }
-  // } else {
-  //   consumer.consumerQuizHistoryList[quizHistoryIdx] = {
-  //     ...consumer.consumerQuizHistoryList[quizHistoryIdx],
-  //     answerchoices: req.body.quizzes.answerchoices,
-  //     quizTimeTaken: req.body.quizzes.quizTimeTaken,
-  //     accomplishedDate: req.body.quizzes.accomplishedDate,
-  //     correctedAnswerNum: originCorrectedAnswerNum,
-  //   };
-  // }
+  consumer.consumerQuizHistoryList[quizHistoryIdx] = {
+    ...consumer.consumerQuizHistoryList[quizHistoryIdx],
+    answerchoices: req.body.quizzes.answerchoices,
+    quizTimeTaken: req.body.quizzes.quizTimeTaken,
+    accomplishedDate: req.body.quizzes.accomplishedDate,
+    correctedAnswerNum,
+  };
 
   const updatedConsumer = await consumer.save();
   res.send({
     message: 'Consumer Updated',
     consumer: updatedConsumer,
+    correctedAnswerNum,
+    usedTrialNumber:
+      consumer.consumerQuizHistoryList[quizHistoryIdx].usedTrialNumber,
   });
 });
 
