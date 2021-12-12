@@ -58,9 +58,6 @@ questionRouter.put(
   expressAsyncHandler(async (req, res) => {
     const questionId = req.params.id;
     const question = await Question.findById(questionId);
-
-    console.log('req.body', req.body);
-    console.log('question', question);
     if (question) {
       // question.questionNumber = req.body.questionNumber;
       question.questionQuestion = req.body.questionQuestion;
@@ -92,10 +89,6 @@ questionRouter.put(
   expressAsyncHandler(async (req, res) => {
     const questionId = req.params.id;
     const question = await Question.findById(questionId);
-
-    console.log('detail_num');
-    console.log('req.body', req.body);
-    console.log('question', question);
     if (question) {
       question.questionNumber = req.body.questionNumber;
       const updatedQuestion = await question.save();
@@ -110,28 +103,55 @@ questionRouter.put(
 );
 
 //remove
-questionRouter.delete('/detail/:id', (req, res) => {
-  try {
-    const quizId = req.body.quizId;
-    Question.deleteOne({ _id: req.params.id }, async (err, doc) => {
-      if (err) throw err;
-      // if (doc) {
-      //   res.send('Question Deleted');
-      // }
-    });
-    Quiz.updateOne(
-      { _id: quizId },
-      { $pull: { quizQuestions: req.params.id } },
-      async (err, doc) => {
+questionRouter.delete(
+  '/detail/:id',
+  expressAsyncHandler(async (req, res) => {
+    try {
+      const questionId = req.params.id;
+      const question = await Question.findById(questionId);
+      const deletedNumber = question.questionNumber;
+      const quizId = question.quizId;
+      const quiz = await Quiz.findById(quizId);
+      Question.deleteOne({ _id: req.params.id }, async (err, doc) => {
         if (err) throw err;
         if (doc) {
-          res.send('Quiz Updated');
+          res.send('Question Deleted');
         }
-      }
-    );
-  } catch (error) {
-    res.send('err');
-  }
-});
+      });
+
+      Quiz.updateOne(
+        { _id: quizId },
+        { $pull: { quizQuestions: questionId } },
+        async (err, doc) => {
+          if (err) throw err;
+          if (doc) {
+            res.send('Quiz Updated');
+          }
+        }
+      );
+
+      console.log('qqqq', quiz.quizQuestions)
+      console.log('questionId', questionId)
+      quiz.quizQuestions.map(async (el) => {
+        if (el.valueOf() !== questionId){
+          const getquestioninfo = await Question.findById(el.valueOf());
+          console.log('getinfo', getquestioninfo)
+          if (getquestioninfo.questionNumber != null && getquestioninfo.questionNumber > deletedNumber) {
+            console.log(
+              'getquestioninfo.questionNumber',
+              getquestioninfo.questionNumber
+            );
+            getquestioninfo.questionNumber.updateOne({ _id: getquestioninfo.id }, { $set: {questionNumber : questionNumber -1}}) = getquestioninfo.questionNumber - 1;
+          }}
+      });
+      // quiz.quizQuestions.findById().updateMany(
+      //   { questionNumber: { $gt: deletedNumber } },
+      //   { $set: { questionNumber: 1 } }
+      // );
+    } catch (error) {
+      res.send('err');
+    }
+  })
+);
 
 export default questionRouter;
