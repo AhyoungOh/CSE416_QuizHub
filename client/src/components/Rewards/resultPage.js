@@ -2,11 +2,12 @@ import axios from 'axios';
 import { Form, Row, Col, Button } from 'react-bootstrap';
 import React, { useState, useRef, useEffect, useContext } from 'react';
 import { UserContext, accountSettingsContext } from '../../App';
-import { useHistory, useParams, Link } from 'react-router-dom';
+import { useHistory, useParams, Link, useLocation } from 'react-router-dom';
 import useApiCall from '../../hooks/useApiCall';
 
 function ResultsPage() {
   const { id } = useParams();
+  const location = useLocation();
   const quizId = id;
   const [loading, quizResult, error] = useApiCall(
     process.env.NODE_ENV === 'production'
@@ -15,12 +16,14 @@ function ResultsPage() {
     { withCredentials: true }
   );
 
+  const currentQuizResult = location.state?.quizzes;
+  console.log('current his : ', currentQuizResult);
   // console.log('consumer quiz history', payload);
-  const [result, setResult] = useState(''); // need to change this based on takes quiz
+  // const [result, setResult] = useState(''); // need to change this based on takes quiz
   const [leaderboardVisible, setLeaderboardVisible] = useState('');
- 
+
   const certificate_qualifier = useRef(0);
-  const badge_qualifier=useRef(0)
+  const badge_qualifier = useRef(0);
 
   const [correct, setCorrect] = useState(0);
   const [ques, setQues] = useState(0);
@@ -49,38 +52,41 @@ function ResultsPage() {
 
   const getQuizInfo = async () => {
     try {
-      await axios
-        .get(
-          process.env.NODE_ENV == 'production'
-            ? `/api/quiz/detail/${quizId}`
-            : `http://localhost:4000/api/quiz/detail/${quizId}`
-        )
-        .then((response) => {
-          // console.log(response.data.quiz.quizBadgeQualification);
-          //quizName.current=response.data.quiz.quizName
-          // console.log('quiz result: ', quizResult);
-          setLeaderboardVisible(response.data.quiz.quizEnableLeaderboard);
-          // console.log('leaderobard visible', leaderboardVisible);
-          setQuizName(response.data.quiz.quizName);
-          badge_qualifier.current=response.data.quiz.quizBadgeQualification;
-          certificate_id.current = response.data.quiz.quizCertificate;
-          // console.log('quizResult : ', quizResult[0]);
+      const response = await axios.get(
+        process.env.NODE_ENV == 'production'
+          ? `/api/quiz/detail/${quizId}`
+          : `http://localhost:4000/api/quiz/detail/${quizId}`
+      );
+      const userInfo = await axios.get(
+        process.env.NODE_ENV === 'production'
+          ? `/api/auth`
+          : `http://localhost:4000/api/auth`,
+        { withCredentials: true }
+      );
+      setLeaderboardVisible(response.data.quiz.quizEnableLeaderboard);
+      // console.log('leaderobard visible', leaderboardVisible);
+      setQuizName(response.data.quiz.quizName);
+      badge_qualifier.current = response.data.quiz.quizBadgeQualification;
+      certificate_id.current = response.data.quiz.quizCertificate;
+      // console.log('quizResult : ', quizResult[0]);
 
-          const correctAnswerNum = user?.consumerQuizHistoryList?.find((e) => {
-            return e.quizId === id;
-          })?.correctedAnswerNum;
-          setCorrect(correctAnswerNum);
-          // setCorrect(Number(quizResult[0].correctedAnswerNum));
-          let questionLength =
-            Number(response.data.quiz.quizTotalNumberOfQuestions) > 0
-              ? Number(response.data.quiz.quizTotalNumberOfQuestions)
-              : response.data.quiz.quizQuestions.length;
-          setQues(questionLength);
-        });
+      setCorrect(currentQuizResult.correctedAnswerNum);
+      // setCorrect(Number(quizResult[0].correctedAnswerNum));
+      let questionLength =
+        Number(response.data.quiz.quizTotalNumberOfQuestions) > 0
+          ? Number(response.data.quiz.quizTotalNumberOfQuestions)
+          : response.data.quiz.quizQuestions.length;
+      setQues(questionLength);
     } catch (e) {
       console.error(e);
     }
   };
+  console.log('ques length', ques);
+  console.log('correct number : ', correct);
+  let res = (correct / ques) * 100;
+  console.log('res', res);
+  const result = res.toFixed(2) + '';
+  console.log('', result);
 
   const apicall = {
     headers: {
@@ -120,7 +126,7 @@ function ResultsPage() {
             console.log(img.current);
           });
         //pdfCredential()
-        if (Number(result)>= badge_qualifier.current) {
+        if (Number(result) >= badge_qualifier.current) {
           //createBadge()
           await axios
             .post(
@@ -159,13 +165,14 @@ function ResultsPage() {
     getQuizInfo();
   }, []);
 
-  useEffect(() => {
-    console.log('ques', ques);
-    let res = (correct / ques) * 100;
-    console.log('res', res);
-    setResult(res.toFixed(2) + '');
-    console.log('', result);
-  });
+  // useEffect(() => {
+  //   console.log('ques length', ques);
+  //   console.log('correct number : ', correct);
+  //   let res = (correct / ques) * 100;
+  //   console.log('res', res);
+  //   setResult(res.toFixed(2) + '');
+  //   console.log('', result);
+  // });
 
   useEffect(() => {
     createCredential();
@@ -183,7 +190,8 @@ function ResultsPage() {
           </Col>
         </Form.Group>
         <h1>
-          {Number(result) >= certificate_qualifier.current || Number(result) >= badge_qualifier.current
+          {Number(result) >= certificate_qualifier.current ||
+          Number(result) >= badge_qualifier.current
             ? 'Congratulations'
             : 'Sorry please try again'}
         </h1>
@@ -204,8 +212,10 @@ function ResultsPage() {
       ) : (
         ''
       )}
-      Quiz Result
-      {JSON.stringify(quizResult)}
+      <div>Quiz Result</div>
+      <div>Percentage of the score: {result}</div>
+      <div>Current result : {JSON.stringify(currentQuizResult)}</div>
+      <div>Best result : {JSON.stringify(quizResult)}</div>
       {leaderboardVisible ? (
         <Link to={`/leaderboard/${quizId}`}>See Leaderboard</Link>
       ) : null}
