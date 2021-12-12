@@ -171,7 +171,7 @@ consumerRouter.put('/quiz/:id', validUser, async (req, res) => {
   if (submittedCorrectedAnswerNum < originalAnswersNum) {
     res.send({
       message: 'previous record is better',
-      correctedAnswerNum: submittedCorrectedAnswerNum,
+      correctedAnswerNum: originalAnswersNum,
       usedTrialNumber:
         consumer.consumerQuizHistoryList[quizHistoryIdx].usedTrialNumber,
     });
@@ -182,14 +182,17 @@ consumerRouter.put('/quiz/:id', validUser, async (req, res) => {
     answerchoices: req.body.quizzes.answerchoices,
     quizTimeTaken: req.body.quizzes.quizTimeTaken,
     accomplishedDate: req.body.quizzes.accomplishedDate,
-    correctedAnswerNum,
+    correctedAnswerNum: submittedCorrectedAnswerNum,
   };
 
   const updatedConsumer = await consumer.save();
   res.send({
     message: 'Consumer Updated',
     consumer: updatedConsumer,
-    correctedAnswerNum,
+    correctedAnswerNum:
+      originalAnswersNum < submittedCorrectedAnswerNum
+        ? submittedCorrectedAnswerNum
+        : originalAnswersNum,
     usedTrialNumber:
       consumer.consumerQuizHistoryList[quizHistoryIdx].usedTrialNumber,
   });
