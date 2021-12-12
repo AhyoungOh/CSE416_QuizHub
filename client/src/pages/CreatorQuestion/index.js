@@ -17,7 +17,7 @@ function CreatorQuestion() {
   const [visible, setQuestionVisible] = useState(false);
 
   if (!testData) {
-    return <></>;
+    return <>loading...</>;
   }
   if (loading) {
     return <>loading...</>;
@@ -25,17 +25,19 @@ function CreatorQuestion() {
   if (error) {
     return <>error : {error}</>;
   }
+  // console.log('testdata', testData);
   const id = location.pathname.split('/')[2];
   const selectedquestionData = testData.createQuestion.find((el) => {
     return el._id === location.pathname.split('/')[3];
   });
+  // console.log('selectedquestionData', selectedquestionData);
   return (
     <div>
       <Switch>
         <Route exact path={`/question/${id}`}>
           <WriteQuestion
             questionData={selectedquestionData}
-            setData={() => {}}
+            // setData={() => {}}
             setQuestionVisible={setQuestionVisible}
             quizId={id}
             fetchData={fetchData}
@@ -44,13 +46,13 @@ function CreatorQuestion() {
         <Route path={`/question/detail/:id`}>
           <DetailQuestion
             questiondata={selectedquestionData}
-            setTestData={() => {}}
+            // setTestData={() => {}}
             setQuestionVisible={setQuestionVisible}
           />
           {visible ? (
             <WriteQuestion
               questionData={selectedquestionData}
-              setData={() => {}}
+              // setData={() => {}}
               setQuestionVisible={setQuestionVisible}
               quizId={selectedquestionData.quizId}
               fetchData={fetchData}
