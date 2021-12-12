@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useContext, useState, useRef, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { UserContext } from '../../../App';
-import { Grid, Typography, Card, CardMedia, CardContent } from '@mui/material';
+import { Grid, Typography, Card, CardActionArea, CardContent } from '@mui/material';
 
 function ConsumerMyQuizzes() {
   const [quiz_arr, setQuizArr] = useState([]);
@@ -53,14 +53,18 @@ function ConsumerMyQuizzes() {
         {quiz_arr.map((value, index) => (
           <Grid item>
             <Card>
-              <Grid container direction='column' alignItems='center'>
-                <Grid item>
-                  <img src={value.quizImage} width='200' height='200'></img>
+              <CardActionArea>
+                <Grid container direction='column' alignItems='center'>
+                  <Grid item>
+                    <a href={`/record/${value._id}`}>
+                      <img src={value.quizImage} width='200' height='200'></img>
+                    </a>
+                  </Grid>
+                  <Grid item>
+                    <Typography sx={{ paddingTop: '5px', paddingBottom: '5px' }}>{value.quizName}</Typography>
+                  </Grid>
                 </Grid>
-                <Grid item>
-                  <Typography sx={{ paddingTop: '5px', paddingBottom: '5px' }}>{value.quizName}</Typography>
-                </Grid>
-              </Grid>
+              </CardActionArea>
             </Card>
           </Grid>
         ))}
