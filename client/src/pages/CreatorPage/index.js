@@ -3,14 +3,14 @@ import React, { useEffect, useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import { UserContext } from '../../App';
-import { Box, Avatar, Typography, Grid } from '@mui/material';
+import { Button, Avatar, Typography, Grid } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import CreatorProfileForm from '../../components/Form/CreatorProfileForm';
 
 const useStyles = makeStyles({
     container: {
         // padding: '20px',
-        paddingTop: '90px',
+        paddingTop: '20px',
         paddingBottom: '30px',
     },
     name: {
@@ -21,12 +21,22 @@ const useStyles = makeStyles({
 function CreatorPage() {
     const { user, dispatch } = useContext(UserContext);
     const classes = useStyles();
+    const history = useHistory();
 
     // states
     const [email, setEmail] = useState(user.email ? user.email : '');
 
     return(
         <div>
+            <Grid container justifyContent='center' sx={{ paddingTop: '70px' }}>
+                <Button
+                    onClick={() => history.replace('/creatorHome')}
+                    // startIcon={<KeyboardBackspaceRoundedIcon />}
+                    sx={{ color: 'gray' }}
+                >
+                    Back to my home
+                </Button>
+            </Grid>
             <Grid 
                 container
                 spacing={2}

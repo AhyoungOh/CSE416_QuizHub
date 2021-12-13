@@ -182,8 +182,6 @@ function ConsumerProfileForm() {
     return <></>;
   }
   return (
-    // email, private account toggle, description
-    // save button, edit button, cancel button, delete account button
     <div>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap:'10px', justifyContent: 'center', paddingTop: '10px', paddingBottom: '20px', paddingRight: '40px', paddingLeft: '40px'}}>
         <Paper sx={{ borderRadius: '18px' }}>

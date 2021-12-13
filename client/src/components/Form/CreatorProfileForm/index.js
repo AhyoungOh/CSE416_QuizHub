@@ -7,18 +7,16 @@ import {
   TextField,
   Grid,
   Box,
+  Paper,
   Typography,
   Button,
   Modal,
   Dialog,
   DialogActions,
   DialogContent,
-  Switch,
   DialogTitle,
-  FormControl,
-  FormHelperText,
-  FormControlLabel,
 } from '@mui/material';
+import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
 
 const style = {
   position: 'absolute',
@@ -31,12 +29,6 @@ const style = {
   p: 4,
   borderRadius: 2,
 };
-
-// const useStyles = makeStyles({
-//   dialogTitle: {
-//     fontSize
-//   },
-// });
 
 function CreatorProfileForm() {
   const history = useHistory();
@@ -95,37 +87,26 @@ function CreatorProfileForm() {
 
   return (
     <div>
-      <Grid container direction='column' spacing={3}>
-        <Grid item alignSelf='center'>
-          <Button
-            onClick={() => history.replace('/creatorHome')}
-            // startIcon={<KeyboardBackspaceRoundedIcon />}
-            sx={{ color: 'gray' }}
-          >
-            Back to my home
-          </Button>
-        </Grid>
-        <Grid item container justifyContent='center' spacing={2}>
-          <Grid item>
-            <Typography>Email</Typography>
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap:'10px', justifyContent: 'center', paddingTop: '10px', paddingBottom: '20px', paddingRight: '40px', paddingLeft: '40px'}}>
+        <Paper sx={{ borderRadius: '18px' }}>
+          <Grid container alignItems='center' sx={{ margin: 2 }}>
+            <Grid item sm={1} sx={{ paddingLeft: '10px', paddingRight: '10px' }}>
+              <EmailRoundedIcon sx={{color: '#004080'}} />
+            </Grid>
+            <Grid item sm={11}>
+              <Typography sx={{ fontFamily: 'Nunito', fontSize: '22px' }}>{user.email}</Typography>
+            </Grid>
           </Grid>
-          <Grid item>
-            <Typography>{user.email}</Typography>
-          </Grid>
-        </Grid>
-        <Grid item container spacing={2} justifyContent='center'>
-          <Grid item>
-            <Button variant='contained' onClick={() => setEdit(true)}>
-              Edit
-            </Button>
-          </Grid>
-          <Grid item>
-            <Button variant='text' color='error' onClick={() => setShow(true)}>
-              Delete Account
-            </Button>
-          </Grid>
-        </Grid>
-      </Grid>
+        </Paper>
+      </Box>
+      <Box sx={{ display: 'flex', justifyContent:'center', gap: '10px', paddingRight: '40px', paddingLeft: '40px' }}>
+        <Button variant='contained' onClick={() => setEdit(true)} sx={{ borderRadius: '15px' }}>
+          Edit
+        </Button>
+        <Button variant='text' color='error' onClick={() => setShow(true)} sx={{ borderRadius: '15px' }}>
+          Delete Account
+        </Button>
+      </Box>
       <Modal open={show} onClose={() => setShow(false)}>
         <Box sx={style}>
           <Grid container direction='column' spacing={2}>
