@@ -28,25 +28,25 @@ function Question({
           <AccordionDetails>
             <Grid container direction='column'>
               <Grid item>
-                <Typography color={questionAnswer === 0 ? 'primary' : 'common.black'}>
+                <Typography color={questionAnswer === 1 ? 'primary' : 'common.black'}>
                   A. {questionOptions[0]}
                 </Typography>
               </Grid>
               <Grid item>
-                <Typography color={questionAnswer === 1 ? 'primary' : 'common.black'}>
+                <Typography color={questionAnswer === 2 ? 'primary' : 'common.black'}>
                   B. {questionOptions[1]}
                 </Typography>
               </Grid>
               { questionOptions[2] !== '' ?
                 <Grid item>
-                  <Typography color={questionAnswer === 2 ? 'primary' : 'common.black'}>
+                  <Typography color={questionAnswer === 3 ? 'primary' : 'common.black'}>
                     C. {questionOptions[2]}
                   </Typography>
                 </Grid> : null
               }
               { questionOptions[3] !== '' ?
                 <Grid item>
-                  <Typography color={questionAnswer === 3 ? 'primary' : 'common.black'}>
+                  <Typography color={questionAnswer === 4 ? 'primary' : 'common.black'}>
                     D. {questionOptions[3]}
                   </Typography>
                 </Grid> : null
