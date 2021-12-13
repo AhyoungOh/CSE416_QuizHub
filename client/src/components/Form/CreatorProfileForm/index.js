@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { UserContext } from '../../../App';
+import CreatorAvatarUpload from '../../ImageUpload/CreatorAvatarUpload';
 import useApiCall from '../../../hooks/useApiCall';
 import {
   TextField,
@@ -164,6 +165,7 @@ function CreatorProfileForm() {
             onChange={(e) => setEmail(e.target.value)}
             defaultValue={email ? email : 'Enter your email address'}
           />
+          <CreatorAvatarUpload creatorId={user.id} />
         </DialogContent>
         <DialogActions>
           <Button variant='contained' onClick={saveButtonHandler}>

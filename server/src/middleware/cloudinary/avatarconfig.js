@@ -27,15 +27,6 @@ cloudinary.v2.config({
     api_secret: 'LKL1IsmSVWRo-iFk23lfUvSxOWk' 
 });
 
-const imageStorage = new CloudinaryStorage({
-    cloudinary: cloudinary.v2,
-    params: {
-      folder: async (req, file) => 'Quiz',
-      format: async (req, file) => "png",
-      public_id: (req, file) => file.filename,
-    },
-});
-
 const avatarStorage = new CloudinaryStorage({
     cloudinary: cloudinary.v2,
     params: {
@@ -45,9 +36,6 @@ const avatarStorage = new CloudinaryStorage({
     },
 });
 
-const imageParser = multer({ storage: imageStorage });
 const avatarParser = multer({ storage: avatarStorage });
 
-// export default { parser, avatarParser }; 
-// export default { imageParser, avatarParser };
-export default imageParser;
+export default avatarParser;

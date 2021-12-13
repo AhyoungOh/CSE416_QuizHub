@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Grid, IconButton, Button } from '@mui/material';
 import FileUploadRoundedIcon from '@mui/icons-material/FileUploadRounded';
 
-export default function ImageUpload( { quizId }) {
+export default function ConsumerAvatarUpload( { consumerId }) {
     const [fileData, setFileData] = useState();
     const [images, setFile] = useState("");
     const [fileName, setFileName] = useState();
@@ -21,16 +21,14 @@ export default function ImageUpload( { quizId }) {
         const formdata = new FormData();
     
         formdata.append("image", fileData);
-        formdata.append("quiz_id", quizId);
+        formdata.append("consumer_id", consumerId);
         formdata.append("file_name", fileName);
-        // formdata.append("kind", kind);
-        // formData.append('upload_preset', preset);
         console.log("fileData", fileData);
     
         await axios.post(
             process.env.NODE_ENV == 'production'
-              ? `/api/image`
-              : `http://localhost:4000/api/image`, formdata)
+              ? `/api/image/consumer`
+              : `http://localhost:4000/api/image/consumer`, formdata)
         .then((res) => {
             console.log("res", res.data);
             window.location.reload(false);
@@ -40,7 +38,7 @@ export default function ImageUpload( { quizId }) {
 
     return (
         <div>
-            <Grid container spacing={2} sx={{ paddingTop: '80px' }}>
+            <Grid container spacing={2}>
                 <Grid item>
                     <label htmlFor='upload-photo'>
                         <input

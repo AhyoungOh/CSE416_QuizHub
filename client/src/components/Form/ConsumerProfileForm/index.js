@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useContext, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { UserContext } from '../../../App';
+import ConsumerAvatarUpload from '../../ImageUpload/ConsumerAvatarUpload';
 import useApiCall from '../../../hooks/useApiCall';
 import {
   TextField,
@@ -40,6 +41,7 @@ const style = {
 function ConsumerProfileForm() {
   const history = useHistory();
   const { user, dispatch } = useContext(UserContext);
+  // console.log(user);
 
   // states
   const [edit, setEdit] = useState(false); // for edit dialogue
@@ -298,7 +300,7 @@ function ConsumerProfileForm() {
             multiline
             onChange={(e) => setDescription(e.target.value)}
           />
-          <input
+          {/* <input
             type='file'
             // alt='selected image'
             // defaultValue={consumerImg ? consumerImg : 'Enter your image'}
@@ -308,7 +310,8 @@ function ConsumerProfileForm() {
             onChange={(e) => {
               uploadFile(e.target?.files[0]);
             }}
-          />
+          /> */}
+          <ConsumerAvatarUpload consumerId={user.id} />
           <TextField
             autoFocus
             margin='dense'

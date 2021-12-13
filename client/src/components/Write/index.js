@@ -12,6 +12,7 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
+import PlatformAvatarUpload from '../ImageUpload/PlatformAvatarUpload';
 
 // modal style
 const style = {
@@ -201,6 +202,7 @@ function Write({ platformData, setVisible, fetchData }) {
             value={platformImage}
             onChange={(e) => setPlatformImage(e.target.value)}
           />
+          <PlatformAvatarUpload platformId={platformData._id} />
           <TextField
             autoFocus
             fullWidth
