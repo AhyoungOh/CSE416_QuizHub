@@ -197,6 +197,7 @@ function ConsumerQuizPage() {
   const [percentage, setPercentage] = useState(0);
 
   const quitQuiz = async () => {
+    clearInterval(leftTimeTimer.current);
     history.push(`/consumerquizpreview/${id}`);
     const userInfo = await axios.get(
       process.env.NODE_ENV === 'production'
