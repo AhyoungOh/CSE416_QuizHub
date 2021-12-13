@@ -10,7 +10,7 @@ const useStyles = makeStyles({
     emphasized: {
       fontFamily: 'Nunito',
       color: '#374A59',
-      fontSize: '90px',
+      fontSize: '70px',
       lineHeight: '1',
     },
     secondary: {
@@ -27,13 +27,13 @@ const useStyles = makeStyles({
     },
     feedback: {
       fontFamily: 'Nunito',
-      fontSize: '60px',
+      fontSize: '50px',
       lineHeight: '1',
       textAlign: 'center',
     }, 
     result: {
       fontFamily: 'Nunito',
-      fontSize: '80px',
+      fontSize: '40px',
       lineHeight: '1',
       // color: '#374A59',
     },
@@ -227,82 +227,97 @@ function QuizResultRecord(){
         <div>
             {quizResult ? 
                 <div>
-                <Grid container justifyContent='center' onClick={myQuizzes} sx={{ paddingTop: '80px'}}>
+                <Grid container justifyContent='center' onClick={myQuizzes} sx={{ paddingTop: '65px'}}>
                     <Grid item>
                         <Button color='inherit'>Back to my quizzes</Button>
                     </Grid>
                 </Grid>
-                <Box sx={{ display: 'flex', paddingTop: '20px', paddingLeft: '20px', paddingRight: '20px', paddingBottom: '20px', justifyContent: 'center' }}>
-                    <Paper sx={{ borderRadius: '18px', display: 'flex' }}>
-                        <Grid container direction='row'>
-                            <Grid item container direction='column' alignItems='center' sx={{ margin: 5 }}>
-                                <Grid item sx={{ paddingTop: '10px' }}>
-                                    <Typography color='primary' className={classes.feedback}>{quizName}</Typography>
-                                </Grid>
-                                <Grid item sx={{ paddingTop: '10px' }}>
-                                    <Typography className={classes.third}>Your top score:</Typography>
-                                </Grid>
-                                <Grid item>
-                                    <Typography className={classes.emphasized}>{result}%</Typography>
-                                </Grid>
-                                <Grid item>
-                                    <Typography className={classes.secondary}>{quizResult[0].correctedAnswerNum}/{ques} in {quizResult[0].quizTimeTaken.minutes}:{quizResult[0].quizTimeTaken.seconds} min</Typography>
-                                </Grid>
-                                <Grid item sx={{ paddingTop: '10px' }}>
-                                    <Typography className={classes.third}>on {quizResult[0].accomplishedDate.slice(0, 10)}</Typography>
-                                </Grid>
+                <Box sx={{ display: 'flex', paddingTop: '5px', paddingLeft: '20px', paddingRight: '20px', paddingBottom: '20px', justifyContent: 'center' }}>
+                  <Paper sx={{ borderRadius: '18px', display: 'flex' }}>
+                      <Grid container direction='row'>
+                        <Grid item container direction='column' alignItems='center' justifyContent='center' sx={{ marginTop: 1, marginBottom: 1, marginRight: 4, marginLeft: 4 }}>
+                            <Grid item sx={{ paddingTop: '10px' }}>
+                                <Typography color='primary' className={classes.feedback}>{quizName}</Typography>
                             </Grid>
-                            <Grid item container direction='row' alignItems='center' justifyContent='center' spacing={2} sx={{ margin: 3 }}>
-                            <Grid item>
-                                
+                            <Grid item sx={{ paddingTop: '10px' }}>
+                                <Typography className={classes.third}>Your top score:</Typography>
                             </Grid>
                             <Grid item>
-                                {leaderboardVisible ? 
-                                    <Button onClick={goToLeaderboard} variant='contained' className={classes.button}>Leaderboard</Button>
-                                    :
-                                    <Button disabled variant='contained' className={classes.button}>Leaderboard</Button>
-                                }
+                                <Typography className={classes.emphasized}>{result}%</Typography>
                             </Grid>
                             <Grid item>
-                                {trialLimit - quizResult[0].usedTrialNumber == 0 ?
-                                    <Button variant='contained' color='success' className={classes.button} onClick={moreQuizzes}>More quizzes</Button>
-                                    :
-                                    <Button variant='contained' color='success' onClick={retakeQuiz} className={classes.button}>Try again</Button>
-                                }
+                                <Typography className={classes.secondary}>{quizResult[0].correctedAnswerNum}/{ques} in {quizResult[0].quizTimeTaken.minutes}:{quizResult[0].quizTimeTaken.seconds} min</Typography>
                             </Grid>
+                            <Grid item sx={{ paddingTop: '10px' }}>
+                                <Typography className={classes.third}>on {quizResult[0].accomplishedDate.slice(0, 10)}</Typography>
                             </Grid>
                         </Grid>
-                    </Paper>
+                        <Grid item container direction='row' alignItems='center' justifyContent='center' spacing={2} sx={{ margin: 1 }}>
+                          { reward == 'certificate' ? 
+                            <Grid item>
+                              <a href={file_download} download>
+                                {' '}
+                                Click to download certificate{' '}
+                              </a>
+                            </Grid>
+                          : reward == 'badge' ? 
+                            <img src={img} width='200' height='200'></img>
+                            : <div>
+                              <Grid item>
+                                <a href={file_download} download>{' '}Download certificate{' '}</a>
+                              </Grid>
+                              <Grid item>
+                                <img src={img} width='200' height='200' class='center'></img>
+                              </Grid>
+                            </div> 
+                        }
+                        </Grid>
+                        <Grid item container direction='row' alignItems='center' justifyContent='center' spacing={2} sx={{ margin: 2}}>
+                          <Grid item>
+                              {leaderboardVisible ? 
+                                  <Button onClick={goToLeaderboard} variant='contained' className={classes.button}>Leaderboard</Button>
+                                  :
+                                  <Button disabled variant='contained' className={classes.button}>Leaderboard</Button>
+                              }
+                          </Grid>
+                          <Grid item>
+                              {trialLimit - quizResult[0].usedTrialNumber == 0 ?
+                                  <Button variant='contained' color='success' className={classes.button} onClick={moreQuizzes}>More quizzes</Button>
+                                  :
+                                  <Button variant='contained' color='success' onClick={retakeQuiz} className={classes.button}>Try again</Button>
+                              }
+                          </Grid>
+                        </Grid>
+                      </Grid>
+                  </Paper>
                 </Box>
                 <Modal open={open} onClose={() => setOpen(false)}>
-        <Box sx={{ backgroundColor: '#ffffff', display: 'flex', position: 'fixed', top: '50%', left: '50%', minWidth: '300px', marginTop: '-150px', marginLeft: '-150px', borderRadius: '10px', boxShadow: 24,}}>
-          <Grid container direction='column'  alignItems='center' justifyContent='center' sx={{ padding: '20px' }}>
-            <Grid item>
-              <Typography variant='h5'>Rewards</Typography>
-            </Grid>
-            { reward == 'certificate' ? 
-                <Grid item>
-                  <a href={file_download} download>
-                    {' '}
-                    Click to download certificate{' '}
-                  </a>
-                </Grid>
-              : reward == 'badge' ? 
-                <img src={img} width='200' height='200'></img>
-                : <div>
-                    <Grid item>
-                      <a href={file_download} download>{' '}Download certificate{' '}</a>
+                  <Box sx={{ backgroundColor: '#ffffff', display: 'flex', position: 'fixed', top: '50%', left: '50%', minWidth: '300px', marginTop: '-150px', marginLeft: '-150px', borderRadius: '10px', boxShadow: 24,}}>
+                    <Grid container direction='column'  alignItems='center' justifyContent='center' sx={{ padding: '20px' }}>
+                      <Grid item>
+                        <Typography variant='h5'>Rewards</Typography>
+                      </Grid>
+                      { reward == 'certificate' ? 
+                          <Grid item>
+                            <a href={file_download} download>
+                              Download certificate
+                            </a>
+                          </Grid>
+                        : reward == 'badge' ? 
+                          <img src={img} width='200' height='200'></img>
+                          : <div>
+                              <Grid item>
+                                <a href={file_download} download>Download certificate</a>
+                              </Grid>
+                              <Grid item>
+                                <img src={img} width='200' height='200' class='center'></img>
+                              </Grid>
+                        </div> 
+                      }
                     </Grid>
-                    <Grid item>
-                      <img src={img} width='200' height='200' class='center'></img>
-                    </Grid>
-              </div> 
-            }
-          </Grid>
-        </Box>
-      </Modal>
-                </div>
-                : null }
+                  </Box>
+                </Modal>
+              </div> : null }
             {/* {quizResult ? JSON.stringify(quizResult[0]) : null} */}
         </div>
     );

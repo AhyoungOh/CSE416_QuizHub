@@ -30,6 +30,7 @@ const useStyles = makeStyles({
     fontSize: '80px',
     lineHeight: '1',
     // color: '#374A59',
+    textAlign: 'center',
   },
   upper: {
     fontFamily: 'Nunito',
@@ -313,11 +314,17 @@ function ResultsPage() {
             <Grid item container direction='column' alignItems='center' sx={{ margin: 5 }}>
               <Grid item justifySelf='center'>
                 {
-                  reward == 'none' ?
+                  reward == 'none' && result >= 60 ?
                   <Typography color='primary' className={classes.feedback}>Good job!</Typography>
-                  : Number(result) >= certificate_qualifier.current || Number(result) >= badge_qualifier.current
-                    ? <Typography color='primary' className={classes.result}>Congrats!</Typography>
-                    : <Typography color='inherit' className={classes.result}>Sorry</Typography>
+                  : reward == 'none' ?
+                    <Typography color='primary' className={classes.feedback}>Finished!</Typography>
+                    : reward == 'certificate' && Number(result) >= certificate_qualifier.current ? 
+                        <Typography color='primary' className={classes.result}>Congrats!</Typography>
+                        : reward == 'badge' && Number(result) >= badge_qualifier.current ?
+                          <Typography color='primary' className={classes.result}>Congrats!</Typography>
+                          : reward == 'both' && Number(result) >= badge_qualifier.current && Number(result) >= certificate_qualifier.current ?
+                            <Typography color='primary' className={classes.result}>Congrats!</Typography>
+                            : <Typography color='inherit' className={classes.result}>Failed, sorry!</Typography>
                 }
               </Grid>
               <Grid item sx={{ paddingTop: '10px' }}>

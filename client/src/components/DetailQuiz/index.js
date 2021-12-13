@@ -484,6 +484,9 @@ function DetailQuiz({ quizData, setQuizVisible }) {
                 <Button variant='contained' onClick={updateQuestionData} sx={{ marginLeft: '20px' }}>
                   Add Quesiton
                 </Button>
+                {/* <Button variant='contained' onClick={() => setChecked(true)} sx={{ marginLeft: '20px' }}>
+                  See Questions
+                </Button> */}
               </Box>
             </Card>
           </Card>
