@@ -7,6 +7,7 @@ import {
   TextField,
   Grid,
   Box,
+  Paper,
   Typography,
   Button,
   Modal,
@@ -180,11 +181,16 @@ function ConsumerProfileForm() {
     // save button, edit button, cancel button, delete account button
     <div>
       {/* TODO: fix the listing and display of the information */}
+      <Box sx={{ display: 'flex', justifyContent: 'center', padding: '20px'}}>
+
+      </Box>
       <Grid
         container
         direction='column'
         spacing={2}
-        sx={{ paddingLeft: '400px' }}
+        sx={{ padding: '20px' }}
+        alignItems='center'
+        justifyContent='center'
       >
         <Grid item container justifyContent='flex-start' spacing={2}>
           <Grid item>
