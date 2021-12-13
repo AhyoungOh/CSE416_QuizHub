@@ -255,16 +255,19 @@ function QuizResultRecord(){
                         <Grid item container direction='row' alignItems='center' justifyContent='center' spacing={2} sx={{ margin: 1 }}>
                           { reward == 'certificate' ? 
                             <Grid item>
-                              <a href={file_download} download>
-                                {' '}
-                                Click to download certificate{' '}
-                              </a>
+                              <div style={{ textAlign: 'center'}}>
+                                <a href={file_download} download>
+                                  {' '}Click to download certificate{' '}
+                                </a>
+                              </div>
                             </Grid>
                           : reward == 'badge' ? 
                             <img src={img} width='200' height='200'></img>
                             : <div>
                               <Grid item>
-                                <a href={file_download} download>{' '}Download certificate{' '}</a>
+                                <div style={{ textAlign: 'center'}}>
+                                  <a href={file_download} download>{' '}Download certificate{' '}</a>
+                                </div>
                               </Grid>
                               <Grid item>
                                 <img src={img} width='200' height='200' class='center'></img>
@@ -291,32 +294,6 @@ function QuizResultRecord(){
                       </Grid>
                   </Paper>
                 </Box>
-                <Modal open={open} onClose={() => setOpen(false)}>
-                  <Box sx={{ backgroundColor: '#ffffff', display: 'flex', position: 'fixed', top: '50%', left: '50%', minWidth: '300px', marginTop: '-150px', marginLeft: '-150px', borderRadius: '10px', boxShadow: 24,}}>
-                    <Grid container direction='column'  alignItems='center' justifyContent='center' sx={{ padding: '20px' }}>
-                      <Grid item>
-                        <Typography variant='h5'>Rewards</Typography>
-                      </Grid>
-                      { reward == 'certificate' ? 
-                          <Grid item>
-                            <a href={file_download} download>
-                              Download certificate
-                            </a>
-                          </Grid>
-                        : reward == 'badge' ? 
-                          <img src={img} width='200' height='200'></img>
-                          : <div>
-                              <Grid item>
-                                <a href={file_download} download>Download certificate</a>
-                              </Grid>
-                              <Grid item>
-                                <img src={img} width='200' height='200' class='center'></img>
-                              </Grid>
-                        </div> 
-                      }
-                    </Grid>
-                  </Box>
-                </Modal>
               </div> : null }
             {/* {quizResult ? JSON.stringify(quizResult[0]) : null} */}
         </div>
