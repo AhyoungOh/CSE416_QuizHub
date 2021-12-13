@@ -20,6 +20,10 @@ import {
   FormHelperText,
   FormControlLabel,
 } from '@mui/material';
+import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
+import PersonPinRoundedIcon from '@mui/icons-material/PersonPinRounded';
+import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
+import VisibilityOffRoundedIcon from '@mui/icons-material/VisibilityOffRounded';
 
 const style = {
   position: 'absolute',
@@ -154,6 +158,7 @@ function ConsumerProfileForm() {
     setConsumerPassword(user.consumerPassword ? user.consumerPassword : '');
     setEdit(false);
   };
+
   const getUserInfo = async () => {
     const userInfo = await axios.get(
       process.env.NODE_ENV === 'production'
@@ -180,61 +185,59 @@ function ConsumerProfileForm() {
     // email, private account toggle, description
     // save button, edit button, cancel button, delete account button
     <div>
-      {/* TODO: fix the listing and display of the information */}
-      <Box sx={{ display: 'flex', justifyContent: 'center', padding: '20px'}}>
-
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap:'10px', justifyContent: 'center', paddingTop: '10px', paddingBottom: '20px', paddingRight: '40px', paddingLeft: '40px'}}>
+        <Paper sx={{ borderRadius: '18px' }}>
+          <Grid container alignItems='center' sx={{ margin: 2 }}>
+            <Grid item sm={1} sx={{ paddingLeft: '10px', paddingRight: '10px' }}>
+              <EmailRoundedIcon sx={{color: '#004080'}} />
+            </Grid>
+            <Grid item sm={11}>
+              <Typography sx={{ fontFamily: 'Nunito', fontSize: '22px' }}>{user.email}</Typography>
+            </Grid>
+          </Grid>
+        </Paper>
+        <Paper sx={{ borderRadius: '18px', display: 'flex' }}>
+          <Grid container alignItems='center' sx={{ margin: 2 }}>
+            <Grid item sm={1} sx={{ paddingLeft: '10px', paddingRight: '10px' }}>
+              <PersonPinRoundedIcon sx={{color: '#004080'}} />
+            </Grid>
+            <Grid item sm={11}>
+              <Typography sx={{ fontFamily: 'Nunito', fontSize: '22px' }}>{user.description}</Typography>
+            </Grid>
+          </Grid>
+        </Paper>
+        {isPrivate ?
+          <Paper sx={{ borderRadius: '18px', display: 'flex' }}>
+            <Grid container alignItems='center' sx={{ margin: 2 }}>
+              <Grid item sm={1} sx={{ paddingLeft: '10px', paddingRight: '10px' }}>
+                <VisibilityOffRoundedIcon sx={{color: '#004080'}} />
+              </Grid>
+              <Grid item sm={11}>
+                <Typography sx={{ fontFamily: 'Nunito', fontSize: '22px' }}>private account</Typography>
+              </Grid>
+            </Grid>
+          </Paper>
+          :
+          <Paper sx={{ borderRadius: '18px', display: 'flex' }}>
+            <Grid container alignItems='center' sx={{ margin: 2 }}>
+              <Grid item sm={1} sx={{ paddingLeft: '10px', paddingRight: '10px' }}>
+                <VisibilityRoundedIcon sx={{color: '#004080'}} />
+              </Grid>
+              <Grid item sm={11}>
+                <Typography sx={{ fontFamily: 'Nunito', fontSize: '22px' }}>public account</Typography>
+              </Grid>
+            </Grid>
+          </Paper>
+        }
       </Box>
-      <Grid
-        container
-        direction='column'
-        spacing={2}
-        sx={{ padding: '20px' }}
-        alignItems='center'
-        justifyContent='center'
-      >
-        <Grid item container justifyContent='flex-start' spacing={2}>
-          <Grid item>
-            <Typography>Email</Typography>
-          </Grid>
-          <Grid item>
-            <Typography>{user.email}</Typography>
-          </Grid>
-        </Grid>
-        <Grid item container justifyContent='flex-start' spacing={2}>
-          <Grid item>
-            <Typography>Private account</Typography>
-          </Grid>
-          <Grid item>
-            <Typography>{user.isPrivate ? 'private' : 'public'}</Typography>
-          </Grid>
-        </Grid>
-        <Grid item container justifyContent='flex-start' spacing={2}>
-          <Grid item>
-            <Typography>Self-introduction</Typography>
-          </Grid>
-          <Grid item>
-            <Typography>{user.description}</Typography>
-          </Grid>
-        </Grid>
-        <Grid
-          item
-          container
-          direction='row'
-          spacing={2}
-          justifyContent='flex-start'
-        >
-          <Grid item>
-            <Button variant='contained' onClick={() => setEdit(true)}>
-              Edit
-            </Button>
-          </Grid>
-          <Grid item>
-            <Button variant='text' color='error' onClick={() => setShow(true)}>
-              Delete Account
-            </Button>
-          </Grid>
-        </Grid>
-      </Grid>
+      <Box sx={{ display: 'flex', justifyContent:'center', gap: '10px', paddingRight: '40px', paddingLeft: '40px' }}>
+        <Button variant='contained' onClick={() => setEdit(true)} sx={{ borderRadius: '15px' }}>
+          Edit
+        </Button>
+        <Button variant='text' color='error' onClick={() => setShow(true)} sx={{ borderRadius: '15px' }}>
+          Delete Account
+        </Button>
+      </Box>
       <Modal open={show} onClose={() => setShow(false)}>
         <Box sx={style}>
           <Grid container direction='column' spacing={2}>
