@@ -4,12 +4,12 @@ import { Grid, Button } from '@mui/material';
 
 function DetailQuestion({ questiondata, setQuestionVisible }) {
   const history = useHistory();
-  const updateQuestionData = () => {
-    setQuestionVisible(true);
-  };
+  // const updateQuestionData = () => {
+  setQuestionVisible(true);
+  // };
   return (
     <div>
-      <Grid containter sx={{ paddingLeft: '10px', paddingTop: '70px' }}>
+      {/* <Grid containter sx={{ paddingLeft: '10px', paddingTop: '70px' }}>
         <Button
           onClick={() => history.push(`/quiz/detail/${questiondata.quizId}`)}
           sx={{ color: 'gray' }}
@@ -17,7 +17,6 @@ function DetailQuestion({ questiondata, setQuestionVisible }) {
           Back to Question List
         </Button>
       </Grid>
-      {/* TODO: question edit card */}
       <Grid sx={{ padding: '20px' }}>
         <Question
           questionNumber={questiondata.questionNumber}
@@ -27,10 +26,10 @@ function DetailQuestion({ questiondata, setQuestionVisible }) {
         />
       </Grid>
       <Grid sx={{ paddingLeft: '20px' }}>
-        <Button variant='contained' onClick={updateQuestionData}>
+        <Button variant='contained'>
           Edit Question
         </Button>
-      </Grid>
+      </Grid> */}
     </div>
   );
 }

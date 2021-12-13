@@ -21,7 +21,7 @@ function Question({
           >
             <Tooltip placement='top' title='Go to question'>
               <Link color='common.black' underline='hover' sx={{ flexShrink: 0 }} onClick={setquestionData}>
-                {questionNumber}. {questionQuestion}
+                  {questionNumber}. {questionQuestion}
               </Link>
             </Tooltip>
           </AccordionSummary>

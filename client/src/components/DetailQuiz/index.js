@@ -271,7 +271,7 @@ function DetailQuiz({ quizData, setQuizVisible }) {
     <Grid
       container
       direction='column'
-      spacing={2}
+      spacing={0.5}
       justifyContent='center'
       alignItems='center'
       sx={{ maxWidth: '1000px' }}
@@ -316,7 +316,7 @@ function DetailQuiz({ quizData, setQuizVisible }) {
           Back to platform page
         </Button>
       </Grid>
-      {/* TODO: change it to creator preview quiz card */}
+
       <Grid container justifyContent='center' className={classes.cardContainer} spacing={2} sx={{ paddingTop: '80px', paddingLeft: '40px', paddingRight: '40px' }}>
         <Grid item alignSelf='center'>
           <Card sx={{ borderRadius: '18px' }}>
@@ -367,7 +367,9 @@ function DetailQuiz({ quizData, setQuizVisible }) {
                           <Grid item>
                             <Tooltip placement='top' title='See created questions'>
                               <Link color='common.black' underline='hover' onClick={() => setChecked(true)}className={classes.emphasized} sx={{ cursor: 'pointer' }}>
-                                {quizData.quizQuestions.length}
+                                {/* <a href='#question-list'> */}
+                                  {quizData.quizQuestions.length}
+                                {/* </a> */}
                               </Link>
                             </Tooltip>
                           </Grid>
@@ -488,10 +490,13 @@ function DetailQuiz({ quizData, setQuizVisible }) {
         </Grid>
       </Grid>
       <Box sx={{ display: 'flex', justifyContent: 'center', paddingBottom: '40px' }}>
+        {/* <a id='question-list'> */}
         <Collapse in={checked}>
           {questionPreviewList}
         </Collapse>
+        {/* </a> */}
       </Box>
+
       <Tooltip placement='top' title='Edit quiz'>
         <Fab color='primary' onClick={updateQuizData} sx={{ position: 'fixed', right: '3%', bottom: '3%' }}>
           <EditRoundedIcon />
