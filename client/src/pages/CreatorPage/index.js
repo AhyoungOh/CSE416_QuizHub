@@ -48,15 +48,15 @@ function CreatorPage() {
                     <Avatar 
                         src={user.img} 
                         style={{
-                            width: "100px",
-                            height: "100px",
+                            width: "120px",
+                            height: "120px",
                         }} 
                         alt={user.username}
                     />
                     {/* TODO: add change profile pic button */}
                 </Grid>
                 <Grid item alignSelf="center" justifySelf="center">
-                    <Typography variant="h5" color="primary" className={classes.name}>
+                    <Typography variant="h4" color="primary" className={classes.name}>
                         {user.username}
                     </Typography>
                 </Grid>

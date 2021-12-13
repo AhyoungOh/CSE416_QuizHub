@@ -10,8 +10,8 @@ const useStyles = makeStyles({
       // padding: '20px',
       paddingTop: '90px',
       paddingBottom: '20px',
-      paddingLeft: '20px',
-      paddingRight: '20px',
+      paddingLeft: '40px',
+      paddingRight: '40px',
     },
     name: {
       fontWeight: 'bold',
@@ -55,14 +55,14 @@ export default function PlayerProfile() {
                     <Avatar
                         src={consumerData.consumerImage}
                         style={{
-                        width: '100px',
-                        height: '100px',
+                        width: '120px',
+                        height: '120px',
                         }}
                         alt={consumerData.consumerUsername}
                     />
                 </Grid>
                 <Grid item alignSelf='center' justifySelf='center'>
-                    <Typography variant='h5' color='primary' className={classes.name}>
+                    <Typography variant='h4' color='primary' className={classes.name}>
                         {consumerData.consumerUsername}
                     </Typography>
                 </Grid>

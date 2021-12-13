@@ -105,26 +105,31 @@ function CreatorFunction() {
               <Avatar 
                 src={user.img} 
                 style={{
-                    width: "100px",
-                    height: "100px",
+                    width: "120px",
+                    height: "120px",
                 }} 
                 alt={user.username}
               />
             </Grid>
             <Grid item alignSelf="center" justifySelf="center">
-              <Typography variant="h5" color="primary" className={classes.name}>
+              <Typography variant="h4" color="primary" className={classes.name}>
                 {user.username}
               </Typography>
             </Grid>
           </Grid>
-          <Grid
-            container
-            spacing={1}
-            justifyContent='center'
-            className={classes.gridContainer}
-          >
-            {PlatformComponents}
-          </Grid>
+          { testData.createPlatform.length !== 0 ? 
+            <Grid
+              container
+              spacing={1}
+              justifyContent='center'
+              className={classes.gridContainer}
+            >
+              {PlatformComponents}
+            </Grid> 
+            : <Grid container justifyContent='center' sx={{ padding: '40px'}}>
+                <Typography sx={{ textAlign: 'center', fontFamily: 'Nunito' }}>Create new platforms!</Typography>
+              </Grid>
+          }
           <Fab
             color='primary'
             aria-label='add'

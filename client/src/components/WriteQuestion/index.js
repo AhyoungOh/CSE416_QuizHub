@@ -600,11 +600,11 @@ function WriteQuestion({
             </Grid>
           </Grid>
         </Card>
-        {/* <Tooltip title='Add more questions'>
+        <Tooltip title='Add more questions'>
           <Fab onClick={AddQuestion} sx={{ position: 'absolute', right: '5%' }}>
             <AddRoundedIcon />
           </Fab>
-        </Tooltip> */}
+        </Tooltip>
       </div>
     );
   } else {
