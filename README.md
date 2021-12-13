@@ -1,8 +1,8 @@
 # CSE416 Software Engineering Project
 Fall 2021
 
-## Deployed site:
-[cse416-quizhub.herokuapp.com](http://cse416-quizhub.herokuapp.com)
+## Deployed site
+:link: [cse416-quizhub.herokuapp.com](http://cse416-quizhub.herokuapp.com)
 
 ## About our team
 ### Team Azure Blue (#007FFF)
