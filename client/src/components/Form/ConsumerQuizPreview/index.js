@@ -54,7 +54,7 @@ const useStyles = makeStyles({
   },
   startButton: {
     padding: '10px',
-    minWidth: '300px',
+    minWidth: '80%',
     borderRadius: '10px',
     marginLeft: '10px',
   },
@@ -152,22 +152,20 @@ function ConsumerQuizPreview() {
     <div>
       <Grid
         container
-        direction='column'
-        alignItems='center'
-        spacing={1}
+        justifyContent='center'
         sx={{ paddingTop: '70px', paddingLeft: '40px', paddingRight: '40px' }}
       >
-        <Grid item>
-          <Button
-            color='inherit'
-            className={classes.returnButton}
-            onClick={() => {
-              history.push(`/consumerHome`);
-            }}
-          >
-            Back to quizzes
-          </Button>
-        </Grid>
+        <Button
+          color='inherit'
+          className={classes.returnButton}
+          onClick={() => {
+            history.push(`/consumerHome`);
+          }}
+        >
+          Back to quizzes
+        </Button>
+      </Grid>
+      <Grid container justifyContent='center' sx={{ paddingTop: '10px', paddingBottom: '20px', paddingLeft: '40px', paddingRight: '40px' }}>
         <Grid item alignSelf='center'>
           <Card sx={{ borderRadius: '18px' }}>
             <Card sx={{ display: 'flex' }}>

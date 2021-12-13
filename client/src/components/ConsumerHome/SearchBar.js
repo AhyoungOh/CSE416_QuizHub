@@ -18,7 +18,7 @@ const useStyles = makeStyles({
   },
   button: {
     borderRadius: '5px',
-    width: '56px',
+    // width: '56px',
     height: '56px',
   },
   selector: {
@@ -27,7 +27,7 @@ const useStyles = makeStyles({
   },
   inputBase: {
     height: '56px',
-    minWidth: '260px',
+    minWidth: '80%',
     paddingLeft: '20px',
     fontSize: '18px',
   }
@@ -47,15 +47,12 @@ export default function SearchBar({ setSearchWord, setSearchType }) {
     setSelectedSearchType(event.target.value);
   }
 
-  // TODO: make it responsive, add search function to search for both (default selector), search other player by username
   return (
     <div>
         <Grid container spacing={1} justifyContent="center" alignItems="center">
           <Grid item justifyContent="center" alignItems="center">
             <Paper elevation={3} className={classes.inputPaper}>
               <Box>
-                {/* <TextField type="text" variant="outlined" inputRef={searchWordRef} placeholder="Search..." className={classes.textField}>
-                </TextField> */}
                 <InputBase 
                   type="text"
                   inputRef={searchWordRef}
@@ -73,12 +70,8 @@ export default function SearchBar({ setSearchWord, setSearchType }) {
                   value={selectedSearchType}
                   onChange={handleChange}
                   label="Search by"
-                  // inputProps={{ 'aria-label': 'Without label' }}
                   className={classes.selector}
                 >
-                  {/* <MenuItem value="">
-                    <em>All</em>
-                  </MenuItem> */}
                   <MenuItem value="Quiz">Quiz</MenuItem>
                   <MenuItem value="Platform">Platform</MenuItem>
                   <MenuItem value="Username">Username</MenuItem>
@@ -90,7 +83,6 @@ export default function SearchBar({ setSearchWord, setSearchType }) {
             <FormControl variant="standard">
               <Button onClick={onBtnClick} variant="contained" size="large" className={classes.button}>
                 <SearchRoundedIcon />
-                {/* Search */}
               </Button>
             </FormControl>
           </Grid>
