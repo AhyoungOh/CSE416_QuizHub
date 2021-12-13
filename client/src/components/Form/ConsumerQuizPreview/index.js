@@ -40,7 +40,7 @@ const useStyles = makeStyles({
   cardMedia: {
     maxWidth: '40%',
     minHeight: '400px',
-    maxHeight: '700px',
+    maxHeight: '500px',
     display: { xs: 'none', sm: 'block' },
   },
   infoWrapper: {
@@ -88,7 +88,7 @@ function ConsumerQuizPreview() {
 
   const clickStartBtn = async () => {
     if (trials <= 0) {
-      alert('there is no more trials on this quiz');
+      alert('There is no more trials on this quiz');
       return;
     }
 

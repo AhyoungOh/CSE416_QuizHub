@@ -41,7 +41,7 @@ const useStyles = makeStyles({
   },
   cardMedia: {
     maxWidth: '50%',
-    // maxHeight: '500px',
+    maxHeight: '500px',
     display: { xs: 'none', sm: 'block' },
   },
   infoWrapper: {
@@ -365,7 +365,7 @@ function DetailQuiz({ quizData, setQuizVisible }) {
                       primary={
                         <Grid container>
                           <Grid item>
-                            <Tooltip placement='top' title='See created questions'>
+                            <Tooltip placement='top' title='Scroll down and see created questions'>
                               <Link color='common.black' underline='hover' onClick={() => setChecked(true)}className={classes.emphasized} sx={{ cursor: 'pointer' }}>
                                 {/* <a href='#question-list'> */}
                                   {quizData.quizQuestions.length}
@@ -418,14 +418,18 @@ function DetailQuiz({ quizData, setQuizVisible }) {
                             <Typography className={classes.normal}>No reward</Typography>
                               : quizData.quizRewardType == 'badge' && groupExists ?
                                 // badge
-                                <Typography className={classes.emphasized}>{quizData.quizRewardType}</Typography>
+                                <Tooltip title='Badge already created!'>
+                                  <Typography className={classes.emphasized}>{quizData.quizRewardType}</Typography>
+                                </Tooltip>
                                 : quizData.quizRewardType == 'badge' ?
                                   <Tooltip title='Create badge'>
                                     <Link onClick={createBadge} underline="none" color='common.black' className={classes.emphasized} sx={{ cursor: 'pointer' }}>{quizData.quizRewardType}</Link>
                                   </Tooltip>
                                     // certificate
                                   : quizData.quizRewardType == 'certificate' && groupExists ?
-                                    <Typography className={classes.emphasized}>{quizData.quizRewardType}</Typography>
+                                    <Tooltip title='Certificate already created!'>
+                                      <Typography className={classes.emphasized}>{quizData.quizRewardType}</Typography>
+                                    </Tooltip>
                                     : 
                                       <Tooltip title='Create certificate'>
                                         <Link onClick={createCertificate}underline="none" color='common.black' className={classes.emphasized} sx={{ cursor: 'pointer' }}>{quizData.quizRewardType}</Link>

@@ -36,6 +36,7 @@ const useStyles = makeStyles({
   },
   name: {
     fontWeight: 'bold',
+    textAlign: 'center',
   },
 });
 
