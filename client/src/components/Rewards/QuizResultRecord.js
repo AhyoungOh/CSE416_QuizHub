@@ -1,8 +1,9 @@
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useState, useEffect ,useContext} from 'react';
 import { useParams, useHistory } from 'react-router-dom';
+import { UserContext} from '../../App';
 import useApiCall from '../../hooks/useApiCall';
-import { Grid, CircularProgress, Tooltip, Button, Box, Paper, Typography } from '@mui/material';
+import { Grid, CircularProgress, Tooltip, Button, Box, Paper, Typography, Modal } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles({
@@ -70,11 +71,18 @@ function QuizResultRecord(){
 
     console.log(loading);
     console.log('quizResult', quizResult);
+    
+    const [open, setOpen] = useState(false);
+    const { user, dispatch } = useContext(UserContext);
 
     const [leaderboardVisible, setLeaderboardVisible] = useState('');
     const [quizName, setQuizName] = useState('');
     const [ques, setQues] = useState(0);
     const [trialLimit, setTrialLimit] = useState(0);
+    const [reward, setReward] = useState('');
+
+    const [file_download, setFile] = useState('');
+    const [img, setImage] = useState('');
 
     const getQuizInfo = async () => {
         try {
@@ -93,6 +101,7 @@ function QuizResultRecord(){
             setLeaderboardVisible(response.data.quiz.quizEnableLeaderboard);
             // console.log('leaderobard visible', leaderboardVisible);
             setQuizName(response.data.quiz.quizName);
+            setReward(response.data.quiz.quizRewardType);
             let questionLength =
                 Number(response.data.quiz.quizTotalNumberOfQuestions) > 0
                     ? Number(response.data.quiz.quizTotalNumberOfQuestions)
@@ -102,6 +111,66 @@ function QuizResultRecord(){
             console.error(e);
         }
     };
+
+    const apicall = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Token token=38040def040af70134a08e39a3db35d3',
+        },
+      };
+    
+      function findCredential(credential){
+        if(credential.name==quizName){
+          return true
+        }
+        else{
+          return false
+        }
+      }
+    
+      const checkCredential = async () => {
+        // check if credential exists and set the file and badge img
+        const apicall = {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Token token=38040def040af70134a08e39a3db35d3',
+          },
+        };
+      
+        console.log("inside check credential")
+        console.log(apicall)
+        try {
+          await axios
+            .get(
+              `https://api.accredible.com/v1/all_credentials?recipient_id=${user.id}`, 
+              apicall
+            )
+            .then((response) => {
+              console.log(response);
+              const allcredential=response.data.credentials.filter(findCredential)
+              console.log(allcredential)
+              if(allcredential.length!=0){
+               // get the credential using the credential id
+                const getReward = async () =>{
+                  console.log(allcredential[0].id)
+                await axios
+               .get(
+                 `https://api.accredible.com/v1/credentials/${allcredential[0].id}`,
+                 apicall
+               )
+               .then((response) => {
+                 console.log(response);
+                  setImage(response.data.credential.badge.image.preview);
+                  setFile(response.data.credential.url);
+               });
+                }
+                getReward()
+              }
+            });
+        } catch (e) {
+          console.error(e);
+        }  
+      }    
 
     let res = 0;
     {quizResult ? res = ((quizResult[0].correctedAnswerNum / ques) * 100) : res = 0}
@@ -127,7 +196,12 @@ function QuizResultRecord(){
 
     useEffect(() => {
         getQuizInfo();
+       
     }, []);
+
+    useEffect(() => {
+        checkCredential()
+    }, [quizName]);
 
     if (!quizResult) {
         return(
@@ -147,6 +221,8 @@ function QuizResultRecord(){
         return <div>error...</div>;
     }
 
+    console.log(img)
+    console.log(file_download)
     return (
         <div>
             {quizResult ? 
@@ -198,6 +274,33 @@ function QuizResultRecord(){
                         </Grid>
                     </Paper>
                 </Box>
+                <Modal open={open} onClose={() => setOpen(false)}>
+        <Box sx={{ backgroundColor: '#ffffff', display: 'flex', position: 'fixed', top: '50%', left: '50%', minWidth: '300px', marginTop: '-150px', marginLeft: '-150px', borderRadius: '10px', boxShadow: 24,}}>
+          <Grid container direction='column'  alignItems='center' justifyContent='center' sx={{ padding: '20px' }}>
+            <Grid item>
+              <Typography variant='h5'>Rewards</Typography>
+            </Grid>
+            { reward == 'certificate' ? 
+                <Grid item>
+                  <a href={file_download} download>
+                    {' '}
+                    Click to download certificate{' '}
+                  </a>
+                </Grid>
+              : reward == 'badge' ? 
+                <img src={img} width='200' height='200'></img>
+                : <div>
+                    <Grid item>
+                      <a href={file_download} download>{' '}Download certificate{' '}</a>
+                    </Grid>
+                    <Grid item>
+                      <img src={img} width='200' height='200' class='center'></img>
+                    </Grid>
+              </div> 
+            }
+          </Grid>
+        </Box>
+      </Modal>
                 </div>
                 : null }
             {/* {quizResult ? JSON.stringify(quizResult[0]) : null} */}
