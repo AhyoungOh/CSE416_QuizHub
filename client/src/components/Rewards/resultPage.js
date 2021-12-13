@@ -58,6 +58,8 @@ function ResultsPage() {
   );
   console.log('all quizResult', quizResult);
 
+  const [credExists,setCredExists] = useState(false)
+
   const currentQuizResult = location.state?.quizzes;
   console.log('current his : ', currentQuizResult);
   // console.log('consumer quiz history', payload);
@@ -143,6 +145,62 @@ function ResultsPage() {
       Authorization: 'Token token=38040def040af70134a08e39a3db35d3',
     },
   };
+
+  function findCredential(credential){
+    if(credential.name==quizName ){
+      return true
+    }
+    else{
+      return false
+    }
+  }
+
+  const checkCredential = async () => {
+    // check if credential exists and set the file and badge img
+    const apicall = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Token token=38040def040af70134a08e39a3db35d3',
+      },
+    };
+  
+    console.log("inside check credential")
+    console.log(apicall)
+    try {
+      await axios
+        .get(
+          `https://api.accredible.com/v1/all_credentials?recipient_id=${user.id}`, 
+          apicall
+        )
+        .then((response) => {
+          console.log(response);
+          const allcredential=response.data.credentials.filter(findCredential)
+          console.log(allcredential)
+          if(allcredential.length!=0){
+            setCredExists(true)
+           // get the credential using the credential id
+            const getReward = async () =>{
+              console.log(allcredential[0].id)
+            await axios
+           .get(
+             `https://api.accredible.com/v1/credentials/${allcredential[0].id}`,
+             apicall
+           )
+           .then((response) => {
+             console.log(response);
+              setImage(response.data.credential.badge.image.preview);
+              image.current = response.data.credential.badge.image.preview;
+              setFile(response.data.credential.url);
+           });
+            }
+            getReward()
+          }
+        });
+    } catch (e) {
+      console.error(e);
+    }  
+  }
+
 
   const createCredential = async () => {
     if (
@@ -235,10 +293,16 @@ function ResultsPage() {
   // });
 
   useEffect(() => {
-    if(result>=0 && result<=100){
+    checkCredential()
+      console.log(reward)
+      console.log((reward=="badge"&& img==""))
+      console.log((reward=="certificate"&& file_download==""))
+      console.log((reward=="both"&& file_download=="" && img==""))
+    if(result>=0 && result<=100 && !credExists){ //!((reward=="badge"&& img=="")|| (reward=="certificate"&& file_download=="")|| (reward=="both"&& file_download=="" && img==""))
       createCredential();
     }
   }, [result]);
+
 
   console.log('result', result);
   return (
