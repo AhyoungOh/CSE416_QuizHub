@@ -15,7 +15,7 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 500,
+  width: '80%',
   bgcolor: 'background.paper',
   boxShadow: 24,
   p: 4,
@@ -582,7 +582,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
         }}
       >
         <Card
-          sx={{ borderRadius: '18px', maxWidth: '1100px', display: 'flex' }}
+          sx={{ borderRadius: '18px', maxWidth: '1100px', maxHeight:'95%', display: 'flex' }}
         >
           <CardMedia
             component='img'
@@ -858,18 +858,19 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
               sx={{ maxWidth: '30%' }}
             >
               <Grid item>
+                <Button variant='contained' onClick={updatequizData}>
+                  Save
+                </Button>
+              </Grid>
+              <Grid item>
                 <Button
+                  variant='outlined'
                   color='error'
                   onClick={() => {
                     setShow(true);
                   }}
                 >
                   Delete Quiz
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button variant='contained' onClick={updatequizData}>
-                  Save
                 </Button>
               </Grid>
             </Grid>

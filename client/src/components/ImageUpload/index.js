@@ -40,7 +40,7 @@ export default function ImageUpload( { quizId }) {
 
     return (
         <div>
-            <Grid container spacing={2} sx={{ paddingTop: '80px' }}>
+            <Grid container spacing={2}>
                 <Grid item>
                     <label htmlFor='upload-photo'>
                         <input

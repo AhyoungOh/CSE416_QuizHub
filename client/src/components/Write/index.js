@@ -11,6 +11,7 @@ import {
   Box,
   Grid,
   Typography,
+  Tooltip,
 } from '@mui/material';
 import PlatformAvatarUpload from '../ImageUpload/PlatformAvatarUpload';
 
@@ -20,7 +21,7 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 500,
+  width: '80%',
   bgcolor: 'background.paper',
   boxShadow: 24,
   p: 4,
@@ -192,17 +193,26 @@ function Write({ platformData, setVisible, fetchData }) {
             value={platformName}
             onChange={(e) => setPlatformName(e.target.value)}
           />
-          <TextField
-            autoFocus
-            fullWidth
-            margin='dense'
-            label='Image Link'
-            type='text'
-            placeholder='Paste image url...'
-            value={platformImage}
-            onChange={(e) => setPlatformImage(e.target.value)}
-          />
-          <PlatformAvatarUpload platformId={platformData._id} />
+          <Grid container alignItems='center' spacing={1}>
+            <Grid item>
+              <Tooltip placement='top' title='Enter image URL'>
+                <TextField
+                  autoFocus
+                  fullWidth
+                  margin='dense'
+                  label='Image Link'
+                  type='text'
+                  placeholder='Paste image url...'
+                  value={platformImage}
+                  onChange={(e) => setPlatformImage(e.target.value)}
+                />
+              </Tooltip>
+            </Grid>
+            <Grid item>
+              <PlatformAvatarUpload platformId={platformData._id} />
+            </Grid>
+          </Grid>
+
           <TextField
             autoFocus
             fullWidth
