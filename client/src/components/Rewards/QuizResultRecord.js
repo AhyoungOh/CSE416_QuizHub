@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import useApiCall from '../../hooks/useApiCall';
-import { Grid, Link, Tooltip, Button, Box, Paper, Typography } from '@mui/material';
+import { Grid, CircularProgress, Tooltip, Button, Box, Paper, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles({
@@ -46,7 +46,13 @@ const useStyles = makeStyles({
       minWidth: '150px',
       minHeight: '60px',
       borderRadius: '18px',
-    }
+    },
+    loading: {
+        display: 'flex',
+        position: 'absolute',
+        left: '50%',
+        top: '50%',
+    },
 });
 
 function QuizResultRecord(){
@@ -61,6 +67,7 @@ function QuizResultRecord(){
         : `http://localhost:4000/api/consumer/quizHistory/${quizId}`,
         { withCredentials: true }
     );
+
     console.log(loading);
     console.log('quizResult', quizResult);
 
@@ -68,7 +75,6 @@ function QuizResultRecord(){
     const [quizName, setQuizName] = useState('');
     const [ques, setQues] = useState(0);
     const [trialLimit, setTrialLimit] = useState(0);
-    const [badge_arr, setBadgeArr] = useState([]);
 
     const getQuizInfo = async () => {
         try {
@@ -78,10 +84,10 @@ function QuizResultRecord(){
                 : `http://localhost:4000/api/quiz/detail/${quizId}`
             );
             const userInfo = await axios.get(
-            process.env.NODE_ENV === 'production'
-                ? `/api/auth`
-                : `http://localhost:4000/api/auth`,
-            { withCredentials: true }
+                process.env.NODE_ENV === 'production'
+                  ? `/api/auth`
+                  : `http://localhost:4000/api/auth`,
+                { withCredentials: true }
             );
             setTrialLimit(response.data.quiz.quizNumberOfTrials);
             setLeaderboardVisible(response.data.quiz.quizEnableLeaderboard);
@@ -97,8 +103,11 @@ function QuizResultRecord(){
         }
     };
 
-    let res = (quizResult[0].correctedAnswerNum / ques) * 100;
-    const result = res.toFixed(0) + '';
+    let res = 0;
+    {quizResult ? res = ((quizResult[0].correctedAnswerNum / ques) * 100) : res = 0}
+    // const result = res.toFixed(0) + '';
+    let result = '';
+    {quizResult ? result = res.toFixed(0) + '' : res = ''}
 
     const goToLeaderboard = () => {
         history.push(`/leaderboard/${quizId}`);
@@ -120,55 +129,77 @@ function QuizResultRecord(){
         getQuizInfo();
     }, []);
 
+    if (!quizResult) {
+        return(
+            <div>
+                <CircularProgress color='inherit' className={classes.loading} />
+            </div>
+        );
+    }
+    if (loading) {
+        return(
+            <div>
+                <CircularProgress color='inherit' className={classes.loading} />
+            </div>
+        );
+    }
+    if (error) {
+        return <div>error...</div>;
+    }
+
     return (
         <div>
-            <Grid container justifyContent='center' onClick={myQuizzes} sx={{ paddingTop: '80px'}}>
-                <Grid item>
-                    <Button color='inherit'>Back to my quizzes</Button>
-                </Grid>
-            </Grid>
-            <Box sx={{ display: 'flex', paddingTop: '20px', paddingLeft: '20px', paddingRight: '20px', paddingBottom: '20px', justifyContent: 'center' }}>
-                <Paper sx={{ borderRadius: '18px', display: 'flex' }}>
-                    <Grid container direction='row'>
-                        <Grid item container direction='column' alignItems='center' sx={{ margin: 5 }}>
-                            <Grid item sx={{ paddingTop: '10px' }}>
-                                <Typography color='primary' className={classes.feedback}>{quizName}</Typography>
-                            </Grid>
-                            <Grid item sx={{ paddingTop: '10px' }}>
-                                <Typography className={classes.third}>Your top score:</Typography>
-                            </Grid>
-                            <Grid item>
-                                <Typography className={classes.emphasized}>{result}%</Typography>
-                            </Grid>
-                            <Grid item>
-                                <Typography className={classes.secondary}>{quizResult[0].correctedAnswerNum}/{ques} in {quizResult[0].quizTimeTaken.minutes}:{quizResult[0].quizTimeTaken.seconds} min</Typography>
-                            </Grid>
-                            <Grid item sx={{ paddingTop: '10px' }}>
-                                <Typography className={classes.third}>on {quizResult[0].accomplishedDate.slice(0, 10)}</Typography>
-                            </Grid>
-                        </Grid>
-                        <Grid item container direction='row' alignItems='center' justifyContent='center' spacing={2} sx={{ margin: 3 }}>
-                        <Grid item>
-                            
-                        </Grid>
-                        <Grid item>
-                            {leaderboardVisible ? 
-                                <Button onClick={goToLeaderboard} variant='contained' className={classes.button}>Leaderboard</Button>
-                                :
-                                <Button disabled variant='contained' className={classes.button}>Leaderboard</Button>
-                            }
-                        </Grid>
-                        <Grid item>
-                            {trialLimit - quizResult[0].usedTrialNumber == 0 ?
-                                <Button variant='contained' color='success' className={classes.button} onClick={moreQuizzes}>More quizzes</Button>
-                                 :
-                                <Button variant='contained' color='success' onClick={retakeQuiz} className={classes.button}>Try again</Button>
-                            }
-                        </Grid>
-                        </Grid>
+            {quizResult ? 
+                <div>
+                <Grid container justifyContent='center' onClick={myQuizzes} sx={{ paddingTop: '80px'}}>
+                    <Grid item>
+                        <Button color='inherit'>Back to my quizzes</Button>
                     </Grid>
-                </Paper>
-            </Box>
+                </Grid>
+                <Box sx={{ display: 'flex', paddingTop: '20px', paddingLeft: '20px', paddingRight: '20px', paddingBottom: '20px', justifyContent: 'center' }}>
+                    <Paper sx={{ borderRadius: '18px', display: 'flex' }}>
+                        <Grid container direction='row'>
+                            <Grid item container direction='column' alignItems='center' sx={{ margin: 5 }}>
+                                <Grid item sx={{ paddingTop: '10px' }}>
+                                    <Typography color='primary' className={classes.feedback}>{quizName}</Typography>
+                                </Grid>
+                                <Grid item sx={{ paddingTop: '10px' }}>
+                                    <Typography className={classes.third}>Your top score:</Typography>
+                                </Grid>
+                                <Grid item>
+                                    <Typography className={classes.emphasized}>{result}%</Typography>
+                                </Grid>
+                                <Grid item>
+                                    <Typography className={classes.secondary}>{quizResult[0].correctedAnswerNum}/{ques} in {quizResult[0].quizTimeTaken.minutes}:{quizResult[0].quizTimeTaken.seconds} min</Typography>
+                                </Grid>
+                                <Grid item sx={{ paddingTop: '10px' }}>
+                                    <Typography className={classes.third}>on {quizResult[0].accomplishedDate.slice(0, 10)}</Typography>
+                                </Grid>
+                            </Grid>
+                            <Grid item container direction='row' alignItems='center' justifyContent='center' spacing={2} sx={{ margin: 3 }}>
+                            <Grid item>
+                                
+                            </Grid>
+                            <Grid item>
+                                {leaderboardVisible ? 
+                                    <Button onClick={goToLeaderboard} variant='contained' className={classes.button}>Leaderboard</Button>
+                                    :
+                                    <Button disabled variant='contained' className={classes.button}>Leaderboard</Button>
+                                }
+                            </Grid>
+                            <Grid item>
+                                {trialLimit - quizResult[0].usedTrialNumber == 0 ?
+                                    <Button variant='contained' color='success' className={classes.button} onClick={moreQuizzes}>More quizzes</Button>
+                                    :
+                                    <Button variant='contained' color='success' onClick={retakeQuiz} className={classes.button}>Try again</Button>
+                                }
+                            </Grid>
+                            </Grid>
+                        </Grid>
+                    </Paper>
+                </Box>
+                </div>
+                : null }
             {/* {quizResult ? JSON.stringify(quizResult[0]) : null} */}
         </div>
     );

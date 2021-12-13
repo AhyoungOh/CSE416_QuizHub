@@ -6,6 +6,7 @@ import { Grid, Typography, Card, CardActionArea, CardContent } from '@mui/materi
 
 function ConsumerMyQuizzes() {
   const [quiz_arr, setQuizArr] = useState([]);
+  const history = useHistory();
   const getQuizId = async () => {
     // try {
     const userInfo = await axios.get(
@@ -26,6 +27,16 @@ function ConsumerMyQuizzes() {
     //   console.error(e);
     // }
   };
+
+  const handleOnClick = async (quizId) => {
+    const userInfo = await axios.get(
+      process.env.NODE_ENV === 'production'
+        ? `/api/auth`
+        : `http://localhost:4000/api/auth`,
+      { withCredentials: true }
+    );
+    history.push(`/record/${quizId}`);
+  }
 
   const getQuiz = async (quiz_id) => {
     try {
@@ -53,12 +64,12 @@ function ConsumerMyQuizzes() {
         {quiz_arr.map((value, index) => (
           <Grid item>
             <Card>
-              <CardActionArea>
+              <CardActionArea onClick={() => handleOnClick(value._id)}>
                 <Grid container direction='column' alignItems='center'>
                   <Grid item>
-                    <a href={`/record/${value._id}`}>
+                    {/* <a href={`/record/${value._id}`}> */}
                       <img src={value.quizImage} width='200' height='200'></img>
-                    </a>
+                    {/* </a> */}
                   </Grid>
                   <Grid item>
                     <Typography sx={{ paddingTop: '5px', paddingBottom: '5px' }}>{value.quizName}</Typography>
