@@ -3,12 +3,15 @@ import { Avatar, Typography, Grid } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { useLocation } from 'react-router-dom';
 import PlayerBadges from '../Form/PlayerBadges';
+import TravelExploreRoundedIcon from '@mui/icons-material/TravelExploreRounded';
 
 const useStyles = makeStyles({
     container: {
       // padding: '20px',
       paddingTop: '90px',
       paddingBottom: '20px',
+      paddingLeft: '20px',
+      paddingRight: '20px',
     },
     name: {
       fontWeight: 'bold',
@@ -64,12 +67,23 @@ export default function PlayerProfile() {
                     </Typography>
                 </Grid>
                 <Grid item alignSelf='center' justifySelf='center'>
-                    <Typography variant='subtitle1' color='inherit'>
-                        {consumerData.consumerDescription}
+                    <Typography variant='subtitle1' color='inherit' sx={{ textAlign: 'center' }}>
+                        {consumerData.consumerDescription ? consumerData.consumerDescription : `Hi, this is ${consumerData.consumerUsername}!`}
                     </Typography>
                 </Grid>
             </Grid>
-            <PlayerBadges badges={consumerData.badges} />
+            { consumerData.badges.length !== 0 ? 
+                <PlayerBadges badges={consumerData.badges} /> 
+                :
+                <Grid container justifyContent='center' alignItems='center' sx={{ paddingTop: '30px', paddingLeft: '20px', paddingRight: '20px' }}>
+                    <Grid item>
+                        <Typography sx={{ fontFamily: 'Nunito', textAlign: 'center'}}>Still exploring...</Typography>
+                    </Grid>
+                    <Grid item>
+                        <TravelExploreRoundedIcon />
+                    </Grid>
+                </Grid> 
+            }
         </div>
     );
 }
