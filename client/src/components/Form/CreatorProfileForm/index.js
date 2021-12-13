@@ -16,6 +16,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Tooltip,
 } from '@mui/material';
 import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
 
@@ -150,22 +151,28 @@ function CreatorProfileForm() {
       </Modal>
       <Dialog open={edit} keepMounted onClose={() => setEdit(false)}>
         <DialogTitle>
-          <Typography variant='h6' sx={{ fontWeight: 'bold' }}>
+          <Typography variant='h5'>
             Edit Account Information
           </Typography>
         </DialogTitle>
         <DialogContent>
-          <TextField
-            autoFocus
-            margin='dense'
-            required
-            label='Email'
-            type='email'
-            fullWidth
-            onChange={(e) => setEmail(e.target.value)}
-            defaultValue={email ? email : 'Enter your email address'}
-          />
-          <CreatorAvatarUpload creatorId={user.id} />
+          <Grid container alignItems='center' spacing={1}>
+            <Grid item>
+              <TextField
+                autoFocus
+                margin='dense'
+                required
+                label='Email'
+                type='email'
+                fullWidth
+                onChange={(e) => setEmail(e.target.value)}
+                defaultValue={email ? email : 'Enter your email address'}
+              />
+            </Grid>
+            <Grid item>
+              <CreatorAvatarUpload creatorId={user.id} />
+            </Grid>
+          </Grid>
         </DialogContent>
         <DialogActions>
           <Button variant='contained' onClick={saveButtonHandler}>

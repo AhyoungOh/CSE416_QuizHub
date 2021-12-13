@@ -277,17 +277,23 @@ function ConsumerProfileForm() {
           </Typography>
         </DialogTitle>
         <DialogContent>
-          <TextField
-            autoFocus
-            margin='dense'
-            required
-            label='Email'
-            type='email'
-            fullWidth
-            onChange={(e) => setEmail(e.target.value)}
-            defaultValue={email ? email : 'Enter your email address'}
-          />
-
+          <Grid container alignItems='center' spacing={1}>
+            <Grid item xs={10}>
+              <TextField
+                autoFocus
+                margin='dense'
+                required
+                label='Email'
+                type='email'
+                fullWidth
+                onChange={(e) => setEmail(e.target.value)}
+                defaultValue={email ? email : 'Enter your email address'}
+              />
+            </Grid>
+            <Grid item xs={2}>
+              <ConsumerAvatarUpload consumerId={user.id} />
+            </Grid>
+          </Grid>
           <TextField
             autoFocus
             margin='dense'
@@ -300,18 +306,6 @@ function ConsumerProfileForm() {
             multiline
             onChange={(e) => setDescription(e.target.value)}
           />
-          {/* <input
-            type='file'
-            // alt='selected image'
-            // defaultValue={consumerImg ? consumerImg : 'Enter your image'}
-            // rows={3}
-            // fullWidth
-            // multiline
-            onChange={(e) => {
-              uploadFile(e.target?.files[0]);
-            }}
-          /> */}
-          <ConsumerAvatarUpload consumerId={user.id} />
           <TextField
             autoFocus
             margin='dense'

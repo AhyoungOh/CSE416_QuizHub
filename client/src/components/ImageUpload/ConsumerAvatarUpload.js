@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Grid, IconButton, Button } from '@mui/material';
+import { Grid, IconButton, Button, Tooltip } from '@mui/material';
 import FileUploadRoundedIcon from '@mui/icons-material/FileUploadRounded';
 
 export default function ConsumerAvatarUpload( { consumerId }) {
@@ -62,10 +62,12 @@ export default function ConsumerAvatarUpload( { consumerId }) {
                                 Upload
                             </Button>
                         :
-                            <IconButton variant="outlined" component="span">
-                                {/* Choose File */}
-                                <FileUploadRoundedIcon />
-                            </IconButton>
+                            <Tooltip placement='top' title='Upload an image from your device.'>
+                                <IconButton variant="outlined" component="span">
+                                    {/* Choose File */}
+                                    <FileUploadRoundedIcon />
+                                </IconButton>
+                            </Tooltip>
                         }
                     </label>
                 </Grid>

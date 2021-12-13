@@ -82,7 +82,6 @@ export default function ConsumerPage() {
             }}
             alt={user.username}
           />
-          {/* TODO: add change profile pic button */}
         </Grid>
         <Grid item alignSelf='center' justifySelf='center'>
           <Typography variant='h5' color='primary' className={classes.name}>
