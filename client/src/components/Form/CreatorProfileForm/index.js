@@ -44,14 +44,9 @@ function CreatorProfileForm() {
   // saveButtonHandler: handle saving on changes and setEdit(false)
   const saveButtonHandler = async () => {
     try {
-      await axios.put(
-        process.env.NODE_ENV == 'production'
-          ? `/api/creator/${user?.id}`
-          : `http://localhost:4000/api/creator/${user?.id}`,
-        {
-          creatorEmail: email,
-        }
-      );
+      await axios.put(`/api/creator/${user?.id}`, {
+        creatorEmail: email,
+      });
       setEdit(false);
     } catch (e) {
       console.error(e);
@@ -62,7 +57,7 @@ function CreatorProfileForm() {
   const deleteButtonHandler = async () => {
     try {
       // remove user data from the database
-      await axios.delete(`http://localhost:4000/api/creator/${user?.id}`);
+      await axios.delete(`/api/creator/${user?.id}`);
       // try {
       //   await axios.delete(
       //     process.env.NODE_ENV == 'production'
@@ -89,23 +84,57 @@ function CreatorProfileForm() {
 
   return (
     <div>
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap:'10px', justifyContent: 'center', paddingTop: '10px', paddingBottom: '20px', paddingRight: '40px', paddingLeft: '40px'}}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '10px',
+          justifyContent: 'center',
+          paddingTop: '10px',
+          paddingBottom: '20px',
+          paddingRight: '40px',
+          paddingLeft: '40px',
+        }}
+      >
         <Paper sx={{ borderRadius: '18px' }}>
           <Grid container alignItems='center' sx={{ margin: 2 }}>
-            <Grid item sm={1} sx={{ paddingLeft: '10px', paddingRight: '10px' }}>
-              <EmailRoundedIcon sx={{color: '#004080'}} />
+            <Grid
+              item
+              sm={1}
+              sx={{ paddingLeft: '10px', paddingRight: '10px' }}
+            >
+              <EmailRoundedIcon sx={{ color: '#004080' }} />
             </Grid>
             <Grid item sm={11}>
-              <Typography sx={{ fontFamily: 'Nunito', fontSize: '22px' }}>{user.email}</Typography>
+              <Typography sx={{ fontFamily: 'Nunito', fontSize: '22px' }}>
+                {user.email}
+              </Typography>
             </Grid>
           </Grid>
         </Paper>
       </Box>
-      <Box sx={{ display: 'flex', justifyContent:'center', gap: '10px', paddingRight: '40px', paddingLeft: '40px' }}>
-        <Button variant='contained' onClick={() => setEdit(true)} sx={{ borderRadius: '15px' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          gap: '10px',
+          paddingRight: '40px',
+          paddingLeft: '40px',
+        }}
+      >
+        <Button
+          variant='contained'
+          onClick={() => setEdit(true)}
+          sx={{ borderRadius: '15px' }}
+        >
           Edit
         </Button>
-        <Button variant='text' color='error' onClick={() => setShow(true)} sx={{ borderRadius: '15px' }}>
+        <Button
+          variant='text'
+          color='error'
+          onClick={() => setShow(true)}
+          sx={{ borderRadius: '15px' }}
+        >
           Delete Account
         </Button>
       </Box>
@@ -151,9 +180,7 @@ function CreatorProfileForm() {
       </Modal>
       <Dialog open={edit} keepMounted onClose={() => setEdit(false)}>
         <DialogTitle>
-          <Typography variant='h5'>
-            Edit Account Information
-          </Typography>
+          <Typography variant='h5'>Edit Account Information</Typography>
         </DialogTitle>
         <DialogContent>
           <Grid container alignItems='center' spacing={1}>

@@ -71,7 +71,7 @@ function CreatorAccountSettings() {
   const deleteBtnHandler = async () => {
     try {
       await axios.delete(
-        process.env.NODE_ENV == 'production'
+        process.env.NODE_ENV === 'production'
           ? `/api/creator/${user?.id}`
           : `http://localhost:4000/api/creator/${user?.id}`
       );
