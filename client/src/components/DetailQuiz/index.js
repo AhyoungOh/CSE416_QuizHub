@@ -16,11 +16,11 @@ import {
   CardContent,
   Typography,
   Fab,
-  Tooltip,
   Link,
   Collapse,
 } from '@mui/material';
-import { makeStyles } from '@mui/styles';
+import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
+import { makeStyles, styled } from '@mui/styles';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import AccessAlarmRoundedIcon from '@mui/icons-material/AccessAlarmRounded';
 import AssignmentRoundedIcon from '@mui/icons-material/AssignmentRounded';
@@ -28,6 +28,15 @@ import MilitaryTechRoundedIcon from '@mui/icons-material/MilitaryTechRounded';
 import HistoryRoundedIcon from '@mui/icons-material/HistoryRounded';
 import EmojiEventsRoundedIcon from '@mui/icons-material/EmojiEventsRounded';
 import ExpandLessRoundedIcon from '@mui/icons-material/ExpandLessRounded';
+import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
+
+const CustomWidthTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))({
+  [`& .${tooltipClasses.tooltip}`]: {
+    maxWidth: 400,
+  },
+});
 
 const useStyles = makeStyles({
   buttonsContainer: {
@@ -363,7 +372,7 @@ function DetailQuiz({ quizData, setQuizVisible }) {
                     </ListItemIcon>
                     <ListItemText
                       primary={
-                        <Grid container>
+                        <Grid container alignItems='center'>
                           <Grid item>
                             <Tooltip placement='top' title='Scroll down and see created questions'>
                               <Link color='common.black' underline='hover' onClick={() => setChecked(true)}className={classes.emphasized} sx={{ cursor: 'pointer' }}>
@@ -375,6 +384,13 @@ function DetailQuiz({ quizData, setQuizVisible }) {
                           </Grid>
                           <Grid item>
                             <Typography className={classes.normal}>&nbsp;questions</Typography>
+                          </Grid>
+                          <Grid item>
+                            <CustomWidthTooltip placement='top' title='Only quizzes with 10+ questions will be available to take!'>
+                              <IconButton size='small'>
+                                <InfoRoundedIcon />
+                              </IconButton>
+                            </CustomWidthTooltip>
                           </Grid>
                         </Grid>
                       }
