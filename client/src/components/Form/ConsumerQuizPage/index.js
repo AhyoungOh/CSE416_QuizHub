@@ -325,6 +325,7 @@ function ConsumerQuizPage() {
   };
 
   const submitHandler = async () => {
+    clearInterval(leftTimeTimer.current);
     const calculateTakenTime = () => {
       const originSeconds =
         60 * Number(time_min.current) + Number(time_sec.current);
