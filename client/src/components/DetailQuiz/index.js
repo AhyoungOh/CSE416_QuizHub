@@ -41,7 +41,7 @@ const useStyles = makeStyles({
   },
   cardMedia: {
     maxWidth: '50%',
-    maxHeight: '500px',
+    // maxHeight: '500px',
     display: { xs: 'none', sm: 'block' },
   },
   infoWrapper: {

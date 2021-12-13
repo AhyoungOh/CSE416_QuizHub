@@ -17,7 +17,7 @@ function PlatformSpecificQuizCard({
   quizCreatedDate
 }) {
   return (
-    <Grid item sm={12} md={6} lg={4}>
+    <Grid item sm={12} md={6}>
       <Card sx={{ borderRadius: '18px' }}>
         <CardActionArea onClick={clickAction}>
           <Card sx={{ display: 'flex', minHeight: '250px' }}>

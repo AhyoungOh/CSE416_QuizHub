@@ -13,6 +13,8 @@ function Platform({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        paddingLeft: '20px',
+        paddingRight: '20px',
       }}
     >
       <Avatar 

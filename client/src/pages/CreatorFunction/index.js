@@ -31,6 +31,8 @@ const useStyles = makeStyles({
   },
   container: {
     paddingTop: '90px',
+    paddingLeft: '20px',
+    paddingRight: '20px',
   },
   name: {
     fontWeight: 'bold',
