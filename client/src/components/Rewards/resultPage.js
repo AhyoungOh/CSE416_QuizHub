@@ -303,7 +303,7 @@ function ResultsPage() {
     }
   }, [result]);
 
-
+  console.log('file_download', file_download);
   console.log('result', result);
   return (
     <div>
@@ -356,8 +356,13 @@ function ResultsPage() {
                           <Button color='error' variant='contained' disabled className={classes.button} onClick={() => setOpen(true)}>Rewards</Button>
                         </span>
                       </Tooltip>
-                      : 
+                      : file_download !== '' || img !== '' ?
                       <Button color='error' variant='contained' className={classes.button} onClick={() => setOpen(true)}>Rewards</Button>
+                      : <Tooltip placement='top' title='The reward is currently unavailable.'>
+                          <span>
+                            <Button color='error' variant='contained' disabled className={classes.button} onClick={() => setOpen(true)}>Rewards</Button>
+                          </span>
+                        </Tooltip>
                 }
               </Grid>
               <Grid item>
