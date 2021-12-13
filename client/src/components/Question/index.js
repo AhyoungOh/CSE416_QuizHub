@@ -20,9 +20,11 @@ function Question({
             id="panel1a-header"
           >
             <Tooltip placement='top' title='Go to question'>
+              <box style={{ inlineSize: 'calc(100%-40px)', overflow: 'hidden' }}>
               <Link color='common.black' underline='hover' sx={{ flexShrink: 0 }} onClick={setquestionData}>
                   {questionNumber}. {questionQuestion}
               </Link>
+              </box>
             </Tooltip>
           </AccordionSummary>
           <AccordionDetails>
