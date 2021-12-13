@@ -143,7 +143,7 @@ function ResultsPage() {
   const apicall = {
     headers: {
       'Content-Type': 'application/json',
-      Authorization: 'Token token=38040def040af70134a08e39a3db35d3',
+      Authorization: 'Token token=b3a628c312c7f9143f432dfec31ae02d',
     },
   };
 
@@ -161,7 +161,7 @@ function ResultsPage() {
     const apicall = {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: 'Token token=38040def040af70134a08e39a3db35d3',
+        Authorization: 'Token token=b3a628c312c7f9143f432dfec31ae02d',
       },
     };
   
