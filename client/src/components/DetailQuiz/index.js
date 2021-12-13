@@ -7,6 +7,7 @@ import {
   Box,
   Grid,
   Button,
+  IconButton,
   Card,
   CardMedia,
   ListItem,
@@ -17,6 +18,7 @@ import {
   Fab,
   Tooltip,
   Link,
+  Collapse,
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
@@ -25,6 +27,7 @@ import AssignmentRoundedIcon from '@mui/icons-material/AssignmentRounded';
 import MilitaryTechRoundedIcon from '@mui/icons-material/MilitaryTechRounded';
 import HistoryRoundedIcon from '@mui/icons-material/HistoryRounded';
 import EmojiEventsRoundedIcon from '@mui/icons-material/EmojiEventsRounded';
+import ExpandLessRoundedIcon from '@mui/icons-material/ExpandLessRounded';
 
 const useStyles = makeStyles({
   buttonsContainer: {
@@ -70,6 +73,7 @@ function DetailQuiz({ quizData, setQuizVisible }) {
 
   // states
   const [groupExists, setGroupExists]= useState(false);
+  const [checked, setChecked] = useState(false);
 
   for (let i = 0; i < Object.keys(quizData.quizQuestions).length; i++) {
     owned.push(quizData.quizQuestions[i].questionQuestion + ', ');
@@ -263,6 +267,24 @@ function DetailQuiz({ quizData, setQuizVisible }) {
     );
   });
 
+  const questionPreviewList = (
+    <Grid
+      container
+      direction='column'
+      spacing={2}
+      justifyContent='center'
+      alignItems='center'
+      sx={{ maxWidth: '1000px' }}
+    >
+      <Grid item>
+        <IconButton onClick={() => setChecked(false)}>
+          <ExpandLessRoundedIcon />
+        </IconButton>
+      </Grid>
+      {QuestionComponents}
+    </Grid>
+  );
+
   const questionNumber = [];
   for (let i = 0; i < Object.keys(quizData.quizQuestions).length; i++) {
     questionNumber.push(quizData.quizQuestions[i].quesitonNumber);
@@ -343,7 +365,11 @@ function DetailQuiz({ quizData, setQuizVisible }) {
                       primary={
                         <Grid container>
                           <Grid item>
-                            <Typography className={classes.emphasized}>{quizData.quizQuestions.length}</Typography>
+                            <Tooltip placement='top' title='See created questions'>
+                              <Link color='common.black' underline='hover' onClick={() => setChecked(true)}className={classes.emphasized} sx={{ cursor: 'pointer' }}>
+                                {quizData.quizQuestions.length}
+                              </Link>
+                            </Tooltip>
                           </Grid>
                           <Grid item>
                             <Typography className={classes.normal}>&nbsp;questions</Typography>
@@ -460,18 +486,12 @@ function DetailQuiz({ quizData, setQuizVisible }) {
             </Card>
           </Card>
         </Grid>
-        <Grid
-          item
-          container
-          direction='column'
-          spacing={2}
-          justifyContent='center'
-          alignItems='center'
-          sx={{ maxWidth: '1000px' }}
-        >
-          {QuestionComponents}
-        </Grid>
       </Grid>
+      <Box sx={{ display: 'flex', justifyContent: 'center', paddingBottom: '40px' }}>
+        <Collapse in={checked}>
+          {questionPreviewList}
+        </Collapse>
+      </Box>
       <Tooltip placement='top' title='Edit quiz'>
         <Fab color='primary' onClick={updateQuizData} sx={{ position: 'fixed', right: '3%', bottom: '3%' }}>
           <EditRoundedIcon />
