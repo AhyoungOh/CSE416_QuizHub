@@ -4,7 +4,23 @@ import './style.scss';
 import { isNumber } from '../../utils/validate';
 import { useHistory } from 'react-router-dom';
 import ImageUpload from '../ImageUpload';
-import { Grid, Button, Typography, Modal, Box, Slider, Switch, FormControl, FormGroup, FormControlLabel, RadioGroup, Radio, InputLabel, Card, CardMedia, } from '@mui/material';
+import {
+  Grid,
+  Button,
+  Typography,
+  Modal,
+  Box,
+  Slider,
+  Switch,
+  FormControl,
+  FormGroup,
+  FormControlLabel,
+  RadioGroup,
+  Radio,
+  InputLabel,
+  Card,
+  CardMedia,
+} from '@mui/material';
 import { styled } from '@mui/material/styles';
 import BootstrapInput from './BootstrapInput.js';
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
@@ -34,7 +50,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
   // for delete confirm modal
   const [show, setShow] = useState(false);
 
-  const [groupid,setGroupId]=useState("")
+  const [groupid, setGroupId] = useState('');
 
   const default_img =
     'https://res.cloudinary.com/quizhub/image/upload/v1639090185/Default/primary_default_qdcn0l.png';
@@ -79,7 +95,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
   const [certificatevisible, setCertificatevisible] = useState(
     quizRewardType == 'certificate' || quizRewardType == 'both'
   );
-  
+
   const history = useHistory();
 
   const createquizData = async () => {
@@ -91,15 +107,28 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
       alert('Please fill out the description.');
       return;
     }
-    if (!isNumber(quizNumberOfTrials) || !Number.isInteger(+quizNumberOfTrials) || quizNumberOfTrials <= 0) {
+    if (
+      !isNumber(quizNumberOfTrials) ||
+      !Number.isInteger(+quizNumberOfTrials) ||
+      quizNumberOfTrials <= 0
+    ) {
       alert('Please enter a valid number for the number of trials.');
       return;
     }
-    if (!isNumber(quizTimeLimitMinutes) || !Number.isInteger(+quizTimeLimitMinutes) || quizTimeLimitMinutes <= 0) {
+    if (
+      !isNumber(quizTimeLimitMinutes) ||
+      !Number.isInteger(+quizTimeLimitMinutes) ||
+      quizTimeLimitMinutes <= 0
+    ) {
       alert('Please enter a valid number of minutes.');
       return;
     }
-    if (!isNumber(quizTimeLimitSeconds) || !Number.isInteger(+quizTimeLimitSeconds) || quizTimeLimitSeconds < 0 || quizTimeLimitSeconds >= 60) {
+    if (
+      !isNumber(quizTimeLimitSeconds) ||
+      !Number.isInteger(+quizTimeLimitSeconds) ||
+      quizTimeLimitSeconds < 0 ||
+      quizTimeLimitSeconds >= 60
+    ) {
       alert('Please enter a valid number of seconds in the range of 0 - 59.');
       return;
     }
@@ -135,17 +164,16 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
     },
   };
 
-  function findGroup(group){
-    if(group.course_description==quizData.quizDescription){
-      return true
-    }
-    else{
-      return false
+  function findGroup(group) {
+    if (group.course_description == quizData.quizDescription) {
+      return true;
+    } else {
+      return false;
     }
   }
   const getGroupId = async () => {
     // find the group an get groupid
-    console.log(quizName)
+    // console.log(quizName);
     try {
       await axios
         .get(
@@ -154,20 +182,20 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
         )
         .then((response) => {
           console.log(response);
-          const allgroups=response.data.groups.filter(findGroup)
-          console.log(allgroups)
-          if(allgroups.length!=0){
-            console.log(allgroups[0].id)
-            setGroupId(allgroups[0].id)
+          const allgroups = response.data.groups.filter(findGroup);
+          console.log(allgroups);
+          if (allgroups.length != 0) {
+            console.log(allgroups[0].id);
+            setGroupId(allgroups[0].id);
           }
         });
     } catch (e) {
       console.error(e);
-    }  
-  }
+    }
+  };
   const updateGroup = async (groupid) => {
     // update the group with groupid
-    console.log("inside update group")
+    console.log('inside update group');
     const creategroupdata = {
       group: {
         name: quizName,
@@ -188,8 +216,7 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
     } catch (e) {
       console.error(e);
     }
-
-  }
+  };
   const deleteGroup = async (groupid) => {
     // delete the group with groupid
     try {
@@ -204,14 +231,13 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
     } catch (e) {
       console.error(e);
     }
-  }
+  };
 
   useEffect(() => {
-    console.log("inside use effect")
-    console.log(quizName)
-    getGroupId()
+    console.log('inside use effect');
+    console.log(quizName);
+    getGroupId();
   }, []);
-
 
   const updatequizData = async () => {
     if (quizName === '') {
@@ -222,15 +248,28 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
       alert('Please fill out the description.');
       return;
     }
-    if (!isNumber(quizNumberOfTrials) || !Number.isInteger(+quizNumberOfTrials) || quizNumberOfTrials <= 0) {
+    if (
+      !isNumber(quizNumberOfTrials) ||
+      !Number.isInteger(+quizNumberOfTrials) ||
+      quizNumberOfTrials <= 0
+    ) {
       alert('Please enter a valid number for the number of trials.');
       return;
     }
-    if (!isNumber(quizTimeLimitMinutes) || !Number.isInteger(+quizTimeLimitMinutes) || quizTimeLimitMinutes <= 0) {
+    if (
+      !isNumber(quizTimeLimitMinutes) ||
+      !Number.isInteger(+quizTimeLimitMinutes) ||
+      quizTimeLimitMinutes <= 0
+    ) {
       alert('Please enter a valid number of minutes.');
       return;
     }
-    if (!isNumber(quizTimeLimitSeconds) || !Number.isInteger(+quizTimeLimitSeconds) || quizTimeLimitSeconds < 0 || quizTimeLimitSeconds >= 60) {
+    if (
+      !isNumber(quizTimeLimitSeconds) ||
+      !Number.isInteger(+quizTimeLimitSeconds) ||
+      quizTimeLimitSeconds < 0 ||
+      quizTimeLimitSeconds >= 60
+    ) {
       alert('Please enter a valid number of seconds in the range of 0 - 59.');
       return;
     }
@@ -254,10 +293,10 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
         quizDescription,
       }
     );
-    console.log("inside update quiz")
-    console.log(quizName)
-    console.log(groupid)
-    updateGroup(groupid)
+    console.log('inside update quiz');
+    console.log(quizName);
+    console.log(groupid);
+    updateGroup(groupid);
 
     setQuizVisible(false);
     fetchData();
@@ -266,12 +305,12 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
   };
 
   const deletequizData = async () => {
-    console.log(groupid)
-    deleteGroup(groupid)
-    
+    console.log(groupid);
+    deleteGroup(groupid);
+
     await axios.delete(
       process.env.NODE_ENV === 'production'
-        ? `/api/quiz/deatil/${quizData._id}`
+        ? `/api/quiz/detail/${quizData._id}`
         : `http://localhost:4000/api/quiz/detail/${quizData._id}`
     );
     setQuizVisible(false);
@@ -331,7 +370,11 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
               </Grid>
               <Grid item>
                 <FormControl variant='standard'>
-                  <CustomWidthTooltip arrow placement='right' title='You can either paste the URL for the image or later upload image from your device by editing the quiz.'>
+                  <CustomWidthTooltip
+                    arrow
+                    placement='right'
+                    title='You can either paste the URL for the image or later upload image from your device by editing the quiz.'
+                  >
                     <InputLabel required shrink htmlFor='bootstrap-input'>
                       Image
                     </InputLabel>
@@ -339,7 +382,11 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
                   <BootstrapInput
                     type='text'
                     value={quizImage === default_img ? '' : quizImage}
-                    onChange={(e) => setQuizImage(e.target.value !== '' ? e.target.value : default_img)}
+                    onChange={(e) =>
+                      setQuizImage(
+                        e.target.value !== '' ? e.target.value : default_img
+                      )
+                    }
                     placeholder='Paster image url...'
                   />
                 </FormControl>
@@ -401,7 +448,11 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
               </Grid>
               <Grid item>
                 <FormControl variant='standard' component='fieldset'>
-                  <CustomWidthTooltip arrow placement='right' title="Reward type cannot be changed once the quiz is created!">
+                  <CustomWidthTooltip
+                    arrow
+                    placement='right'
+                    title='Reward type cannot be changed once the quiz is created!'
+                  >
                     <InputLabel required shrink htmlFor='bootstrap-input'>
                       Reward type
                     </InputLabel>
@@ -463,17 +514,20 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
                 </FormControl>
               </Grid>
               <Grid item container direction='row' alignItems='flex-end'>
-                {certificatevisible ?
-                  (<Grid item sx={{ width: '50%' }}> 
+                {certificatevisible ? (
+                  <Grid item sx={{ width: '50%' }}>
                     <FormControl variant='standard' sx={{ maxWidth: '95%' }}>
-                      <CustomWidthTooltip title='Percentage of correctness to get the Certificate.' placement='right'>
+                      <CustomWidthTooltip
+                        title='Percentage of correctness to get the Certificate.'
+                        placement='right'
+                      >
                         <InputLabel shrink htmlFor='bootstrap-input'>
                           Certificate Qualification
                         </InputLabel>
                       </CustomWidthTooltip>
                       {/* <BootstrapInput value={quizCertificateQualification} type='number' onChange={(e) => setQuizCertificateQualification(e.target.value)} placeholder='questions' /> */}
                       <Box sx={{ width: 180, paddingTop: '20px' }}>
-                        <Slider 
+                        <Slider
                           aria-label='certificate-qualification'
                           defaultValue={quizCertificateQualification}
                           valueLabelDisplay='auto'
@@ -481,21 +535,23 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
                           marks
                           min={0}
                           max={100}
-                          onChange={(e) => setQuizCertificateQualification(e.target.value)}
+                          onChange={(e) =>
+                            setQuizCertificateQualification(e.target.value)
+                          }
                         />
                       </Box>
                     </FormControl>
-                  </Grid>) : null
-                }
-                {badgevisible ? 
-                  (<Grid item sx={{ width: '50%' }}>
+                  </Grid>
+                ) : null}
+                {badgevisible ? (
+                  <Grid item sx={{ width: '50%' }}>
                     <FormControl variant='standard' sx={{ maxWidth: '95%' }}>
                       <InputLabel shrink htmlFor='bootstrap-input'>
                         Badge Qualification
                       </InputLabel>
                       {/* <BootstrapInput value={quizBadgeQualification} type='number' onChange={(e) => setQuizBadgeQualification(e.target.value)} placeholder='questions' /> */}
                       <Box sx={{ width: 180, paddingTop: '20px' }}>
-                        <Slider 
+                        <Slider
                           aria-label='badge-qualification'
                           defaultValue={quizBadgeQualification}
                           valueLabelDisplay='auto'
@@ -503,7 +559,9 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
                           marks
                           min={0}
                           max={100}
-                          onChange={(e) => setQuizBadgeQualification(e.target.value)}
+                          onChange={(e) =>
+                            setQuizBadgeQualification(e.target.value)
+                          }
                         />
                       </Box>
                     </FormControl>
@@ -512,7 +570,11 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
               </Grid>
               <Grid item>
                 <FormControl variant='standard'>
-                  <CustomWidthTooltip arrow placement='right' title='Enabling leaderboard will make it visible to the public!'>
+                  <CustomWidthTooltip
+                    arrow
+                    placement='right'
+                    title='Enabling leaderboard will make it visible to the public!'
+                  >
                     <InputLabel required shrink htmlFor='bootstrap-input'>
                       Leaderboard
                     </InputLabel>
@@ -582,7 +644,12 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
         }}
       >
         <Card
-          sx={{ borderRadius: '18px', maxWidth: '1100px', maxHeight:'95%', display: 'flex' }}
+          sx={{
+            borderRadius: '18px',
+            maxWidth: '1100px',
+            maxHeight: '95%',
+            display: 'flex',
+          }}
         >
           <CardMedia
             component='img'
@@ -634,7 +701,11 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
               >
                 <Grid item>
                   <FormControl variant='standard'>
-                    <CustomWidthTooltip arrow placement='right' title='You can either paste the URL for the image or upload an image from your device.'>
+                    <CustomWidthTooltip
+                      arrow
+                      placement='right'
+                      title='You can either paste the URL for the image or upload an image from your device.'
+                    >
                       <InputLabel required shrink htmlFor='bootstrap-input'>
                         Image
                       </InputLabel>
@@ -642,7 +713,11 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
                     <BootstrapInput
                       value={quizImage === default_img ? '' : quizImage}
                       type='text'
-                      onChange={(e) => setQuizImage(e.target.value !== '' ? e.target.value : default_img)}
+                      onChange={(e) =>
+                        setQuizImage(
+                          e.target.value !== '' ? e.target.value : default_img
+                        )
+                      }
                       placeholder='Paster image url...'
                     />
                   </FormControl>
@@ -708,7 +783,11 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
               </Grid>
               <Grid item>
                 <FormControl variant='standard' component='fieldset'>
-                  <CustomWidthTooltip arrow placement='right' title="Reward type cannot be changed once the quiz is created.">
+                  <CustomWidthTooltip
+                    arrow
+                    placement='right'
+                    title='Reward type cannot be changed once the quiz is created.'
+                  >
                     <InputLabel required shrink htmlFor='bootstrap-input'>
                       Reward type
                     </InputLabel>
@@ -774,15 +853,15 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
                 </FormControl>
               </Grid>
               <Grid item container direction='row' alignItems='flex-end'>
-                {certificatevisible ? 
-                  (<Grid item sx={{ width: '50%' }}> 
+                {certificatevisible ? (
+                  <Grid item sx={{ width: '50%' }}>
                     <FormControl variant='standard' sx={{ maxWidth: '95%' }}>
                       <InputLabel shrink htmlFor='bootstrap-input'>
                         Certificate Qualification
                       </InputLabel>
                       {/* <BootstrapInput value={quizCertificateQualification} type='number' onChange={(e) => setQuizCertificateQualification(e.target.value)} placeholder='questions' /> */}
                       <Box sx={{ width: 180, paddingTop: '20px' }}>
-                        <Slider 
+                        <Slider
                           aria-label='certificate-qualification'
                           defaultValue={quizCertificateQualification}
                           valueLabelDisplay='auto'
@@ -790,21 +869,23 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
                           marks
                           min={0}
                           max={100}
-                          onChange={(e) => setQuizCertificateQualification(e.target.value)}
+                          onChange={(e) =>
+                            setQuizCertificateQualification(e.target.value)
+                          }
                         />
                       </Box>
                     </FormControl>
-                  </Grid>) : null
-                }
-                {badgevisible ? 
-                  (<Grid item sx={{ width: '50%' }}>
+                  </Grid>
+                ) : null}
+                {badgevisible ? (
+                  <Grid item sx={{ width: '50%' }}>
                     <FormControl variant='standard' sx={{ maxWidth: '95%' }}>
                       <InputLabel shrink htmlFor='bootstrap-input'>
                         Badge Qualification
                       </InputLabel>
                       {/* <BootstrapInput value={quizBadgeQualification} type='number' onChange={(e) => setQuizBadgeQualification(e.target.value)} placeholder='questions' /> */}
                       <Box sx={{ width: 180, paddingTop: '20px' }}>
-                        <Slider 
+                        <Slider
                           aria-label='badge-qualification'
                           defaultValue={quizBadgeQualification}
                           valueLabelDisplay='auto'
@@ -812,7 +893,9 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
                           marks
                           min={0}
                           max={100}
-                          onChange={(e) => setQuizBadgeQualification(e.target.value)}
+                          onChange={(e) =>
+                            setQuizBadgeQualification(e.target.value)
+                          }
                         />
                       </Box>
                     </FormControl>
@@ -821,7 +904,11 @@ function WriteQuiz({ quizData, setQuizVisible, platformId, fetchData }) {
               </Grid>
               <Grid item>
                 <FormControl variant='standard'>
-                  <CustomWidthTooltip arrow placement='right' title='Enabling leaderboard will make it visible to the public!'>
+                  <CustomWidthTooltip
+                    arrow
+                    placement='right'
+                    title='Enabling leaderboard will make it visible to the public!'
+                  >
                     <InputLabel required shrink htmlFor='bootstrap-input'>
                       Leaderboard
                     </InputLabel>
