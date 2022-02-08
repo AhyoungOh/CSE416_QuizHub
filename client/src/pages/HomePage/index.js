@@ -1,17 +1,25 @@
 import ConsumerSignUp from '../../components/Form/ConsumerSignUp';
+import Hero from '../../components/Hero';
 import { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { UserContext } from '../../App';
-import { Grid, CssBaseline } from '@mui/material';
+import { Grid, CssBaseline, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import rocket from './rocket_bg.jpeg';
 
 const useStyles = makeStyles({
     root: {
-        minHeight: '100vh',
+        minHeight: '150vh',
         backgroundImage: `url(${rocket})`,
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
+    },
+    title: {
+        fontSize: '32px',
+        fontFamily: 'Nunito',
+        color: '#fff',
+        paddingLeft: '40px',
+        paddingRight: '40px',
     },
 });
 
@@ -30,15 +38,17 @@ function HomePage(){
     direct();
 
     return(
-        <div className={classes.root}>
+        // <div className={classes.root}>
+        <div>
             <CssBaseline />
-            <Grid container alignItems='center' sx={{ paddingTop: '120px', paddingBottom: '30px' }}>
-                <Grid item sm={6} xl={0}>
+            <Hero />
+            <div id='signup'>
+                <Grid container alignItems='center' justifyContent='center' sx={{ paddingTop: '100px', paddingBottom: '30px' }}>
+                    <Grid item container justifyContent='center'>
+                        <ConsumerSignUp />
+                    </Grid>
                 </Grid>
-                <Grid item sm={6} xl={12} container justifyContent='center'>
-                    <ConsumerSignUp />
-                </Grid>
-            </Grid>
+            </div>
         </div>
     );
 };
